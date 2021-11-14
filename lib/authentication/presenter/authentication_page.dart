@@ -115,13 +115,16 @@ class AuthenticationPage extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         controller.register.value = !controller.register.value;
+                        if (controller.register.value) {
+                          controller.forgottenPassword = false;
+                        }
                       },
                       child: Text(register
                           ? 'Already registered?'
                           : 'Need to register?'),
                     ),
                     const Spacer(),
-                    if (!register)
+                    if (!register && !controller.forgottenPassword)
                       TextButton(
                         onPressed: () {
                           controller.toggleForgotPassword();
