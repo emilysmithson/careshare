@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "468078459323",
+    "firebase_url": "https://careshare-data-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "careshare-data",
+    "storage_bucket": "careshare-data.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468078459323:android:a7b7a60a3280a06a4f2c9e",
+        "android_client_info": {
+          "package_name": "com.careshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468078459323-map5m3rc24ae382fugj27bk5tcdato6b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcK9J0FUWl-Vj9KbyGZpLZlUVbdya1b14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468078459323-map5m3rc24ae382fugj27bk5tcdato6b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
