@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +11,7 @@ class AuthenticationController {
   final emailAdressController = TextEditingController();
   final passwordController = TextEditingController();
   bool hidePassword = true;
+  bool resetSent = false;
   bool forgottenPassword = false;
   final register = ValueNotifier<bool>(true);
 
@@ -20,8 +23,8 @@ class AuthenticationController {
 
   void toggleForgotPassword() {
     forgottenPassword = true;
-    register.value = true;
-    register.value = false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    register.notifyListeners();
   }
 
   Future authenticate(BuildContext context) async {
@@ -69,5 +72,9 @@ class AuthenticationController {
   void sendPasswordReminder() {
     FirebaseAuth.instance
         .sendPasswordResetEmail(email: emailAdressController.text);
+    resetSent = true;
+    forgottenPassword = false;
+    register.value = false;
+    register.notifyListeners();
   }
 }

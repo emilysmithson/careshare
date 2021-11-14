@@ -23,6 +23,13 @@ class AuthenticationPage extends StatelessWidget {
                 key: controller.formKey,
                 child: Column(
                   children: [
+                    if (controller.resetSent)
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                            'You should receive an email to reset your password. \nPlease check your junk mail if you do not see it.',
+                            textAlign: TextAlign.center),
+                      ),
                     CustomFormField(
                       controller: controller.emailAdressController,
                       label: 'E-mail address',
