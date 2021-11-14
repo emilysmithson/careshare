@@ -48,22 +48,22 @@ class AuthenticationController {
                 message: 'The account already exists for that email.');
           }
         }
-        try {
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-              email: emailAdressController.text,
-              password: passwordController.text);
+      }
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailAdressController.text,
+            password: passwordController.text);
 
-          return Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const HomePage()));
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'user-not-found') {
-            showErrorMessage(
-                context: context, message: 'No user found for that email.');
-          } else if (e.code == 'wrong-password') {
-            showErrorMessage(
-                context: context,
-                message: 'Wrong password provided for that user.');
-          }
+        return Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          showErrorMessage(
+              context: context, message: 'No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          showErrorMessage(
+              context: context,
+              message: 'Wrong password provided for that user.');
         }
       }
     }
