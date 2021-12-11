@@ -1,7 +1,7 @@
 import 'package:careshare/task_manager/domain/models/task.dart';
 import 'package:careshare/authentication/domain/models/user.dart';
 
-class FetchTask {
+class FetchTasks {
   List<Task> call() {
     return [
       Task(

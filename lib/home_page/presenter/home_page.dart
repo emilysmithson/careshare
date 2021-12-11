@@ -19,15 +19,14 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-              'Welcome to CareShare, ${FirebaseAuth.instance.currentUser?.displayName}'),
+          const Text('Welcome to CareShare,'),
           ElevatedButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const App()));
             },
-            child: Text('Logout'),
+            child: const Text('Logout'),
           )
         ],
       ),
