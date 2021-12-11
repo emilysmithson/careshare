@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TaskManagerScreen(),
+                  builder: (context) => const TaskManagerScreen(),
                 ),
               );
             },

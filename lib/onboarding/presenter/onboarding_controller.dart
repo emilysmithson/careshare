@@ -17,7 +17,8 @@ class AuthenticationController {
 
   void toggleShowPassword() {
     hidePassword = !hidePassword;
-    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+
+    // ignore: invalid_use_of_visible_for_testing_member
     register.notifyListeners();
   }
 
@@ -75,6 +76,5 @@ class AuthenticationController {
     resetSent = true;
     forgottenPassword = false;
     register.value = false;
-    register.notifyListeners();
   }
 }
