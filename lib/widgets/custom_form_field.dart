@@ -7,16 +7,18 @@ class CustomFormField extends StatelessWidget {
   final bool obscureText;
   final TextEditingController? controller;
   final Widget? trailing;
+  final int? maxLines;
 
-  CustomFormField({
-    Key? key,
-    required this.label,
-    required this.validator,
-    this.keyboardType,
-    this.obscureText = false,
-    this.controller,
-    this.trailing,
-  }) : super(key: key);
+  CustomFormField(
+      {Key? key,
+      required this.label,
+      required this.validator,
+      this.keyboardType,
+      this.obscureText = false,
+      this.controller,
+      this.trailing,
+      this.maxLines})
+      : super(key: key);
 
   final BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: const BorderRadius.all(
@@ -43,6 +45,7 @@ class CustomFormField extends StatelessWidget {
         children: [
           Expanded(
             child: TextFormField(
+              maxLines: maxLines,
               onChanged: (value) {},
               controller: controller,
               decoration: InputDecoration(
