@@ -6,7 +6,7 @@ import '../../domain/models/task.dart';
 import 'task_manager_controller.dart';
 
 class TaskManagerScreen extends StatefulWidget {
-  TaskManagerScreen({Key? key}) : super(key: key);
+  const TaskManagerScreen({Key? key}) : super(key: key);
 
   @override
   State<TaskManagerScreen> createState() => _TaskManagerScreenState();
@@ -29,10 +29,10 @@ class _TaskManagerScreenState extends State<TaskManagerScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CreateATaskScreen(),
+                    builder: (context) => const CreateATaskScreen(),
                   ),
                 );
               },
@@ -48,24 +48,51 @@ class _TaskManagerScreenState extends State<TaskManagerScreen> {
           if (status == PageStatus.error) {
             return const Center(child: Text('Oh dear'));
           }
-          return Column(
-              children: controller.careTaskList.map((CareTask task) {
-            return Container(
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.blue[50],
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(16),
+          return SingleChildScrollView(
+            child: Column(
+                children: controller.careTaskList.map((CareTask task) {
+              return Container(
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.blue[50],
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(16),
+                  ),
                 ),
-              ),
-              child: Column(
-                children: [
-                  itemWidget('title', task.title),
-                  itemWidget('description', task.description),
-                ],
-              ),
-            );
-          }).toList());
+                child: Column(
+                  children: [
+                    itemWidget(
+                      title: 'title',
+                      content: task.title,
+                      trailing: IconButton(
+                        onPressed: () {
+                          controller.removeATask(task.id);
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
+                    ),
+                    itemWidget(
+                      title: 'description',
+                      content: task.description,
+                      // trailing: IconButton(
+                      //   onPressed: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => CreateATaskScreen(
+                      //           task: task,
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      //   icon: const Icon(Icons.edit),
+                      // ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList()),
+          );
         },
       ),
     );

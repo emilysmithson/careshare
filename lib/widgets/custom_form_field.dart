@@ -8,6 +8,7 @@ class CustomFormField extends StatelessWidget {
   final TextEditingController? controller;
   final Widget? trailing;
   final int? maxLines;
+  final String? initialValue;
 
   CustomFormField(
       {Key? key,
@@ -17,7 +18,8 @@ class CustomFormField extends StatelessWidget {
       this.obscureText = false,
       this.controller,
       this.trailing,
-      this.maxLines})
+      this.maxLines,
+      this.initialValue})
       : super(key: key);
 
   final BoxDecoration boxDecoration = BoxDecoration(

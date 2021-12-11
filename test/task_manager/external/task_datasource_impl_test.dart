@@ -1,4 +1,3 @@
-import 'package:careshare/authentication/domain/models/user.dart';
 import 'package:careshare/task_manager/domain/models/task.dart';
 import 'package:careshare/task_manager/external/task_datasource_impl.dart';
 import 'package:firebase_core/firebase_core.dart';

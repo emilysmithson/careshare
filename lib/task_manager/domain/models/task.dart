@@ -14,6 +14,7 @@ enum TaskType {
 class CareTask {
   final String title;
   final String description;
+  String? id;
 
   // final bool assigned;
 
@@ -26,7 +27,7 @@ class CareTask {
     required this.title,
     required this.description,
     // this.comments,
-
+    this.id,
     // required this.assigned,
     required this.createdBy,
     // required this.taskType,

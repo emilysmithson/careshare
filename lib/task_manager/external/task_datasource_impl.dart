@@ -19,4 +19,18 @@ class TaskDatasourceImpl implements TaskDatasource {
 
     return response;
   }
+
+  @override
+  Future editTask(CareTask task) async {
+    DatabaseReference reference =
+        FirebaseDatabase.instance.ref("tasks/$task.id");
+    await reference.set(task.toJson());
+  }
+
+  @override
+  Future removeTask(String taskId) async {
+    DatabaseReference reference =
+        FirebaseDatabase.instance.ref("tasks/$taskId");
+    reference.remove();
+  }
 }

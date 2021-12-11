@@ -1,3 +1,4 @@
+import 'package:careshare/task_manager/domain/usecases/edit_a_task.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/models/task.dart';
@@ -8,20 +9,31 @@ import '../task_entered/task_entered_screen.dart';
 
 class CreateATaskController {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
 
-  createATask(BuildContext context) {
+  late TextEditingController titleController;
+  late TextEditingController descriptionController;
+
+  initialiseControllers(CareTask? task) {
+    titleController = TextEditingController(text: task?.title);
+    descriptionController = TextEditingController(text: task?.description);
+  }
+
+  createATask(BuildContext context, CareTask? originalTask) {
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
     final TaskRepoositoryImpl repository = TaskRepoositoryImpl(datasource);
     final CreateATask createATaskUseCase = CreateATask(repository);
+    final EditATask editATask = EditATask(repository);
     if (formKey.currentState!.validate()) {
       final CareTask task = CareTask(
         title: titleController.text,
         description: descriptionController.text,
         createdBy: 'Emily',
       );
-      createATaskUseCase(task);
+      if (originalTask == null) {
+        createATaskUseCase(task);
+      } else {
+        editATask(task);
+      }
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:careshare/task_manager/domain/usecases/remove_a_task.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -24,11 +25,22 @@ class TaskManagerController {
 
     response.fold((l) {
       status.value = PageStatus.error;
-      status.notifyListeners();
     }, (r) {
+      careTaskList.clear();
       careTaskList.addAll(r);
       status.value = PageStatus.success;
-      status.notifyListeners();
     });
+  }
+
+  removeATask(String? taskId) {
+    if (taskId == null) {
+      return;
+    }
+    final TaskDatasourceImpl datasource = TaskDatasourceImpl();
+    final TaskRepoositoryImpl repository = TaskRepoositoryImpl(datasource);
+    final RemoveATask remove = RemoveATask(repository);
+    remove(taskId);
+    status.value = PageStatus.loading;
+    fetchTasks();
   }
 }

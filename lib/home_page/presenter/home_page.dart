@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
           const Text('Welcome to CareShare,'),
           TextButton(
             onPressed: () {
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => CreateATaskScreen()));
             },
             child: const Text('Create a new task'),
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const TaskManagerScreen(),
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           TextButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const App()));
             },
             child: const Text('Logout'),

@@ -49,6 +49,7 @@ class AuthenticationPage extends StatelessWidget {
                     ),
                     if (!controller.forgottenPassword)
                       CustomFormField(
+                        maxLines: 1,
                         controller: controller.passwordController,
                         label: 'Password',
                         keyboardType: TextInputType.emailAddress,
@@ -76,6 +77,7 @@ class AuthenticationPage extends StatelessWidget {
                       ),
                     if (register && !controller.forgottenPassword)
                       CustomFormField(
+                          maxLines: 1,
                           label: 'Confirm password',
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {

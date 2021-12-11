@@ -23,28 +23,6 @@ class TaskRepoositoryImpl implements TaskRepository {
 
   @override
   Future<Either<TaskManagerException, List<CareTask>>> fetchTasks() async {
-//  final DatabaseReference reference =
-//         FirebaseDatabase.instance.reference().child("observations");
-//     final DataSnapshot snapshot = await reference.once();
-
-//     observations.clear();
-//     if (snapshot.value == null) {
-//       return true;
-//     }
-//     final returnedList = snapshot.value;
-//     returnedList.forEach((key, value) {
-//       observations.add(
-//         Sighting(
-//           id: key as String,
-//           dateTime: DateTime.parse(value['date_time'] as String),
-//           user: value['user'] as String,
-//           userEmail: value['userEmail'],
-//           bird: value['bird'],
-//           birdBox: value['bird_box'] as int,
-//         ),
-//       );
-//     });
-
     DatabaseEvent response;
     try {
       response = await datasource.fetchTasks();
@@ -58,24 +36,39 @@ class TaskRepoositoryImpl implements TaskRepository {
       Map<dynamic, dynamic> returnedList =
           response.snapshot.value as Map<dynamic, dynamic>;
 
-      returnedList.forEach((key, value) {
-        print(value);
-        print(value['description']);
-        careTaskList.add(CareTask(
-            title: value['title'] ?? '',
-            description: value['description'] ?? '',
-            createdBy: value['created_by'] ?? ''));
-      });
-      // if (returnedList != null) {
-      //   returnedList.forEach((key, value) {
-      //     print(value);
-      //     careTaskList.add(CareTask.fromJson(value));
-      //   });
-      // }
-      // for (final Key key in returnedList) {
-      //   careTaskList.add(CareTask.fromJson(key.value));
-      // }
+      returnedList.forEach(
+        (key, value) {
+          careTaskList.add(
+            CareTask(
+              title: value['title'] ?? '',
+              description: value['description'] ?? '',
+              createdBy: value['created_by'] ?? '',
+              id: key,
+            ),
+          );
+        },
+      );
     }
     return Right(careTaskList);
+  }
+
+  @override
+  Future<Either<TaskManagerException, CareTask>> editTask(CareTask task) async {
+    try {
+      datasource.editTask(task);
+    } catch (error) {
+      return Left(TaskManagerException(error.toString()));
+    }
+    return Right(task);
+  }
+
+  @override
+  Future<Either<TaskManagerException, bool>> removeTask(String taskId) async {
+    try {
+      datasource.removeTask(taskId);
+    } catch (error) {
+      return Left(TaskManagerException(error.toString()));
+    }
+    return const Right(true);
   }
 }

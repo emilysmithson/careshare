@@ -19,12 +19,12 @@ class TaskEnteredScreen extends StatelessWidget {
         ),
         body: Column(
           children: [
-            itemWidget('Title', task.title),
-            itemWidget('Description', task.description),
+            itemWidget(title: 'Title', content: task.title),
+            itemWidget(title: 'Description', content: task.description),
             const SizedBox(height: 200),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => CreateATaskScreen(),
@@ -36,10 +36,10 @@ class TaskEnteredScreen extends StatelessWidget {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TaskManagerScreen(),
+                    builder: (context) => const TaskManagerScreen(),
                   ),
                 );
               },
