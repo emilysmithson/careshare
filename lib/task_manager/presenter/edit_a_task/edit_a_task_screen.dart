@@ -1,19 +1,25 @@
+import 'package:careshare/task_manager/domain/models/task.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widgets/custom_form_field.dart';
-import 'create_a_task_controller.dart';
+import 'edit_a_task_controller.dart';
 
-class CreateATaskScreen extends StatefulWidget {
-  const CreateATaskScreen({
-    Key? key,
-  }) : super(key: key);
+class EditATaskScreen extends StatefulWidget {
+  final CareTask task;
+
+  const EditATaskScreen({Key? key, required this.task}) : super(key: key);
 
   @override
-  State<CreateATaskScreen> createState() => _CreateATaskScreenState();
+  State<EditATaskScreen> createState() => _EditATaskScreenState();
 }
 
-class _CreateATaskScreenState extends State<CreateATaskScreen> {
-  final controller = CreateATaskController();
+class _EditATaskScreenState extends State<EditATaskScreen> {
+  final controller = EditATaskController();
+  @override
+  void initState() {
+    controller.initialiseControllers(widget.task);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +59,9 @@ class _CreateATaskScreenState extends State<CreateATaskScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    controller.createATask(context);
+                    controller.editTask(context, widget.task);
                   },
-                  child: const Text('Create'),
+                  child: const Text('Save changes'),
                 ),
               ],
             ),

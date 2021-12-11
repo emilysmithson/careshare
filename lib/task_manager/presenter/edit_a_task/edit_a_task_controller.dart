@@ -7,19 +7,21 @@ import '../../external/task_datasource_impl.dart';
 import '../../infrastructure/repositories/task_repository_impl.dart';
 import '../task_entered/task_entered_screen.dart';
 
-class CreateATaskController {
+class EditATaskController {
   final formKey = GlobalKey<FormState>();
 
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  late TextEditingController titleController;
+  late TextEditingController descriptionController;
 
-  createATask(
-    BuildContext context,
-  ) {
+  initialiseControllers(CareTask task) {
+    titleController = TextEditingController(text: task.title);
+    descriptionController = TextEditingController(text: task.description);
+  }
+
+  editTask(BuildContext context, CareTask? originalTask) {
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
     final TaskRepoositoryImpl repository = TaskRepoositoryImpl(datasource);
-    final CreateATask createATaskUseCase = CreateATask(repository);
-
+    final EditATask editATask = EditATask(repository);
     if (formKey.currentState!.validate()) {
       final CareTask task = CareTask(
         title: titleController.text,
@@ -27,7 +29,7 @@ class CreateATaskController {
         createdBy: 'Emily',
       );
 
-      createATaskUseCase(task);
+      editATask(task);
 
       Navigator.pushReplacement(
           context,

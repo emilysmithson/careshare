@@ -24,7 +24,9 @@ class TaskDatasourceImpl implements TaskDatasource {
   Future editTask(CareTask task) async {
     DatabaseReference reference =
         FirebaseDatabase.instance.ref("tasks/$task.id");
-    await reference.set(task.toJson());
+
+    await reference
+        .update({"title": task.title, "description": task.description});
   }
 
   @override
