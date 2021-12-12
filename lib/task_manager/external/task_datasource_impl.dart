@@ -23,7 +23,7 @@ class TaskDatasourceImpl implements TaskDatasource {
   @override
   Future editTask(CareTask task) async {
     DatabaseReference reference =
-        FirebaseDatabase.instance.ref("tasks/$task.id");
+        FirebaseDatabase.instance.ref("tasks/${task.id}");
 
     await reference
         .update({"title": task.title, "description": task.description});

@@ -75,19 +75,19 @@ class _TaskManagerScreenState extends State<TaskManagerScreen> {
                     itemWidget(
                       title: 'description',
                       content: task.description,
-                      // trailing: IconButton(
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => EditATaskScreen(
-                      //           task: task,
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      //   icon: const Icon(Icons.edit),
-                      // ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditATaskScreen(
+                                task: task,
+                              ),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.edit),
+                      ),
                     ),
                   ],
                 ),
