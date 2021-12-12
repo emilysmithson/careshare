@@ -22,11 +22,13 @@ class EditATaskController {
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
     final TaskRepoositoryImpl repository = TaskRepoositoryImpl(datasource);
     final EditATask editATask = EditATask(repository);
+
     if (formKey.currentState!.validate()) {
       final CareTask task = CareTask(
         title: titleController.text,
         description: descriptionController.text,
         createdBy: 'Emily',
+        id: originalTask?.id,
       );
 
       editATask(task);

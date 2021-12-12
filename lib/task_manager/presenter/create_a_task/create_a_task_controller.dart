@@ -24,7 +24,6 @@ class CreateATaskController {
       final CareTask task = CareTask(
         title: titleController.text,
         description: descriptionController.text,
-        createdBy: 'Emily',
       );
 
       createATaskUseCase(task);

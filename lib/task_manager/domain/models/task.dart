@@ -14,11 +14,11 @@ enum TaskType {
 class CareTask {
   final String title;
   final String description;
-  String? id;
+  late String? id;
 
   // final bool assigned;
 
-  final String createdBy;
+  late String? createdBy;
 
   // final TaskType taskType;
   // final DateTime dueDate;
@@ -29,7 +29,7 @@ class CareTask {
     // this.comments,
     this.id,
     // required this.assigned,
-    required this.createdBy,
+    this.createdBy,
     // required this.taskType,
     // required this.dueDate,
   });

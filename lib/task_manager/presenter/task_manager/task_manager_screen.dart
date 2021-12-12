@@ -19,6 +19,7 @@ class _TaskManagerScreenState extends State<TaskManagerScreen> {
   @override
   void initState() {
     controller.fetchTasks();
+
     super.initState();
   }
 
