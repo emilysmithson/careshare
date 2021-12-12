@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-import '../../../style/style.dart';
-import '../../../widgets/item_widget.dart';
+import '../../../widgets/job_summary_widget.dart';
 import '../../domain/models/task.dart';
 import '../create_or_edit_task/create_or_edit_task_screen.dart';
 import 'task_manager_controller.dart';
@@ -54,50 +52,7 @@ class _TaskManagerScreenState extends State<TaskManagerScreen> {
           return SingleChildScrollView(
             child: Column(
                 children: controller.careTaskList.map((CareTask task) {
-              return Container(
-                margin: const EdgeInsets.all(16),
-                decoration: Style.boxDecoration,
-                child: Column(
-                  children: [
-                    itemWidget(
-                      title: 'title',
-                      content: task.title,
-                      trailing: IconButton(
-                        onPressed: () {
-                          controller.removeATask(task.id);
-                        },
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ),
-                    itemWidget(
-                      title: 'description',
-                      content: task.description,
-                      trailing: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CreateOrEditATaskScreen(
-                                task: task,
-                              ),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.edit),
-                      ),
-                    ),
-                    itemWidget(
-                      title: 'Type',
-                      content: task.taskType.type,
-                    ),
-                    itemWidget(
-                      title: 'Created ',
-                      content: DateFormat('dd-MM-yyyy – kk:mm')
-                          .format(task.dateCreated!),
-                    ),
-                  ],
-                ),
-              );
+              return JobSummaryWidget(task: task);
             }).toList()),
           );
         },

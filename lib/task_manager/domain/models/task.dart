@@ -37,7 +37,7 @@ class CareTask {
       // 'assigned': assigned,
       'created_by': createdBy,
       'task_type': taskType.type,
-      'date_created': DateTime.now().toString(),
+      'date_created': dateCreated.toString(),
       // 'task_type': taskType,
       // 'due_date': dueDate,
     };

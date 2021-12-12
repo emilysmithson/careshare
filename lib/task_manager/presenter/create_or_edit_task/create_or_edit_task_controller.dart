@@ -34,6 +34,7 @@ class CreateOrEditATaskController {
         taskType: taskType!,
         title: titleController.text,
         description: descriptionController.text,
+        dateCreated: DateTime.now(),
       );
       if (isCreateTask) {
         TasksUseCases.createATask(task);

@@ -1,9 +1,9 @@
-import '../create_or_edit_task/create_or_edit_task_screen.dart';
-import '../task_manager/task_manager_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widgets/job_summary_widget.dart';
 import '../../domain/models/task.dart';
+import '../create_or_edit_task/create_or_edit_task_screen.dart';
+import '../task_manager/task_manager_screen.dart';
 
 class TaskEnteredScreen extends StatelessWidget {
   final CareTask task;
