@@ -16,43 +16,43 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text('Welcome to CareShare,'),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text('Welcome to CareShare,'),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CreateOrEditATaskScreen()));
+              },
+              child: const Text('Create a new task'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CreateOrEditATaskScreen()));
-            },
-            child: const Text('Create a new task'),
-          ),
-          const SizedBox(height: 16),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TaskManagerScreen(),
-                ),
-              );
-            },
-            child: const Text('View all tasks'),
-          ),
-          TextButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const App()));
-            },
-            child: const Text('Logout'),
-          )
-        ],
+                    builder: (context) => const TaskManagerScreen(),
+                  ),
+                );
+              },
+              child: const Text('View all tasks'),
+            ),
+            TextButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const App()));
+              },
+              child: const Text('Logout'),
+            )
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

@@ -9,6 +9,7 @@ class CareTask {
   final String title;
   final String description;
   late String? id;
+  DateTime? dateCreated;
 
   // final bool assigned;
 
@@ -25,6 +26,7 @@ class CareTask {
     // required this.assigned,
     this.createdBy,
     required this.taskType,
+    this.dateCreated,
     // required this.dueDate,
   });
 
@@ -35,18 +37,19 @@ class CareTask {
       // 'assigned': assigned,
       'created_by': createdBy,
       'task_type': taskType.type,
+      'date_created': DateTime.now().toString(),
       // 'task_type': taskType,
       // 'due_date': dueDate,
     };
   }
 
-  CareTask.fromJson(Map<String, dynamic> json)
-      : title = json['title'] as String,
-        description = json['description'] as String,
-        // assigned = json['assigned'],
-        createdBy = json['created_by'] as String,
-        taskType = TaskType.taskTypeList.firstWhere(
-          (element) => element.type == json['task_type'],
-        );
+  // CareTask.fromJson(Map<String, dynamic> json)
+  //     : title = json['title'] as String,
+  //       description = json['description'] as String,
+  //       // assigned = json['assigned'],
+  //       createdBy = json['created_by'] as String,
+  //       taskType = TaskType.taskTypeList.firstWhere(
+  //         (element) => element.type == json['task_type'],
+  //       );
   // dueDate = json['due_date'];
 }

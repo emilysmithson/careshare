@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../style/style.dart';
 import '../../../widgets/item_widget.dart';
@@ -88,6 +89,11 @@ class _TaskManagerScreenState extends State<TaskManagerScreen> {
                     itemWidget(
                       title: 'Type',
                       content: task.taskType.type,
+                    ),
+                    itemWidget(
+                      title: 'Created ',
+                      content: DateFormat('dd-MM-yyyy – kk:mm')
+                          .format(task.dateCreated!),
                     ),
                   ],
                 ),
