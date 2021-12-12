@@ -70,6 +70,13 @@ class JobSummaryWidget extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.circle,
+                    color: task.priority.color,
+                  ),
+                ),
               ],
             ),
           ),

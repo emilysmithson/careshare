@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../domain/models/priority.dart';
 import '../../domain/models/task.dart';
 import '../../domain/models/task_type.dart';
 import '../../domain/usecases/all_usecases.dart';
@@ -9,6 +10,7 @@ class CreateOrEditATaskController {
   final formKey = GlobalKey<FormState>();
   TaskType? taskType;
   bool isCreateTask = true;
+  Priority priority = Priority.medium;
 
   late TextEditingController titleController;
   late TextEditingController descriptionController;
@@ -35,6 +37,7 @@ class CreateOrEditATaskController {
         title: titleController.text,
         description: descriptionController.text,
         dateCreated: DateTime.now(),
+        priority: priority,
       );
       if (isCreateTask) {
         TasksUseCases.createATask(task);

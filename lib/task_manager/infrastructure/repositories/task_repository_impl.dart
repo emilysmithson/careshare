@@ -1,3 +1,4 @@
+import 'package:careshare/task_manager/domain/models/priority.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -45,6 +46,8 @@ class TaskRepoositoryImpl implements TaskRepository {
               description: value['description'] ?? '',
               createdBy: value['created_by'] ?? '',
               id: key,
+              priority: Priority.priorityList
+                  .firstWhere((element) => value['priority'] == element.value),
               dateCreated: DateTime.parse(value['date_created']),
               taskType: TaskType.taskTypeList.firstWhere(
                 (element) => element.type == value['task_type'],

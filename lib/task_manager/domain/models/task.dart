@@ -1,3 +1,5 @@
+import 'package:careshare/task_manager/domain/models/priority.dart';
+
 import 'task_type.dart';
 
 enum Status {
@@ -10,13 +12,13 @@ class CareTask {
   final String description;
   late String? id;
   DateTime? dateCreated;
+  final Priority priority;
 
   // final bool assigned;
 
   late String? createdBy;
 
   final TaskType taskType;
-  // final DateTime dueDate;
 
   CareTask({
     required this.title,
@@ -27,7 +29,7 @@ class CareTask {
     this.createdBy,
     required this.taskType,
     this.dateCreated,
-    // required this.dueDate,
+    required this.priority,
   });
 
   Map<String, dynamic> toJson() {
@@ -38,6 +40,8 @@ class CareTask {
       'created_by': createdBy,
       'task_type': taskType.type,
       'date_created': dateCreated.toString(),
+      'priority': priority.value,
+      // 'due_date': dueDate.toString(),
       // 'task_type': taskType,
       // 'due_date': dueDate,
     };
