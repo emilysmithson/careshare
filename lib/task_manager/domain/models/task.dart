@@ -1,14 +1,8 @@
+import 'task_type.dart';
+
 enum Status {
   inProgress,
   complete,
-}
-enum TaskType {
-  shopping,
-  cleaning,
-  gardening,
-  technicalSupport,
-  cooking,
-  other,
 }
 
 class CareTask {
@@ -20,7 +14,7 @@ class CareTask {
 
   late String? createdBy;
 
-  // final TaskType taskType;
+  final TaskType taskType;
   // final DateTime dueDate;
 
   CareTask({
@@ -30,7 +24,7 @@ class CareTask {
     this.id,
     // required this.assigned,
     this.createdBy,
-    // required this.taskType,
+    required this.taskType,
     // required this.dueDate,
   });
 
@@ -40,6 +34,7 @@ class CareTask {
       'description': description,
       // 'assigned': assigned,
       'created_by': createdBy,
+      'task_type': taskType.type,
       // 'task_type': taskType,
       // 'due_date': dueDate,
     };
@@ -49,7 +44,9 @@ class CareTask {
       : title = json['title'] as String,
         description = json['description'] as String,
         // assigned = json['assigned'],
-        createdBy = json['created_by'] as String;
-  // taskType = json['task_type'],
+        createdBy = json['created_by'] as String,
+        taskType = TaskType.taskTypeList.firstWhere(
+          (element) => element.type == json['task_type'],
+        );
   // dueDate = json['due_date'];
 }

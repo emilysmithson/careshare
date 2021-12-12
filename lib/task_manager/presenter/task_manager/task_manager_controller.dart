@@ -1,9 +1,9 @@
-import 'package:careshare/task_manager/domain/usecases/remove_a_task.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/models/task.dart';
-import '../../domain/usecases/fetch_tasks.dart';
+import '../../domain/usecases/all_usecases.dart';
+import '../../domain/usecases/remove_a_task.dart';
 import '../../external/task_datasource_impl.dart';
 import '../../infrastructure/repositories/task_repository_impl.dart';
 
@@ -18,10 +18,7 @@ class TaskManagerController {
   final ValueNotifier<PageStatus> status =
       ValueNotifier<PageStatus>(PageStatus.loading);
   fetchTasks() async {
-    final TaskDatasourceImpl datasource = TaskDatasourceImpl();
-    final TaskRepoositoryImpl repository = TaskRepoositoryImpl(datasource);
-    final FetchTasks fetchTasksUsecase = FetchTasks(repository);
-    final response = await fetchTasksUsecase();
+    final response = await TasksUseCases.fetchTasks();
 
     response.fold((l) {
       status.value = PageStatus.error;

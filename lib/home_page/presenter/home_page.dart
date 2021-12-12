@@ -1,3 +1,4 @@
+import 'package:careshare/task_manager/presenter/create_or_edit_task/create_or_edit_task_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +25,10 @@ class _HomePageState extends State<HomePage> {
           const Text('Welcome to CareShare,'),
           TextButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CreateATaskScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateOrEditATaskScreen()));
             },
             child: const Text('Create a new task'),
           ),

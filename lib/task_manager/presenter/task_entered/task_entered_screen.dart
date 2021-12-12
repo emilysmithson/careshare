@@ -1,8 +1,8 @@
-import 'package:careshare/widgets/item_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../../../widgets/item_widget.dart';
 import '../../domain/models/task.dart';
-import '../create_a_task/create_a_task_screen.dart';
+import '../create_or_edit_task/create_or_edit_task_screen.dart';
 import '../task_manager/task_manager_screen.dart';
 
 class TaskEnteredScreen extends StatelessWidget {
@@ -27,7 +27,7 @@ class TaskEnteredScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CreateATaskScreen(),
+                    builder: (context) => const CreateOrEditATaskScreen(),
                   ),
                 );
               },

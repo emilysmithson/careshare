@@ -1,3 +1,4 @@
+import 'package:careshare/task_manager/domain/models/task_type.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -40,11 +41,13 @@ class TaskRepoositoryImpl implements TaskRepository {
         (key, value) {
           careTaskList.add(
             CareTask(
-              title: value['title'] ?? '',
-              description: value['description'] ?? '',
-              createdBy: value['created_by'] ?? '',
-              id: key,
-            ),
+                title: value['title'] ?? '',
+                description: value['description'] ?? '',
+                createdBy: value['created_by'] ?? '',
+                id: key,
+                taskType: TaskType.taskTypeList.firstWhere(
+                  (element) => element.type == value['task_type'],
+                )),
           );
         },
       );
