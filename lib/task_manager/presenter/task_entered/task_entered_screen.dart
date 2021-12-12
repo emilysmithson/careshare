@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-
-import '../../../widgets/item_widget.dart';
-import '../../domain/models/task.dart';
 import '../create_or_edit_task/create_or_edit_task_screen.dart';
 import '../task_manager/task_manager_screen.dart';
+import 'package:flutter/material.dart';
+
+import '../../../widgets/job_summary_widget.dart';
+import '../../domain/models/task.dart';
 
 class TaskEnteredScreen extends StatelessWidget {
   final CareTask task;
@@ -12,40 +12,38 @@ class TaskEnteredScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Thank you for entering a task',
-          ),
+      appBar: AppBar(
+        title: const Text(
+          'Thank you for entering a task',
         ),
-        body: Column(
-          children: [
-            itemWidget(title: 'Title', content: task.title),
-            itemWidget(title: 'Description', content: task.description),
-            const SizedBox(height: 200),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
+      ),
+      body: Column(
+        children: [
+          JobSummaryWidget(
+            task: task,
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const CreateOrEditATaskScreen(),
-                  ),
-                );
-              },
-              child: const Text('Enter another task'),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TaskManagerScreen(),
-                  ),
-                );
-              },
-              child: const Text('View all tasks'),
-            ),
-          ],
-        ));
+                      builder: (context) => const CreateOrEditATaskScreen()));
+            },
+            child: const Text('Create a new task'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TaskManagerScreen(),
+                ),
+              );
+            },
+            child: const Text('View all tasks'),
+          ),
+        ],
+      ),
+    );
   }
 }
