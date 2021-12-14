@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
+import '../../profile/presenter/profile_page.dart';
 import '../../task_manager/presenter/create_or_edit_task/create_or_edit_task_screen.dart';
 import '../../task_manager/presenter/task_manager/task_manager_screen.dart';
 
@@ -45,11 +46,26 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               onPressed: () {
                 FirebaseAuth.instance.signOut();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const App()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const App(),
+                  ),
+                );
               },
               child: const Text('Logout'),
-            )
+            ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const ProfilePage(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('Onboarding'),
+            // ),
           ],
         ),
       ),

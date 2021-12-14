@@ -1,5 +1,4 @@
-import 'package:careshare/task_manager/domain/models/priority.dart';
-
+import 'priority.dart';
 import 'task_type.dart';
 
 enum Status {
@@ -23,9 +22,7 @@ class CareTask {
   CareTask({
     required this.title,
     required this.description,
-    // this.comments,
     this.id,
-    // required this.assigned,
     this.createdBy,
     required this.taskType,
     this.dateCreated,
@@ -36,24 +33,22 @@ class CareTask {
     return {
       'title': title,
       'description': description,
-      // 'assigned': assigned,
       'created_by': createdBy,
       'task_type': taskType.type,
       'date_created': dateCreated.toString(),
       'priority': priority.value,
-      // 'due_date': dueDate.toString(),
-      // 'task_type': taskType,
-      // 'due_date': dueDate,
     };
   }
 
-  // CareTask.fromJson(Map<String, dynamic> json)
-  //     : title = json['title'] as String,
-  //       description = json['description'] as String,
-  //       // assigned = json['assigned'],
-  //       createdBy = json['created_by'] as String,
-  //       taskType = TaskType.taskTypeList.firstWhere(
-  //         (element) => element.type == json['task_type'],
-  //       );
-  // dueDate = json['due_date'];
+  CareTask.fromJson(dynamic key, dynamic value)
+      : title = value['title'] ?? '',
+        createdBy = value['created_by'] ?? '',
+        id = key,
+        priority = Priority.priorityList
+            .firstWhere((element) => value['priority'] == element.value),
+        dateCreated = DateTime.parse(value['date_created']),
+        description = value['description'] as String,
+        taskType = TaskType.taskTypeList.firstWhere(
+          (element) => element.type == value['task_type'],
+        );
 }
