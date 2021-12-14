@@ -11,6 +11,7 @@ class CareTask {
   final String description;
   late String? id;
   DateTime? dateCreated;
+  DateTime? dueDate;
   final Priority priority;
 
   // final bool assigned;
@@ -26,6 +27,7 @@ class CareTask {
     this.createdBy,
     required this.taskType,
     this.dateCreated,
+    this.dueDate,
     required this.priority,
   });
 
@@ -36,6 +38,7 @@ class CareTask {
       'created_by': createdBy,
       'task_type': taskType.type,
       'date_created': dateCreated.toString(),
+      'due_date': dueDate.toString(),
       'priority': priority.value,
     };
   }

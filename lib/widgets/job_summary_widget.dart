@@ -37,7 +37,7 @@ class JobSummaryWidget extends StatelessWidget {
               itemWidget(
                 title: 'Created ',
                 content:
-                    DateFormat('dd-MM-yyyy – kk:mm').format(task.dateCreated!),
+                DateFormat('dd-MM-yyyy – kk:mm').format(task.dateCreated!),
               ),
             ],
           ),
