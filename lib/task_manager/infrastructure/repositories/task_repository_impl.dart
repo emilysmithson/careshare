@@ -37,7 +37,7 @@ class TaskRepoositoryImpl implements TaskRepository {
           response.snapshot.value as Map<dynamic, dynamic>;
 
       returnedList.forEach(
-        (key, value) {
+            (key, value) {
           careTaskList.add(CareTask.fromJson(key, value));
         },
       );

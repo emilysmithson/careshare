@@ -14,10 +14,12 @@ class CreateOrEditATaskController {
 
   late TextEditingController titleController;
   late TextEditingController descriptionController;
+  String? id;
 
   initialiseControllers(CareTask? originalTask) {
     if (originalTask != null) {
       isCreateTask = false;
+      id = originalTask.id;
     }
     titleController = TextEditingController(
       text: originalTask?.title,
@@ -42,6 +44,8 @@ class CreateOrEditATaskController {
       if (isCreateTask) {
         TasksUseCases.createATask(task);
       } else {
+
+        task.id = id;
         TasksUseCases.editATask(task);
       }
       Navigator.pushReplacement(

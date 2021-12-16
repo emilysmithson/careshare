@@ -9,6 +9,7 @@ class TaskDatasourceImpl implements TaskDatasource {
     DatabaseReference reference = FirebaseDatabase.instance.ref("tasks");
     final String newkey = reference.push().key as String;
     reference.child(newkey).set(task.toJson());
+
     return newkey;
   }
 
