@@ -17,34 +17,6 @@ class CreateATask {
       taskWithId.createdBy = id;
     }
 
-    switch(taskWithId.priority.value) {
-      case 1: //Highest
-        taskWithId.dueDate = DateTime.now().add(const Duration(days: 0));
-        break;
-      case 2: //High
-        taskWithId.dueDate = DateTime.now().add(const Duration(days: 1));
-        break;
-      case 3: //Medium
-        taskWithId.dueDate = DateTime.now().add(const Duration(days: 3));
-        break;
-      case 4: //Low
-        taskWithId.dueDate = DateTime.now().add(const Duration(days: 7));
-        break;
-      case 5: //Lowest
-        taskWithId.dueDate = DateTime.now().add(const Duration(days: 14));
-        break;
-
-      default: {
-        taskWithId.dueDate = DateTime.now();
-      }
-      break;
-    }
-
-
-    print('-------------------------------------------------');
-    print('dueDate: '+taskWithId.dueDate.toString());
-    print('-------------------------------------------------');
-
     return repository.createTask(taskWithId);
   }
 }
