@@ -10,36 +10,41 @@ class CreateATask {
 
   CreateATask(this.repository);
   Future<Either<TaskManagerException, String>> call(CareTask task) async {
-    CareTask taskWithExtraDetails = task;
+    CareTask taskWithId = task;
     String? id = FirebaseAuth.instance.currentUser?.uid;
 
     if (id != null) {
-      taskWithExtraDetails.createdBy = id;
+      taskWithId.createdBy = id;
     }
 
-    switch(taskWithExtraDetails.priority.value) {
+    switch(taskWithId.priority.value) {
       case 1: //Highest
-        taskWithExtraDetails.dueDate = DateTime.now().add(const Duration(hours: 1));
+        taskWithId.dueDate = DateTime.now().add(const Duration(days: 0));
         break;
       case 2: //High
-        taskWithExtraDetails.dueDate = DateTime.now().add(const Duration(days: 1));
+        taskWithId.dueDate = DateTime.now().add(const Duration(days: 1));
         break;
       case 3: //Medium
-        taskWithExtraDetails.dueDate = DateTime.now().add(const Duration(days: 3));
+        taskWithId.dueDate = DateTime.now().add(const Duration(days: 3));
         break;
       case 4: //Low
-        taskWithExtraDetails.dueDate = DateTime.now().add(const Duration(days: 7));
+        taskWithId.dueDate = DateTime.now().add(const Duration(days: 7));
         break;
       case 5: //Lowest
-        taskWithExtraDetails.dueDate = DateTime.now().add(const Duration(days: 14));
+        taskWithId.dueDate = DateTime.now().add(const Duration(days: 14));
         break;
 
       default: {
-        taskWithExtraDetails.dueDate = DateTime.now();
+        taskWithId.dueDate = DateTime.now();
       }
       break;
     }
 
-    return repository.createTask(taskWithExtraDetails);
+
+    print('-------------------------------------------------');
+    print('dueDate: '+taskWithId.dueDate.toString());
+    print('-------------------------------------------------');
+
+    return repository.createTask(taskWithId);
   }
 }
