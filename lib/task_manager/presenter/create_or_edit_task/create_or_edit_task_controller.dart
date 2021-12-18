@@ -32,7 +32,7 @@ class CreateOrEditATaskController {
 
   createATask({
     required BuildContext context,
-  }) {
+  }) async {
     if (formKey.currentState!.validate()) {
       final CareTask task = CareTask(
         taskType: taskType!,
@@ -42,9 +42,9 @@ class CreateOrEditATaskController {
         priority: priority,
       );
       if (isCreateTask) {
-        TasksUseCases.createATask(task);
+        final response = await TasksUseCases.createATask(task);
+        response.fold((l) => null, (r) => task.id = r);
       } else {
-
         task.id = id;
         TasksUseCases.editATask(task);
       }
