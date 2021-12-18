@@ -7,7 +7,7 @@ import '../../domain/models/task_status.dart';
 import '../../domain/usecases/all_usecases.dart';
 import '../task_entered/task_entered_screen.dart';
 
-class CreateOrEditATaskController {
+class AcceptATaskController {
   final formKey = GlobalKey<FormState>();
   TaskType? taskType;
   TaskStatus? taskStatus;
@@ -32,7 +32,7 @@ class CreateOrEditATaskController {
     taskType = originalTask?.taskType;
   }
 
-  createATask({
+  acceptATask({
     required BuildContext context,
   }) async {
     if (formKey.currentState!.validate()) {

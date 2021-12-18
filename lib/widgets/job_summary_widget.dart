@@ -5,6 +5,7 @@ import '../style/style.dart';
 import '../task_manager/domain/models/task.dart';
 import '../task_manager/domain/usecases/all_usecases.dart';
 import '../task_manager/presenter/create_or_edit_task/create_or_edit_task_screen.dart';
+import '../task_manager/presenter/accept_a_task/accept_a_task_screen.dart';
 import 'item_widget.dart';
 
 class JobSummaryWidget extends StatelessWidget {
@@ -23,11 +24,11 @@ class JobSummaryWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               itemWidget(
-                title: 'title',
+                title: 'Title',
                 content: task.title,
               ),
               itemWidget(
-                title: 'description',
+                title: 'Description',
                 content: task.description,
               ),
               itemWidget(
@@ -35,7 +36,7 @@ class JobSummaryWidget extends StatelessWidget {
                 content: task.taskType.type,
               ),
               itemWidget(
-                title: 'Created ',
+                title: 'Created',
                 content:
                     DateFormat('dd-MM-yyyy – kk:mm').format(task.dateCreated!),
               ),
@@ -70,6 +71,26 @@ class JobSummaryWidget extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
+
+
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AcceptATaskScreen(
+                          task: task,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.breakfast_dining_outlined,
+                    color: Colors.grey,
+                  ),
+                ),
+
+
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
@@ -80,6 +101,8 @@ class JobSummaryWidget extends StatelessWidget {
               ],
             ),
           ),
+
+
         ],
       ),
     );
