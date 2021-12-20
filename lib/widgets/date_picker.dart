@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import '../style/style.dart';
 
 class DatePicker extends StatefulWidget {
-  const DatePicker({Key? key}) : super(key: key);
+  const DatePicker({Key? key, required this.onDateTimeChanged}) : super(key: key);
+  final Function onDateTimeChanged;
 
   @override
   _DatePickerState createState() => _DatePickerState();
@@ -20,7 +21,9 @@ class _DatePickerState extends State<DatePicker> {
       height: 100,
       child: CupertinoDatePicker(
         mode: CupertinoDatePickerMode.date,
-        onDateTimeChanged: (date) {},
+        onDateTimeChanged: (date) {
+          widget.onDateTimeChanged(date);
+        },
       ),
     );
   }

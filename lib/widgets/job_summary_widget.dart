@@ -38,69 +38,91 @@ class JobSummaryWidget extends StatelessWidget {
               itemWidget(
                 title: 'Created',
                 content:
-                    DateFormat('dd-MM-yyyy – kk:mm').format(task.dateCreated!),
+                DateFormat('dd-MM-yyyy – kk:mm').format(task.dateCreated!),
               ),
+              itemWidget(
+                title: 'Created By',
+                content: task.createdBy.toString(),
+              ),
+              itemWidget(
+                title: 'Status',
+                content: task.taskStatus.status
+              ),
+
+              if(task.taskAcceptedForDate != null) itemWidget(
+                title: 'Accepted For Date',
+                content:
+                DateFormat('dd-MM-yyyy – kk:mm').format(task.taskAcceptedForDate!),
+              ) ,
+
+              if(task.acceptedBy != "")  itemWidget(
+                title: 'Accepted By',
+                content: task.acceptedBy.toString(),
+              ),
+
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateOrEditATaskScreen(
+                              task: task,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        TasksUseCases.removeTask(task.id!);
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.grey,
+                      ),
+                    ),
+
+
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AcceptATaskScreen(
+                              task: task,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.breakfast_dining_outlined,
+                        color: Colors.grey,
+                      ),
+                    ),
+
+
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.circle,
+                        color: task.priority.color,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
             ],
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Column(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateOrEditATaskScreen(
-                          task: task,
-                        ),
-                      ),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.edit,
-                    color: Colors.grey,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    TasksUseCases.removeTask(task.id!);
-                  },
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.grey,
-                  ),
-                ),
 
-
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AcceptATaskScreen(
-                          task: task,
-                        ),
-                      ),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.breakfast_dining_outlined,
-                    color: Colors.grey,
-                  ),
-                ),
-
-
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.circle,
-                    color: task.priority.color,
-                  ),
-                ),
-              ],
-            ),
-          ),
 
 
         ],

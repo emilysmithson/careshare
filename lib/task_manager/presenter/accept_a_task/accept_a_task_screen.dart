@@ -1,19 +1,16 @@
-import '../../domain/models/priority.dart';
-import 'package:flutter/material.dart';
+import 'package:careshare/widgets/item_widget.dart';
 
-import '../../../style/style.dart';
-import '../../../widgets/custom_form_field.dart';
+import 'package:flutter/material.dart';
 import '../../domain/models/task.dart';
-import '../../domain/models/task_type.dart';
-import '../widgets/select_priority.dart';
-import '../widgets/select_task_type.dart';
 import 'accept_a_task_controller.dart';
+import 'package:intl/intl.dart';
+import '../../../widgets/date_picker.dart';
 
 class AcceptATaskScreen extends StatefulWidget {
-  final CareTask? task;
+  final CareTask task;
   const AcceptATaskScreen({
     Key? key,
-    this.task,
+    required this.task,
   }) : super(key: key);
 
   @override
@@ -24,6 +21,7 @@ class AcceptATaskScreen extends StatefulWidget {
 class _AcceptATaskScreenState extends State<AcceptATaskScreen> {
   late AcceptATaskController controller = AcceptATaskController();
   bool showTaskTypeError = false;
+  DateTime? acceptedDateTime;
 
   @override
   void initState() {
@@ -40,88 +38,49 @@ class _AcceptATaskScreenState extends State<AcceptATaskScreen> {
         Text('Accept a Task'),
       ),
       body: SafeArea(
-        child: Center(
           child: Form(
             key: controller.formKey,
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CustomFormField(
-                    controller: controller.titleController,
-                    label: 'Title',
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Title';
-                      }
-                      return null;
-                    },
+                  itemWidget(
+                    title: 'Title',
+                    content: widget.task.title,
                   ),
-                  CustomFormField(
-                    controller: controller.descriptionController,
-                    maxLines: 8,
-                    label: 'Description',
-                    keyboardType: TextInputType.multiline,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Title';
-                      }
-                      return null;
-                    },
+                  itemWidget(
+                    title: 'Description',
+                    content: widget.task.description,
                   ),
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    padding:
-                    const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    decoration: Style.boxDecoration,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectTaskType(
-                          onSelect: (TaskType newTaskType) {
-                            controller.taskType = newTaskType;
-                          },
-                          currentType: controller.taskType,
-                        ),
-                        Text(
-                          showTaskTypeError ? 'Please select a task type' : '',
-                          style: TextStyle(
-                            color: Colors.red.shade600,
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
-                    ),
+                  itemWidget(
+                    title: 'Type',
+                    content: widget.task.taskType.type,
                   ),
-                  SelectPriority(
-                    onSelect: (Priority priority) {
-                      controller.priority = priority;
-                    },
+                  itemWidget(
+                    title: 'Created',
+                    content:
+                    DateFormat('dd-MM-yyyy – kk:mm').format(widget.task.dateCreated!),
                   ),
+
+
+                  DatePicker(onDateTimeChanged: (date){
+                    controller.acceptedDateTime = date;
+                  },
+
+                  ),
+
                   TextButton(
                     onPressed: () {
-                      controller.formKey.currentState?.validate();
-                      if (controller.taskType == null) {
-                        setState(() {
-                          showTaskTypeError = true;
-                        });
-                        return;
-                      }
                       controller.acceptATask(
                         context: context,
                       );
                     },
-                    child: Text(
-                      controller.isCreateTask ? 'Create' : 'Save changes',
-                    ),
+                    child: Text('Accept Task',),
                   ),
                 ],
               ),
             ),
           ),
         ),
-      ),
     );
   }
 }

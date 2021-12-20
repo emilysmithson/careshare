@@ -1,56 +1,37 @@
+import 'package:careshare/task_manager/domain/models/task_status.dart';
 import 'package:flutter/material.dart';
-
-import '../../domain/models/priority.dart';
 import '../../domain/models/task.dart';
-import '../../domain/models/task_type.dart';
-import '../../domain/models/task_status.dart';
 import '../../domain/usecases/all_usecases.dart';
 import '../task_entered/task_entered_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AcceptATaskController {
   final formKey = GlobalKey<FormState>();
-  TaskType? taskType;
-  TaskStatus? taskStatus;
-  bool isCreateTask = true;
-  Priority priority = Priority.medium;
-
-  late TextEditingController titleController;
-  late TextEditingController descriptionController;
+  DateTime? acceptedDateTime;
   String? id;
+  late CareTask task;
 
   initialiseControllers(CareTask? originalTask) {
-    if (originalTask != null) {
-      isCreateTask = false;
-      id = originalTask.id;
-    }
-    titleController = TextEditingController(
-      text: originalTask?.title,
-    );
-    descriptionController = TextEditingController(
-      text: originalTask?.description,
-    );
-    taskType = originalTask?.taskType;
+    task = originalTask!;
+    id = originalTask.id;
+    acceptedDateTime = originalTask.taskAcceptedForDate;
   }
 
   acceptATask({
-    required BuildContext context,
+    required BuildContext context
   }) async {
     if (formKey.currentState!.validate()) {
-      final CareTask task = CareTask(
-        taskType: taskType!,
-        taskStatus: TaskStatus.created,
-        title: titleController.text,
-        description: descriptionController.text,
-        dateCreated: DateTime.now(),
-        priority: priority,
-      );
-      if (isCreateTask) {
-        final response = await TasksUseCases.createATask(task);
-        response.fold((l) => null, (r) => task.id = r);
-      } else {
-        task.id = id;
-        TasksUseCases.editATask(task);
+
+      task.taskAcceptedForDate = acceptedDateTime;
+      task.taskStatus = TaskStatus.accepted;
+
+      String? id = FirebaseAuth.instance.currentUser?.uid;
+      if (id != null) {
+        task.acceptedBy = id;
       }
+
+      TasksUseCases.editATask(task);
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
