@@ -1,11 +1,11 @@
-import 'package:careshare/profile/domain/errors/profile_exception.dart';
-import 'package:careshare/profile/domain/models/profile.dart';
-import 'package:careshare/profile/domain/usecases/create_profile.dart';
-import 'package:careshare/profile/domain/usecases/fetch_profiles.dart';
-import 'package:careshare/profile/domain/usecases/update_profile.dart';
-import 'package:careshare/profile/external/datsources/profile_datasource_impl.dart';
+import 'package:careshare/profile_manager/domain/errors/profile_exception.dart';
+import 'package:careshare/profile_manager/domain/models/profile.dart';
+import 'package:careshare/profile_manager/domain/usecases/create_profile.dart';
+import 'package:careshare/profile_manager/domain/usecases/fetch_profiles.dart';
+import 'package:careshare/profile_manager/domain/usecases/update_profile.dart';
+import 'package:careshare/profile_manager/external/datsources/profile_datasource_impl.dart';
 
-import 'package:careshare/profile/infra/repositories/profile_repository_impl.dart';
+import 'package:careshare/profile_manager/infrastructure/repositories/profile_repository_impl.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -28,7 +28,7 @@ class ProfileUsecases {
   static Future<Either<ProfileException, List<Profile>>> fetchProfiles() async {
     final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
     final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
-    final FetchProfiles fetchProfilesDatasource = FetchProfiles(repository);
+    final FetchAllProfiles fetchProfilesDatasource = FetchAllProfiles(repository);
 
     return fetchProfilesDatasource();
   }
@@ -66,11 +66,11 @@ class ProfileUsecases {
       }
       final profileResponse = await createProfile();
       profileResponse
-          .fold((l) => Left(ProfileException('failed to create profile')), (r) {
+          .fold((l) => Left(ProfileException('failed to create profile_manager')), (r) {
         profile = r;
         return profile;
       });
     });
-    return Left(ProfileException('no profile'));
+    return Left(ProfileException('no profile_manager'));
   }
 }

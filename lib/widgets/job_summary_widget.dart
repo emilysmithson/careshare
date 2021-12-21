@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../style/style.dart';
 import '../task_manager/domain/models/task.dart';
-import '../task_manager/domain/usecases/all_usecases.dart';
+import '../task_manager/domain/usecases/all_task_usecases.dart';
 import '../task_manager/presenter/create_or_edit_task/create_or_edit_task_screen.dart';
 import '../task_manager/presenter/accept_a_task/accept_a_task_screen.dart';
 import 'item_widget.dart';

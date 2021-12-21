@@ -1,7 +1,7 @@
 import 'package:careshare/task_manager/domain/models/task_status.dart';
 import 'package:flutter/material.dart';
 import '../../domain/models/task.dart';
-import '../../domain/usecases/all_usecases.dart';
+import '../../domain/usecases/all_task_usecases.dart';
 import '../task_entered/task_entered_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

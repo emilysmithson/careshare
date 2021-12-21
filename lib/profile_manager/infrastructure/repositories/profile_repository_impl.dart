@@ -63,4 +63,31 @@ class ProfileRepositoryImpl implements ProfileRepository {
     // TODO: implement saveProfilePhoto
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<ProfileException, Profile>> fetchAProfile(String id) async {
+    DatabaseEvent response;
+    try {
+      response = await datasource.fetchAProfile(id);
+    } catch (error) {
+      return Left(ProfileException(error.toString()));
+    }
+
+    final List<Profile> profileList = [];
+
+    if (response.snapshot.value == null) {
+      return Left(ProfileException('no value'));
+    } else {
+      Map<dynamic, dynamic> returnedList =
+      response.snapshot.value as Map<dynamic, dynamic>;
+
+      returnedList[0](
+            (key, value) {
+          profileList.add(Profile.fromJson(key, value));
+        },
+      );
+    }
+    return Right(profileList[0]);
+
+  }
 }

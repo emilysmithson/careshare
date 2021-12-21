@@ -10,4 +10,6 @@ abstract class ProfileRepository {
   Future<Either<ProfileException, List<Profile>>> fetchProfiles();
   Future<Either<ProfileException, Profile>> createProfile();
   Future<Either<ProfileException, bool>> saveProfilePhoto(File photo);
+  Future<Either<ProfileException, Profile>> fetchAProfile(String id);
+
 }

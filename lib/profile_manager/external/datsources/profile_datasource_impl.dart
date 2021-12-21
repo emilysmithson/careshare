@@ -6,7 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 
 import '../../domain/errors/profile_exception.dart';
 import '../../domain/models/profile.dart';
-import '../../infra/datasources/profile_datasouce.dart';
+import '../../infrastructure/datasources/profile_datasouce.dart';
 
 class ProfileDatasourceImpl implements ProfileDatasource {
   @override
@@ -41,5 +41,14 @@ class ProfileDatasourceImpl implements ProfileDatasource {
   Future<Either<ProfileException, bool>> saveProfilePhoto(File photo) {
     // TODO: implement saveProfilePhoto
     throw UnimplementedError();
+  }
+
+  @override
+  Future<DatabaseEvent> fetchAProfile(String id) async {
+    DatabaseReference reference =
+    FirebaseDatabase.instance.ref("profiles/${id}");
+
+    final response = await reference.once();
+    return response;
   }
 }

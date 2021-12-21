@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
-import '../../profile/presenter/profile_page.dart';
+import '../../profile_manager/presenter/profile_page.dart';
 import '../../task_manager/presenter/create_or_edit_task/create_or_edit_task_screen.dart';
 import '../../task_manager/presenter/task_manager/task_manager_screen.dart';
 

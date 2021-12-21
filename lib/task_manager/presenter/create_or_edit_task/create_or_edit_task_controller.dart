@@ -4,7 +4,7 @@ import '../../domain/models/priority.dart';
 import '../../domain/models/task.dart';
 import '../../domain/models/task_type.dart';
 import '../../domain/models/task_status.dart';
-import '../../domain/usecases/all_usecases.dart';
+import '../../domain/usecases/all_task_usecases.dart';
 import '../task_entered/task_entered_screen.dart';
 
 class CreateOrEditATaskController {
