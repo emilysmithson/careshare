@@ -1,3 +1,4 @@
+
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -11,19 +12,33 @@ import '../../infrastructure/datasources/profile_datasouce.dart';
 class ProfileDatasourceImpl implements ProfileDatasource {
   @override
   Future<Profile> createProfile() async {
+    DatabaseReference reference = FirebaseDatabase.instance.ref("profiles");
+
     String? authId = FirebaseAuth.instance.currentUser?.uid;
     Profile newProfile = Profile(authId: authId);
-    DatabaseReference reference = FirebaseDatabase.instance.ref("profiles");
     final String newkey = reference.push().key as String;
     reference.child(newkey).set(newProfile.toJson());
     return Profile(
-      profileId: newkey,
+      id: newkey,
+      authId: authId != null ? authId : "",
     );
   }
 
+  // FirebaseFirestore.instance
+  //     .collection('users')
+  //     .where('age', isGreaterThan: 20)
+  //     .get()
+  //     .then(...);
+
   @override
-  Future<DatabaseEvent> fetchProfiles() async {
-    DatabaseReference reference = FirebaseDatabase.instance.ref("profiles");
+  Future<DatabaseEvent> fetchProfiles({String? search}) async {
+    DatabaseReference reference;
+    if (search == null) {
+      reference = FirebaseDatabase.instance.ref("profiles");
+    }
+    else {
+      reference = FirebaseDatabase.instance.ref("profiles/"+search);
+    }
     final response = await reference.once();
 
     return response;
@@ -32,15 +47,9 @@ class ProfileDatasourceImpl implements ProfileDatasource {
   @override
   Future updateProfile(Profile profile) async {
     DatabaseReference reference =
-        FirebaseDatabase.instance.ref("profiles/${profile.profileId}");
+        FirebaseDatabase.instance.ref("profiles/${profile.id}");
 
     await reference.set(profile.toJson());
-  }
-
-  @override
-  Future<Either<ProfileException, bool>> saveProfilePhoto(File photo) {
-    // TODO: implement saveProfilePhoto
-    throw UnimplementedError();
   }
 
   @override
@@ -50,5 +59,11 @@ class ProfileDatasourceImpl implements ProfileDatasource {
 
     final response = await reference.once();
     return response;
+  }
+
+  @override
+  Future<Either<ProfileException, bool>> saveProfilePhoto(File photo) {
+    // TODO: implement saveProfilePhoto
+    throw UnimplementedError();
   }
 }

@@ -8,7 +8,7 @@ import '../../domain/models/profile.dart';
 
 abstract class ProfileDatasource {
   Future updateProfile(Profile profile);
-  Future<DatabaseEvent> fetchProfiles();
+  Future<DatabaseEvent> fetchProfiles({String? search});
   Future<Profile> createProfile();
   Future<Either<ProfileException, bool>> saveProfilePhoto(File photo);
   Future<DatabaseEvent> fetchAProfile(String id);

@@ -9,7 +9,7 @@ import 'edit_a_task.dart';
 import 'fetch_tasks.dart';
 import 'remove_a_task.dart';
 
-class TasksUseCases {
+class AllTasksUseCases {
   static Future<Either<TaskManagerException, String>> createATask(
     CareTask task,
   ) {
@@ -32,6 +32,13 @@ class TasksUseCases {
     final TaskRepoositoryImpl repository = TaskRepoositoryImpl(datasource);
     final FetchTasks fetchTasksUseCase = FetchTasks(repository);
     return fetchTasksUseCase();
+  }
+
+  static Future<Either<TaskManagerException, List<CareTask>>> fetchSomeTasks(String search) {
+    final TaskDatasourceImpl datasource = TaskDatasourceImpl();
+    final TaskRepoositoryImpl repository = TaskRepoositoryImpl(datasource);
+    final FetchSomeTasks fetchTasksUseCase = FetchSomeTasks(repository);
+    return fetchTasksUseCase(search);
   }
 
   static Future<Either<TaskManagerException, bool>> removeTask(

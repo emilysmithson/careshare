@@ -82,7 +82,7 @@ class JobSummaryWidget extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        TasksUseCases.removeTask(task.id!);
+                        AllTasksUseCases.removeTask(task.id!);
                       },
                       icon: const Icon(
                         Icons.delete,

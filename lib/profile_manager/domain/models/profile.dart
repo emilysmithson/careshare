@@ -1,47 +1,41 @@
-import 'dart:io';
-
 class Profile {
-  final String? name;
-  final String? profileId;
-  // final File? profilePhoto;
+  late String? name;
   final String? authId;
+  late String? id;
+  DateTime? dateCreated;
+  late String? createdBy;
+  late String? acceptedBy;
+  DateTime? profileAcceptedForDate;
 
   Profile({
     this.name,
-    this.profileId,
-    // this.profilePhoto,
     this.authId,
+    this.id,
+    this.createdBy,
+    this.dateCreated,
+    this.acceptedBy,
+    this.profileAcceptedForDate,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name ?? '',
-      // 'profile_photo': profilePhoto ?? '',
-      'auth_id': authId ?? '',
+      'name': name,
+      'auth_id': authId,
+      'created_by': createdBy,
+      'date_created': dateCreated.toString(),
+      'accepted_by': acceptedBy,
+      'accepted_for_date': profileAcceptedForDate.toString(),
     };
   }
 
-  Profile.fromJson(key, value)
-      : name = value['name'] ?? '',
-        profileId = key,
-        // profilePhoto = value['profile_photo'],
-        authId = value['auth_id'] ?? '';
+  Profile.fromJson(dynamic key, dynamic value):
+        name = value['name'] ?? '',
+        createdBy = value['created_by'] ?? '',
+        id = key,
+        dateCreated = DateTime.parse(value['date_created']),
 
-  Profile copyWith({String? authId, String? name, File? profilePhoto}) {
-    return Profile(
-      authId: authId ?? this.authId,
-      name: name ?? this.name,
-      profileId: profileId,
-      // profilePhoto: profilePhoto ?? this.profilePhoto,
-    );
-  }
-
-  @override
-  String toString() {
-    return '''
-name: $name
-profileId: $profileId
-authId: $authId
-    ''';
-  }
+        authId = value['auth_id'] as String,
+        profileAcceptedForDate = DateTime.tryParse(value['accepted_for_date']),
+        acceptedBy = value['accepted_by'] ?? ''
+  ;
 }

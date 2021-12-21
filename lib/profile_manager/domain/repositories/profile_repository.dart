@@ -7,9 +7,8 @@ import '../models/profile.dart';
 
 abstract class ProfileRepository {
   Future<Either<ProfileException, Profile>> updateProfile(Profile profile);
-  Future<Either<ProfileException, List<Profile>>> fetchProfiles();
+  Future<Either<ProfileException, List<Profile>>> fetchProfiles({String? search});
   Future<Either<ProfileException, Profile>> createProfile();
   Future<Either<ProfileException, bool>> saveProfilePhoto(File photo);
-  Future<Either<ProfileException, Profile>> fetchAProfile(String id);
 
 }

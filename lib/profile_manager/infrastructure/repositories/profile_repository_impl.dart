@@ -24,10 +24,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<Either<ProfileException, List<Profile>>> fetchProfiles() async {
+  Future<Either<ProfileException, List<Profile>>> fetchProfiles({String? search}) async {
     DatabaseEvent response;
     try {
-      response = await datasource.fetchProfiles();
+      response = await datasource.fetchProfiles(search: search);
     } catch (error) {
       return Left(ProfileException(error.toString()));
     }
@@ -89,5 +89,19 @@ class ProfileRepositoryImpl implements ProfileRepository {
     }
     return Right(profileList[0]);
 
+  }
+
+
+
+  @override
+  Future<Either<ProfileException, Profile>> fetchMyProfile() {
+    // TODO: implement fetchMyProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ProfileException, List<Profile>>> fetchSomeProfiles(String search) {
+    // TODO: implement fetchSomeProfiles
+    throw UnimplementedError();
   }
 }

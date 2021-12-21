@@ -3,21 +3,14 @@ import 'package:dartz/dartz.dart';
 import '../errors/profile_exception.dart';
 import '../models/profile.dart';
 import '../repositories/profile_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class FetchAllProfiles {
+
+class FetchProfiles {
   final ProfileRepository repository;
 
-  FetchAllProfiles(this.repository);
-  Future<Either<ProfileException, List<Profile>>> call() {
-    return repository.fetchProfiles();
-  }
-}
-
-class FetchAProfile {
-  final ProfileRepository repository;
-
-  FetchAProfile(this.repository);
-  Future<Either<ProfileException, Profile>> call(String id) {
-    return repository.fetchAProfile(id);
+  FetchProfiles(this.repository);
+  Future<Either<ProfileException, List<Profile>>> call({String? search}) {
+    return repository.fetchProfiles(search: search);
   }
 }

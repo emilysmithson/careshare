@@ -5,6 +5,7 @@ import '../../domain/models/task.dart';
 abstract class TaskDatasource {
   Future<String> createTask(CareTask task);
   Future<DatabaseEvent> fetchTasks();
+  Future<DatabaseEvent> fetchSomeTasks(String search);
   Future editTask(CareTask task);
   Future removeTask(String taskId);
 }

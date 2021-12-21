@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../widgets/job_summary_widget.dart';
 import '../../domain/models/task.dart';
 import '../create_or_edit_task/create_or_edit_task_screen.dart';
@@ -13,7 +12,7 @@ class TaskManagerScreen extends StatefulWidget {
 }
 
 class _TaskManagerScreenState extends State<TaskManagerScreen> {
-  final controller = TaskManagerController();
+  final controller = TaskController();
 
   @override
   void initState() {

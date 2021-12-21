@@ -25,12 +25,12 @@ class ProfileUsecases {
     return response;
   }
 
-  static Future<Either<ProfileException, List<Profile>>> fetchProfiles() async {
+  static Future<Either<ProfileException, List<Profile>>> fetchProfiles({String? search}) async {
     final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
     final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
-    final FetchAllProfiles fetchProfilesDatasource = FetchAllProfiles(repository);
+    final FetchProfiles fetchProfilesDatasource = FetchProfiles(repository);
 
-    return fetchProfilesDatasource();
+    return fetchProfilesDatasource(search: search);
   }
 
   static Future<Either<ProfileException, Profile>> updateProfile(
@@ -44,33 +44,4 @@ class ProfileUsecases {
     return response;
   }
 
-  static Future<Either<ProfileException, Profile>> fetchMyProfile(
-      BuildContext context) async {
-    final response = await fetchProfiles();
-    response.fold((l) => null, (r) async {
-      String? uid = FirebaseAuth.instance.currentUser?.uid;
-      if (uid == null) {
-        FirebaseAuth.instance.signOut();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const App(),
-          ),
-        );
-      }
-      final Profile? myProfile =
-          r.firstWhere((element) => element.authId == uid);
-      if (myProfile != null) {
-        profile = myProfile;
-        return profile;
-      }
-      final profileResponse = await createProfile();
-      profileResponse
-          .fold((l) => Left(ProfileException('failed to create profile_manager')), (r) {
-        profile = r;
-        return profile;
-      });
-    });
-    return Left(ProfileException('no profile_manager'));
-  }
 }

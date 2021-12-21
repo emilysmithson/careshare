@@ -11,4 +11,15 @@ class FetchTasks {
   Future<Either<TaskManagerException, List<CareTask>>> call() {
     return repository.fetchTasks();
   }
+
+}
+
+class FetchSomeTasks {
+  final TaskRepository repository;
+
+  FetchSomeTasks(this.repository);
+  Future<Either<TaskManagerException, List<CareTask>>> call(String search) {
+    return repository.fetchSomeTasks(search);
+  }
+
 }

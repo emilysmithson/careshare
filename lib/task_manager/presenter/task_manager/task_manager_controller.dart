@@ -13,12 +13,12 @@ enum PageStatus {
   success,
 }
 
-class TaskManagerController {
+class TaskController {
   final List<CareTask> careTaskList = [];
-  final ValueNotifier<PageStatus> status =
-      ValueNotifier<PageStatus>(PageStatus.loading);
+  final ValueNotifier<PageStatus> status = ValueNotifier<PageStatus>(PageStatus.loading);
+
   fetchTasks() async {
-    final response = await TasksUseCases.fetchTasks();
+    final response = await AllTasksUseCases.fetchTasks();
 
     response.fold((l) {
       status.value = PageStatus.error;

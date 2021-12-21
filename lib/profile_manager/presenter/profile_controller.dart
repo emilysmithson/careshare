@@ -4,10 +4,32 @@ import 'package:dartz/dartz.dart';
 import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 
+
+enum PageStatus {
+  loading,
+  error,
+  success,
+}
+
 class ProfileController {
+
+  final List<Profile> profileList = [];
+  final ValueNotifier<PageStatus> status = ValueNotifier<PageStatus>(PageStatus.loading);
+
   fetchAllProfiles() async {
     final response = await ProfileUsecases.fetchProfiles();
-    final nameController = TextEditingController();
-    print(response);
+
+    response.fold((l) {
+      status.value = PageStatus.error;
+    }, (r) {
+      profileList.clear();
+      profileList.addAll(r);
+      status.value = PageStatus.success;
+    });
   }
+
+
+
+
+
 }

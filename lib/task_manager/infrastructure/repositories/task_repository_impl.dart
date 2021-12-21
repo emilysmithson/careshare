@@ -64,4 +64,28 @@ class TaskRepoositoryImpl implements TaskRepository {
     }
     return const Right(true);
   }
+
+  @override
+  Future<Either<TaskManagerException, List<CareTask>>> fetchSomeTasks(String search) async {
+    DatabaseEvent response;
+    try {
+      response = await datasource.fetchSomeTasks(search);
+    } catch (error) {
+      return Left(TaskManagerException(error.toString()));
+    }
+    final List<CareTask> careTaskList = [];
+    if (response.snapshot.value == null) {
+      return Left(TaskManagerException('no values'));
+    } else {
+      Map<dynamic, dynamic> returnedList =
+      response.snapshot.value as Map<dynamic, dynamic>;
+
+      returnedList.forEach(
+            (key, value) {
+          careTaskList.add(CareTask.fromJson(key, value));
+        },
+      );
+    }
+    return Right(careTaskList);
+  }
 }

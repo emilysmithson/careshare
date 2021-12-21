@@ -30,7 +30,7 @@ class AcceptATaskController {
         task.acceptedBy = id;
       }
 
-      TasksUseCases.editATask(task);
+      AllTasksUseCases.editATask(task);
 
       Navigator.pushReplacement(
         context,

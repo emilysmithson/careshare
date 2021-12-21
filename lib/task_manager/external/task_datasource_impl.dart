@@ -4,6 +4,7 @@ import '../domain/models/task.dart';
 import '../infrastructure/datasources/task_datasource.dart';
 
 class TaskDatasourceImpl implements TaskDatasource {
+
   @override
   Future<String> createTask(CareTask task) async {
     DatabaseReference reference = FirebaseDatabase.instance.ref("tasks");
@@ -34,5 +35,13 @@ class TaskDatasourceImpl implements TaskDatasource {
     DatabaseReference reference =
         FirebaseDatabase.instance.ref("tasks/$taskId");
     reference.remove();
+  }
+
+  @override
+  Future<DatabaseEvent> fetchSomeTasks(String search) async {
+    DatabaseReference reference = FirebaseDatabase.instance.ref("tasks/"+search);
+    final response = await reference.once();
+
+    return response;
   }
 }
