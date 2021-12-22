@@ -58,7 +58,7 @@ class TaskRepoositoryImpl implements TaskRepository {
   @override
   Future<Either<TaskManagerException, bool>> removeTask(String taskId) async {
     try {
-      datasource.removeTask(taskId);
+        datasource.removeTask(taskId);
     } catch (error) {
       return Left(TaskManagerException(error.toString()));
     }

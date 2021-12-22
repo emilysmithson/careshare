@@ -35,6 +35,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
     if (response.snapshot.value == null) {
       return Left(ProfileException('no values'));
     } else {
+
+      print(response.snapshot.value);
+
       Map<dynamic, dynamic> returnedList =
           response.snapshot.value as Map<dynamic, dynamic>;
 
@@ -73,21 +76,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return Left(ProfileException(error.toString()));
     }
 
-    final List<Profile> profileList = [];
-
     if (response.snapshot.value == null) {
       return Left(ProfileException('no value'));
     } else {
-      Map<dynamic, dynamic> returnedList =
-      response.snapshot.value as Map<dynamic, dynamic>;
-
-      returnedList[0](
-            (key, value) {
-          profileList.add(Profile.fromJson(key, value));
-        },
-      );
+      return Right(Profile.fromJson(response.snapshot.key, response.snapshot.value));
     }
-    return Right(profileList[0]);
 
   }
 

@@ -4,11 +4,11 @@ import '../errors/profile_exception.dart';
 import '../models/profile.dart';
 import '../repositories/profile_repository.dart';
 
-class FetchProfiles {
+class FetchAProfile {
   final ProfileRepository repository;
 
-  FetchProfiles(this.repository);
-  Future<Either<ProfileException, List<Profile>>> call({String? search}) {
-    return repository.fetchProfiles(search: search);
+  FetchAProfile(this.repository);
+  Future<Either<ProfileException, Profile>> call(id) {
+    return repository.fetchAProfile(id);
   }
 }

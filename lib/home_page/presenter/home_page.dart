@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 Future fetchProfile() async {
 
 
-final response = await ProfileUsecases.fetchProfiles(search: "QqoEQYifYCvH_p6dkMt");
+final response = await ProfileUsecases.fetchAProfile("QqoEQYifYCvH_p6dkMt");
   response.fold((l) => print(l.message), (r) => print(r));
 }
 
