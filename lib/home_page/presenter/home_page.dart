@@ -1,3 +1,4 @@
+import 'package:careshare/profile_manager/domain/models/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -16,15 +17,27 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-Future fetchProfile() async {
-
-
-final response = await ProfileUsecases.fetchAProfile("QqoEQYifYCvH_p6dkMt");
-  response.fold((l) => print(l.message), (r) => print(r));
-}
-
 
 class _HomePageState extends State<HomePage> {
+
+  late Profile myProfile;
+  bool isLoading = true;
+
+  Future fetchProfile() async {
+    final response = await ProfileUsecases.fetchAProfile("QqoEQYifYCvH_p6dkMt");
+    response.fold((l) => print(">l "+l.message), (r) {
+      myProfile = r;
+      isLoading = false;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    fetchProfile();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -32,10 +45,13 @@ class _HomePageState extends State<HomePage> {
     print('HOME PAGE');
     print('######################################################');
 
-    fetchProfile();
-
-
-
+    if (isLoading){
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator()
+        )
+      );
+    }
 
     return Scaffold(
       body: Center(
@@ -43,7 +59,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Welcome to CareShare,'),
+            Text('${myProfile.name}, welcome to CareShare,'),
             TextButton(
               onPressed: () {
                 Navigator.push(
