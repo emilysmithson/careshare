@@ -62,6 +62,29 @@ class ProfileDatasourceImpl implements ProfileDatasource {
   }
 
   @override
+  Future<DatabaseEvent> fetchMyProfile() async {
+    // DatabaseReference reference =
+    // FirebaseDatabase.instance.ref("profiles/${id}");
+    //
+    // final response = await reference.once();
+    // return response;
+    //
+    String? authId = FirebaseAuth.instance.currentUser?.uid;
+print('#############################################');
+print('authId: $authId');
+    // DatabaseReference reference =
+    // FirebaseDatabase.instance.ref("profiles/QqoEQYifYCvH_p6dkMt");
+    //
+    // final response = await reference.once();
+    // return response;
+    //
+    Query query = FirebaseDatabase.instance.ref("profiles").orderByChild("auth_id").startAt(authId).limitToFirst(1);
+
+    final response = await query.once();
+    return response;
+  }
+
+  @override
   Future<Either<ProfileException, bool>> saveProfilePhoto(File photo) {
     // TODO: implement saveProfilePhoto
     throw UnimplementedError();

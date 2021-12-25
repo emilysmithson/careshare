@@ -24,7 +24,8 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
 
   Future fetchProfile() async {
-    final response = await ProfileUsecases.fetchAProfile("QqoEQYifYCvH_p6dkMt");
+    final response = await ProfileUsecases.fetchMyProfile();
+    // final response = await ProfileUsecases.fetchAProfile("QqoEQYifYCvH_p6dkMt");
     response.fold((l) => print(">l "+l.message), (r) {
       myProfile = r;
       isLoading = false;

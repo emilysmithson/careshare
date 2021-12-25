@@ -12,4 +12,5 @@ abstract class ProfileDatasource {
   Future<Profile> createProfile();
   Future<Either<ProfileException, bool>> saveProfilePhoto(File photo);
   Future<DatabaseEvent> fetchAProfile(String id);
+  Future<DatabaseEvent> fetchMyProfile();
 }

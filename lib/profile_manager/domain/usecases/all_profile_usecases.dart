@@ -3,6 +3,7 @@ import 'package:careshare/profile_manager/domain/models/profile.dart';
 import 'package:careshare/profile_manager/domain/usecases/create_profile.dart';
 import 'package:careshare/profile_manager/domain/usecases/fetch_profiles.dart';
 import 'package:careshare/profile_manager/domain/usecases/fetch_a_profile.dart';
+import 'package:careshare/profile_manager/domain/usecases/fetch_my_profile.dart';
 import 'package:careshare/profile_manager/domain/usecases/update_profile.dart';
 import 'package:careshare/profile_manager/external/datsources/profile_datasource_impl.dart';
 
@@ -41,6 +42,15 @@ class ProfileUsecases {
 
     return fetchAProfileDatasource(id);
   }
+
+  static Future<Either<ProfileException, Profile>> fetchMyProfile() async {
+    final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
+    final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
+    final FetchMyProfile fetchMyProfileDatasource = FetchMyProfile(repository);
+
+    return fetchMyProfileDatasource();
+  }
+
   static Future<Either<ProfileException, Profile>> updateProfile(
       Profile profile) async {
     final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();

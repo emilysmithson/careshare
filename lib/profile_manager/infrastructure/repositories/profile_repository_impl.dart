@@ -85,11 +85,25 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
 
-
   @override
-  Future<Either<ProfileException, Profile>> fetchMyProfile() {
-    // TODO: implement fetchMyProfile
-    throw UnimplementedError();
+  Future<Either<ProfileException, Profile>> fetchMyProfile() async {
+
+    DatabaseEvent response;
+    try {
+      response = await datasource.fetchMyProfile();
+    } catch (error) {
+      return Left(ProfileException(error.toString()));
+    }
+
+    if (response.snapshot.value == null) {
+      return Left(ProfileException('no value'));
+    } else {
+
+      var thingy = response.snapshot.children.first;
+
+      return Right(Profile.fromJson(thingy.key, thingy.value));
+    }
+
   }
 
   @override
