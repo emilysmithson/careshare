@@ -1,11 +1,13 @@
-import 'package:careshare/profile_manager/domain/errors/profile_exception.dart';
+import 'package:careshare/profile_manager/domain/errors/profile_manager_exception.dart';
 import 'package:careshare/profile_manager/domain/models/profile.dart';
-import 'package:careshare/profile_manager/domain/usecases/create_profile.dart';
+import 'package:careshare/profile_manager/domain/usecases/create_a_profile.dart';
+import 'package:careshare/profile_manager/domain/usecases/edit_a_profile.dart';
+import 'package:careshare/profile_manager/domain/usecases/remove_a_profile.dart';
 import 'package:careshare/profile_manager/domain/usecases/fetch_profiles.dart';
 import 'package:careshare/profile_manager/domain/usecases/fetch_a_profile.dart';
 import 'package:careshare/profile_manager/domain/usecases/fetch_my_profile.dart';
 import 'package:careshare/profile_manager/domain/usecases/update_profile.dart';
-import 'package:careshare/profile_manager/external/datsources/profile_datasource_impl.dart';
+import 'package:careshare/profile_manager/external/profile_datasource_impl.dart';
 
 import 'package:careshare/profile_manager/infrastructure/repositories/profile_repository_impl.dart';
 import 'package:dartz/dartz.dart';
@@ -15,19 +17,25 @@ import 'package:flutter/material.dart';
 
 import '../../../main.dart';
 
-class ProfileUsecases {
+class AllProfileUseCases {
   static Profile? profile;
-  static Future<Either<ProfileException, Profile>> createProfile() async {
+
+  static Future<Either<ProfileManagerException, String>> createAProfile(Profile profile) {
     final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
     final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
-    final CreateProfile createProfileDatasource = CreateProfile(repository);
-    final Either<ProfileException, Profile> response =
-        await createProfileDatasource();
-    response.fold((l) => null, (r) => profile = r);
-    return response;
+    final CreateAProfile createAProfileUseCase = CreateAProfile(repository);
+    return createAProfileUseCase(profile);
   }
 
-  static Future<Either<ProfileException, List<Profile>>> fetchProfiles({String? search}) async {
+  static Future<Either<ProfileManagerException, Profile>> editAProfile(Profile profile) {
+    final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
+    final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
+    final EditAProfile editAProfileUseCase = EditAProfile(repository);
+    return editAProfileUseCase(profile);
+  }
+
+
+  static Future<Either<ProfileManagerException, List<Profile>>> fetchProfiles({String? search}) async {
     final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
     final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
     final FetchProfiles fetchProfilesDatasource = FetchProfiles(repository);
@@ -35,7 +43,7 @@ class ProfileUsecases {
     return fetchProfilesDatasource(search: search);
   }
 
-  static Future<Either<ProfileException, Profile>> fetchAProfile(String id) async {
+  static Future<Either<ProfileManagerException, Profile>> fetchAProfile(String id) async {
     final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
     final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
     final FetchAProfile fetchAProfileDatasource = FetchAProfile(repository);
@@ -43,7 +51,7 @@ class ProfileUsecases {
     return fetchAProfileDatasource(id);
   }
 
-  static Future<Either<ProfileException, Profile>> fetchMyProfile() async {
+  static Future<Either<ProfileManagerException, Profile>> fetchMyProfile() async {
     final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
     final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
     final FetchMyProfile fetchMyProfileDatasource = FetchMyProfile(repository);
@@ -51,15 +59,25 @@ class ProfileUsecases {
     return fetchMyProfileDatasource();
   }
 
-  static Future<Either<ProfileException, Profile>> updateProfile(
+  static Future<Either<ProfileManagerException, Profile>> updateProfile(
       Profile profile) async {
     final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
     final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
     final UpdateProfile updateProfileUseCase = UpdateProfile(repository);
-    final Either<ProfileException, Profile> response =
+    final Either<ProfileManagerException, Profile> response =
         await updateProfileUseCase(profile);
     response.fold((l) => null, (r) => profile = r);
     return response;
   }
 
+  static Future<Either<ProfileManagerException, bool>> removeAProfile(
+      String id,
+      ) {
+    final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
+    final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
+    final RemoveAProfile removeAProfileUseCase = RemoveAProfile(repository);
+    return removeAProfileUseCase(id);
+  }
+  
+  
 }

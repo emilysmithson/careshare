@@ -16,8 +16,8 @@ class ProfileController {
   final List<Profile> profileList = [];
   final ValueNotifier<PageStatus> status = ValueNotifier<PageStatus>(PageStatus.loading);
 
-  fetchAllProfiles() async {
-    final response = await ProfileUsecases.fetchProfiles();
+  fetchProfiles() async {
+    final response = await AllProfileUseCases.fetchProfiles();
 
     response.fold((l) {
       status.value = PageStatus.error;
@@ -27,9 +27,4 @@ class ProfileController {
       status.value = PageStatus.success;
     });
   }
-
-
-
-
-
 }

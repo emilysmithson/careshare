@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'task_widgets/task_job_summary_widget.dart';
-import '../domain/models/task.dart';
-import 'create_or_edit_task_screen.dart';
-import 'view_all_tasks_controller.dart';
+import 'profile_widgets/profile_job_summary_widget.dart';
+import '../domain/models/profile.dart';
+import 'create_or_edit_profile_screen.dart';
+import 'view_all_profiles_controller.dart';
 
-class ViewAllTasksScreen extends StatefulWidget {
-  const ViewAllTasksScreen({Key? key}) : super(key: key);
+class ViewAllProfilesScreen extends StatefulWidget {
+  const ViewAllProfilesScreen({Key? key}) : super(key: key);
 
   @override
-  State<ViewAllTasksScreen> createState() => _ViewAllTasksScreenState();
+  State<ViewAllProfilesScreen> createState() => _ViewAllProfilesScreenState();
 }
 
-class _ViewAllTasksScreenState extends State<ViewAllTasksScreen> {
-  final controller = ViewAllTasksController();
+class _ViewAllProfilesScreenState extends State<ViewAllProfilesScreen> {
+  final controller = ViewAllProfilesController();
 
   @override
   void initState() {
-    controller.fetchTasks();
+    controller.fetchProfiles();
 
     super.initState();
   }
@@ -25,14 +25,14 @@ class _ViewAllTasksScreenState extends State<ViewAllTasksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All Tasks'),
+        title: const Text('All Profiles'),
         actions: [
           IconButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const CreateOrEditATaskScreen(),
+                    builder: (context) => const CreateOrEditAProfileScreen(),
                   ),
                 );
               },
@@ -46,13 +46,13 @@ class _ViewAllTasksScreenState extends State<ViewAllTasksScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (status == PageStatus.error) {
-            return const Center(child: Text('Couldn'' load tasks'));
+            return const Center(child: Text('Couldn'' load profiles'));
           }
           return SingleChildScrollView(
             child: Column(
-                children: controller.careTaskList.map((CareTask task) {
-              return TaskJobSummaryWidget(task: task);
-            }).toList()),
+                children: controller.profileList.map((Profile profile) {
+                  return ProfileJobSummaryWidget(profile: profile);
+                }).toList()),
           );
         },
       ),

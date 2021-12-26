@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../Errors/task_manager_exception.dart';
+import '../errors/task_manager_exception.dart';
 import '../models/task.dart';
 
 abstract class TaskRepository {

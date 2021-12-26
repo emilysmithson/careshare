@@ -1,15 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../../domain/Errors/task_manager_exception.dart';
+import '../../domain/errors/task_manager_exception.dart';
 import '../../domain/models/task.dart';
 import '../../domain/repositories/task_repository.dart';
 import '../datasources/task_datasource.dart';
 
-class TaskRepoositoryImpl implements TaskRepository {
+class TaskRepositoryImpl implements TaskRepository {
   final TaskDatasource datasource;
 
-  TaskRepoositoryImpl(this.datasource);
+  TaskRepositoryImpl(this.datasource);
+
   @override
   Future<Either<TaskManagerException, String>> createTask(CareTask task) async {
     String response;

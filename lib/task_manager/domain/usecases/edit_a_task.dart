@@ -1,4 +1,4 @@
-import 'package:careshare/task_manager/domain/Errors/task_manager_exception.dart';
+import 'package:careshare/task_manager/domain/errors/task_manager_exception.dart';
 import 'package:careshare/task_manager/domain/models/task.dart';
 import 'package:careshare/task_manager/domain/repositories/task_repository.dart';
 import 'package:dartz/dartz.dart';

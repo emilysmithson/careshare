@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../style/style.dart';
-import '../task_manager/domain/models/task.dart';
-import '../task_manager/domain/usecases/all_task_usecases.dart';
-import '../task_manager/presenter/create_or_edit_task_screen.dart';
-import '../task_manager/presenter/accept_a_task_screen.dart';
-import 'item_widget.dart';
+import '../../../style/style.dart';
+import '../../domain/models/task.dart';
+import '../../domain/usecases/all_task_usecases.dart';
+import '../create_or_edit_task_screen.dart';
+import '../accept_a_task_screen.dart';
+import '../../../widgets/item_widget.dart';
 
-class JobSummaryWidget extends StatelessWidget {
+class TaskJobSummaryWidget extends StatelessWidget {
   final CareTask task;
-  const JobSummaryWidget({Key? key, required this.task}) : super(key: key);
+  const TaskJobSummaryWidget({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class JobSummaryWidget extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        AllTasksUseCases.removeTask(task.id!);
+                        AllTaskUseCases.removeTask(task.id!);
                       },
                       icon: const Icon(
                         Icons.delete,

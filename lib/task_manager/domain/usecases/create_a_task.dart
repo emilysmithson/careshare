@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../Errors/task_manager_exception.dart';
+import '../errors/task_manager_exception.dart';
 import '../models/task.dart';
 import '../repositories/task_repository.dart';
 

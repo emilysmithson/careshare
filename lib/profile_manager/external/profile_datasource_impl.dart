@@ -1,28 +1,33 @@
-
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../../domain/errors/profile_exception.dart';
-import '../../domain/models/profile.dart';
-import '../../infrastructure/datasources/profile_datasouce.dart';
+import '../domain/errors/profile_manager_exception.dart';
+import '../domain/models/profile.dart';
+import '../infrastructure/datasources/profile_datasouce.dart';
 
 class ProfileDatasourceImpl implements ProfileDatasource {
-  @override
-  Future<Profile> createProfile() async {
-    DatabaseReference reference = FirebaseDatabase.instance.ref("profiles");
 
+  @override
+  Future<String> createProfile(Profile profile) async {
+    DatabaseReference reference = FirebaseDatabase.instance.ref("profiles");
     String? authId = FirebaseAuth.instance.currentUser?.uid;
     Profile newProfile = Profile(authId: authId);
     final String newkey = reference.push().key as String;
-    reference.child(newkey).set(newProfile.toJson());
-    return Profile(
-      id: newkey,
-      authId: authId != null ? authId : "",
-    );
+    reference.child(newkey).set(profile.toJson());
+
+    return newkey;
   }
+
+  @override
+  Future editProfile(Profile profile) async {
+    DatabaseReference reference =
+    FirebaseDatabase.instance.ref("profiles/${profile.id}");
+
+    await reference.set(profile.toJson());
+  }
+
 
   // FirebaseFirestore.instance
   //     .collection('users')
@@ -84,8 +89,16 @@ print('authId: $authId');
     return response;
   }
 
+
   @override
-  Future<Either<ProfileException, bool>> saveProfilePhoto(File photo) {
+  Future removeAProfile(String profileId) async {
+    DatabaseReference reference =
+    FirebaseDatabase.instance.ref("profiles/$profileId");
+    reference.remove();
+  }
+
+  @override
+  Future<Either<ProfileManagerException, bool>> saveProfilePhoto(File photo) {
     // TODO: implement saveProfilePhoto
     throw UnimplementedError();
   }

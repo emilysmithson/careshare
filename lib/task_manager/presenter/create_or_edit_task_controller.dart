@@ -45,11 +45,11 @@ class CreateOrEditATaskController {
         priority: priority,
       );
       if (isCreateTask) {
-        final response = await AllTasksUseCases.createATask(task);
+        final response = await AllTaskUseCases.createATask(task);
         response.fold((l) => null, (r) => task.id = r);
       } else {
         task.id = id;
-        AllTasksUseCases.editATask(task);
+        AllTaskUseCases.editATask(task);
       }
       Navigator.pushReplacement(
         context,

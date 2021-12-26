@@ -18,7 +18,7 @@ class ViewAllTasksController {
   final ValueNotifier<PageStatus> status = ValueNotifier<PageStatus>(PageStatus.loading);
 
   fetchTasks() async {
-    final response = await AllTasksUseCases.fetchAllTasks();
+    final response = await AllTaskUseCases.fetchAllTasks();
 
     response.fold((l) {
       status.value = PageStatus.error;
@@ -34,7 +34,7 @@ class ViewAllTasksController {
       return;
     }
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
-    final TaskRepoositoryImpl repository = TaskRepoositoryImpl(datasource);
+    final TaskRepositoryImpl repository = TaskRepositoryImpl(datasource);
     final RemoveATask remove = RemoveATask(repository);
     remove(taskId);
     status.value = PageStatus.loading;

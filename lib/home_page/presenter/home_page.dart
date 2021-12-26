@@ -1,4 +1,5 @@
 import 'package:careshare/profile_manager/domain/models/profile.dart';
+import 'package:careshare/profile_manager/presenter/view_all_profiles_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
 
   Future fetchProfile() async {
-    final response = await ProfileUsecases.fetchMyProfile();
+    final response = await AllProfileUseCases.fetchMyProfile();
     response.fold((l) => print(">l "+l.message), (r) {
       myProfile = r;
       isLoading = false;
@@ -79,6 +80,17 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: const Text('View all tasks'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ViewAllProfilesScreen(),
+                  ),
+                );
+              },
+              child: const Text('View all profiles'),
             ),
             TextButton(
               onPressed: () {
