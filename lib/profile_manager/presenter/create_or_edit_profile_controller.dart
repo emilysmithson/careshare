@@ -7,18 +7,25 @@ import 'profile_entered_screen.dart';
 class CreateOrEditAProfileController {
   final formKey = GlobalKey<FormState>();
   bool isCreateProfile = true;
+  late Profile storedProfile;
 
-  late TextEditingController nameController;
-  late TextEditingController descriptionController;
-  String? id;
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
+  late TextEditingController taskTypesController;
 
   initialiseControllers(Profile? originalProfile) {
     if (originalProfile != null) {
+      storedProfile = originalProfile;
       isCreateProfile = false;
-      id = originalProfile.id;
     }
-    nameController = TextEditingController(
-      text: originalProfile?.name,
+    firstNameController = TextEditingController(
+      text: originalProfile?.firstName,
+    );
+    lastNameController = TextEditingController(
+      text: originalProfile?.lastName,
+    );
+    taskTypesController = TextEditingController(
+      text: originalProfile?.taskTypes,
     );
   }
 
@@ -26,14 +33,16 @@ class CreateOrEditAProfileController {
     required BuildContext context,
   }) async {
     if (formKey.currentState!.validate()) {
-      final Profile profile = Profile(
-        name: nameController.text,
-      );
+      final Profile profile = storedProfile;
+      profile.firstName = firstNameController.text;
+      profile.lastName = lastNameController.text;
+      profile.dateCreated = DateTime.now();
+      profile.taskTypes = taskTypesController.text;
+
       if (isCreateProfile) {
         final response = await AllProfileUseCases.createAProfile(profile);
         response.fold((l) => null, (r) => profile.id = r);
       } else {
-        profile.id = id;
         AllProfileUseCases.editAProfile(profile);
       }
       Navigator.pushReplacement(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../style/style.dart';
 import '../../widgets/custom_form_field.dart';
 import '../domain/models/profile.dart';
 import 'create_or_edit_profile_controller.dart';
@@ -43,17 +42,40 @@ class _CreateOrEditAProfileScreenState extends State<CreateOrEditAProfileScreen>
               child: Column(
                 children: [
                   CustomFormField(
-                    controller: controller.nameController,
-                    label: 'Name',
+                    controller: controller.firstNameController,
+                    label: 'First Name',
                     keyboardType: TextInputType.name,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a Name';
+                        return 'Please enter a First Name';
                       }
                       return null;
                     },
                   ),
 
+                  CustomFormField(
+                    controller: controller.lastNameController,
+                    label: 'Last Name',
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a Last Name';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  CustomFormField(
+                    controller: controller.taskTypesController,
+                    label: 'Task Types',
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter at least one Task Type';
+                      }
+                      return null;
+                    },
+                  ),
 
                   TextButton(
                     onPressed: () {

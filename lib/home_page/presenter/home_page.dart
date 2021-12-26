@@ -9,7 +9,6 @@ import '../../task_manager/presenter/view_all_tasks_screen.dart';
 
 import '../../profile_manager/presenter/profile_page.dart';
 import '../../profile_manager/domain/usecases/all_profile_usecases.dart';
-import '../../task_manager/domain/usecases/all_task_usecases.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('${myProfile.name}, welcome to CareShare,'),
+            Text('${myProfile.firstName}, welcome to CareShare,'),
             TextButton(
               onPressed: () {
                 Navigator.push(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../style/style.dart';
 import '../../domain/models/profile.dart';
@@ -23,10 +22,23 @@ class ProfileJobSummaryWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               itemWidget(
-                title: 'Title',
-                content: profile.name!,
+                title: 'First Name',
+                content: profile.firstName!,
+              ),
+              itemWidget(
+                title: 'Last Name',
+                content: profile.lastName!,
               ),
 
+              itemWidget(
+                title: 'Task Types',
+                content: profile.taskTypes!,
+              ),
+
+              itemWidget(
+                title: 'authId',
+                content: profile.authId!,
+              ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: Row(

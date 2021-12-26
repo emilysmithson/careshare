@@ -1,31 +1,44 @@
+
+
 class Profile {
-  late String? name;
+  late String? firstName;
+  late String? lastName;
   final String? authId;
   late String? id;
-
+  late String? taskTypes;
+  DateTime? dateCreated;
   late String? createdBy;
 
   Profile({
-    this.name,
-    this.authId,
     this.id,
+    this.firstName,
+    this.lastName,
+    this.authId,
+    this.taskTypes,
+    this.dateCreated,
+    this.createdBy,
 
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
+      'first_name': firstName,
+      'last_name': lastName,
       'auth_id': authId,
+      'task_types': taskTypes,
       'created_by': createdBy,
-
-
+      'date_created': dateCreated.toString(),
     };
   }
 
   Profile.fromJson(dynamic key, dynamic value):
         authId  = value['auth_id'].toString(),
-        name =   value['name'].toString(),
+        firstName =   value['first_name'].toString(),
+        lastName =   value['last_name'].toString(),
         createdBy = value['created_by'].toString(),
+        dateCreated = DateTime.parse(value['date_created']),
+        taskTypes = value['task_types'].toString(),
         id = key.toString()
   ;
+
 }
