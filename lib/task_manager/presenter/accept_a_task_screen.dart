@@ -1,10 +1,10 @@
 import 'package:careshare/widgets/item_widget.dart';
 
 import 'package:flutter/material.dart';
-import '../../domain/models/task.dart';
+import '../domain/models/task.dart';
 import 'accept_a_task_controller.dart';
 import 'package:intl/intl.dart';
-import '../../../widgets/date_picker.dart';
+import '../../widgets/date_picker.dart';
 
 class AcceptATaskScreen extends StatefulWidget {
   final CareTask task;

@@ -99,9 +99,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return Left(ProfileException('no value'));
     } else {
 
-      var thingy = response.snapshot.children.first;
+      var rawProfile = response.snapshot.children.first;
 
-      return Right(Profile.fromJson(thingy.key, thingy.value));
+      return Right(Profile.fromJson(rawProfile.key, rawProfile.value));
     }
 
   }

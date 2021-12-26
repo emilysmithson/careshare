@@ -9,7 +9,7 @@ class FetchTasks {
 
   FetchTasks(this.repository);
   Future<Either<TaskManagerException, List<CareTask>>> call() {
-    return repository.fetchTasks();
+    return repository.fetchAllTasks();
   }
 
 }

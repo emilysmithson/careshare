@@ -22,10 +22,10 @@ class TaskRepoositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<Either<TaskManagerException, List<CareTask>>> fetchTasks() async {
+  Future<Either<TaskManagerException, List<CareTask>>> fetchAllTasks() async {
     DatabaseEvent response;
     try {
-      response = await datasource.fetchTasks();
+      response = await datasource.fetchAllTasks();
     } catch (error) {
       return Left(TaskManagerException(error.toString()));
     }

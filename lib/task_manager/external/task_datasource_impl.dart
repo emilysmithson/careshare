@@ -15,7 +15,7 @@ class TaskDatasourceImpl implements TaskDatasource {
   }
 
   @override
-  Future<DatabaseEvent> fetchTasks() async {
+  Future<DatabaseEvent> fetchAllTasks() async {
     DatabaseReference reference = FirebaseDatabase.instance.ref("tasks");
     final response = await reference.once();
 

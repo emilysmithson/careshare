@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/models/task.dart';
-import '../../domain/usecases/all_task_usecases.dart';
-import '../../domain/usecases/remove_a_task.dart';
-import '../../external/task_datasource_impl.dart';
-import '../../infrastructure/repositories/task_repository_impl.dart';
+import '../domain/models/task.dart';
+import '../domain/usecases/all_task_usecases.dart';
+import '../domain/usecases/remove_a_task.dart';
+import '../external/task_datasource_impl.dart';
+import '../infrastructure/repositories/task_repository_impl.dart';
 
 enum PageStatus {
   loading,
@@ -13,12 +13,12 @@ enum PageStatus {
   success,
 }
 
-class TaskController {
+class ViewAllTasksController {
   final List<CareTask> careTaskList = [];
   final ValueNotifier<PageStatus> status = ValueNotifier<PageStatus>(PageStatus.loading);
 
   fetchTasks() async {
-    final response = await AllTasksUseCases.fetchTasks();
+    final response = await AllTasksUseCases.fetchAllTasks();
 
     response.fold((l) {
       status.value = PageStatus.error;

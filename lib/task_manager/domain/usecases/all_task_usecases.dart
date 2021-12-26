@@ -27,7 +27,7 @@ class AllTasksUseCases {
     return editATaskUseCase(task);
   }
 
-  static Future<Either<TaskManagerException, List<CareTask>>> fetchTasks() {
+  static Future<Either<TaskManagerException, List<CareTask>>> fetchAllTasks() {
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
     final TaskRepoositoryImpl repository = TaskRepoositoryImpl(datasource);
     final FetchTasks fetchTasksUseCase = FetchTasks(repository);

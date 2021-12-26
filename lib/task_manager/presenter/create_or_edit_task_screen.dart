@@ -1,12 +1,12 @@
-import '../../domain/models/priority.dart';
+import '../domain/models/priority.dart';
 import 'package:flutter/material.dart';
 
-import '../../../style/style.dart';
-import '../../../widgets/custom_form_field.dart';
-import '../../domain/models/task.dart';
-import '../../domain/models/task_type.dart';
-import '../widgets/select_priority.dart';
-import '../widgets/select_task_type.dart';
+import '../../style/style.dart';
+import '../../widgets/custom_form_field.dart';
+import '../domain/models/task.dart';
+import '../domain/models/task_type.dart';
+import 'widgets/select_priority.dart';
+import 'widgets/select_task_type.dart';
 import 'create_or_edit_task_controller.dart';
 
 class CreateOrEditATaskScreen extends StatefulWidget {

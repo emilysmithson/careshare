@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../../widgets/job_summary_widget.dart';
-import '../../domain/models/task.dart';
-import '../create_or_edit_task/create_or_edit_task_screen.dart';
-import 'task_manager_controller.dart';
+import '../../widgets/job_summary_widget.dart';
+import '../domain/models/task.dart';
+import 'create_or_edit_task_screen.dart';
+import 'view_all_tasks_controller.dart';
 
-class TaskManagerScreen extends StatefulWidget {
-  const TaskManagerScreen({Key? key}) : super(key: key);
+class ViewAllTasksScreen extends StatefulWidget {
+  const ViewAllTasksScreen({Key? key}) : super(key: key);
 
   @override
-  State<TaskManagerScreen> createState() => _TaskManagerScreenState();
+  State<ViewAllTasksScreen> createState() => _ViewAllTasksScreenState();
 }
 
-class _TaskManagerScreenState extends State<TaskManagerScreen> {
-  final controller = TaskController();
+class _ViewAllTasksScreenState extends State<ViewAllTasksScreen> {
+  final controller = ViewAllTasksController();
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _TaskManagerScreenState extends State<TaskManagerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Tasks'),
+        title: const Text('All Tasks'),
         actions: [
           IconButton(
               onPressed: () {
@@ -46,7 +46,7 @@ class _TaskManagerScreenState extends State<TaskManagerScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (status == PageStatus.error) {
-            return const Center(child: Text('Oh dear'));
+            return const Center(child: Text('Couldn'' load tasks'));
           }
           return SingleChildScrollView(
             child: Column(
