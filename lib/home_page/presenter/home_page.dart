@@ -1,4 +1,5 @@
 import 'package:careshare/profile_manager/domain/models/profile.dart';
+import 'package:careshare/profile_manager/presenter/create_a_profile_screen.dart';
 import 'package:careshare/profile_manager/presenter/view_all_profiles_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import '../../main.dart';
 import '../../task_manager/presenter/create_or_edit_task_screen.dart';
 import '../../task_manager/presenter/view_all_tasks_screen.dart';
 
-import '../../profile_manager/presenter/profile_page.dart';
+import '../../profile_manager/presenter/view_my_profile_page.dart';
 import '../../profile_manager/domain/usecases/all_profile_usecases.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,11 +26,22 @@ class _HomePageState extends State<HomePage> {
 
   Future fetchProfile() async {
     final response = await AllProfileUseCases.fetchMyProfile();
-    response.fold((l) => print(">l "+l.message), (r) {
-      myProfile = r;
-      isLoading = false;
-      setState(() {});
-    });
+    response.fold(
+            (l) {
+              print(">l " + l.message);
+
+              if (l.message=='no value'){
+                print('no value for this authId');
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CreateAProfileScreen()));
+
+              }
+
+              },
+            (r) {
+              myProfile = r;
+              isLoading = false;
+              setState(() {});
+            });
   }
 
   @override
@@ -96,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProfilePage(),
+                    builder: (context) => const ViewMyProfilePage(),
                   ),
                 );
               },

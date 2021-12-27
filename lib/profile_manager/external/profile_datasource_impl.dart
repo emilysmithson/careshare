@@ -12,8 +12,6 @@ class ProfileDatasourceImpl implements ProfileDatasource {
   @override
   Future<String> createProfile(Profile profile) async {
     DatabaseReference reference = FirebaseDatabase.instance.ref("profiles");
-    String? authId = FirebaseAuth.instance.currentUser?.uid;
-    Profile newProfile = Profile(authId: authId);
     final String newkey = reference.push().key as String;
     reference.child(newkey).set(profile.toJson());
 
@@ -68,21 +66,9 @@ class ProfileDatasourceImpl implements ProfileDatasource {
 
   @override
   Future<DatabaseEvent> fetchMyProfile() async {
-    // DatabaseReference reference =
-    // FirebaseDatabase.instance.ref("profiles/${id}");
-    //
-    // final response = await reference.once();
-    // return response;
-    //
+
     String? authId = FirebaseAuth.instance.currentUser?.uid;
-print('#############################################');
-print('authId: $authId');
-    // DatabaseReference reference =
-    // FirebaseDatabase.instance.ref("profiles/QqoEQYifYCvH_p6dkMt");
-    //
-    // final response = await reference.once();
-    // return response;
-    //
+    print('fetchMyProfile: authId: $authId');
     Query query = FirebaseDatabase.instance.ref("profiles").orderByChild("auth_id").startAt(authId).limitToFirst(1);
 
     final response = await query.once();

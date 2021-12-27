@@ -55,8 +55,7 @@ class AuthenticationController {
             email: emailAdressController.text,
             password: passwordController.text);
 
-        return Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
+        return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           showErrorMessage(

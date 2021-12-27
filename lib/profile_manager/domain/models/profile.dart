@@ -3,7 +3,7 @@
 class Profile {
   late String? firstName;
   late String? lastName;
-  final String? authId;
+  late String? authId;
   late String? id;
   late String? taskTypes;
   DateTime? dateCreated;

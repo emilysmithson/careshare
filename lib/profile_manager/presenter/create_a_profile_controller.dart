@@ -3,48 +3,35 @@ import 'package:flutter/material.dart';
 import '../domain/models/profile.dart';
 import '../domain/usecases/all_profile_usecases.dart';
 import 'profile_entered_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class CreateOrEditAProfileController {
+class CreateAProfileController {
   final formKey = GlobalKey<FormState>();
-  bool isCreateProfile = true;
-  Profile? storedProfile;
 
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   late TextEditingController taskTypesController;
 
-  initialiseControllers(Profile? originalProfile) {
-    if (originalProfile != null) {
-      storedProfile = originalProfile;
-      isCreateProfile = false;
-    }
-    firstNameController = TextEditingController(
-      text: originalProfile?.firstName,
-    );
-    lastNameController = TextEditingController(
-      text: originalProfile?.lastName,
-    );
-    taskTypesController = TextEditingController(
-      text: originalProfile?.taskTypes,
-    );
+  initialiseControllers() {
+    firstNameController = TextEditingController();
+    lastNameController = TextEditingController();
+    taskTypesController = TextEditingController();
   }
 
   createAProfile({
     required BuildContext context,
   }) async {
     if (formKey.currentState!.validate()) {
-      final Profile profile = storedProfile!;
+      final Profile profile = Profile();
       profile.firstName = firstNameController.text;
       profile.lastName = lastNameController.text;
       profile.dateCreated = DateTime.now();
       profile.taskTypes = taskTypesController.text;
+      profile.authId = FirebaseAuth.instance.currentUser?.uid;
 
-      if (isCreateProfile) {
-        final response = await AllProfileUseCases.createAProfile(profile);
-        response.fold((l) => null, (r) => profile.id = r);
-      } else {
-        AllProfileUseCases.editAProfile(profile);
-      }
+      final response = await AllProfileUseCases.createAProfile(profile);
+      response.fold((l) => null, (r) => profile.id = r);
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

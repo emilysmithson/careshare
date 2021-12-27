@@ -4,6 +4,7 @@ import 'profile_widgets/profile_job_summary_widget.dart';
 import '../domain/models/profile.dart';
 import 'create_or_edit_profile_screen.dart';
 import 'view_all_profiles_screen.dart';
+import '../../home_page/presenter/home_page.dart';
 
 class ProfileEnteredScreen extends StatelessWidget {
   final Profile profile;
@@ -41,6 +42,16 @@ class ProfileEnteredScreen extends StatelessWidget {
               );
             },
             child: const Text('View all profiles'),
+          ),TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+            },
+            child: const Text('Home'),
           ),
         ],
       ),
