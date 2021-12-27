@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'authentication/presenter/authentication_page.dart';
 import 'home_page/presenter/home_page.dart';
+import 'global.dart';
+import '../profile_manager/domain/usecases/all_profile_usecases.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +14,20 @@ void main() {
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
+
+
+  Future fetchProfile() async {
+    final response = await AllProfileUseCases.fetchMyProfile();
+    response.fold(
+            (l) {
+          print(">l " + l.message);
+
+        },
+            (r) {
+              myProfileId = r.id;
+
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +43,12 @@ class App extends StatelessWidget {
           if (FirebaseAuth.instance.currentUser == null) {
             return AuthenticationPage();
           }
+
+          fetchProfile();
+
+          print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+          print('myProfileId: $myProfileId');
+
           return const HomePage();
         }
 

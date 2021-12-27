@@ -4,6 +4,7 @@ import '../domain/models/profile.dart';
 import '../domain/usecases/all_profile_usecases.dart';
 import 'profile_entered_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:careshare/global.dart';
 
 class CreateAProfileController {
   final formKey = GlobalKey<FormState>();
@@ -31,6 +32,7 @@ class CreateAProfileController {
 
       final response = await AllProfileUseCases.createAProfile(profile);
       response.fold((l) => null, (r) => profile.id = r);
+      myProfileId = profile.id;
 
       Navigator.pushReplacement(
         context,
