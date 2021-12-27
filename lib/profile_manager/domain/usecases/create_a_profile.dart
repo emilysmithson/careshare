@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import '../errors/profile_manager_exception.dart';
 import '../models/profile.dart';
 import '../repositories/profile_repository.dart';
+import 'package:careshare/global.dart';
 
 class CreateAProfile {
   final ProfileRepository repository;
@@ -11,11 +10,7 @@ class CreateAProfile {
   CreateAProfile(this.repository);
   Future<Either<ProfileManagerException, String>> call(Profile profile) async {
     Profile profileWithId = profile;
-    String? id = FirebaseAuth.instance.currentUser?.uid;
-
-    if (id != null) {
-      profileWithId.createdBy = id;
-    }
+    profile.createdBy = myProfileId;
 
     return repository.createProfile(profileWithId);
   }
