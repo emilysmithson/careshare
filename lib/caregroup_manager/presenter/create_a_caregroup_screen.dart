@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/custom_form_field.dart';
-import '../domain/models/profile.dart';
-import 'create_or_edit_profile_controller.dart';
+import '../domain/models/caregroup.dart';
+import 'create_a_caregroup_controller.dart';
 
-class CreateOrEditAProfileScreen extends StatefulWidget {
-  final Profile? profile;
-  const CreateOrEditAProfileScreen({
+class CreateACaregroupScreen extends StatefulWidget {
+  final Caregroup? caregroup;
+  const CreateACaregroupScreen({
     Key? key,
-    this.profile,
+    this.caregroup,
   }) : super(key: key);
 
   @override
-  State<CreateOrEditAProfileScreen> createState() =>
-      _CreateOrEditAProfileScreenState();
+  State<CreateACaregroupScreen> createState() =>
+      _CreateACaregroupScreenState();
 }
 
-class _CreateOrEditAProfileScreenState extends State<CreateOrEditAProfileScreen> {
-  late CreateOrEditAProfileController controller = CreateOrEditAProfileController();
-  bool showProfileTypeError = false;
+class _CreateACaregroupScreenState extends State<CreateACaregroupScreen> {
+  late CreateACaregroupController controller = CreateACaregroupController();
+  bool showCaregroupTypeError = false;
 
   @override
   void initState() {
-    controller.initialiseControllers(widget.profile);
+    controller.initialiseControllers();
     super.initState();
   }
 
@@ -32,7 +32,7 @@ class _CreateOrEditAProfileScreenState extends State<CreateOrEditAProfileScreen>
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         title:
-        Text(controller.isCreateProfile ? 'Create a New Profile' : 'Edit a Profile'),
+        Text('Create a New Caregroup'),
       ),
       body: SafeArea(
         child: Center(
@@ -42,32 +42,32 @@ class _CreateOrEditAProfileScreenState extends State<CreateOrEditAProfileScreen>
               child: Column(
                 children: [
                   CustomFormField(
-                    controller: controller.firstNameController,
-                    label: 'First Name',
+                    controller: controller.nameController,
+                    label: 'Name',
                     keyboardType: TextInputType.name,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a First Name';
+                        return 'Please enter a Name';
                       }
                       return null;
                     },
                   ),
 
                   CustomFormField(
-                    controller: controller.lastNameController,
-                    label: 'Last Name',
+                    controller: controller.detailsController,
+                    label: 'details',
                     keyboardType: TextInputType.name,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a Last Name';
+                        return 'Please enter a details';
                       }
                       return null;
                     },
                   ),
 
                   CustomFormField(
-                    controller: controller.taskTypesController,
-                    label: 'Task Types',
+                    controller: controller.careesController,
+                    label: 'Carees',
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -80,13 +80,11 @@ class _CreateOrEditAProfileScreenState extends State<CreateOrEditAProfileScreen>
                   TextButton(
                     onPressed: () {
                       controller.formKey.currentState?.validate();
-                      controller.createAProfile(
+                      controller.createACaregroup(
                         context: context,
                       );
                     },
-                    child: Text(
-                      controller.isCreateProfile ? 'Create' : 'Save changes',
-                    ),
+                    child: Text('Create'),
                   ),
                 ],
               ),

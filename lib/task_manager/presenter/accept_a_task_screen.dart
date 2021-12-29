@@ -48,8 +48,8 @@ class _AcceptATaskScreenState extends State<AcceptATaskScreen> {
                     content: widget.task.title,
                   ),
                   itemWidget(
-                    title: 'Description',
-                    content: widget.task.description,
+                    title: 'Details',
+                    content: widget.task.details,
                   ),
                   itemWidget(
                     title: 'Type',

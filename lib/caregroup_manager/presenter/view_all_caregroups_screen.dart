@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'profile_widgets/profile_job_summary_widget.dart';
-import '../domain/models/profile.dart';
-import 'edit_profile_screen.dart';
-import 'view_all_profiles_controller.dart';
+import 'caregroup_widgets/caregroup_job_summary_widget.dart';
+import '../domain/models/caregroup.dart';
+import 'create_or_edit_caregroup_screen.dart';
+import 'view_all_caregroups_controller.dart';
 
-class ViewAllProfilesScreen extends StatefulWidget {
-  const ViewAllProfilesScreen({Key? key}) : super(key: key);
+class ViewAllCaregroupsScreen extends StatefulWidget {
+  const ViewAllCaregroupsScreen({Key? key}) : super(key: key);
 
   @override
-  State<ViewAllProfilesScreen> createState() => _ViewAllProfilesScreenState();
+  State<ViewAllCaregroupsScreen> createState() => _ViewAllCaregroupsScreenState();
 }
 
-class _ViewAllProfilesScreenState extends State<ViewAllProfilesScreen> {
-  final controller = ViewAllProfilesController();
+class _ViewAllCaregroupsScreenState extends State<ViewAllCaregroupsScreen> {
+  final controller = ViewAllCaregroupsController();
 
   @override
   void initState() {
-    controller.fetchProfiles();
+    controller.fetchCaregroups();
 
     super.initState();
   }
@@ -25,14 +25,14 @@ class _ViewAllProfilesScreenState extends State<ViewAllProfilesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All Profiles'),
+        title: const Text('All Caregroups'),
         actions: [
           IconButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const EditProfileScreen(),
+                    builder: (context) => const CreateOrEditACaregroupScreen(),
                   ),
                 );
               },
@@ -46,12 +46,12 @@ class _ViewAllProfilesScreenState extends State<ViewAllProfilesScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (status == PageStatus.error) {
-            return const Center(child: Text('Couldn'' load profiles'));
+            return const Center(child: Text('Couldn'' load caregroups'));
           }
           return SingleChildScrollView(
             child: Column(
-                children: controller.profileList.map((Profile profile) {
-                  return ProfileJobSummaryWidget(profile: profile);
+                children: controller.caregroupList.map((Caregroup caregroup) {
+                  return CaregroupJobSummaryWidget(caregroup: caregroup);
                 }).toList()),
           );
         },

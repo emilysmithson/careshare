@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../style/style.dart';
-import '../../domain/models/profile.dart';
-import '../../domain/usecases/all_profile_usecases.dart';
-import '../edit_profile_screen.dart';
+import '../../domain/models/caregroup.dart';
+import '../../domain/usecases/all_caregroup_usecases.dart';
+import '../create_or_edit_caregroup_screen.dart';
 import '../../../widgets/item_widget.dart';
 
-class ProfileJobSummaryWidget extends StatelessWidget {
-  final Profile profile;
-  const ProfileJobSummaryWidget({Key? key, required this.profile}) : super(key: key);
+class CaregroupJobSummaryWidget extends StatelessWidget {
+  final Caregroup caregroup;
+  const CaregroupJobSummaryWidget({Key? key, required this.caregroup}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +22,19 @@ class ProfileJobSummaryWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               itemWidget(
-                title: 'First Name',
-                content: profile.firstName!,
+                title: 'Name',
+                content: caregroup.name!,
               ),
               itemWidget(
-                title: 'Last Name',
-                content: profile.lastName!,
+                title: 'details',
+                content: caregroup.details!,
               ),
 
               itemWidget(
-                title: 'Task Types',
-                content: profile.taskTypes!,
+                title: 'Carees',
+                content: caregroup.carees!,
               ),
 
-              itemWidget(
-                title: 'authId',
-                content: profile.authId!,
-              ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: Row(
@@ -48,8 +44,8 @@ class ProfileJobSummaryWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditProfileScreen(
-                              profile: profile,
+                            builder: (context) => CreateOrEditACaregroupScreen(
+                              caregroup: caregroup,
                             ),
                           ),
                         );
@@ -61,7 +57,7 @@ class ProfileJobSummaryWidget extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        AllProfileUseCases.removeAProfile(profile.id!);
+                        AllCaregroupUseCases.removeACaregroup(caregroup.id!);
                       },
                       icon: const Icon(
                         Icons.delete,

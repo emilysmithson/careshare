@@ -28,8 +28,8 @@ class TaskJobSummaryWidget extends StatelessWidget {
                 content: task.title,
               ),
               itemWidget(
-                title: 'Description',
-                content: task.description,
+                title: 'Details',
+                content: task.details,
               ),
               itemWidget(
                 title: 'Type',
@@ -39,14 +39,6 @@ class TaskJobSummaryWidget extends StatelessWidget {
                 title: 'Created',
                 content:
                 DateFormat('dd-MM-yyyy – kk:mm').format(task.dateCreated!),
-              ),
-              itemWidget(
-                title: 'Created By',
-                content: task.createdBy.toString(),
-              ),
-              itemWidget(
-                title: 'Status',
-                content: task.taskStatus.status
               ),
 
               if(task.taskAcceptedForDate != null) itemWidget(
@@ -58,6 +50,14 @@ class TaskJobSummaryWidget extends StatelessWidget {
               if(task.acceptedBy != "")  itemWidget(
                 title: 'Accepted By',
                 content: task.acceptedBy.toString(),
+              ),
+              itemWidget(
+                title: 'Created By',
+                content: task.createdBy.toString(),
+              ),
+              itemWidget(
+                  title: 'Status',
+                  content: task.taskStatus.status
               ),
 
               Align(
@@ -103,7 +103,7 @@ class TaskJobSummaryWidget extends StatelessWidget {
                         );
                       },
                       icon: const Icon(
-                        Icons.breakfast_dining_outlined,
+                        Icons.adjust,
                         color: Colors.grey,
                       ),
                     ),

@@ -1,47 +1,47 @@
 import 'package:flutter/material.dart';
 
-import 'profile_widgets/profile_job_summary_widget.dart';
-import '../domain/models/profile.dart';
-import 'edit_profile_screen.dart';
-import 'view_all_profiles_screen.dart';
+import 'caregroup_widgets/caregroup_job_summary_widget.dart';
+import '../domain/models/caregroup.dart';
+import 'create_or_edit_caregroup_screen.dart';
+import 'view_all_caregroups_screen.dart';
 import '../../home_page/presenter/home_page.dart';
 
-class ProfileEnteredScreen extends StatelessWidget {
-  final Profile profile;
-  const ProfileEnteredScreen({Key? key, required this.profile}) : super(key: key);
+class CaregroupEnteredScreen extends StatelessWidget {
+  final Caregroup caregroup;
+  const CaregroupEnteredScreen({Key? key, required this.caregroup}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Thank you for entering a profile',
+          'Thank you for entering a caregroup',
         ),
       ),
       body: Column(
         children: [
-          ProfileJobSummaryWidget(
-            profile: profile,
+          CaregroupJobSummaryWidget(
+            caregroup: caregroup,
           ),
           TextButton(
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const EditProfileScreen()));
+                      builder: (context) => const CreateOrEditACaregroupScreen()));
             },
-            child: const Text('Create a new profile'),
+            child: const Text('Create a new caregroup'),
           ),
           TextButton(
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ViewAllProfilesScreen(),
+                  builder: (context) => const ViewAllCaregroupsScreen(),
                 ),
               );
             },
-            child: const Text('View all profiles'),
+            child: const Text('View all caregroups'),
           ),TextButton(
             onPressed: () {
               Navigator.push(

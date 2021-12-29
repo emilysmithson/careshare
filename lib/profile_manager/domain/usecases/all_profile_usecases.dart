@@ -20,11 +20,11 @@ import '../../../main.dart';
 class AllProfileUseCases {
   static Profile? profile;
 
-  static Future<Either<ProfileManagerException, String>> createAProfile(Profile profile) {
+  static Future<Either<ProfileManagerException, String>> createProfile(Profile profile) {
     final ProfileDatasourceImpl datasource = ProfileDatasourceImpl();
     final ProfileRepositoryImpl repository = ProfileRepositoryImpl(datasource);
-    final CreateAProfile createAProfileUseCase = CreateAProfile(repository);
-    return createAProfileUseCase(profile);
+    final CreateProfile createProfileUseCase = CreateProfile(repository);
+    return createProfileUseCase(profile);
   }
 
   static Future<Either<ProfileManagerException, Profile>> editAProfile(Profile profile) {

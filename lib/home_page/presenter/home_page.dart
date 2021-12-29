@@ -1,5 +1,8 @@
+import 'package:careshare/caregroup_manager/presenter/create_a_caregroup_screen.dart';
+import 'package:careshare/caregroup_manager/presenter/view_all_caregroups_screen.dart';
 import 'package:careshare/profile_manager/domain/models/profile.dart';
-import 'package:careshare/profile_manager/presenter/create_a_profile_screen.dart';
+import 'package:careshare/profile_manager/presenter/create_profile_screen.dart';
+import 'package:careshare/profile_manager/presenter/edit_profile_screen.dart';
 import 'package:careshare/profile_manager/presenter/view_all_profiles_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +35,7 @@ class _HomePageState extends State<HomePage> {
 
               if (l.message=='no value'){
                 print('no value for this authId');
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CreateAProfileScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CreateProfileScreen()));
 
               }
 
@@ -152,6 +155,39 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: const Text('View all profiles'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreateProfileScreen(),
+                  ),
+                );
+              },
+              child: const Text('Create a profile'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ViewAllCaregroupsScreen(),
+                  ),
+                );
+              },
+              child: const Text('View all caregroups'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreateACaregroupScreen(),
+                  ),
+                );
+              },
+              child: const Text('Create a caregroup'),
             ),
             TextButton(
               onPressed: () {

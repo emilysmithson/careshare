@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/custom_form_field.dart';
 import '../domain/models/profile.dart';
-import 'create_a_profile_controller.dart';
+import 'edit_profile_controller.dart';
 
-class CreateAProfileScreen extends StatefulWidget {
+class EditProfileScreen extends StatefulWidget {
   final Profile? profile;
-  const CreateAProfileScreen({
+  const EditProfileScreen({
     Key? key,
     this.profile,
   }) : super(key: key);
 
   @override
-  State<CreateAProfileScreen> createState() =>
-      _CreateAProfileScreenState();
+  State<EditProfileScreen> createState() =>
+      _EditProfileScreenState();
 }
 
-class _CreateAProfileScreenState extends State<CreateAProfileScreen> {
-  late CreateAProfileController controller = CreateAProfileController();
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  late EditProfileController controller = EditProfileController();
   bool showProfileTypeError = false;
 
   @override
   void initState() {
-    controller.initialiseControllers();
+    controller.initialiseControllers(widget.profile);
     super.initState();
   }
 
@@ -32,7 +32,7 @@ class _CreateAProfileScreenState extends State<CreateAProfileScreen> {
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         title:
-        Text('Create a New Profile'),
+        Text(controller.isCreateProfile ? 'Create a New Profile' : 'Edit a Profile'),
       ),
       body: SafeArea(
         child: Center(
@@ -80,11 +80,13 @@ class _CreateAProfileScreenState extends State<CreateAProfileScreen> {
                   TextButton(
                     onPressed: () {
                       controller.formKey.currentState?.validate();
-                      controller.createAProfile(
+                      controller.createProfile(
                         context: context,
                       );
                     },
-                    child: Text('Create'),
+                    child: Text(
+                      controller.isCreateProfile ? 'Create' : 'Save changes',
+                    ),
                   ),
                 ],
               ),

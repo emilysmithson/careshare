@@ -4,10 +4,10 @@ import '../models/profile.dart';
 import '../repositories/profile_repository.dart';
 import 'package:careshare/global.dart';
 
-class CreateAProfile {
+class CreateProfile {
   final ProfileRepository repository;
 
-  CreateAProfile(this.repository);
+  CreateProfile(this.repository);
   Future<Either<ProfileManagerException, String>> call(Profile profile) async {
     Profile profileWithId = profile;
     profile.createdBy = myProfileId;

@@ -15,7 +15,7 @@ class CreateOrEditATaskController {
   Priority priority = Priority.medium;
 
   late TextEditingController titleController;
-  late TextEditingController descriptionController;
+  late TextEditingController detailsController;
   String? id;
 
   initialiseControllers(CareTask? originalTask) {
@@ -26,8 +26,8 @@ class CreateOrEditATaskController {
     titleController = TextEditingController(
       text: originalTask?.title,
     );
-    descriptionController = TextEditingController(
-      text: originalTask?.description,
+    detailsController = TextEditingController(
+      text: originalTask?.details,
     );
     taskType = originalTask?.taskType;
   }
@@ -37,10 +37,11 @@ class CreateOrEditATaskController {
   }) async {
     if (formKey.currentState!.validate()) {
       final CareTask task = CareTask(
+        careFor: "careFor",
         taskType: taskType!,
         taskStatus: TaskStatus.created,
         title: titleController.text,
-        description: descriptionController.text,
+        details: detailsController.text,
         dateCreated: DateTime.now(),
         priority: priority,
       );

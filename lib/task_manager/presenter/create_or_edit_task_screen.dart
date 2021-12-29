@@ -58,9 +58,9 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
                     },
                   ),
                   CustomFormField(
-                    controller: controller.descriptionController,
+                    controller: controller.detailsController,
                     maxLines: 8,
-                    label: 'Description',
+                    label: 'Details',
                     keyboardType: TextInputType.multiline,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
