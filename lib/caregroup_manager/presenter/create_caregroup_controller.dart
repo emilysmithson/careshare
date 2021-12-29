@@ -6,7 +6,7 @@ import 'caregroup_entered_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:careshare/global.dart';
 
-class CreateACaregroupController {
+class CreateCaregroupController {
   final formKey = GlobalKey<FormState>();
 
   late TextEditingController nameController;

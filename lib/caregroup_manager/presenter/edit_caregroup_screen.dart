@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/custom_form_field.dart';
 import '../domain/models/caregroup.dart';
-import 'create_or_edit_caregroup_controller.dart';
+import 'edit_caregroup_controller.dart';
 
 class CreateOrEditACaregroupScreen extends StatefulWidget {
   final Caregroup? caregroup;

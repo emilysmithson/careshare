@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/custom_form_field.dart';
 import '../domain/models/caregroup.dart';
-import 'create_a_caregroup_controller.dart';
+import 'create_caregroup_controller.dart';
 
-class CreateACaregroupScreen extends StatefulWidget {
+class CreateCaregroupScreen extends StatefulWidget {
   final Caregroup? caregroup;
-  const CreateACaregroupScreen({
+  const CreateCaregroupScreen({
     Key? key,
     this.caregroup,
   }) : super(key: key);
 
   @override
-  State<CreateACaregroupScreen> createState() =>
-      _CreateACaregroupScreenState();
+  State<CreateCaregroupScreen> createState() =>
+      _CreateCaregroupScreenState();
 }
 
-class _CreateACaregroupScreenState extends State<CreateACaregroupScreen> {
-  late CreateACaregroupController controller = CreateACaregroupController();
+class _CreateCaregroupScreenState extends State<CreateCaregroupScreen> {
+  late CreateCaregroupController controller = CreateCaregroupController();
   bool showCaregroupTypeError = false;
 
   @override

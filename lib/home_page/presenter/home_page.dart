@@ -1,8 +1,7 @@
-import 'package:careshare/caregroup_manager/presenter/create_a_caregroup_screen.dart';
+import 'package:careshare/caregroup_manager/presenter/create_caregroup_screen.dart';
 import 'package:careshare/caregroup_manager/presenter/view_all_caregroups_screen.dart';
 import 'package:careshare/profile_manager/domain/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/create_profile_screen.dart';
-import 'package:careshare/profile_manager/presenter/edit_profile_screen.dart';
 import 'package:careshare/profile_manager/presenter/view_all_profiles_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -183,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const CreateACaregroupScreen(),
+                    builder: (context) => const CreateCaregroupScreen(),
                   ),
                 );
               },

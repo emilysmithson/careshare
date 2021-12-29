@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'caregroup_widgets/caregroup_job_summary_widget.dart';
 import '../domain/models/caregroup.dart';
-import 'create_or_edit_caregroup_screen.dart';
+import 'edit_caregroup_screen.dart';
 import 'view_all_caregroups_controller.dart';
 
 class ViewAllCaregroupsScreen extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../style/style.dart';
 import '../../domain/models/caregroup.dart';
 import '../../domain/usecases/all_caregroup_usecases.dart';
-import '../create_or_edit_caregroup_screen.dart';
+import '../edit_caregroup_screen.dart';
 import '../../../widgets/item_widget.dart';
 
 class CaregroupJobSummaryWidget extends StatelessWidget {
