@@ -1,3 +1,5 @@
+import 'package:careshare/caregroup_manager/domain/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/models/priority.dart';
@@ -12,13 +14,40 @@ class CreateOrEditATaskController {
   TaskType? taskType;
   TaskStatus? taskStatus;
   bool isCreateTask = true;
+  bool isLoading = true;
+  Caregroup? caregroup;
+
   Priority priority = Priority.medium;
+  final List<Caregroup> caregroupList = [];
+  final List<String> caregroupOptions = [];
 
   late TextEditingController titleController;
   late TextEditingController detailsController;
   String? id;
 
-  initialiseControllers(CareTask? originalTask) {
+  Future fetchCaregroupList() async {
+    final response = await AllCaregroupUseCases.fetchCaregroups();
+    response.fold(
+            (l) {
+          print(">l " + l.message);
+          if (l.message=='no value'){
+            print('no Caregroups');
+          }
+        },
+            (r) {
+
+            print('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{');
+            print(r);
+
+            caregroupList.addAll(r);
+            caregroupList.forEach((element) {
+            caregroupOptions.add(element.name!);
+
+          });
+        });
+  }
+
+  initialiseControllers(CareTask? originalTask) async {
     if (originalTask != null) {
       isCreateTask = false;
       id = originalTask.id;
@@ -30,14 +59,19 @@ class CreateOrEditATaskController {
       text: originalTask?.details,
     );
     taskType = originalTask?.taskType;
+
+  await fetchCaregroupList();
+
+
   }
 
-  createATask({
+
+  createTask({
     required BuildContext context,
   }) async {
     if (formKey.currentState!.validate()) {
       final CareTask task = CareTask(
-        careFor: "careFor",
+        careFor: caregroup!.id!,
         taskType: taskType!,
         taskStatus: TaskStatus.created,
         title: titleController.text,

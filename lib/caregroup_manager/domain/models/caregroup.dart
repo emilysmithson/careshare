@@ -1,10 +1,11 @@
-
+import 'caregroup_status.dart';
 
 class Caregroup {
   late String? name;
   late String? details;
   late String? id;
   late String? carees;
+  CaregroupStatus status;
   DateTime? dateCreated;
   late String? createdBy;
 
@@ -13,6 +14,7 @@ class Caregroup {
     this.name,
     this.details,
     this.carees,
+    required this.status,
     this.dateCreated,
     this.createdBy,
 
@@ -23,6 +25,7 @@ class Caregroup {
       'name': name,
       'details': details,
       'carees': carees,
+      'status': status.status,
       'created_by': createdBy,
       'date_created': dateCreated.toString(),
     };
@@ -34,7 +37,8 @@ class Caregroup {
         createdBy = value['created_by'].toString(),
         dateCreated = DateTime.parse(value['date_created']),
         carees = value['carees'].toString(),
-        id = key.toString()
+        status = CaregroupStatus.CaregroupStatusList. firstWhere((element) => element.status == value['status']),
+      id = key.toString()
   ;
 
 }

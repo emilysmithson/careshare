@@ -80,7 +80,7 @@ class _CreateCaregroupScreenState extends State<CreateCaregroupScreen> {
                   TextButton(
                     onPressed: () {
                       controller.formKey.currentState?.validate();
-                      controller.createACaregroup(
+                      controller.createCaregroup(
                         context: context,
                       );
                     },

@@ -1,3 +1,4 @@
+import 'package:careshare/caregroup_manager/domain/models/caregroup_status.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/models/caregroup.dart';
@@ -19,15 +20,17 @@ class CreateCaregroupController {
     careesController = TextEditingController();
   }
 
-  createACaregroup({
+  createCaregroup({
     required BuildContext context,
   }) async {
     if (formKey.currentState!.validate()) {
-      final Caregroup caregroup = Caregroup();
-      caregroup.name = nameController.text;
-      caregroup.details = detailsController.text;
-      caregroup.dateCreated = DateTime.now();
-      caregroup.carees = careesController.text;
+      final Caregroup caregroup = Caregroup(
+        name: nameController.text,
+        details: detailsController.text,
+        status: CaregroupStatus.active,
+        dateCreated: DateTime.now(),
+        carees: careesController.text,
+      );
 
       final response = await AllCaregroupUseCases.createACaregroup(caregroup);
       response.fold((l) => null, (r) => caregroup.id = r);

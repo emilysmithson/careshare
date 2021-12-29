@@ -32,12 +32,10 @@ class _HomePageState extends State<HomePage> {
             (l) {
               print(">l " + l.message);
 
-              if (l.message=='no value'){
+                if (l.message=='no value'){
                 print('no value for this authId');
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CreateProfileScreen()));
-
-              }
-
+                }
               },
             (r) {
               myProfile = r;

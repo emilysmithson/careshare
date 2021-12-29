@@ -26,13 +26,17 @@ class CaregroupJobSummaryWidget extends StatelessWidget {
                 content: caregroup.name!,
               ),
               itemWidget(
-                title: 'details',
+                title: 'Details',
                 content: caregroup.details!,
               ),
 
               itemWidget(
                 title: 'Carees',
                 content: caregroup.carees!,
+              ),
+              itemWidget(
+                title: 'Status',
+                content: caregroup.status.status,
               ),
 
               Align(

@@ -1,3 +1,5 @@
+import 'package:careshare/task_manager/presenter/task_widgets/select_caregroup.dart';
+
 import '../domain/models/priority.dart';
 import 'package:flutter/material.dart';
 
@@ -25,9 +27,16 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
   late CreateOrEditATaskController controller = CreateOrEditATaskController();
   bool showTaskTypeError = false;
 
+  initialise() async {
+    await controller.initialiseControllers(widget.task);
+    setState(() {
+
+    });
+  }
+
   @override
   void initState() {
-    controller.initialiseControllers(widget.task);
+    initialise();
     super.initState();
   }
 
@@ -46,6 +55,7 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+
                   CustomFormField(
                     controller: controller.titleController,
                     label: 'Title',
@@ -57,6 +67,47 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
                       return null;
                     },
                   ),
+
+
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                    padding:
+                    const EdgeInsets.only(top: 16, left: 16, right: 16),
+                    decoration: Style.boxDecoration,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SelectCaregroup(
+
+                          onSelect: (String caregroup) {
+                            controller.caregroup = controller.caregroupList.firstWhere((element) => element.name == caregroup);
+                            setState(() {
+
+                            });
+                          },
+                          caregroupOptions: controller.caregroupOptions,
+                          currentCaregroup: controller.caregroup?.name,
+
+                        ),
+                        Text(
+                          showTaskTypeError ? 'Please select a task type' : '',
+                          style: TextStyle(
+                            color: Colors.red.shade600,
+                            fontSize: 12,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+
+
+
+
+
+
+
+
                   CustomFormField(
                     controller: controller.detailsController,
                     maxLines: 8,
@@ -108,7 +159,7 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
                         });
                         return;
                       }
-                      controller.createATask(
+                      controller.createTask(
                         context: context,
                       );
                     },
