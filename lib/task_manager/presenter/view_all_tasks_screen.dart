@@ -46,7 +46,7 @@ class _ViewAllTasksScreenState extends State<ViewAllTasksScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (status == PageStatus.error) {
-            return const Center(child: Text('Couldn'' load tasks'));
+            return const Center(child: Text('Couldn''t load tasks'));
           }
           return SingleChildScrollView(
             child: Column(
