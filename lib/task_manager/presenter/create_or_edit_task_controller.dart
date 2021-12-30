@@ -71,7 +71,7 @@ class CreateOrEditATaskController {
   }) async {
     if (formKey.currentState!.validate()) {
       final CareTask task = CareTask(
-        careFor: caregroup!.id!,
+        caregroupId: caregroup!.id!,
         taskType: taskType!,
         taskStatus: TaskStatus.created,
         title: titleController.text,

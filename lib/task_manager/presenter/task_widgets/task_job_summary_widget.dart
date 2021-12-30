@@ -24,6 +24,10 @@ class TaskJobSummaryWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               itemWidget(
+                title: 'Caregroup',
+                content: task.caregroupId,
+              ),
+              itemWidget(
                 title: 'Title',
                 content: task.title,
               ),

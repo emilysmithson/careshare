@@ -4,7 +4,7 @@ import 'task_status.dart';
 
 class CareTask {
   final String title;
-  final String careFor;
+  final String caregroupId;
   final Priority priority;
   final TaskType taskType;
   final String details;
@@ -19,7 +19,7 @@ class CareTask {
 
   CareTask({
     required this.title,
-    required this.careFor,
+    required this.caregroupId,
     required this.details,
     this.id,
     this.createdBy,
@@ -34,7 +34,7 @@ class CareTask {
   Map<String, dynamic> toJson() {
     return {
       'title': title,
-      'for': careFor,
+      'caregroup_id': caregroupId,
       'details': details,
       'created_by': createdBy,
       'task_type': taskType.type,
@@ -48,7 +48,7 @@ class CareTask {
 
   CareTask.fromJson(dynamic key, dynamic value)
       : title = value['title'] ?? '',
-        careFor = value['care_for'] ?? '',
+        caregroupId = value['caregroup_id'] ?? '',
         createdBy = value['created_by'] ?? '',
         id = key,
         priority = Priority.priorityList.firstWhere((element) => value['priority'] == element.value),

@@ -115,7 +115,7 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
                     keyboardType: TextInputType.multiline,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a Title';
+                        return 'Please enter the task details';
                       }
                       return null;
                     },
