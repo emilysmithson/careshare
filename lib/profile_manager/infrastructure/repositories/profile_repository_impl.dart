@@ -48,7 +48,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return Left(ProfileManagerException('no values'));
     } else {
 
-      print(response.snapshot.value);
+      // print(response.snapshot.value);
 
       Map<dynamic, dynamic> returnedList =
           response.snapshot.value as Map<dynamic, dynamic>;

@@ -102,12 +102,6 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
                   ),
 
 
-
-
-
-
-
-
                   CustomFormField(
                     controller: controller.detailsController,
                     maxLines: 8,

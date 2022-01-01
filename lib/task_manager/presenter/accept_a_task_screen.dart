@@ -5,6 +5,8 @@ import '../domain/models/task.dart';
 import 'accept_a_task_controller.dart';
 import 'package:intl/intl.dart';
 import '../../widgets/date_picker.dart';
+import '../../widgets/custom_form_field.dart';
+
 
 class AcceptATaskScreen extends StatefulWidget {
   final CareTask task;
@@ -64,8 +66,21 @@ class _AcceptATaskScreenState extends State<AcceptATaskScreen> {
 
                   DatePicker(onDateTimeChanged: (date){
                     controller.acceptedDateTime = date;
-                  },
+                    },
 
+                  ),
+
+                  CustomFormField(
+                    controller: controller.commentController,
+                    maxLines: 8,
+                    label: 'Comments',
+                    keyboardType: TextInputType.multiline,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Tell us more about what you are going to do';
+                      }
+                      return null;
+                    },
                   ),
 
                   TextButton(

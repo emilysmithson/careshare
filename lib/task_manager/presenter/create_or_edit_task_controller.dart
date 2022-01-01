@@ -29,15 +29,12 @@ class CreateOrEditATaskController {
     final response = await AllCaregroupUseCases.fetchCaregroups();
     response.fold(
             (l) {
-          print(">l " + l.message);
+          // print(">l " + l.message);
           if (l.message=='no value'){
-            print('no Caregroups');
+            // print('no Caregroups');
           }
         },
             (r) {
-
-            print('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{');
-            print(r);
 
             caregroupList.addAll(r);
             caregroupList.forEach((element) {

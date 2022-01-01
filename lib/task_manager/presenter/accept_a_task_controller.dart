@@ -11,10 +11,17 @@ class AcceptATaskController {
   String? id;
   late CareTask task;
 
+  late TextEditingController commentController;
+
+
   initialiseControllers(CareTask? originalTask) {
     task = originalTask!;
     id = originalTask.id;
     acceptedDateTime = originalTask.taskAcceptedForDate;
+
+    commentController = TextEditingController(
+      text: "",
+    );
   }
 
   acceptATask({
@@ -24,6 +31,15 @@ class AcceptATaskController {
 
       task.taskAcceptedForDate = acceptedDateTime;
       task.taskStatus = TaskStatus.accepted;
+      if (commentController.text != null){
+        task.comments!.add(
+          Comment(
+            createdBy: "me",
+            dateCreated: DateTime.now(),
+            commment: commentController.text
+          )
+        );
+      }
 
       String? id = FirebaseAuth.instance.currentUser?.uid;
       if (id != null) {

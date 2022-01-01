@@ -68,7 +68,7 @@ class CaregroupDatasourceImpl implements CaregroupDatasource {
   Future<DatabaseEvent> fetchMyCaregroup() async {
 
     String? authId = FirebaseAuth.instance.currentUser?.uid;
-    print('fetchMyCaregroup: authId: $authId');
+    // print('fetchMyCaregroup: authId: $authId');
     Query query = FirebaseDatabase.instance.ref("caregroups") .orderByChild("auth_id").equalTo(authId).limitToFirst(1);
 
     final response = await query.once();

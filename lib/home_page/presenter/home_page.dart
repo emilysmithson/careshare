@@ -30,10 +30,10 @@ class _HomePageState extends State<HomePage> {
     final response = await AllProfileUseCases.fetchMyProfile();
     response.fold(
             (l) {
-              print(">l " + l.message);
+              // print(">l " + l.message);
 
                 if (l.message=='no value'){
-                print('no value for this authId');
+                // print('no value for this authId');
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CreateProfileScreen()));
                 }
               },
@@ -53,9 +53,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    print('######################################################');
-    print('HOME PAGE');
-    print('######################################################');
+    // print('######################################################');
+    // print('HOME PAGE');
+    // print('######################################################');
 
     if (isLoading){
       return Scaffold(

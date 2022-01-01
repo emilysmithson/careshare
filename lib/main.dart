@@ -1,3 +1,4 @@
+import 'package:careshare/caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +21,21 @@ class App extends StatelessWidget {
     final response = await AllProfileUseCases.fetchMyProfile();
     response.fold(
             (l) {
-          print(">l " + l.message);
-
-        },
-            (r) {
-              myProfileId = r.id;
-
-        });
+              // print(">l " + l.message);
+              },
+            (r) {myProfileId = r.id;});
   }
+
+  Future fetchCareGroups() async {
+    final response = await AllCaregroupUseCases.fetchCaregroups();
+    response.fold(
+            (l) {
+              // print(">l " + l.message);
+              },
+            (r) {caregroups = r;});
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +53,11 @@ class App extends StatelessWidget {
           }
 
           fetchProfile();
+          fetchCareGroups();
 
-          print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-          print('myProfileId: $myProfileId');
+          // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+          // print('myProfileId: $myProfileId');
+          // print('#caregroups: {$caregroups}');
 
           return const HomePage();
         }

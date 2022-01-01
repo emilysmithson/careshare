@@ -1,3 +1,5 @@
+import 'package:careshare/profile_manager/domain/usecases/create_a_profile.dart';
+
 import 'priority.dart';
 import 'task_type.dart';
 import 'task_status.dart';
@@ -16,6 +18,7 @@ class CareTask {
   TaskStatus taskStatus;
   late String? acceptedBy;
   DateTime? taskAcceptedForDate;
+  List<Comment>? comments;
 
   CareTask({
     required this.title,
@@ -29,6 +32,7 @@ class CareTask {
     required this.priority,
     this.acceptedBy,
     this.taskAcceptedForDate,
+    this.comments,
   });
 
   Map<String, dynamic> toJson() {
@@ -43,9 +47,11 @@ class CareTask {
       'priority': priority.value,
       'accepted_by': acceptedBy,
       'accepted_for_date': taskAcceptedForDate.toString(),
+      'comments': comments!.map((review) => review.toJson()).toList(),
     };
   }
-
+  
+  
   CareTask.fromJson(dynamic key, dynamic value)
       : title = value['title'] ?? '',
         caregroupId = value['caregroup_id'] ?? '',
@@ -58,6 +64,36 @@ class CareTask {
         taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['task_type']),
         taskStatus = TaskStatus.taskStatusList. firstWhere((element) => element.status == value['status']),
         taskAcceptedForDate = DateTime.tryParse(value['accepted_for_date']),
-        acceptedBy = value['accepted_by'] ?? ''
+        acceptedBy = value['accepted_by'] ?? '',
+        comments = value['comments']  ?? []
+  ;
+}
+
+class Comment {
+  final String commment;
+  late String? createdBy;
+  DateTime? dateCreated;
+  late String? id;
+
+  Comment({
+    required this.commment,
+    this.id,
+    this.createdBy,
+    this.dateCreated,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'commment': commment,
+      'created_by': createdBy,
+      'date_created': dateCreated.toString(),
+    };
+  }
+
+  Comment.fromJson(dynamic key, dynamic value)
+      : commment = value['commment'] ?? '',
+        createdBy = value['created_by'] ?? '',
+        id = key,
+        dateCreated = DateTime.parse(value['date_created'])
   ;
 }

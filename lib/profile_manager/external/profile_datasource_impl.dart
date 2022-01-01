@@ -68,7 +68,7 @@ class ProfileDatasourceImpl implements ProfileDatasource {
   Future<DatabaseEvent> fetchMyProfile() async {
 
     String? authId = FirebaseAuth.instance.currentUser?.uid;
-    print('fetchMyProfile: authId: $authId');
+    // print('fetchMyProfile: authId: $authId');
     Query query = FirebaseDatabase.instance.ref("profiles") .orderByChild("auth_id").equalTo(authId).limitToFirst(1);
 
     final response = await query.once();
