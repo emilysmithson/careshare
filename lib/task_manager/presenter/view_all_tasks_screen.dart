@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'task_widgets/task_job_summary_widget.dart';
+import 'task_widgets/task_summary_widget.dart';
 import '../domain/models/task.dart';
 import 'create_or_edit_task_screen.dart';
 import 'view_all_tasks_controller.dart';
@@ -51,7 +51,7 @@ class _ViewAllTasksScreenState extends State<ViewAllTasksScreen> {
           return SingleChildScrollView(
             child: Column(
                 children: controller.careTaskList.map((CareTask task) {
-              return TaskJobSummaryWidget(task: task);
+              return TaskSummaryWidget(task: task);
             }).toList()),
           );
         },

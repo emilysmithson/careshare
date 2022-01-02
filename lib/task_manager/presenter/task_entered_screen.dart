@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'task_widgets/task_job_summary_widget.dart';
+import 'task_widgets/task_summary_widget.dart';
 import '../domain/models/task.dart';
 import 'create_or_edit_task_screen.dart';
 import 'view_all_tasks_screen.dart';
@@ -19,7 +19,7 @@ class TaskEnteredScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          TaskJobSummaryWidget(
+          TaskSummaryWidget(
             task: task,
           ),
           TextButton(

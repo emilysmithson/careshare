@@ -6,11 +6,12 @@ import '../../domain/models/task.dart';
 import '../../domain/usecases/all_task_usecases.dart';
 import '../create_or_edit_task_screen.dart';
 import '../accept_a_task_screen.dart';
+import '../view_a_task_screen.dart';
 import '../../../widgets/item_widget.dart';
 
-class TaskJobSummaryWidget extends StatelessWidget {
+class TaskSummaryWidget extends StatelessWidget {
   final CareTask task;
-  const TaskJobSummaryWidget({Key? key, required this.task}) : super(key: key);
+  const TaskSummaryWidget({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +65,26 @@ class TaskJobSummaryWidget extends StatelessWidget {
                   content: task.taskStatus.status
               ),
 
-              Text("Comments"),
-
-              Column(
-                children: task.comments!.map((e) => Text(e.toString())).toList(),
-              ),
-
               Align(
                 alignment: Alignment.bottomRight,
                 child: Row(
                   children: [
                     IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewATaskScreen(
+                              task: task,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.remove_red_eye,
+                        color: Colors.grey,
+                      ),
+                    ),IconButton(
                       onPressed: () {
                         Navigator.push(
                           context,
