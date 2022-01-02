@@ -47,26 +47,48 @@ class CareTask {
       'priority': priority.value,
       'accepted_by': acceptedBy,
       'accepted_for_date': taskAcceptedForDate.toString(),
-      'comments': comments!.map((review) => review.toJson()).toList(),
+      'comments': comments!.map((comment) => comment.toJson()).toList(),
     };
   }
   
   
-  CareTask.fromJson(dynamic key, dynamic value)
-      : title = value['title'] ?? '',
-        caregroupId = value['caregroup_id'] ?? '',
-        createdBy = value['created_by'] ?? '',
-        id = key,
-        priority = Priority.priorityList.firstWhere((element) => value['priority'] == element.value),
-        dateCreated = DateTime.parse(value['date_created']),
+ factory CareTask.fromJson(dynamic key, dynamic value) {
 
-        details = value['details'] ?? '',
-        taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['task_type']),
-        taskStatus = TaskStatus.taskStatusList. firstWhere((element) => element.status == value['status']),
-        taskAcceptedForDate = DateTime.tryParse(value['accepted_for_date']),
-        acceptedBy = value['accepted_by'] ?? '',
-        comments = value['comments']  ?? []
-  ;
+   final title = value['title'] ?? '';
+    final caregroupId = value['caregroup_id'] ?? '';
+    final details = value['details'] ?? '';
+    final taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['task_type']);
+    final taskStatus = TaskStatus.taskStatusList. firstWhere((element) => element.status == value['status']);
+    final priority = Priority.priorityList.firstWhere((element) => value['priority'] == element.value);
+    final createdBy = value['created_by'] ?? '';
+    final dateCreated = DateTime.parse(value['date_created']);
+    final taskAcceptedForDate = DateTime.tryParse(value['accepted_for_date']);
+    final acceptedBy = value['accepted_by'] ?? '';
+
+    final List<Comment> comments = <Comment>[];
+
+    if (value['comments'] != null) {
+      value['comments'].forEach((comment) => comments.add(Comment.fromJson(comment)));
+    };
+
+   return CareTask(
+        id: key,
+        title: title,
+        caregroupId: caregroupId,
+        details: details,
+        taskType: taskType,
+        taskStatus: taskStatus,
+        priority: priority,
+        createdBy: createdBy,
+        dateCreated: dateCreated,
+        taskAcceptedForDate: taskAcceptedForDate,
+        acceptedBy: acceptedBy,
+        comments: comments
+
+    );
+
+
+   }
 }
 
 class Comment {
@@ -90,10 +112,12 @@ class Comment {
     };
   }
 
-  Comment.fromJson(dynamic key, dynamic value)
-      : commment = value['commment'] ?? '',
-        createdBy = value['created_by'] ?? '',
-        id = key,
-        dateCreated = DateTime.parse(value['date_created'])
-  ;
-}
+ factory Comment.fromJson(dynamic value){
+    Comment newComment = Comment(
+      commment: value['commment'] ?? '',
+      createdBy: value['created_by'] ?? '',
+      dateCreated: DateTime.parse(value['date_created']),
+    );
+
+   return newComment;
+ }}
