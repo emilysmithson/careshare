@@ -64,6 +64,12 @@ class TaskJobSummaryWidget extends StatelessWidget {
                   content: task.taskStatus.status
               ),
 
+              Text("Comments"),
+
+              Column(
+                children: task.comments!.map((e) => Text(e.toString())).toList(),
+              ),
+
               Align(
                 alignment: Alignment.bottomRight,
                 child: Row(

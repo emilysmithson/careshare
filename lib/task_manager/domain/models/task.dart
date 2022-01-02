@@ -68,7 +68,12 @@ class CareTask {
     final List<Comment> comments = <Comment>[];
 
     if (value['comments'] != null) {
-      value['comments'].forEach((comment) => comments.add(Comment.fromJson(comment)));
+      value['comments'].forEach((comment) =>
+      {
+        if (comment!=null){
+          comments.add(Comment.fromJson(comment))
+        }
+      });
     };
 
    return CareTask(
@@ -96,6 +101,15 @@ class Comment {
   late String? createdBy;
   DateTime? dateCreated;
   late String? id;
+
+  @override
+  String toString() {
+    return '''
+      comment: $commment
+      created by: $createdBy
+      date created: $dateCreated
+    ''';
+  }
 
   Comment({
     required this.commment,
