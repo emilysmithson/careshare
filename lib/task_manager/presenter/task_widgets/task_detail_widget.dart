@@ -7,6 +7,7 @@ import '../../domain/usecases/all_task_usecases.dart';
 import '../create_or_edit_task_screen.dart';
 import '../accept_a_task_screen.dart';
 import '../../../widgets/item_widget.dart';
+import 'package:careshare/global.dart';
 
 class TaskDetailWidget extends StatelessWidget {
   final CareTask task;
@@ -25,7 +26,7 @@ class TaskDetailWidget extends StatelessWidget {
             children: [
               itemWidget(
                 title: 'Caregroup',
-                content: task.caregroupId,
+                content: (careeInCaregroups + carerInCaregroups).firstWhere((element) => element.id == task.caregroupId).name!,
               ),
               itemWidget(
                 title: 'Title',
@@ -53,11 +54,11 @@ class TaskDetailWidget extends StatelessWidget {
 
               if(task.acceptedBy != "")  itemWidget(
                 title: 'Accepted By',
-                content: task.acceptedBy.toString(),
+                content: task.acceptedByDisplayName ?? 'Anonymous',
               ),
               itemWidget(
                 title: 'Created By',
-                content: task.createdBy.toString(),
+                content: task.createdByDisplayName ?? 'Anonymous',
               ),
               itemWidget(
                   title: 'Status',

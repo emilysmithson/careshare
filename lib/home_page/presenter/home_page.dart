@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
           children: [
 
 
-            Text('${myProfile.firstName}, welcome to CareShare,'),
+            Text('${myProfile.displayName}, welcome to CareShare,'),
             TextButton(
               onPressed: () {
                 Navigator.push(

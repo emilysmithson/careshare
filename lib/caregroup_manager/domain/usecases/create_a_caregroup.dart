@@ -10,7 +10,7 @@ class CreateACaregroup {
   CreateACaregroup(this.repository);
   Future<Either<CaregroupManagerException, String>> call(Caregroup caregroup) async {
     Caregroup caregroupWithId = caregroup;
-    caregroup.createdBy = myProfileId;
+    caregroup.createdBy = myProfile.id;
 
     return repository.createCaregroup(caregroupWithId);
   }

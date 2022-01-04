@@ -29,6 +29,10 @@ class ProfileJobSummaryWidget extends StatelessWidget {
                 title: 'Last Name',
                 content: profile.lastName!,
               ),
+              itemWidget(
+                title: 'Display Name',
+                content: profile.displayName!,
+              ),
 
               itemWidget(
                 title: 'Task Types',

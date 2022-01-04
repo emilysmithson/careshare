@@ -64,6 +64,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       return null;
                     },
                   ),
+                  CustomFormField(
+                    controller: controller.displayNameController,
+                    label: 'Display Name',
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a Display Name';
+                      }
+                      return null;
+                    },
+                  ),
 
                   CustomFormField(
                     controller: controller.taskTypesController,

@@ -39,9 +39,7 @@ class AllTaskUseCases {
     return fetchTasksUseCase(search);
   }
 
-  static Future<Either<TaskManagerException, bool>> removeTask(
-    String id,
-  ) {
+  static Future<Either<TaskManagerException, bool>> removeTask(String id) {
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
     final TaskRepositoryImpl repository = TaskRepositoryImpl(datasource);
     final RemoveATask removeTaskUseCase = RemoveATask(repository);

@@ -11,6 +11,7 @@ class EditProfileController {
 
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
+  late TextEditingController displayNameController;
   late TextEditingController taskTypesController;
 
   initialiseControllers(Profile? originalProfile) {
@@ -24,6 +25,9 @@ class EditProfileController {
     lastNameController = TextEditingController(
       text: originalProfile?.lastName,
     );
+    displayNameController = TextEditingController(
+      text: originalProfile?.displayName,
+    );
     taskTypesController = TextEditingController(
       text: originalProfile?.taskTypes,
     );
@@ -36,6 +40,7 @@ class EditProfileController {
       final Profile profile = storedProfile!;
       profile.firstName = firstNameController.text;
       profile.lastName = lastNameController.text;
+      profile.displayName = displayNameController.text;
       profile.dateCreated = DateTime.now();
       profile.taskTypes = taskTypesController.text;
 

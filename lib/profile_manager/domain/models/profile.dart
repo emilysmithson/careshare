@@ -4,6 +4,7 @@ import '../../../caregroup_manager/domain/models/caregroup.dart';
 class Profile {
   late String? firstName;
   late String? lastName;
+  late String? displayName;
   late String? authId;
   late String? id;
   late String? taskTypes;
@@ -18,6 +19,7 @@ class Profile {
     this.id,
     this.firstName,
     this.lastName,
+    this.displayName,
     this.authId,
     this.taskTypes,
     this.dateCreated,
@@ -40,6 +42,7 @@ class Profile {
     return {
       'first_name': firstName,
       'last_name': lastName,
+      'display_name': displayName,
       'auth_id': authId,
       'task_types': taskTypes,
       'created_by': createdBy,
@@ -55,6 +58,7 @@ class Profile {
     final authId  = value['auth_id'].toString();
     final firstName =   value['first_name'].toString();
     final lastName =   value['last_name'].toString();
+    final displayName =   value['display_name'].toString();
     final createdBy = value['created_by'].toString();
     final dateCreated = DateTime.parse(value['date_created']);
     final taskTypes = value['task_types'].toString();
@@ -84,6 +88,7 @@ class Profile {
       authId: authId,
       firstName: firstName,
       lastName: lastName,
+      displayName: displayName,
       createdBy: createdBy,
       dateCreated: dateCreated,
       taskTypes: taskTypes,

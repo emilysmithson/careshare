@@ -1,5 +1,3 @@
-import 'package:careshare/profile_manager/domain/usecases/create_a_profile.dart';
-
 import 'priority.dart';
 import 'task_type.dart';
 import 'task_status.dart';
@@ -13,10 +11,12 @@ class CareTask {
   late String? id;
 
   late String? createdBy;
+  late String? createdByDisplayName;
   DateTime? dateCreated;
 
   TaskStatus taskStatus;
   late String? acceptedBy;
+  late String? acceptedByDisplayName;
   DateTime? taskAcceptedForDate;
   List<Comment>? comments;
 
@@ -26,11 +26,13 @@ class CareTask {
     required this.details,
     this.id,
     this.createdBy,
+    this.createdByDisplayName,
     required this.taskType,
     required this.taskStatus,
     this.dateCreated,
     required this.priority,
     this.acceptedBy,
+    this.acceptedByDisplayName,
     this.taskAcceptedForDate,
     this.comments,
   });
@@ -41,11 +43,13 @@ class CareTask {
       'caregroup_id': caregroupId,
       'details': details,
       'created_by': createdBy,
+      'created_by_display_name': createdByDisplayName,
       'task_type': taskType.type,
       'status': taskStatus.status,
       'date_created': dateCreated.toString(),
       'priority': priority.value,
       'accepted_by': acceptedBy,
+      'accepted_by_display_name': acceptedByDisplayName,
       'accepted_for_date': taskAcceptedForDate.toString(),
       'comments': comments?.map((comment) => comment.toJson()).toList(),
     };
@@ -60,10 +64,12 @@ class CareTask {
     final taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['task_type']);
     final taskStatus = TaskStatus.taskStatusList. firstWhere((element) => element.status == value['status']);
     final priority = Priority.priorityList.firstWhere((element) => value['priority'] == element.value);
-    final createdBy = value['created_by'] ?? '';
+   final createdBy = value['created_by'] ?? '';
+   final createdByDisplayName = value['created_by_display_name'] ?? '';
     final dateCreated = DateTime.parse(value['date_created']);
     final taskAcceptedForDate = DateTime.tryParse(value['accepted_for_date']);
     final acceptedBy = value['accepted_by'] ?? '';
+    final acceptedByDisplayName = value['accepted_by_display_name'] ?? '';
 
     final List<Comment> comments = <Comment>[];
     if (value['comments'] != null) {
@@ -83,10 +89,13 @@ class CareTask {
         taskType: taskType,
         taskStatus: taskStatus,
         priority: priority,
-        createdBy: createdBy,
+       createdBy: createdBy,
+       createdByDisplayName: createdByDisplayName,
+
         dateCreated: dateCreated,
         taskAcceptedForDate: taskAcceptedForDate,
         acceptedBy: acceptedBy,
+        acceptedByDisplayName: acceptedByDisplayName,
         comments: comments
 
     );
@@ -98,6 +107,7 @@ class CareTask {
 class Comment {
   final String commment;
   late String? createdBy;
+  late String? createdByDisplayName;
   DateTime? dateCreated;
   late String? id;
 
@@ -105,7 +115,7 @@ class Comment {
   String toString() {
     return '''
       comment: $commment
-      created by: $createdBy
+      created by: $createdByDisplayName
       date created: $dateCreated
     ''';
   }
@@ -114,6 +124,7 @@ class Comment {
     required this.commment,
     this.id,
     this.createdBy,
+    this.createdByDisplayName,
     this.dateCreated,
   });
 
@@ -121,6 +132,7 @@ class Comment {
     return {
       'commment': commment,
       'created_by': createdBy,
+      'created_by_display_name': createdByDisplayName,
       'date_created': dateCreated.toString(),
     };
   }
@@ -129,6 +141,7 @@ class Comment {
     Comment newComment = Comment(
       commment: value['commment'] ?? '',
       createdBy: value['created_by'] ?? '',
+      createdByDisplayName: value['created_by_name'] ?? '',
       dateCreated: DateTime.parse(value['date_created']),
     );
 

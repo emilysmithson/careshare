@@ -11,6 +11,7 @@ class CreateATask {
   Future<Either<TaskManagerException, String>> call(CareTask task) async {
     CareTask taskWithId = task;
     task.createdBy = myProfile.id;
+    task.createdByDisplayName = myProfile.displayName;
 
     return repository.createTask(taskWithId);
   }

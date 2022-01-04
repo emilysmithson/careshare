@@ -10,7 +10,7 @@ class CreateProfile {
   CreateProfile(this.repository);
   Future<Either<ProfileManagerException, String>> call(Profile profile) async {
     Profile profileWithId = profile;
-    profile.createdBy = myProfileId;
+    profile.createdBy = myProfile.id;
 
     return repository.createProfile(profileWithId);
   }

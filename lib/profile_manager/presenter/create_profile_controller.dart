@@ -11,11 +11,13 @@ class CreateProfileController {
 
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
+  late TextEditingController displayNameController;
   late TextEditingController taskTypesController;
 
   initialiseControllers() {
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
+    displayNameController = TextEditingController();
     taskTypesController = TextEditingController();
   }
 
@@ -26,13 +28,15 @@ class CreateProfileController {
       final Profile profile = Profile();
       profile.firstName = firstNameController.text;
       profile.lastName = lastNameController.text;
+      profile.displayName = displayNameController.text;
+
       profile.dateCreated = DateTime.now();
       profile.taskTypes = taskTypesController.text;
       profile.authId = FirebaseAuth.instance.currentUser?.uid;
 
       final response = await AllProfileUseCases.createProfile(profile);
       response.fold((l) => null, (r) => profile.id = r);
-      myProfileId = profile.id!;
+      myProfile = profile;
 
       Navigator.pushReplacement(
         context,

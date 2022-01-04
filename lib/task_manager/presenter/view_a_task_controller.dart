@@ -1,9 +1,9 @@
+import 'package:careshare/global.dart';
 import 'package:careshare/task_manager/domain/models/task_status.dart';
 import 'package:flutter/material.dart';
 import '../domain/models/task.dart';
 import '../domain/usecases/all_task_usecases.dart';
 import 'task_entered_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 
 class ViewATaskController {
@@ -35,17 +35,17 @@ class ViewATaskController {
       if (commentController.text != null){
         task.comments!.add(
           Comment(
-            createdBy: "me",
+            createdBy: myProfile.id,
+            createdByDisplayName: myProfile.displayName,
             dateCreated: DateTime.now(),
             commment: commentController.text
           )
         );
       }
 
-      String? id = FirebaseAuth.instance.currentUser?.uid;
-      if (id != null) {
-        task.acceptedBy = id;
-      }
+
+      task.acceptedBy = myProfile.id;
+      task.acceptedByDisplayName = myProfile.displayName ?? 'Anonymous';
 
       AllTaskUseCases.editATask(task);
 
