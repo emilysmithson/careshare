@@ -9,6 +9,7 @@ import 'create_or_edit_task_screen.dart';
 import 'accept_a_task_screen.dart';
 import '../domain/usecases/all_task_usecases.dart';
 import 'package:careshare/global.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class ViewATaskScreen extends StatefulWidget {
   final CareTask task;
@@ -35,10 +36,7 @@ class _ViewATaskScreenState extends State<ViewATaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        title:
-        Text('Task Details'),
-      ),
+      appBar: CustomAppBar('Task Details'),
       body: Container(
         margin: const EdgeInsets.all(16),
         padding: const EdgeInsets.all(16),

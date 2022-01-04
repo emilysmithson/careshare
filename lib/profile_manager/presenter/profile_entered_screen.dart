@@ -1,3 +1,4 @@
+import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'profile_widgets/profile_job_summary_widget.dart';
@@ -13,11 +14,8 @@ class ProfileEnteredScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Thank you for entering a profile',
-        ),
-      ),
+      appBar: CustomAppBar('New Profile Created'),
+
       body: Column(
         children: [
           ProfileJobSummaryWidget(

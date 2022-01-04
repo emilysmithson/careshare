@@ -1,3 +1,4 @@
+import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'task_widgets/task_summary_widget.dart';
@@ -12,11 +13,8 @@ class TaskEnteredScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Thank you for entering a task',
-        ),
-      ),
+      appBar: CustomAppBar('Thank you for entering a task'),
+
       body: Column(
         children: [
           TaskSummaryWidget(

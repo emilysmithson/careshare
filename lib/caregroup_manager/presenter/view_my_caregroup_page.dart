@@ -1,4 +1,5 @@
 import 'package:careshare/caregroup_manager/presenter/view_my_caregroup_controller.dart';
+import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:careshare/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,7 @@ class _ViewMyCaregroupPageState extends State<ViewMyCaregroupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Caregroup'),
-      ),
+      appBar: CustomAppBar('My Caregroup'),
       body: Column(
         children: [
           CustomFormField(

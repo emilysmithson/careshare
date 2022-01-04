@@ -1,3 +1,4 @@
+import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'profile_widgets/profile_job_summary_widget.dart';
 import '../domain/models/profile.dart';
@@ -24,21 +25,7 @@ class _ViewAllProfilesScreenState extends State<ViewAllProfilesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Profiles'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const EditProfileScreen(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.add))
-        ],
-      ),
+      appBar: CustomAppBar('All Profiles'),
       body: ValueListenableBuilder(
         valueListenable: controller.status,
         builder: (context, status, _) {

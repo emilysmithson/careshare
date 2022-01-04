@@ -1,4 +1,5 @@
 import 'package:careshare/task_manager/presenter/task_widgets/select_caregroup.dart';
+import 'package:careshare/widgets/custom_app_bar.dart';
 
 import '../domain/models/priority.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +45,8 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        title:
-            Text(controller.isCreateTask ? 'Create a New Task' : 'Edit a Task'),
-      ),
+      appBar: CustomAppBar(controller.isCreateTask ? 'Create a New Task' : 'Edit a Task'),
+
       body: SafeArea(
         child: Center(
           child: Form(

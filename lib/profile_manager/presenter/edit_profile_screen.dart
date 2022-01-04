@@ -1,3 +1,4 @@
+import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/custom_form_field.dart';
@@ -30,10 +31,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        title:
-        Text(controller.isCreateProfile ? 'Create a New Profile' : 'Edit a Profile'),
-      ),
+      appBar: CustomAppBar(controller.isCreateProfile ? 'Create a New Profile' : 'Edit a Profile'),
+
       body: SafeArea(
         child: Center(
           child: Form(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'task_widgets/task_summary_widget.dart';
 import '../domain/models/task.dart';
-import 'create_or_edit_task_screen.dart';
+
 import 'view_all_tasks_controller.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class ViewAllTasksScreen extends StatefulWidget {
   const ViewAllTasksScreen({Key? key}) : super(key: key);
@@ -24,21 +25,22 @@ class _ViewAllTasksScreenState extends State<ViewAllTasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Tasks'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CreateOrEditATaskScreen(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.add))
-        ],
-      ),
+      appBar: CustomAppBar('All Tasks'),
+      // appBar: AppBar(
+      //   title: const Text('All Tasks'),
+      //   actions: [
+      //     IconButton(
+      //         onPressed: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => const CreateOrEditATaskScreen(),
+      //             ),
+      //           );
+      //         },
+      //         icon: const Icon(Icons.add))
+      //   ],
+      // ),
       body: ValueListenableBuilder(
         valueListenable: controller.status,
         builder: (context, status, _) {

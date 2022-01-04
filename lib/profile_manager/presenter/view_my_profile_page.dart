@@ -1,4 +1,5 @@
 import 'package:careshare/profile_manager/presenter/view_my_profile_controller.dart';
+import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:careshare/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,7 @@ class _ViewMyProfilePageState extends State<ViewMyProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Profile'),
-      ),
+      appBar: CustomAppBar('My Profile'),
       body: Column(
         children: [
           CustomFormField(

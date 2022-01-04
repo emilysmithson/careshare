@@ -1,3 +1,4 @@
+import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'caregroup_widgets/caregroup_job_summary_widget.dart';
 import '../domain/models/caregroup.dart';
@@ -24,21 +25,7 @@ class _ViewAllCaregroupsScreenState extends State<ViewAllCaregroupsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Caregroups'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CreateOrEditACaregroupScreen(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.add))
-        ],
-      ),
+      appBar: CustomAppBar('All Caregroups'),
       body: ValueListenableBuilder(
         valueListenable: controller.status,
         builder: (context, status, _) {
