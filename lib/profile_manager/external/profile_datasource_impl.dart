@@ -58,7 +58,7 @@ class ProfileDatasourceImpl implements ProfileDatasource {
   @override
   Future<DatabaseEvent> fetchAProfile(String id) async {
     DatabaseReference reference =
-    FirebaseDatabase.instance.ref("profiles/${id}");
+    FirebaseDatabase.instance.ref("profiles/$id");
 
     final response = await reference.once();
     return response;

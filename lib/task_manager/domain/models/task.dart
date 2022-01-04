@@ -79,7 +79,7 @@ class CareTask {
           comments.add(Comment.fromJson(comment))
         }
       });
-    };
+    }
 
    return CareTask(
         id: key,

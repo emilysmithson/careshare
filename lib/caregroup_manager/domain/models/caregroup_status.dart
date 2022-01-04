@@ -7,7 +7,7 @@ class CaregroupStatus {
   static CaregroupStatus inactive = CaregroupStatus('Inactive');
   static CaregroupStatus archived = CaregroupStatus('Archived');
 
-  static List<CaregroupStatus> CaregroupStatusList = [
+  static List<CaregroupStatus> caregroupStatusList = [
     active,
     inactive,
     archived,

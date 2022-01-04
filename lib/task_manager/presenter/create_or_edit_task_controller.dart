@@ -1,5 +1,4 @@
 import 'package:careshare/caregroup_manager/domain/models/caregroup.dart';
-import 'package:careshare/caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/models/priority.dart';
@@ -8,7 +7,6 @@ import '../domain/models/task_type.dart';
 import '../domain/models/task_status.dart';
 import '../domain/usecases/all_task_usecases.dart';
 import 'task_entered_screen.dart';
-import 'package:careshare/global.dart';
 import 'package:careshare/global.dart';
 
 class CreateOrEditATaskController {
@@ -52,9 +50,9 @@ class CreateOrEditATaskController {
   // }
 
   initialiseControllers(CareTask? originalTask) async {
-    print(myProfile.firstName);
-    print(careeInCaregroups);
-    print(carerInCaregroups);
+    // print(myProfile.firstName);
+    // print(careeInCaregroups);
+    // print(carerInCaregroups);
 
     caregroupList.forEach((element) {
       caregroupOptions.add(element.name!);

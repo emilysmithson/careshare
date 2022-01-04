@@ -32,16 +32,15 @@ class ViewATaskController {
 
       task.taskAcceptedForDate = acceptedDateTime;
       task.taskStatus = TaskStatus.accepted;
-      if (commentController.text != null){
-        task.comments!.add(
-          Comment(
-            createdBy: myProfile.id,
-            createdByDisplayName: myProfile.displayName,
-            dateCreated: DateTime.now(),
-            commment: commentController.text
-          )
-        );
-      }
+
+      task.comments!.add(
+        Comment(
+          createdBy: myProfile.id,
+          createdByDisplayName: myProfile.displayName,
+          dateCreated: DateTime.now(),
+          commment: commentController.text
+        )
+      );
 
 
       task.acceptedBy = myProfile.id;

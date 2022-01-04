@@ -37,7 +37,7 @@ class Caregroup {
         createdBy = value['created_by'].toString(),
         dateCreated = DateTime.parse(value['date_created']),
         carees = value['carees'].toString(),
-        status = CaregroupStatus.CaregroupStatusList. firstWhere((element) => element.status == value['status']),
+        status = CaregroupStatus.caregroupStatusList. firstWhere((element) => element.status == value['status']),
       id = key.toString()
   ;
 

@@ -2,7 +2,6 @@ import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'profile_widgets/profile_job_summary_widget.dart';
 import '../domain/models/profile.dart';
-import 'edit_profile_screen.dart';
 import 'view_all_profiles_controller.dart';
 
 class ViewAllProfilesScreen extends StatefulWidget {

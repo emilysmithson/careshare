@@ -1,12 +1,10 @@
-import 'package:careshare/caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'authentication/presenter/authentication_page.dart';
 import 'home_page/presenter/home_page.dart';
-import 'global.dart';
-import '../profile_manager/domain/usecases/all_profile_usecases.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

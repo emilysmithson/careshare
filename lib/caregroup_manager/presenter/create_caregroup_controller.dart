@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import '../domain/models/caregroup.dart';
 import '../domain/usecases/all_caregroup_usecases.dart';
 import 'caregroup_entered_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:careshare/global.dart';
+
 
 class CreateCaregroupController {
   final formKey = GlobalKey<FormState>();

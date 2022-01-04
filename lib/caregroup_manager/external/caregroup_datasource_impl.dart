@@ -58,7 +58,7 @@ class CaregroupDatasourceImpl implements CaregroupDatasource {
   @override
   Future<DatabaseEvent> fetchACaregroup(String id) async {
     DatabaseReference reference =
-    FirebaseDatabase.instance.ref("caregroups/${id}");
+    FirebaseDatabase.instance.ref("caregroups/$id");
 
     final response = await reference.once();
     return response;
