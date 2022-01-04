@@ -98,7 +98,7 @@ class CreateOrEditATaskController {
       );
       if (isCreateTask) {
         final response = await AllTaskUseCases.createATask(task);
-        response.fold((l) => null, (r) => task.id = r);
+        response.fold((l) => print('ERROR SAVING TASK ${l.message}'), (r) => task.id = r);
       } else {
         task.id = id;
         AllTaskUseCases.editATask(task);

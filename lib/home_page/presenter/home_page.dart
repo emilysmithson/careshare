@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
 
   Future fetchProfile() async {
+
     final response = await AllProfileUseCases.fetchMyProfile();
     response.fold(
             (l) {
@@ -43,11 +44,13 @@ class _HomePageState extends State<HomePage> {
               myProfile = r;
 
               // retrieve the caregroups
+              careeInCaregroups = [];
               r.careeIn.toString().split(',').forEach((String caregroupId) async {
                 final result = await AllCaregroupUseCases.fetchACaregroup(caregroupId);
                 result.fold((l) => null, (r) => careeInCaregroups.add(r));
               });
 
+              carerInCaregroups = [];
               r.carerIn.toString().split(',').forEach((String caregroupId) async {
                 final result = await AllCaregroupUseCases.fetchACaregroup(caregroupId);
                 result.fold((l) => null, (r) => carerInCaregroups.add(r));

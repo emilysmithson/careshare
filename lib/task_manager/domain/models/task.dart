@@ -47,7 +47,7 @@ class CareTask {
       'priority': priority.value,
       'accepted_by': acceptedBy,
       'accepted_for_date': taskAcceptedForDate.toString(),
-      'comments': comments!.map((comment) => comment.toJson()).toList(),
+      'comments': comments?.map((comment) => comment.toJson()).toList(),
     };
   }
   
