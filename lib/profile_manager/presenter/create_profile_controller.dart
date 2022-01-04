@@ -32,7 +32,7 @@ class CreateProfileController {
 
       final response = await AllProfileUseCases.createProfile(profile);
       response.fold((l) => null, (r) => profile.id = r);
-      myProfileId = profile.id;
+      myProfileId = profile.id!;
 
       Navigator.pushReplacement(
         context,

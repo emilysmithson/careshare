@@ -1,6 +1,9 @@
 library careshare.globals;
 
 import 'caregroup_manager/domain/models/caregroup.dart';
+import 'profile_manager/domain/models/profile.dart';
 
-String? myProfileId;
-List<Caregroup> caregroups = [];
+late String myProfileId;
+late Profile myProfile;
+List<Caregroup> careeInCaregroups = [];
+List<Caregroup> carerInCaregroups = [];

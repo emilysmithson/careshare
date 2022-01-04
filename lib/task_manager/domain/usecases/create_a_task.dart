@@ -10,7 +10,7 @@ class CreateATask {
   CreateATask(this.repository);
   Future<Either<TaskManagerException, String>> call(CareTask task) async {
     CareTask taskWithId = task;
-    task.createdBy = myProfileId;
+    task.createdBy = myProfile.id;
 
     return repository.createTask(taskWithId);
   }

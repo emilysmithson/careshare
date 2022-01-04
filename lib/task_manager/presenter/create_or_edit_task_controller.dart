@@ -8,6 +8,8 @@ import '../domain/models/task_type.dart';
 import '../domain/models/task_status.dart';
 import '../domain/usecases/all_task_usecases.dart';
 import 'task_entered_screen.dart';
+import 'package:careshare/global.dart';
+import 'package:careshare/global.dart';
 
 class CreateOrEditATaskController {
   final formKey = GlobalKey<FormState>();
@@ -18,33 +20,51 @@ class CreateOrEditATaskController {
   Caregroup? caregroup;
 
   Priority priority = Priority.medium;
-  final List<Caregroup> caregroupList = [];
+  final List<Caregroup> caregroupList = carerInCaregroups;
   final List<String> caregroupOptions = [];
 
   late TextEditingController titleController;
   late TextEditingController detailsController;
   String? id;
 
-  Future fetchCaregroupList() async {
-    final response = await AllCaregroupUseCases.fetchCaregroups();
-    response.fold(
-            (l) {
-          // print(">l " + l.message);
-          if (l.message=='no value'){
-            // print('no Caregroups');
-          }
-        },
-            (r) {
-
-            caregroupList.addAll(r);
-            caregroupList.forEach((element) {
-            caregroupOptions.add(element.name!);
-
-          });
-        });
-  }
+  // Future fetchCaregroupList(CareTask originalTask) async {
+  //   final response = await AllCaregroupUseCases.fetchCaregroups();
+  //   response.fold(
+  //           (l) {
+  //         // print(">l " + l.message);
+  //         if (l.message=='no value'){
+  //           // print('no Caregroups');
+  //         }
+  //       },
+  //           (r) {
+  //
+  //           caregroupList.addAll(r);
+  //           caregroupList.forEach((element) {
+  //           caregroupOptions.add(element.name!);
+  //
+  //           if (originalTask != null) {
+  //             caregroup = caregroupList.firstWhere((element) => element.id ==
+  //                 originalTask.caregroupId);
+  //           }
+  //
+  //           });
+  //       });
+  // }
 
   initialiseControllers(CareTask? originalTask) async {
+    print(myProfile.firstName);
+    print(careeInCaregroups);
+    print(carerInCaregroups);
+
+    caregroupList.forEach((element) {
+      caregroupOptions.add(element.name!);
+    });
+
+    if (originalTask != null) {
+      caregroup = caregroupList.firstWhere((element) => element.id ==
+          originalTask.caregroupId);
+    }
+
     if (originalTask != null) {
       isCreateTask = false;
       id = originalTask.id;

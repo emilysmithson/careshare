@@ -17,24 +17,14 @@ class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
 
-  Future fetchProfile() async {
-    final response = await AllProfileUseCases.fetchMyProfile();
-    response.fold(
-            (l) {
-              // print(">l " + l.message);
-              },
-            (r) {myProfileId = r.id;});
-  }
-
-  Future fetchCareGroups() async {
-    final response = await AllCaregroupUseCases.fetchCaregroups();
-    response.fold(
-            (l) {
-              // print(">l " + l.message);
-              },
-            (r) {caregroups = r;});
-  }
-
+  // Future fetchProfile() async {
+  //   final response = await AllProfileUseCases.fetchMyProfile();
+  //   response.fold(
+  //           (l) {
+  //             // print(">l " + l.message);
+  //             },
+  //           (r) {myProfileId = r.id!;});
+  // }
 
 
   @override
@@ -52,8 +42,8 @@ class App extends StatelessWidget {
             return AuthenticationPage();
           }
 
-          fetchProfile();
-          fetchCareGroups();
+          // fetchProfile();
+
 
           // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
           // print('myProfileId: $myProfileId');

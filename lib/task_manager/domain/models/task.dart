@@ -66,7 +66,6 @@ class CareTask {
     final acceptedBy = value['accepted_by'] ?? '';
 
     final List<Comment> comments = <Comment>[];
-
     if (value['comments'] != null) {
       value['comments'].forEach((comment) =>
       {

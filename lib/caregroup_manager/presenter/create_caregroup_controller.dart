@@ -34,7 +34,7 @@ class CreateCaregroupController {
 
       final response = await AllCaregroupUseCases.createACaregroup(caregroup);
       response.fold((l) => null, (r) => caregroup.id = r);
-      myProfileId = caregroup.id;
+      // myProfileId = caregroup.id!;
 
       Navigator.pushReplacement(
         context,

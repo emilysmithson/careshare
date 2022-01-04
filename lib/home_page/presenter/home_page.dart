@@ -1,6 +1,8 @@
+import 'package:careshare/caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
 import 'package:careshare/caregroup_manager/presenter/create_caregroup_screen.dart';
 import 'package:careshare/caregroup_manager/presenter/view_all_caregroups_screen.dart';
-import 'package:careshare/profile_manager/domain/models/profile.dart';
+import '../../../caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
+
 import 'package:careshare/profile_manager/presenter/create_profile_screen.dart';
 import 'package:careshare/profile_manager/presenter/view_all_profiles_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +14,7 @@ import '../../task_manager/presenter/view_all_tasks_screen.dart';
 
 import '../../profile_manager/presenter/view_my_profile_page.dart';
 import '../../profile_manager/domain/usecases/all_profile_usecases.dart';
+import 'package:careshare/global.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +26,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  late Profile myProfile;
   bool isLoading = true;
 
   Future fetchProfile() async {
@@ -39,10 +41,25 @@ class _HomePageState extends State<HomePage> {
               },
             (r) {
               myProfile = r;
+
+              // retrieve the caregroups
+              r.careeIn.toString().split(',').forEach((String caregroupId) async {
+                final result = await AllCaregroupUseCases.fetchACaregroup(caregroupId);
+                result.fold((l) => null, (r) => careeInCaregroups.add(r));
+              });
+
+              r.carerIn.toString().split(',').forEach((String caregroupId) async {
+                final result = await AllCaregroupUseCases.fetchACaregroup(caregroupId);
+                result.fold((l) => null, (r) => carerInCaregroups.add(r));
+              });
+
               isLoading = false;
               setState(() {});
             });
   }
+
+
+
 
   @override
   void initState() {
