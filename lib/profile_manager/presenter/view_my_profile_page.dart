@@ -1,5 +1,6 @@
 import 'package:careshare/profile_manager/presenter/view_my_profile_controller.dart';
 import 'package:careshare/widgets/custom_app_bar.dart';
+import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:careshare/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class _ViewMyProfilePageState extends State<ViewMyProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar('My Profile'),
+      endDrawer: CustomDrawer(),
       body: Column(
         children: [
           CustomFormField(

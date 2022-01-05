@@ -1,4 +1,5 @@
 import 'package:careshare/widgets/custom_app_bar.dart';
+import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:careshare/widgets/item_widget.dart';
 
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class _AcceptATaskScreenState extends State<AcceptATaskScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: CustomAppBar('Accept a Task'),
+      endDrawer: CustomDrawer(),
       body: SafeArea(
           child: Form(
             key: controller.formKey,

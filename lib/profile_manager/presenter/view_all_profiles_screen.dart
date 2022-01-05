@@ -1,4 +1,5 @@
 import 'package:careshare/widgets/custom_app_bar.dart';
+import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'profile_widgets/profile_job_summary_widget.dart';
 import '../domain/models/profile.dart';
@@ -25,6 +26,7 @@ class _ViewAllProfilesScreenState extends State<ViewAllProfilesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar('All Profiles'),
+      endDrawer: CustomDrawer(),
       body: ValueListenableBuilder(
         valueListenable: controller.status,
         builder: (context, status, _) {

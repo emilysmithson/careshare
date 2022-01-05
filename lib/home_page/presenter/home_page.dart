@@ -1,18 +1,10 @@
 import 'package:careshare/caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
-import 'package:careshare/caregroup_manager/presenter/create_caregroup_screen.dart';
-import 'package:careshare/caregroup_manager/presenter/view_all_caregroups_screen.dart';
+import 'package:careshare/widgets/custom_drawer.dart';
 import '../../../caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
 
 import 'package:careshare/profile_manager/presenter/create_profile_screen.dart';
-import 'package:careshare/profile_manager/presenter/view_all_profiles_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
-import '../../task_manager/presenter/create_or_edit_task_screen.dart';
-import '../../task_manager/presenter/view_all_tasks_screen.dart';
-
-import '../../profile_manager/presenter/view_my_profile_page.dart';
 import '../../profile_manager/domain/usecases/all_profile_usecases.dart';
 import 'package:careshare/global.dart';
 import '../../widgets/custom_app_bar.dart';
@@ -87,7 +79,23 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     icon: Image.asset('images/CareShareLogo50.jpg'),
+      //     onPressed: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //             builder: (context) => HomePage()
+      //         ),
+      //       );
+      //     },
+      //   ),
+      //     title: Text('CareShare Home'),
+      //
+      // ),
       appBar: CustomAppBar('CareShare Home'),
+      endDrawer: CustomDrawer(),
 
       // appBar: AppBar(
       //
@@ -145,93 +153,93 @@ class _HomePageState extends State<HomePage> {
 
 
             Text('${myProfile.displayName}, welcome to CareShare,'),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CreateOrEditATaskScreen()));
-              },
-              child: const Text('Create a new task'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ViewAllTasksScreen(),
-                  ),
-                );
-              },
-              child: const Text('View all tasks'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ViewAllProfilesScreen(),
-                  ),
-                );
-              },
-              child: const Text('View all profiles'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CreateProfileScreen(),
-                  ),
-                );
-              },
-              child: const Text('Create a profile'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ViewAllCaregroupsScreen(),
-                  ),
-                );
-              },
-              child: const Text('View all caregroups'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CreateCaregroupScreen(),
-                  ),
-                );
-              },
-              child: const Text('Create a caregroup'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ViewMyProfilePage(),
-                  ),
-                );
-              },
-              child: const Text('MyProfile'),
-            ),
-            TextButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const App(),
-                  ),
-                );
-              },
-              child: const Text('Logout'),
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => const CreateOrEditATaskScreen()));
+            //   },
+            //   child: const Text('Create a new task'),
+            // ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const ViewAllTasksScreen(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('View all tasks'),
+            // ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const ViewAllProfilesScreen(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('View all profiles'),
+            // ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const CreateProfileScreen(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('Create a profile'),
+            // ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const ViewAllCaregroupsScreen(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('View all caregroups'),
+            // ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const CreateCaregroupScreen(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('Create a caregroup'),
+            // ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const ViewMyProfilePage(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('MyProfile'),
+            // ),
+            // TextButton(
+            //   onPressed: () {
+            //     FirebaseAuth.instance.signOut();
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const App(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('Logout'),
+            // ),
             // TextButton(
             //   onPressed: () {
             //     Navigator.push(

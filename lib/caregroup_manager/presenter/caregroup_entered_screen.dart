@@ -1,4 +1,5 @@
 import 'package:careshare/widgets/custom_app_bar.dart';
+import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'caregroup_widgets/caregroup_job_summary_widget.dart';
@@ -15,6 +16,7 @@ class CaregroupEnteredScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar('Caregroup Created'),
+      endDrawer: CustomDrawer(),
       body: Column(
         children: [
           CaregroupJobSummaryWidget(

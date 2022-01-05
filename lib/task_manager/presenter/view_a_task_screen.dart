@@ -1,4 +1,5 @@
 import 'package:careshare/style/style.dart';
+import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:careshare/widgets/item_widget.dart';
 
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class _ViewATaskScreenState extends State<ViewATaskScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: CustomAppBar('Task Details'),
+      endDrawer: CustomDrawer(),
       body: Container(
         margin: const EdgeInsets.all(16),
         padding: const EdgeInsets.all(16),

@@ -25,44 +25,21 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
     // );
 
     return AppBar(
-      automaticallyImplyLeading: false,
 
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-
-          IconButton(
-            icon: Image.asset('images/CareShareLogo50.jpg'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage()
-                  ),
-                );
-            },
-          ),
-
-
-          Container(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(title)
-          ),
-
-        ],
+      leading: IconButton(
+        icon: Image.asset('images/CareShareLogo50.jpg'),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomePage()
+            ),
+          );
+        },
       ),
-      actions: <Widget>[
-        IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CreateOrEditATaskScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.add))
-      ],
+
+      title: Text(title),
+
     );
 
 

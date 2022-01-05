@@ -1,5 +1,6 @@
 import 'package:careshare/caregroup_manager/presenter/view_my_caregroup_controller.dart';
 import 'package:careshare/widgets/custom_app_bar.dart';
+import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:careshare/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class _ViewMyCaregroupPageState extends State<ViewMyCaregroupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar('My Caregroup'),
+      endDrawer: CustomDrawer(),
       body: Column(
         children: [
           CustomFormField(

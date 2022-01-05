@@ -1,4 +1,5 @@
 import 'package:careshare/widgets/custom_app_bar.dart';
+import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/custom_form_field.dart';
@@ -32,7 +33,7 @@ class _CreateOrEditACaregroupScreenState extends State<CreateOrEditACaregroupScr
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: CustomAppBar(controller.isCreateCaregroup ? 'Create a New Caregroup' : 'Edit a Caregroup'),
-
+      endDrawer: CustomDrawer(),
       body: SafeArea(
         child: Center(
           child: Form(
