@@ -1,3 +1,4 @@
+import 'package:careshare/task_manager/domain/usecases/add_comment.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../external/task_datasource_impl.dart';
@@ -10,7 +11,8 @@ import 'fetch_tasks.dart';
 import 'remove_a_task.dart';
 
 class AllTaskUseCases {
-  static Future<Either<TaskManagerException, String>> createATask(CareTask task) {
+  static Future<Either<TaskManagerException, String>> createATask(
+      CareTask task) {
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
     final TaskRepositoryImpl repository = TaskRepositoryImpl(datasource);
     final CreateATask createATaskUseCase = CreateATask(repository);
@@ -32,7 +34,8 @@ class AllTaskUseCases {
     return fetchTasksUseCase();
   }
 
-  static Future<Either<TaskManagerException, List<CareTask>>> fetchSomeTasks(String search) {
+  static Future<Either<TaskManagerException, List<CareTask>>> fetchSomeTasks(
+      String search) {
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
     final TaskRepositoryImpl repository = TaskRepositoryImpl(datasource);
     final FetchSomeTasks fetchTasksUseCase = FetchSomeTasks(repository);
@@ -45,5 +48,12 @@ class AllTaskUseCases {
     final RemoveATask removeTaskUseCase = RemoveATask(repository);
     return removeTaskUseCase(id);
   }
-}
 
+  static Future<Either<TaskManagerException, String>> addComment(
+      Comment comment, String taskID) async {
+    final TaskDatasourceImpl datasource = TaskDatasourceImpl();
+    final TaskRepositoryImpl repository = TaskRepositoryImpl(datasource);
+    final AddComment addCommentUseCase = AddComment(repository);
+    return addCommentUseCase(comment, taskID);
+  }
+}

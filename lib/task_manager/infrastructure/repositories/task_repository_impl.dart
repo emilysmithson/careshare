@@ -38,7 +38,7 @@ class TaskRepositoryImpl implements TaskRepository {
           response.snapshot.value as Map<dynamic, dynamic>;
 
       returnedList.forEach(
-            (key, value) {
+        (key, value) {
           careTaskList.add(CareTask.fromJson(key, value));
         },
       );
@@ -59,7 +59,7 @@ class TaskRepositoryImpl implements TaskRepository {
   @override
   Future<Either<TaskManagerException, bool>> removeTask(String taskId) async {
     try {
-        datasource.removeTask(taskId);
+      datasource.removeTask(taskId);
     } catch (error) {
       return Left(TaskManagerException(error.toString()));
     }
@@ -67,7 +67,8 @@ class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<Either<TaskManagerException, List<CareTask>>> fetchSomeTasks(String search) async {
+  Future<Either<TaskManagerException, List<CareTask>>> fetchSomeTasks(
+      String search) async {
     DatabaseEvent response;
     try {
       response = await datasource.fetchSomeTasks(search);
@@ -79,14 +80,26 @@ class TaskRepositoryImpl implements TaskRepository {
       return Left(TaskManagerException('no values'));
     } else {
       Map<dynamic, dynamic> returnedList =
-      response.snapshot.value as Map<dynamic, dynamic>;
+          response.snapshot.value as Map<dynamic, dynamic>;
 
       returnedList.forEach(
-            (key, value) {
+        (key, value) {
           careTaskList.add(CareTask.fromJson(key, value));
         },
       );
     }
     return Right(careTaskList);
+  }
+
+  @override
+  Future<Either<TaskManagerException, String>> addComment(
+      Comment comment, String taskId) async {
+    String response;
+    try {
+      response = await datasource.addComment(comment, taskId);
+    } catch (error) {
+      return Left(TaskManagerException(error.toString()));
+    }
+    return Right(response);
   }
 }

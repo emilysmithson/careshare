@@ -8,4 +8,5 @@ abstract class TaskDatasource {
   Future<DatabaseEvent> fetchSomeTasks(String search);
   Future editTask(CareTask task);
   Future removeTask(String taskId);
+  Future<String> addComment(Comment comment, String taskId);
 }

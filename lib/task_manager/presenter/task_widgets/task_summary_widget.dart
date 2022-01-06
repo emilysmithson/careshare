@@ -27,7 +27,9 @@ class TaskSummaryWidget extends StatelessWidget {
             children: [
               // itemWidget(
               //   title: 'Caregroup',
-              //   content: (careeInCaregroups + carerInCaregroups).firstWhere((element) => element.id == task.caregroupId).name!,
+              //   content: (careeInCaregroups + carerInCaregroups)
+              //       .firstWhere((element) => element.id == task.caregroupId)
+              //       .name!,
               // ),
               itemWidget(
                 title: 'Title',
@@ -46,14 +48,12 @@ class TaskSummaryWidget extends StatelessWidget {
                 content:
                     DateFormat('dd-MM-yyyy – kk:mm').format(task.dateCreated!),
               ),
-
               if (task.taskAcceptedForDate != null)
                 itemWidget(
                   title: 'Accepted For Date',
                   content: DateFormat('dd-MM-yyyy – kk:mm')
                       .format(task.taskAcceptedForDate!),
                 ),
-
               if (task.acceptedBy != "")
                 itemWidget(
                   title: 'Accepted By',
@@ -64,7 +64,6 @@ class TaskSummaryWidget extends StatelessWidget {
                 content: task.createdByDisplayName ?? 'Anonymous',
               ),
               itemWidget(title: 'Status', content: task.taskStatus.status),
-
               Align(
                 alignment: Alignment.bottomRight,
                 child: Row(

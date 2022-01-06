@@ -6,7 +6,10 @@ import '../models/task.dart';
 abstract class TaskRepository {
   Future<Either<TaskManagerException, String>> createTask(CareTask task);
   Future<Either<TaskManagerException, List<CareTask>>> fetchAllTasks();
-  Future<Either<TaskManagerException, List<CareTask>>> fetchSomeTasks(String search);
+  Future<Either<TaskManagerException, List<CareTask>>> fetchSomeTasks(
+      String search);
   Future<Either<TaskManagerException, CareTask>> editTask(CareTask task);
   Future<Either<TaskManagerException, bool>> removeTask(String taskId);
+  Future<Either<TaskManagerException, String>> addComment(
+      Comment comment, String taskId);
 }

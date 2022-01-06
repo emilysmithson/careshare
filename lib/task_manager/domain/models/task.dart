@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'priority.dart';
 import 'task_type.dart';
 import 'task_status.dart';
@@ -57,19 +59,20 @@ class CareTask {
       'comments': comments?.map((comment) => comment.toJson()).toList(),
     };
   }
-  
-  
- factory CareTask.fromJson(dynamic key, dynamic value) {
 
-   final title = value['title'] ?? '';
+  factory CareTask.fromJson(dynamic key, dynamic value) {
+    final title = value['title'] ?? '';
     final caregroupId = value['caregroup_id'] ?? '';
-   final caregroupDisplayName = value['created_by_display_name'] ?? '';
+    final caregroupDisplayName = value['created_by_display_name'] ?? '';
     final details = value['details'] ?? '';
-    final taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['task_type']);
-    final taskStatus = TaskStatus.taskStatusList. firstWhere((element) => element.status == value['status']);
-    final priority = Priority.priorityList.firstWhere((element) => value['priority'] == element.value);
-   final createdBy = value['created_by'] ?? '';
-   final createdByDisplayName = value['created_by_display_name'] ?? '';
+    final taskType = TaskType.taskTypeList
+        .firstWhere((element) => element.type == value['task_type']);
+    final taskStatus = TaskStatus.taskStatusList
+        .firstWhere((element) => element.status == value['status']);
+    final priority = Priority.priorityList
+        .firstWhere((element) => value['priority'] == element.value);
+    final createdBy = value['created_by'] ?? '';
+    final createdByDisplayName = value['created_by_display_name'] ?? '';
     final dateCreated = DateTime.parse(value['date_created']);
     final taskAcceptedForDate = DateTime.tryParse(value['accepted_for_date']);
     final acceptedBy = value['accepted_by'] ?? '';
@@ -77,15 +80,15 @@ class CareTask {
 
     final List<Comment> comments = <Comment>[];
     if (value['comments'] != null) {
-      value['comments'].forEach((comment) =>
-      {
-        if (comment!=null){
-          comments.add(Comment.fromJson(comment))
-        }
+      print(value['comments']);
+      print(value['comments'].runtimeType);
+
+      value['comments'].forEach((k, v) {
+        comments.add(Comment.fromJson(k, v));
       });
     }
 
-   return CareTask(
+    return CareTask(
         id: key,
         title: title,
         caregroupId: caregroupId,
@@ -94,19 +97,14 @@ class CareTask {
         taskType: taskType,
         taskStatus: taskStatus,
         priority: priority,
-       createdBy: createdBy,
-       createdByDisplayName: createdByDisplayName,
-
+        createdBy: createdBy,
+        createdByDisplayName: createdByDisplayName,
         dateCreated: dateCreated,
         taskAcceptedForDate: taskAcceptedForDate,
         acceptedBy: acceptedBy,
         acceptedByDisplayName: acceptedByDisplayName,
-        comments: comments
-
-    );
-
-
-   }
+        comments: comments);
+  }
 }
 
 class Comment {
@@ -142,13 +140,17 @@ class Comment {
     };
   }
 
- factory Comment.fromJson(dynamic value){
+  factory Comment.fromJson(String key, value) {
+    print('Flutter key: $key');
+    print('Flutter value: $value');
     Comment newComment = Comment(
       commment: value['commment'] ?? '',
       createdBy: value['created_by'] ?? '',
       createdByDisplayName: value['created_by_name'] ?? '',
       dateCreated: DateTime.parse(value['date_created']),
+      id: key,
     );
 
-   return newComment;
- }}
+    return newComment;
+  }
+}

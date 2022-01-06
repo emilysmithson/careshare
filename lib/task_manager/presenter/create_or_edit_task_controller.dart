@@ -1,4 +1,5 @@
 import 'package:careshare/caregroup_manager/domain/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/models/priority.dart';
@@ -25,29 +26,25 @@ class CreateOrEditATaskController {
   late TextEditingController detailsController;
   String? id;
 
-  // Future fetchCaregroupList(CareTask originalTask) async {
-  //   final response = await AllCaregroupUseCases.fetchCaregroups();
-  //   response.fold(
-  //           (l) {
-  //         // print(">l " + l.message);
-  //         if (l.message=='no value'){
-  //           // print('no Caregroups');
-  //         }
-  //       },
-  //           (r) {
-  //
-  //           caregroupList.addAll(r);
-  //           caregroupList.forEach((element) {
-  //           caregroupOptions.add(element.name!);
-  //
-  //           if (originalTask != null) {
-  //             caregroup = caregroupList.firstWhere((element) => element.id ==
-  //                 originalTask.caregroupId);
-  //           }
-  //
-  //           });
-  //       });
-  // }
+  Future fetchCaregroupList({CareTask? originalTask}) async {
+    final response = await AllCaregroupUseCases.fetchCaregroups();
+    response.fold((l) {
+      // print(">l " + l.message);
+      if (l.message == 'no value') {
+        // print('no Caregroups');
+      }
+    }, (r) {
+      caregroupList.addAll(r);
+      caregroupList.forEach((element) {
+        caregroupOptions.add(element.name!);
+
+        if (originalTask != null) {
+          caregroup = caregroupList
+              .firstWhere((element) => element.id == originalTask.caregroupId);
+        }
+      });
+    });
+  }
 
   initialiseControllers(CareTask? originalTask) async {
     // print(myProfile.firstName);
@@ -75,7 +72,7 @@ class CreateOrEditATaskController {
     );
     taskType = originalTask?.taskType;
 
-    // await fetchCaregroupList();
+    await fetchCaregroupList();
   }
 
   createTask({
