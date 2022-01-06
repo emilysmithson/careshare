@@ -56,7 +56,7 @@ class CareTask {
       'accepted_by': acceptedBy,
       'accepted_by_display_name': acceptedByDisplayName,
       'accepted_for_date': taskAcceptedForDate.toString(),
-      'comments': comments?.map((comment) => comment.toJson()),
+      // 'comments': comments?.map((comment) => comment.toJson(),),
     };
   }
 
@@ -130,12 +130,10 @@ class Comment {
 
   Map<String, dynamic> toJson() {
     return {
-      id.toString(): {
-        'commment': commment,
-        'created_by': createdBy,
-        'created_by_display_name': createdByDisplayName,
-        'date_created': dateCreated.toString(),
-      }
+      'commment': commment,
+      'created_by': createdBy,
+      'created_by_display_name': createdByDisplayName,
+      'date_created': dateCreated.toString(),
     };
   }
 
