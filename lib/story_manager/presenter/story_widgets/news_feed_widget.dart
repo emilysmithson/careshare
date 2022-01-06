@@ -1,5 +1,3 @@
-import 'package:careshare/widgets/custom_app_bar.dart';
-import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'story_summary_widget.dart';
 import '../../domain/models/story.dart';

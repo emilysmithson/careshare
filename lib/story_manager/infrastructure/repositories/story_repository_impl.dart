@@ -128,9 +128,5 @@ class StoryRepositoryImpl implements StoryRepository {
     return const Right(true);
   }
 
-  @override
-  Future<Either<StoryManagerException, List<Story>>> fetchSomeStorys(String search) {
-    // TODO: implement fetchSomeStorys
-    throw UnimplementedError();
-  }
+
 }

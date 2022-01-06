@@ -128,9 +128,4 @@ class CaregroupRepositoryImpl implements CaregroupRepository {
     return const Right(true);
   }
 
-  @override
-  Future<Either<CaregroupManagerException, List<Caregroup>>> fetchSomeCaregroups(String search) {
-    // TODO: implement fetchSomeCaregroups
-    throw UnimplementedError();
-  }
 }

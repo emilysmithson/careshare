@@ -4,7 +4,6 @@ import '../../../style/style.dart';
 import '../../domain/models/story.dart';
 import '../../domain/usecases/all_story_usecases.dart';
 import '../edit_story_screen.dart';
-import '../../../widgets/item_widget.dart';
 
 class StoryJobSummaryWidget extends StatelessWidget {
   final Story story;

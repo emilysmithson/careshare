@@ -54,7 +54,7 @@ class AcceptATaskController {
         createdByDisplayName: myProfile.displayName,
         story: '${myProfile.displayName} accepted task ${task.title} for caregroup ${task.caregroupDisplayName} on ${DateTime.now().toString()}'
       );
-      final response = await AllStoryUseCases.createAStory(newStory);
+      await AllStoryUseCases.createAStory(newStory);
       // response.fold((l) => null, (r) => caregroup.id = r);
       // myProfileId = caregroup.id!;
 

@@ -128,9 +128,4 @@ class ProfileRepositoryImpl implements ProfileRepository {
     return const Right(true);
   }
 
-  @override
-  Future<Either<ProfileManagerException, List<Profile>>> fetchSomeProfiles(String search) {
-    // TODO: implement fetchSomeProfiles
-    throw UnimplementedError();
-  }
 }
