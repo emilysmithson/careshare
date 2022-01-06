@@ -25,10 +25,10 @@ class TaskSummaryWidget extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              itemWidget(
-                title: 'Caregroup',
-                content: (careeInCaregroups + carerInCaregroups).firstWhere((element) => element.id == task.caregroupId).name!,
-              ),
+              // itemWidget(
+              //   title: 'Caregroup',
+              //   content: (careeInCaregroups + carerInCaregroups).firstWhere((element) => element.id == task.caregroupId).name!,
+              // ),
               itemWidget(
                 title: 'Title',
                 content: task.title,
@@ -44,27 +44,26 @@ class TaskSummaryWidget extends StatelessWidget {
               itemWidget(
                 title: 'Created',
                 content:
-                DateFormat('dd-MM-yyyy – kk:mm').format(task.dateCreated!),
+                    DateFormat('dd-MM-yyyy – kk:mm').format(task.dateCreated!),
               ),
 
-              if(task.taskAcceptedForDate != null) itemWidget(
-                title: 'Accepted For Date',
-                content:
-                DateFormat('dd-MM-yyyy – kk:mm').format(task.taskAcceptedForDate!),
-              ) ,
+              if (task.taskAcceptedForDate != null)
+                itemWidget(
+                  title: 'Accepted For Date',
+                  content: DateFormat('dd-MM-yyyy – kk:mm')
+                      .format(task.taskAcceptedForDate!),
+                ),
 
-              if(task.acceptedBy != "")  itemWidget(
-                title: 'Accepted By',
-                content: task.acceptedByDisplayName ?? 'Anonymous',
-              ),
+              if (task.acceptedBy != "")
+                itemWidget(
+                  title: 'Accepted By',
+                  content: task.acceptedByDisplayName ?? 'Anonymous',
+                ),
               itemWidget(
                 title: 'Created By',
                 content: task.createdByDisplayName ?? 'Anonymous',
               ),
-              itemWidget(
-                  title: 'Status',
-                  content: task.taskStatus.status
-              ),
+              itemWidget(title: 'Status', content: task.taskStatus.status),
 
               Align(
                 alignment: Alignment.bottomRight,
@@ -85,7 +84,8 @@ class TaskSummaryWidget extends StatelessWidget {
                         Icons.remove_red_eye,
                         color: Colors.grey,
                       ),
-                    ),IconButton(
+                    ),
+                    IconButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -110,8 +110,6 @@ class TaskSummaryWidget extends StatelessWidget {
                         color: Colors.grey,
                       ),
                     ),
-
-
                     IconButton(
                       onPressed: () {
                         Navigator.push(
@@ -128,8 +126,6 @@ class TaskSummaryWidget extends StatelessWidget {
                         color: Colors.grey,
                       ),
                     ),
-
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(
@@ -140,12 +136,8 @@ class TaskSummaryWidget extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
-
-
-
         ],
       ),
     );

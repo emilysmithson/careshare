@@ -59,8 +59,8 @@ class CreateOrEditATaskController {
     });
 
     if (originalTask != null) {
-      caregroup = caregroupList.firstWhere((element) => element.id ==
-          originalTask.caregroupId);
+      caregroup = caregroupList
+          .firstWhere((element) => element.id == originalTask.caregroupId);
     }
 
     if (originalTask != null) {
@@ -75,11 +75,8 @@ class CreateOrEditATaskController {
     );
     taskType = originalTask?.taskType;
 
-  await fetchCaregroupList();
-
-
+    // await fetchCaregroupList();
   }
-
 
   createTask({
     required BuildContext context,
@@ -97,7 +94,8 @@ class CreateOrEditATaskController {
       );
       if (isCreateTask) {
         final response = await AllTaskUseCases.createATask(task);
-        response.fold((l) => print('ERROR SAVING TASK ${l.message}'), (r) => task.id = r);
+        response.fold(
+            (l) => print('ERROR SAVING TASK ${l.message}'), (r) => task.id = r);
       } else {
         task.id = id;
         AllTaskUseCases.editATask(task);
