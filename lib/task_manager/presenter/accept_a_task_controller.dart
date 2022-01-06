@@ -27,20 +27,18 @@ class AcceptATaskController {
 
   acceptATask({required BuildContext context}) async {
     if (formKey.currentState!.validate()) {
-      task.taskAcceptedForDate = acceptedDateTime;
-      task.taskStatus = TaskStatus.accepted;
-
-      task.acceptedBy = myProfile.id;
-      task.acceptedByDisplayName = myProfile.displayName ?? 'anonymous';
-
-      AllTaskUseCases.editATask(task);
-
       final comment = Comment(
           createdBy: myProfile.id,
           createdByDisplayName: myProfile.displayName,
           dateCreated: DateTime.now(),
           commment: commentController.text);
-      AllTaskUseCases.addComment(comment, task.id!);
+      AllTaskUseCases.addComment(
+        comment: comment,
+        taskId: task.id!,
+        profileId: myProfile.id!,
+        acceptedDateTime: DateTime.now(),
+        displayName: myProfile.displayName,
+      );
       Story newStory = Story(
           name: 'name',
           dateCreated: DateTime.now(),

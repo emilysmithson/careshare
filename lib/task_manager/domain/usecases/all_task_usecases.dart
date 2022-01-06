@@ -50,10 +50,20 @@ class AllTaskUseCases {
   }
 
   static Future<Either<TaskManagerException, String>> addComment(
-      Comment comment, String taskID) async {
+      {required Comment comment,
+      required String taskId,
+      required DateTime acceptedDateTime,
+      required String profileId,
+      String? displayName}) async {
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
     final TaskRepositoryImpl repository = TaskRepositoryImpl(datasource);
     final AddComment addCommentUseCase = AddComment(repository);
-    return addCommentUseCase(comment, taskID);
+    return addCommentUseCase(
+      comment: comment,
+      taskId: taskId,
+      acceptedDateTime: acceptedDateTime,
+      profileId: profileId,
+      displayName: displayName,
+    );
   }
 }

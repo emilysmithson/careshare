@@ -93,10 +93,20 @@ class TaskRepositoryImpl implements TaskRepository {
 
   @override
   Future<Either<TaskManagerException, String>> addComment(
-      Comment comment, String taskId) async {
+      {required Comment comment,
+      required String taskId,
+      required DateTime acceptedDateTime,
+      required String profileId,
+      String? displayName}) async {
     String response;
     try {
-      response = await datasource.addComment(comment, taskId);
+      response = await datasource.addComment(
+        comment: comment,
+        taskId: taskId,
+        acceptedDateTime: acceptedDateTime,
+        profileId: profileId,
+        displayName: displayName,
+      );
     } catch (error) {
       return Left(TaskManagerException(error.toString()));
     }

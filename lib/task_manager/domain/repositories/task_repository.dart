@@ -11,5 +11,9 @@ abstract class TaskRepository {
   Future<Either<TaskManagerException, CareTask>> editTask(CareTask task);
   Future<Either<TaskManagerException, bool>> removeTask(String taskId);
   Future<Either<TaskManagerException, String>> addComment(
-      Comment comment, String taskId);
+      {required Comment comment,
+      required String taskId,
+      required DateTime acceptedDateTime,
+      required String profileId,
+      String? displayName});
 }
