@@ -56,7 +56,7 @@ class CareTask {
       'accepted_by': acceptedBy,
       'accepted_by_display_name': acceptedByDisplayName,
       'accepted_for_date': taskAcceptedForDate.toString(),
-      'comments': comments?.map((comment) => comment.toJson()).toList(),
+      'comments': comments?.map((comment) => comment.toJson()),
     };
   }
 
@@ -80,9 +80,6 @@ class CareTask {
 
     final List<Comment> comments = <Comment>[];
     if (value['comments'] != null) {
-      print(value['comments']);
-      print(value['comments'].runtimeType);
-
       value['comments'].forEach((k, v) {
         comments.add(Comment.fromJson(k, v));
       });
@@ -133,10 +130,12 @@ class Comment {
 
   Map<String, dynamic> toJson() {
     return {
-      'commment': commment,
-      'created_by': createdBy,
-      'created_by_display_name': createdByDisplayName,
-      'date_created': dateCreated.toString(),
+      id.toString(): {
+        'commment': commment,
+        'created_by': createdBy,
+        'created_by_display_name': createdByDisplayName,
+        'date_created': dateCreated.toString(),
+      }
     };
   }
 
