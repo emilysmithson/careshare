@@ -1,4 +1,6 @@
 import 'package:careshare/global.dart';
+import 'package:careshare/story_manager/domain/models/story.dart';
+import 'package:careshare/story_manager/domain/usecases/all_story_usecases.dart';
 import 'package:careshare/task_manager/domain/models/task_status.dart';
 import 'package:flutter/material.dart';
 import '../domain/models/task.dart';
@@ -44,6 +46,17 @@ class AcceptATaskController {
       task.acceptedByDisplayName = myProfile.displayName ?? 'anonymous';
 
       AllTaskUseCases.editATask(task);
+
+      Story newStory = Story(
+        name: 'name',
+        dateCreated: DateTime.now(),
+        createdBy: myProfile.id,
+        createdByDisplayName: myProfile.displayName,
+        story: '${myProfile.displayName} accepted task ${task.title} for caregroup ${task.caregroupDisplayName} on ${DateTime.now().toString()}'
+      );
+      final response = await AllStoryUseCases.createAStory(newStory);
+      // response.fold((l) => null, (r) => caregroup.id = r);
+      // myProfileId = caregroup.id!;
 
       Navigator.pushReplacement(
         context,

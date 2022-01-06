@@ -148,10 +148,10 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
-            title: Text('My Profile',
+            title: Text('Settings',
               style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
             ),
-            trailing: Icon(Icons.person, size: 30, color: Colors.white,),
+            trailing: Icon(Icons.settings, size: 30, color: Colors.white,),
             onTap: () {
               Navigator.push(
                 context,

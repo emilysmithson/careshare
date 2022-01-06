@@ -5,6 +5,7 @@ import 'task_status.dart';
 class CareTask {
   final String title;
   final String caregroupId;
+  final String caregroupDisplayName;
   final Priority priority;
   final TaskType taskType;
   final String details;
@@ -23,6 +24,7 @@ class CareTask {
   CareTask({
     required this.title,
     required this.caregroupId,
+    required this.caregroupDisplayName,
     required this.details,
     this.id,
     this.createdBy,
@@ -41,6 +43,7 @@ class CareTask {
     return {
       'title': title,
       'caregroup_id': caregroupId,
+      'caregroup_display_name': caregroupDisplayName,
       'details': details,
       'created_by': createdBy,
       'created_by_display_name': createdByDisplayName,
@@ -60,6 +63,7 @@ class CareTask {
 
    final title = value['title'] ?? '';
     final caregroupId = value['caregroup_id'] ?? '';
+   final caregroupDisplayName = value['created_by_display_name'] ?? '';
     final details = value['details'] ?? '';
     final taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['task_type']);
     final taskStatus = TaskStatus.taskStatusList. firstWhere((element) => element.status == value['status']);
@@ -85,6 +89,7 @@ class CareTask {
         id: key,
         title: title,
         caregroupId: caregroupId,
+        caregroupDisplayName: caregroupDisplayName,
         details: details,
         taskType: taskType,
         taskStatus: taskStatus,

@@ -87,6 +87,7 @@ class CreateOrEditATaskController {
     if (formKey.currentState!.validate()) {
       final CareTask task = CareTask(
         caregroupId: caregroup!.id!,
+        caregroupDisplayName: caregroup!.name!,
         taskType: taskType!,
         taskStatus: TaskStatus.created,
         title: titleController.text,
