@@ -140,8 +140,6 @@ class Comment {
   }
 
   factory Comment.fromJson(String key, value) {
-    print('Flutter key: $key');
-    print('Flutter value: $value');
     Comment newComment = Comment(
       commment: value['commment'] ?? '',
       createdBy: value['created_by'] ?? '',
