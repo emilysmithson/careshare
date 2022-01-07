@@ -4,27 +4,27 @@ import 'package:careshare/widgets/item_widget.dart';
 
 import 'package:flutter/material.dart';
 import '../domain/models/task.dart';
-import 'accept_a_task_controller.dart';
+import 'accept_task_controller.dart';
 import 'package:intl/intl.dart';
 import '../../widgets/date_picker.dart';
 import '../../widgets/custom_form_field.dart';
 
 
 
-class AcceptATaskScreen extends StatefulWidget {
+class AcceptTaskScreen extends StatefulWidget {
   final CareTask task;
-  const AcceptATaskScreen({
+  const AcceptTaskScreen({
     Key? key,
     required this.task,
   }) : super(key: key);
 
   @override
-  State<AcceptATaskScreen> createState() =>
-      _AcceptATaskScreenState();
+  State<AcceptTaskScreen> createState() =>
+      _AcceptTaskScreenState();
 }
 
-class _AcceptATaskScreenState extends State<AcceptATaskScreen> {
-  late AcceptATaskController controller = AcceptATaskController();
+class _AcceptTaskScreenState extends State<AcceptTaskScreen> {
+  late AcceptTaskController controller = AcceptTaskController();
   bool showTaskTypeError = false;
   DateTime? acceptedDateTime;
 

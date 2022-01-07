@@ -62,7 +62,7 @@ class CareTask {
   factory CareTask.fromJson(dynamic key, dynamic value) {
     final title = value['title'] ?? '';
     final caregroupId = value['caregroup_id'] ?? '';
-    final caregroupDisplayName = value['created_by_display_name'] ?? '';
+    final caregroupDisplayName = value['caregroup_display_name'] ?? '';
     final details = value['details'] ?? '';
     final taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['task_type']);
     final taskStatus = TaskStatus.taskStatusList.firstWhere((element) => element.status == value['status']);

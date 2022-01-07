@@ -34,7 +34,7 @@ class _ViewAllCaregroupsScreenState extends State<ViewAllCaregroupsScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (status == PageStatus.error) {
-            return const Center(child: Text('Couldn'' load caregroups'));
+            return const Center(child: Text('Couldn''t find any caregroups'));
           }
           return SingleChildScrollView(
             child: Column(

@@ -3,7 +3,7 @@ import 'package:careshare/caregroup_manager/presenter/view_all_caregroups_screen
 import 'package:careshare/profile_manager/presenter/create_profile_screen.dart';
 import 'package:careshare/profile_manager/presenter/view_all_profiles_screen.dart';
 import 'package:careshare/profile_manager/presenter/view_my_profile_page.dart';
-import 'package:careshare/task_manager/presenter/create_or_edit_task_screen.dart';
+import 'package:careshare/task_manager/presenter/create_task_screen.dart';
 import 'package:careshare/task_manager/presenter/view_all_tasks_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -66,7 +66,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CreateOrEditATaskScreen(),
+                  builder: (context) => CreateTaskScreen(),
                 ),
               );
             },

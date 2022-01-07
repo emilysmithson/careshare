@@ -7,7 +7,7 @@ import '../domain/models/task.dart';
 import '../domain/usecases/all_task_usecases.dart';
 import 'task_entered_screen.dart';
 
-class AcceptATaskController {
+class AcceptTaskController {
   final formKey = GlobalKey<FormState>();
   DateTime? acceptedDateTime;
   String? id;
@@ -59,7 +59,6 @@ class AcceptATaskController {
       // Save the story
       AllStoryUseCases.createAStory(newStory);
       // response.fold((l) => null, (r) => caregroup.id = r);
-      // myProfileId = caregroup.id!;
 
       Navigator.pushReplacement(
         context,

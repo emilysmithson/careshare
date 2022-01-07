@@ -25,7 +25,7 @@ class ViewATaskController {
     );
   }
 
-  ViewATask({
+  ViewTaskController({
     required BuildContext context
   }) async {
     if (formKey.currentState!.validate()) {

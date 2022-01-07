@@ -17,33 +17,7 @@ class TaskEnteredScreen extends StatelessWidget {
       endDrawer: CustomDrawer(),
       body: TaskDetailWidget(task: task)
 
-      // Column(
-      //   children: [
-      //     TaskSummaryWidget(
-      //       task: task,
-      //     ),
-      //     TextButton(
-      //       onPressed: () {
-      //         Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //                 builder: (context) => const CreateOrEditATaskScreen()));
-      //       },
-      //       child: const Text('Create a new task'),
-      //     ),
-      //     TextButton(
-      //       onPressed: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //             builder: (context) => const ViewAllTasksScreen(),
-      //           ),
-      //         );
-      //       },
-      //       child: const Text('View all tasks'),
-      //     ),
-      //   ],
-      // ),
+
     );
   }
 }

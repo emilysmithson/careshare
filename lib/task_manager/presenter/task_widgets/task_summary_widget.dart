@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import '../../../style/style.dart';
 import '../../domain/models/task.dart';
 import '../../domain/usecases/all_task_usecases.dart';
-import '../create_or_edit_task_screen.dart';
-import '../accept_a_task_screen.dart';
-import '../view_a_task_screen.dart';
+import '../edit_task_screen.dart';
+import '../accept_task_screen.dart';
+import '../view_task_screen.dart';
 import '../../../widgets/item_widget.dart';
 
 
@@ -54,8 +54,7 @@ class TaskSummaryWidget extends StatelessWidget {
                   content: DateFormat('dd-MM-yyyy – kk:mm')
                       .format(task.taskAcceptedForDate!),
                 ),
-              if (task.acceptedBy != "")
-                itemWidget(
+              if (task.acceptedBy != "") itemWidget(
                   title: 'Accepted By',
                   content: task.acceptedByDisplayName ?? 'Anonymous',
                 ),
@@ -73,7 +72,7 @@ class TaskSummaryWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ViewATaskScreen(
+                            builder: (context) => ViewTaskScreen(
                               task: task,
                             ),
                           ),
@@ -89,7 +88,7 @@ class TaskSummaryWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CreateOrEditATaskScreen(
+                            builder: (context) => EditTaskScreen(
                               task: task,
                             ),
                           ),
@@ -114,7 +113,7 @@ class TaskSummaryWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AcceptATaskScreen(
+                            builder: (context) => AcceptTaskScreen(
                               task: task,
                             ),
                           ),

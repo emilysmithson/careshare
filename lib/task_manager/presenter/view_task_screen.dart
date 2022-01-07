@@ -4,27 +4,27 @@ import 'package:careshare/widgets/item_widget.dart';
 
 import 'package:flutter/material.dart';
 import '../domain/models/task.dart';
-import 'view_a_task_controller.dart';
+import 'view_task_controller.dart';
 import 'package:intl/intl.dart';
-import 'create_or_edit_task_screen.dart';
-import 'accept_a_task_screen.dart';
+import 'edit_task_screen.dart';
+import 'accept_task_screen.dart';
 import '../domain/usecases/all_task_usecases.dart';
 import 'package:careshare/global.dart';
 import '../../widgets/custom_app_bar.dart';
 
-class ViewATaskScreen extends StatefulWidget {
+class ViewTaskScreen extends StatefulWidget {
   final CareTask task;
-  const ViewATaskScreen({
+  const ViewTaskScreen({
     Key? key,
     required this.task,
   }) : super(key: key);
 
   @override
-  State<ViewATaskScreen> createState() =>
-      _ViewATaskScreenState();
+  State<ViewTaskScreen> createState() =>
+      _ViewTaskScreenState();
 }
 
-class _ViewATaskScreenState extends State<ViewATaskScreen> {
+class _ViewTaskScreenState extends State<ViewTaskScreen> {
   late ViewATaskController controller = ViewATaskController();
   bool showTaskTypeError = false;
 
@@ -88,9 +88,8 @@ class _ViewATaskScreenState extends State<ViewATaskScreen> {
                     content: widget.task.taskStatus.status
                 ),
 
-                Text("Comments"),
-
-                Column(
+                if (widget.task.comments != null) Text("Comments"),
+                if (widget.task.comments != null) Column(
                   children: widget.task.comments!.map((e) => Text(e.toString())).toList(),
                 ),
 
@@ -103,7 +102,7 @@ class _ViewATaskScreenState extends State<ViewATaskScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CreateOrEditATaskScreen(
+                              builder: (context) => EditTaskScreen(
                                 task: widget.task,
                               ),
                             ),
@@ -130,7 +129,7 @@ class _ViewATaskScreenState extends State<ViewATaskScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AcceptATaskScreen(
+                              builder: (context) => AcceptTaskScreen(
                                 task: widget.task,
                               ),
                             ),

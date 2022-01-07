@@ -34,7 +34,7 @@ class _ViewAllProfilesScreenState extends State<ViewAllProfilesScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (status == PageStatus.error) {
-            return const Center(child: Text('Couldn'' load profiles'));
+            return const Center(child: Text('Couldn''t find any profiles'));
           }
           return SingleChildScrollView(
             child: Column(

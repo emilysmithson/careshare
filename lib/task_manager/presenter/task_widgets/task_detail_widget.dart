@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import '../../../style/style.dart';
 import '../../domain/models/task.dart';
 import '../../domain/usecases/all_task_usecases.dart';
-import '../create_or_edit_task_screen.dart';
-import '../accept_a_task_screen.dart';
+import '../edit_task_screen.dart';
+import '../accept_task_screen.dart';
 import '../../../widgets/item_widget.dart';
 import 'package:careshare/global.dart';
 
@@ -68,9 +68,8 @@ class TaskDetailWidget extends StatelessWidget {
                   content: task.taskStatus.status
               ),
 
-              Text("Comments"),
-
-              Column(
+              if (task.comments != null) Text("Comments"),
+              if (task.comments != null) Column(
                 children: task.comments!.map((e) => Text(e.toString())).toList(),
               ),
 
@@ -83,7 +82,7 @@ class TaskDetailWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CreateOrEditATaskScreen(
+                            builder: (context) => EditTaskScreen(
                               task: task,
                             ),
                           ),
@@ -110,7 +109,7 @@ class TaskDetailWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AcceptATaskScreen(
+                            builder: (context) => AcceptTaskScreen(
                               task: task,
                             ),
                           ),

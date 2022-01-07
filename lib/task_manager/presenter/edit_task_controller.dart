@@ -9,7 +9,7 @@ import '../domain/usecases/all_task_usecases.dart';
 import 'task_entered_screen.dart';
 import 'package:careshare/global.dart';
 
-class CreateOrEditATaskController {
+class EditTaskController {
   final formKey = GlobalKey<FormState>();
   TaskType? taskType;
   TaskStatus? taskStatus;

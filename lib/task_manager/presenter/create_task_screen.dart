@@ -7,30 +7,25 @@ import 'package:flutter/material.dart';
 
 import '../../style/style.dart';
 import '../../widgets/custom_form_field.dart';
-import '../domain/models/task.dart';
 import '../domain/models/task_type.dart';
 import 'task_widgets/select_priority.dart';
 import 'task_widgets/select_task_type.dart';
-import 'create_or_edit_task_controller.dart';
+import 'create_task_controller.dart';
 
-class CreateOrEditATaskScreen extends StatefulWidget {
-  final CareTask? task;
-  const CreateOrEditATaskScreen({
-    Key? key,
-    this.task,
-  }) : super(key: key);
+class CreateTaskScreen extends StatefulWidget {
+  const CreateTaskScreen({Key? key}) : super(key: key);
 
   @override
-  State<CreateOrEditATaskScreen> createState() =>
-      _CreateOrEditATaskScreenState();
+  State<CreateTaskScreen> createState() =>
+      _CreateTaskScreenState();
 }
 
-class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
-  late CreateOrEditATaskController controller = CreateOrEditATaskController();
+class _CreateTaskScreenState extends State<CreateTaskScreen> {
+  late CreateTaskController controller = CreateTaskController();
   bool showTaskTypeError = false;
 
   initialise() async {
-    await controller.initialiseControllers(widget.task);
+    await controller.initialiseControllers();
     setState(() {
 
     });
@@ -44,9 +39,13 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print('controller.caregroup?.name: ');
+    // print(controller.caregroup);
+    // print(controller.caregroup?.name);
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      appBar: CustomAppBar(controller.isCreateTask ? 'Create a New Task' : 'Edit a Task'),
+      appBar: CustomAppBar('Create a New Task'),
       endDrawer: CustomDrawer(),
       body: SafeArea(
         child: Center(
@@ -157,9 +156,7 @@ class _CreateOrEditATaskScreenState extends State<CreateOrEditATaskScreen> {
                         context: context,
                       );
                     },
-                    child: Text(
-                      controller.isCreateTask ? 'Create' : 'Save changes',
-                    ),
+                    child: Text('Create'),
                   ),
                 ],
               ),
