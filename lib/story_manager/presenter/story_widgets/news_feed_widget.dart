@@ -22,6 +22,7 @@ class _NewsFeedState extends State<NewsFeed> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
 
       body: ValueListenableBuilder(
@@ -34,9 +35,10 @@ class _NewsFeedState extends State<NewsFeed> {
             return const Center(child: Text('Couldn'' load stories'));
           }
           return SingleChildScrollView(
+            reverse: true,
             child: Column(
                 children: controller.storyList.map((Story story) {
-                  return StoryJobSummaryWidget(story: story);
+                  return StorySummaryWidget(story: story);
                 }).toList()),
           );
         },

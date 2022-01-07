@@ -8,7 +8,7 @@ import '../create_or_edit_task_screen.dart';
 import '../accept_a_task_screen.dart';
 import '../view_a_task_screen.dart';
 import '../../../widgets/item_widget.dart';
-import 'package:careshare/global.dart';
+
 
 class TaskSummaryWidget extends StatelessWidget {
   final CareTask task;

@@ -1,7 +1,7 @@
 import 'package:careshare/global.dart';
 import 'package:careshare/story_manager/domain/models/story.dart';
 import 'package:careshare/story_manager/domain/usecases/all_story_usecases.dart';
-import 'package:careshare/task_manager/domain/models/task_status.dart';
+
 import 'package:flutter/material.dart';
 import '../domain/models/task.dart';
 import '../domain/usecases/all_task_usecases.dart';
@@ -27,11 +27,15 @@ class AcceptATaskController {
 
   acceptATask({required BuildContext context}) async {
     if (formKey.currentState!.validate()) {
+
+      // Create the comment
       final comment = Comment(
           createdBy: myProfile.id,
           createdByDisplayName: myProfile.displayName,
           dateCreated: DateTime.now(),
           commment: commentController.text);
+
+      // Save the comment
       AllTaskUseCases.addComment(
         comment: comment,
         taskId: task.id!,
@@ -39,6 +43,11 @@ class AcceptATaskController {
         acceptedDateTime: DateTime.now(),
         displayName: myProfile.displayName,
       );
+
+      // Add the comment to the task
+      task.comments!.add(comment);
+
+      // Create the story
       Story newStory = Story(
           name: 'name',
           dateCreated: DateTime.now(),
@@ -46,7 +55,9 @@ class AcceptATaskController {
           createdByDisplayName: myProfile.displayName,
           story:
               '${myProfile.displayName} accepted task ${task.title} for caregroup ${task.caregroupDisplayName} on ${DateTime.now().toString()}');
-      await AllStoryUseCases.createAStory(newStory);
+
+      // Save the story
+      AllStoryUseCases.createAStory(newStory);
       // response.fold((l) => null, (r) => caregroup.id = r);
       // myProfileId = caregroup.id!;
 

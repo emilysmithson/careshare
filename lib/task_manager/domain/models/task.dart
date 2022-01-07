@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'priority.dart';
 import 'task_type.dart';
@@ -56,9 +55,7 @@ class CareTask {
       'accepted_by': acceptedBy,
       'accepted_by_display_name': acceptedByDisplayName,
       'accepted_for_date': taskAcceptedForDate.toString(),
-      'comments': comments?.map(
-        (comment) => comment.toJson(),
-      ),
+      'comments': comments?.map((comment) => comment.toJson()),
     };
   }
 
@@ -67,12 +64,9 @@ class CareTask {
     final caregroupId = value['caregroup_id'] ?? '';
     final caregroupDisplayName = value['created_by_display_name'] ?? '';
     final details = value['details'] ?? '';
-    final taskType = TaskType.taskTypeList
-        .firstWhere((element) => element.type == value['task_type']);
-    final taskStatus = TaskStatus.taskStatusList
-        .firstWhere((element) => element.status == value['status']);
-    final priority = Priority.priorityList
-        .firstWhere((element) => value['priority'] == element.value);
+    final taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['task_type']);
+    final taskStatus = TaskStatus.taskStatusList.firstWhere((element) => element.status == value['status']);
+    final priority = Priority.priorityList.firstWhere((element) => value['priority'] == element.value);
     final createdBy = value['created_by'] ?? '';
     final createdByDisplayName = value['created_by_display_name'] ?? '';
     final dateCreated = DateTime.parse(value['date_created']);

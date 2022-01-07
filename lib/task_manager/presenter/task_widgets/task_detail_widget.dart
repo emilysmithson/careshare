@@ -15,6 +15,9 @@ class TaskDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    task.comments?.sort((a, b) => a.dateCreated!.compareTo(b.dateCreated!));
+
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(16),

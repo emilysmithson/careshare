@@ -59,6 +59,7 @@ class StoryRepositoryImpl implements StoryRepository {
         },
       );
     }
+    storyList.sort((a,b) => a.dateCreated!.compareTo(b.dateCreated!));
     return Right(storyList);
   }
 

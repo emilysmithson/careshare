@@ -5,9 +5,9 @@ import '../../domain/models/story.dart';
 import '../../domain/usecases/all_story_usecases.dart';
 import '../edit_story_screen.dart';
 
-class StoryJobSummaryWidget extends StatelessWidget {
+class StorySummaryWidget extends StatelessWidget {
   final Story story;
-  const StoryJobSummaryWidget({Key? key, required this.story}) : super(key: key);
+  const StorySummaryWidget({Key? key, required this.story}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
