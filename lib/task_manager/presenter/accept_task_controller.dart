@@ -49,7 +49,6 @@ class AcceptTaskController {
 
       // Create the story
       Story newStory = Story(
-          name: 'name',
           dateCreated: DateTime.now(),
           createdBy: myProfile.id,
           createdByDisplayName: myProfile.displayName,

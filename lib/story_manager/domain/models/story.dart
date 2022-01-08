@@ -1,5 +1,4 @@
 class Story {
-  late String? name;
   late String? story;
   late String? id;
   DateTime? dateCreated;
@@ -10,7 +9,6 @@ class Story {
 
   Story({
     this.id,
-    this.name,
     this.story,
     this.dateCreated,
     this.createdBy,
@@ -22,7 +20,6 @@ class Story {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
       'story': story,
       'created_by': createdBy,
       'created_by_display_name': createdByDisplayName,
@@ -33,7 +30,6 @@ class Story {
   }
 
   Story.fromJson(dynamic key, dynamic value):
-        name =   value['name'].toString(),
         story =   value['story'].toString(),
         createdBy = value['created_by'].toString(),
         createdByDisplayName = value['created_by_display_name'] ?? '',

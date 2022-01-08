@@ -19,9 +19,6 @@ class CreateOrEditAStoryController {
       storedStory = originalStory;
       isCreateStory = false;
     }
-    nameController = TextEditingController(
-      text: originalStory?.name,
-    );
     storyController = TextEditingController(
       text: originalStory?.story,
     );
@@ -32,7 +29,6 @@ class CreateOrEditAStoryController {
   }) async {
     if (formKey.currentState!.validate()) {
       final Story story = storedStory!;
-      story.name = nameController.text;
       story.story = storyController.text;
       story.dateCreated = DateTime.now();
 
