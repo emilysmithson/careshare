@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../style/style.dart';
 import '../../domain/models/story.dart';
 import '../../domain/usecases/all_story_usecases.dart';
-import '../edit_story_screen.dart';
+import '../create_or_edit_story_screen.dart';
+import '../view_story_screen.dart';
 
 class StorySummaryWidget extends StatelessWidget {
   final Story story;
@@ -20,7 +21,20 @@ class StorySummaryWidget extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(story.story!),
+
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewStoryScreen(
+                        story: story,
+                      ),
+                    ),
+                  );
+                },
+                  child: Text(story.story!)
+              ),
 
 
               Align(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/custom_form_field.dart';
 import '../domain/models/story.dart';
-import 'edit_story_controller.dart';
+import 'create_or_edit_story_controller.dart';
 
 class CreateOrEditAStoryScreen extends StatefulWidget {
   final Story? story;
@@ -41,37 +41,14 @@ class _CreateOrEditAStoryScreenState extends State<CreateOrEditAStoryScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CustomFormField(
-                    controller: controller.nameController,
-                    label: 'Name',
-                    keyboardType: TextInputType.name,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Name';
-                      }
-                      return null;
-                    },
-                  ),
 
                   CustomFormField(
                     controller: controller.storyController,
-                    label: 'details',
+                    label: 'story',
                     keyboardType: TextInputType.name,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a details';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  CustomFormField(
-                    controller: controller.careesController,
-                    label: 'Carees',
-                    keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter at least one Task Type';
                       }
                       return null;
                     },

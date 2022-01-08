@@ -60,11 +60,12 @@ class CreateTaskController {
 
       // Create the story
       Story newStory = Story(
-          dateCreated: DateTime.now(),
-          createdBy: myProfile.id,
-          createdByDisplayName: myProfile.displayName,
-          story:
-          '${myProfile.displayName} created task ${task.title} for caregroup ${task.caregroupDisplayName} on ${DateTime.now().toString()}');
+        taskId: task.id,
+        dateCreated: DateTime.now(),
+        createdBy: myProfile.id,
+        createdByDisplayName: myProfile.displayName,
+        story:
+        '${myProfile.displayName} created task ${task.title} for caregroup ${task.caregroupDisplayName} on ${DateTime.now().toString()}');
 
       // Save the story
       AllStoryUseCases.createAStory(newStory);
