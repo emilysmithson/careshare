@@ -15,8 +15,8 @@ class _DatePickerState extends State<DatePicker> {
   Widget build(BuildContext context) {
     return Container(
       decoration: Style.boxDecoration,
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(6),
+      margin: const EdgeInsets.all(6),
       height: 100,
       child: CupertinoDatePicker(
         mode: CupertinoDatePickerMode.date,

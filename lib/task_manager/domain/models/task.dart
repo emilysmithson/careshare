@@ -1,5 +1,6 @@
 
-import 'priority.dart';
+import 'task_priority.dart';
+import 'task_size.dart';
 import 'task_type.dart';
 import 'task_status.dart';
 
@@ -7,8 +8,9 @@ class CareTask {
   final String title;
   final String caregroupId;
   final String caregroupDisplayName;
-  final Priority priority;
+  final TaskPriority taskPriority;
   final TaskType taskType;
+  final TaskSize taskSize;
   final String details;
   late String? id;
 
@@ -31,9 +33,10 @@ class CareTask {
     this.createdBy,
     this.createdByDisplayName,
     required this.taskType,
+    required this.taskSize,
     required this.taskStatus,
     this.dateCreated,
-    required this.priority,
+    required this.taskPriority,
     this.acceptedBy,
     this.acceptedByDisplayName,
     this.taskAcceptedForDate,
@@ -48,10 +51,11 @@ class CareTask {
       'details': details,
       'created_by': createdBy,
       'created_by_display_name': createdByDisplayName,
-      'task_type': taskType.type,
+      'type': taskType.type,
+      'size': taskSize.value,
       'status': taskStatus.status,
       'date_created': dateCreated.toString(),
-      'priority': priority.value,
+      'priority': taskPriority.value,
       'accepted_by': acceptedBy,
       'accepted_by_display_name': acceptedByDisplayName,
       'accepted_for_date': taskAcceptedForDate.toString(),
@@ -64,9 +68,10 @@ class CareTask {
     final caregroupId = value['caregroup_id'] ?? '';
     final caregroupDisplayName = value['caregroup_display_name'] ?? '';
     final details = value['details'] ?? '';
-    final taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['task_type']);
+    final taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['type']);
+    final taskSize = TaskSize.taskSizeList.firstWhere((element) => element.value == value['size']);
     final taskStatus = TaskStatus.taskStatusList.firstWhere((element) => element.status == value['status']);
-    final priority = Priority.priorityList.firstWhere((element) => value['priority'] == element.value);
+    final priority = TaskPriority.priorityList.firstWhere((element) => value['priority'] == element.value);
     final createdBy = value['created_by'] ?? '';
     final createdByDisplayName = value['created_by_display_name'] ?? '';
     final dateCreated = DateTime.parse(value['date_created']);
@@ -88,8 +93,9 @@ class CareTask {
         caregroupDisplayName: caregroupDisplayName,
         details: details,
         taskType: taskType,
+        taskSize: taskSize,
         taskStatus: taskStatus,
-        priority: priority,
+        taskPriority: priority,
         createdBy: createdBy,
         createdByDisplayName: createdByDisplayName,
         dateCreated: dateCreated,

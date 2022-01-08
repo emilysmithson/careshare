@@ -8,7 +8,7 @@ import '../edit_task_screen.dart';
 import '../accept_task_screen.dart';
 import '../view_task_screen.dart';
 import '../../../widgets/item_widget.dart';
-
+import 'package:careshare/global.dart';
 
 class TaskSummaryWidget extends StatelessWidget {
   final CareTask task;
@@ -17,20 +17,18 @@ class TaskSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(6),
       decoration: Style.boxDecoration,
       child: Stack(
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // itemWidget(
-              //   title: 'Caregroup',
-              //   content: (careeInCaregroups + carerInCaregroups)
-              //       .firstWhere((element) => element.id == task.caregroupId)
-              //       .name!,
-              // ),
+              itemWidget(
+                title: 'Caregroup',
+                content: (careeInCaregroups + carerInCaregroups).firstWhere((element) => element.id == task.caregroupId).name!,
+              ),
               itemWidget(
                 title: 'Title',
                 content: task.title,
@@ -42,6 +40,10 @@ class TaskSummaryWidget extends StatelessWidget {
               itemWidget(
                 title: 'Type',
                 content: task.taskType.type,
+              ),
+              itemWidget(
+                title: 'Size',
+                content: task.taskSize.size,
               ),
               itemWidget(
                 title: 'Created',
@@ -128,7 +130,7 @@ class TaskSummaryWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(
                         Icons.circle,
-                        color: task.priority.color,
+                        color: task.taskPriority.color,
                       ),
                     ),
                   ],

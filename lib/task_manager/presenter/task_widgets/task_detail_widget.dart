@@ -19,8 +19,8 @@ class TaskDetailWidget extends StatelessWidget {
     task.comments?.sort((a, b) => a.dateCreated!.compareTo(b.dateCreated!));
 
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(6),
       decoration: Style.boxDecoration,
       child: Stack(
         children: [
@@ -42,6 +42,10 @@ class TaskDetailWidget extends StatelessWidget {
               itemWidget(
                 title: 'Type',
                 content: task.taskType.type,
+              ),
+              itemWidget(
+                title: 'Size',
+                content: task.taskSize.size,
               ),
               itemWidget(
                 title: 'Created',
@@ -126,7 +130,7 @@ class TaskDetailWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(
                         Icons.circle,
-                        color: task.priority.color,
+                        color: task.taskPriority.color,
                       ),
                     ),
                   ],

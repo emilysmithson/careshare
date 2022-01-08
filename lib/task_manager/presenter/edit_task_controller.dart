@@ -1,7 +1,8 @@
 import 'package:careshare/caregroup_manager/domain/models/caregroup.dart';
+import 'package:careshare/task_manager/domain/models/task_size.dart';
 import 'package:flutter/material.dart';
 
-import '../domain/models/priority.dart';
+import '../domain/models/task_priority.dart';
 import '../domain/models/task.dart';
 import '../domain/models/task_type.dart';
 import '../domain/models/task_status.dart';
@@ -12,12 +13,13 @@ import 'package:careshare/global.dart';
 class EditTaskController {
   final formKey = GlobalKey<FormState>();
   TaskType? taskType;
+  TaskSize? taskSize;
   TaskStatus? taskStatus;
   bool isCreateTask = true;
   bool isLoading = true;
   Caregroup? caregroup;
 
-  Priority priority = Priority.medium;
+  TaskPriority priority = TaskPriority.medium;
   final List<Caregroup> caregroupList = carerInCaregroups;
   final List<String> caregroupOptions = [];
 
@@ -74,6 +76,7 @@ class EditTaskController {
       text: originalTask?.details,
     );
     taskType = originalTask?.taskType;
+    taskSize = originalTask?.taskSize;
 
   // await fetchCaregroupList();
 
@@ -89,11 +92,12 @@ class EditTaskController {
         caregroupId: caregroup!.id!,
         caregroupDisplayName: caregroup!.name!,
         taskType: taskType!,
+        taskSize: taskSize!,
         taskStatus: TaskStatus.created,
         title: titleController.text,
         details: detailsController.text,
         dateCreated: DateTime.now(),
-        priority: priority,
+        taskPriority: priority,
       );
       if (isCreateTask) {
         final response = await AllTaskUseCases.createATask(task);

@@ -59,6 +59,10 @@ class _AcceptTaskScreenState extends State<AcceptTaskScreen> {
                     content: widget.task.taskType.type,
                   ),
                   itemWidget(
+                    title: 'Size',
+                    content: widget.task.taskSize.size,
+                  ),
+                  itemWidget(
                     title: 'Created',
                     content:
                     DateFormat('dd-MM-yyyy – kk:mm').format(widget.task.dateCreated!),

@@ -40,8 +40,8 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
       appBar: CustomAppBar('Task Details'),
       endDrawer: CustomDrawer(),
       body: Container(
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.all(6),
+        padding: const EdgeInsets.all(6),
         decoration: Style.boxDecoration,
         child: SingleChildScrollView(
           child: Column(
@@ -62,6 +62,10 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                 itemWidget(
                   title: 'Type',
                   content: widget.task.taskType.type,
+                ),
+                itemWidget(
+                  title: 'Size',
+                  content: widget.task.taskSize.size,
                 ),
                 itemWidget(
                   title: 'Created',
@@ -146,7 +150,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.circle,
-                          color: widget.task.priority.color,
+                          color: widget.task.taskPriority.color,
                         ),
                       ),
                     ],

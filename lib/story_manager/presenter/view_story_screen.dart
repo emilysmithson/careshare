@@ -38,8 +38,8 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
       appBar: CustomAppBar('Story Details'),
       endDrawer: CustomDrawer(),
       body: Container(
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.all(6),
+        padding: const EdgeInsets.all(6),
         decoration: Style.boxDecoration,
         child: SingleChildScrollView(
           child: Column(

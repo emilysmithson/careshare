@@ -3,10 +3,11 @@ import 'package:careshare/story_manager/domain/models/story.dart';
 import 'package:careshare/story_manager/domain/usecases/all_story_usecases.dart';
 import 'package:flutter/material.dart';
 
-import '../domain/models/priority.dart';
+import '../domain/models/task_priority.dart';
 import '../domain/models/task.dart';
 import '../domain/models/task_type.dart';
 import '../domain/models/task_status.dart';
+import '../domain/models/task_size.dart';
 import '../domain/usecases/all_task_usecases.dart';
 import 'task_entered_screen.dart';
 import 'package:careshare/global.dart';
@@ -18,7 +19,9 @@ class CreateTaskController {
   bool isLoading = true;
   Caregroup? caregroup;
 
-  Priority priority = Priority.medium;
+  TaskPriority priority = TaskPriority.medium;
+  TaskSize taskSize = TaskSize.medium;
+
   final List<Caregroup> caregroupList = carerInCaregroups;
   final List<String> caregroupOptions = [];
 
@@ -27,7 +30,7 @@ class CreateTaskController {
   String? id;
 
 
-  initialiseControllers() async {
+  initialiseControllers()  {
 
     caregroupList.forEach((element) {
       caregroupOptions.add(element.name!);
@@ -36,6 +39,7 @@ class CreateTaskController {
     titleController = TextEditingController();
     detailsController = TextEditingController();
     taskType = null;
+    // taskSize = null;
 
   }
 
@@ -48,11 +52,12 @@ class CreateTaskController {
         caregroupId: caregroup!.id!,
         caregroupDisplayName: caregroup!.name!,
         taskType: taskType!,
+        taskSize: taskSize,
         taskStatus: TaskStatus.created,
         title: titleController.text,
         details: detailsController.text,
         dateCreated: DateTime.now(),
-        priority: priority,
+        taskPriority: priority,
       );
 
       final response = await AllTaskUseCases.createATask(task);

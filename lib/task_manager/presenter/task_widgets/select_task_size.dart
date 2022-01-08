@@ -1,27 +1,26 @@
+import 'package:careshare/task_manager/domain/models/task_size.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/models/task_type.dart';
-
-class SelectTaskType extends StatefulWidget {
-  final TaskType? currentType;
+class SelectTaskSize extends StatefulWidget {
+  final TaskSize? currentSize;
   final Function onSelect;
 
-  const SelectTaskType({Key? key, this.currentType, required this.onSelect})
+  const SelectTaskSize({Key? key, this.currentSize, required this.onSelect})
       : super(key: key);
 
   @override
-  _SelectTaskTypeState createState() => _SelectTaskTypeState();
+  _SelectTaskSizeState createState() => _SelectTaskSizeState();
 }
 
-class _SelectTaskTypeState extends State<SelectTaskType> {
+class _SelectTaskSizeState extends State<SelectTaskSize> {
   final List<String> options = [];
-  TaskType? selectedTaskType;
-  String? currentTaskType;
+  TaskSize? selectedTaskSize;
+  String? currentTaskSize;
   @override
   void initState() {
-    currentTaskType = widget.currentType?.type;
-    for (var element in TaskType.taskTypeList) {
-      options.add(element.type);
+    currentTaskSize = widget.currentSize?.size;
+    for (var element in TaskSize.taskSizeList) {
+      options.add(element.size);
     }
     super.initState();
   }
@@ -33,8 +32,8 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
         Radius.circular(20),
       ),
       isExpanded: true,
-      hint: const Text('Select a task type'),
-      value: currentTaskType,
+      hint: const Text('Select a task size'),
+      value: currentTaskSize,
       underline: Container(),
       icon: const RotatedBox(
         quarterTurns: 3,
@@ -42,9 +41,9 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
       ),
       onChanged: (String? newValue) {
         setState(() {
-          currentTaskType = newValue;
-          widget.onSelect(TaskType.taskTypeList
-              .firstWhere((element) => element.type == newValue));
+          currentTaskSize = newValue;
+          widget.onSelect(TaskSize.taskSizeList
+              .firstWhere((element) => element.size == newValue));
         });
       },
       items: options.map<DropdownMenuItem<String>>((String value) {

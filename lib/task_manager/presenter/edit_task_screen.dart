@@ -2,15 +2,17 @@ import 'package:careshare/task_manager/presenter/task_widgets/select_caregroup.d
 import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:careshare/widgets/custom_drawer.dart';
 
-import '../domain/models/priority.dart';
+import '../domain/models/task_priority.dart';
 import 'package:flutter/material.dart';
 
 import '../../style/style.dart';
 import '../../widgets/custom_form_field.dart';
 import '../domain/models/task.dart';
 import '../domain/models/task_type.dart';
+import '../domain/models/task_size.dart';
 import 'task_widgets/select_priority.dart';
 import 'task_widgets/select_task_type.dart';
+import 'task_widgets/select_task_size.dart';
 import 'edit_task_controller.dart';
 
 class EditTaskScreen extends StatefulWidget {
@@ -53,118 +55,135 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
       appBar: CustomAppBar('Edit a Task'),
       endDrawer: CustomDrawer(),
       body: SafeArea(
-        child: Center(
-          child: Form(
-            key: controller.formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
+        child: Form(
+          key: controller.formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
 
-                  CustomFormField(
-                    controller: controller.titleController,
-                    label: 'Title',
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Title';
-                      }
-                      return null;
-                    },
-                  ),
+                CustomFormField(
+                  controller: controller.titleController,
+                  label: 'Title',
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a Title';
+                    }
+                    return null;
+                  },
+                ),
 
 
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    padding:
-                    const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    decoration: Style.boxDecoration,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectCaregroup(
-
-                          onSelect: (String caregroup) {
-                            controller.caregroup = controller.caregroupList.firstWhere((element) => element.name == caregroup);
-                            setState(() {
-
-                            });
-                          },
-                          caregroupOptions: controller.caregroupOptions,
-                          currentCaregroup: controller.caregroup?.name,
-
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(6),
+                  decoration: Style.boxDecoration,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SelectCaregroup(
+                        onSelect: (String caregroup) {
+                          controller.caregroup = controller.caregroupList.firstWhere((element) => element.name == caregroup);
+                          setState(() {});
+                        },
+                        caregroupOptions: controller.caregroupOptions,
+                        currentCaregroup: controller.caregroup?.name,
+                      ),
+                      Text(
+                        showTaskTypeError ? 'Please select a task type' : '',
+                        style: TextStyle(
+                          color: Colors.red.shade600,
+                          fontSize: 12,
                         ),
-                        Text(
-                          showTaskTypeError ? 'Please select a task type' : '',
-                          style: TextStyle(
-                            color: Colors.red.shade600,
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
+                ),
 
 
-                  CustomFormField(
-                    controller: controller.detailsController,
-                    maxLines: 8,
-                    label: 'Details',
-                    keyboardType: TextInputType.multiline,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter the task details';
-                      }
-                      return null;
-                    },
-                  ),
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    padding:
-                        const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    decoration: Style.boxDecoration,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectTaskType(
-                          onSelect: (TaskType newTaskType) {
-                            controller.taskType = newTaskType;
-                          },
-                          currentType: controller.taskType,
+                CustomFormField(
+                  controller: controller.detailsController,
+                  maxLines: 8,
+                  label: 'Details',
+                  keyboardType: TextInputType.multiline,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter the task details';
+                    }
+                    return null;
+                  },
+                ),
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.all(6),
+                  padding: EdgeInsets.all(6),
+                  decoration: Style.boxDecoration,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SelectTaskType(
+                        onSelect: (TaskType newTaskType) {
+                          controller.taskType = newTaskType;
+                        },
+                        currentType: controller.taskType,
+                      ),
+                      Text(
+                        showTaskTypeError ? 'Please select a task type' : '',
+                        style: TextStyle(
+                          color: Colors.red.shade600,
+                          fontSize: 12,
                         ),
-                        Text(
-                          showTaskTypeError ? 'Please select a task type' : '',
-                          style: TextStyle(
-                            color: Colors.red.shade600,
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                  SelectPriority(
-                    onSelect: (Priority priority) {
-                      controller.priority = priority;
-                    },
+                ),
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                  padding:
+                  const EdgeInsets.only(top: 16, left: 16, right: 16),
+                  decoration: Style.boxDecoration,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SelectTaskSize(
+                        onSelect: (TaskSize newTaskSize) {
+                          controller.taskSize = newTaskSize;
+                        },
+                        currentSize: controller.taskSize,
+                      ),
+                      Text(
+                        showTaskTypeError ? 'Please select a task size' : '',
+                        style: TextStyle(
+                          color: Colors.red.shade600,
+                          fontSize: 12,
+                        ),
+                      )
+                    ],
                   ),
-                  TextButton(
-                    onPressed: () {
-                      controller.formKey.currentState?.validate();
-                      if (controller.taskType == null) {
-                        setState(() {
-                          showTaskTypeError = true;
-                        });
-                        return;
-                      }
-                      controller.createTask(
-                        context: context,
-                      );
-                    },
-                    child: Text('Save changes'),
-                  ),
-                ],
-              ),
+                ),
+                SelectPriority(
+                  onSelect: (TaskPriority priority) {
+                    controller.priority = priority;
+                  },
+                ),
+                TextButton(
+                  onPressed: () {
+                    controller.formKey.currentState?.validate();
+                    if (controller.taskType == null) {
+                      setState(() {
+                        showTaskTypeError = true;
+                      });
+                      return;
+                    }
+                    controller.createTask(
+                      context: context,
+                    );
+                  },
+                  child: Text('Save changes'),
+                ),
+              ],
             ),
           ),
         ),

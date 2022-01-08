@@ -35,38 +35,36 @@ class _CreateOrEditAStoryScreenState extends State<CreateOrEditAStoryScreen> {
       appBar: CustomAppBar(controller.isCreateStory ? 'Create a New Story' : 'Edit a Story'),
       endDrawer: CustomDrawer(),
       body: SafeArea(
-        child: Center(
-          child: Form(
-            key: controller.formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
+        child: Form(
+          key: controller.formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
 
-                  CustomFormField(
-                    controller: controller.storyController,
-                    label: 'story',
-                    keyboardType: TextInputType.name,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a details';
-                      }
-                      return null;
-                    },
-                  ),
+                CustomFormField(
+                  controller: controller.storyController,
+                  label: 'story',
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a details';
+                    }
+                    return null;
+                  },
+                ),
 
-                  TextButton(
-                    onPressed: () {
-                      controller.formKey.currentState?.validate();
-                      controller.createAStory(
-                        context: context,
-                      );
-                    },
-                    child: Text(
-                      controller.isCreateStory ? 'Create' : 'Save changes',
-                    ),
+                TextButton(
+                  onPressed: () {
+                    controller.formKey.currentState?.validate();
+                    controller.createAStory(
+                      context: context,
+                    );
+                  },
+                  child: Text(
+                    controller.isCreateStory ? 'Create' : 'Save changes',
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:careshare/caregroup_manager/presenter/create_caregroup_screen.dart';
 import 'package:careshare/caregroup_manager/presenter/view_all_caregroups_screen.dart';
+import 'package:careshare/home_page/presenter/home_page.dart';
 import 'package:careshare/profile_manager/presenter/create_profile_screen.dart';
 import 'package:careshare/profile_manager/presenter/view_all_profiles_screen.dart';
 import 'package:careshare/profile_manager/presenter/view_my_profile_page.dart';
@@ -36,7 +37,36 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             ),
           ),
 
-          Divider(),
+          Divider(height: 5,),
+
+          ListTile(
+            tileColor: Colors.lightBlueAccent,
+            title: Text('Home',
+              style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
+            ),
+            trailing: Container(
+              padding: EdgeInsets.all(2),
+              margin: EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(1),
+                border: Border.all(
+                  color: Colors.white,
+                  width: 2.5,
+                ),
+              ),
+              child: Image.asset('images/CareShareLogo50.jpg', scale: 2.5,),),
+
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
+                ),
+              );
+            },
+          ),
+
+          Divider(height: 5,),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
@@ -54,7 +84,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             },
           ),
 
-          Divider(),
+          Divider(height: 5,),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
@@ -72,7 +102,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             },
           ),
 
-          Divider(),
+          Divider(height: 5,),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
@@ -90,7 +120,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             },
           ),
 
-          Divider(),
+          Divider(height: 5,),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
@@ -108,7 +138,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             },
           ),
 
-          Divider(),
+          Divider(height: 5,),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
@@ -126,7 +156,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             },
           ),
 
-          Divider(),
+          Divider(height: 5,),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
@@ -144,7 +174,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             },
           ),
 
-          Divider(),
+          Divider(height: 5,),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
@@ -162,7 +192,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             },
           ),
 
-          Divider(),
+          Divider(height: 5,),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,

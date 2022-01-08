@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../style/style.dart';
-import '../../domain/models/priority.dart';
+import '../../domain/models/task_priority.dart';
 
 class SelectPriority extends StatefulWidget {
-  final Priority? currentPriority;
+  final TaskPriority? currentPriority;
   final Function onSelect;
 
   const SelectPriority({Key? key, this.currentPriority, required this.onSelect})
@@ -15,15 +15,15 @@ class SelectPriority extends StatefulWidget {
 }
 
 class _SelectPriorityState extends State<SelectPriority> {
-  final List<Priority> options = [];
-  Priority currentPriority = Priority.medium;
+  final List<TaskPriority> options = [];
+  TaskPriority currentPriority = TaskPriority.medium;
 
   @override
   void initState() {
     if (widget.currentPriority != null) {
       currentPriority = widget.currentPriority!;
     }
-    options.addAll(Priority.priorityList);
+    options.addAll(TaskPriority.priorityList);
     super.initState();
   }
 
@@ -31,8 +31,8 @@ class _SelectPriorityState extends State<SelectPriority> {
   Widget build(BuildContext context) {
     return Container(
       decoration: Style.boxDecoration,
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(6),
+      margin: const EdgeInsets.all(6),
       child: Row(
         children: [
           const Text('Priority:  '),
@@ -51,14 +51,14 @@ class _SelectPriorityState extends State<SelectPriority> {
               ),
               onChanged: (String? newValue) {
                 setState(() {
-                  final Priority newPriority = Priority.priorityList.firstWhere(
+                  final TaskPriority newPriority = TaskPriority.priorityList.firstWhere(
                     (element) => newValue == element.level,
                   );
                   currentPriority = newPriority;
                   widget.onSelect(newPriority);
                 });
               },
-              items: options.map<DropdownMenuItem<String>>((Priority value) {
+              items: options.map<DropdownMenuItem<String>>((TaskPriority value) {
                 return DropdownMenuItem<String>(
                   value: value.level,
                   child: Row(

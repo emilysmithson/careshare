@@ -1,41 +1,41 @@
 import 'package:flutter/material.dart';
 
-class Priority {
+class TaskPriority {
   final String level;
   final int value;
   final Color color;
 
-  Priority({
+  TaskPriority({
     required this.level,
     required this.value,
     required this.color,
   });
-  static final Priority highest = Priority(
+  static final TaskPriority highest = TaskPriority(
     level: 'Highest',
     value: 1,
     color: Colors.red,
   );
-  static final Priority high = Priority(
+  static final TaskPriority high = TaskPriority(
     level: 'High',
     value: 2,
     color: Colors.orange,
   );
-  static final Priority medium = Priority(
+  static final TaskPriority medium = TaskPriority(
     level: 'Medium',
     value: 3,
     color: Colors.yellow,
   );
-  static final Priority low = Priority(
+  static final TaskPriority low = TaskPriority(
     level: 'Low',
     value: 4,
     color: Colors.blueGrey,
   );
-  static final Priority lowest = Priority(
+  static final TaskPriority lowest = TaskPriority(
     level: 'Lowest',
     value: 5,
     color: Colors.grey,
   );
-  static final List<Priority> priorityList = [
+  static final List<TaskPriority> priorityList = [
     highest,
     high,
     medium,

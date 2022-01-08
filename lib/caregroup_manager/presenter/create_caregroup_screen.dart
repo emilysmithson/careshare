@@ -35,59 +35,57 @@ class _CreateCaregroupScreenState extends State<CreateCaregroupScreen> {
       appBar: CustomAppBar('Create A New Caregroup'),
       endDrawer: CustomDrawer(),
       body: SafeArea(
-        child: Center(
-          child: Form(
-            key: controller.formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CustomFormField(
-                    controller: controller.nameController,
-                    label: 'Name',
-                    keyboardType: TextInputType.name,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Name';
-                      }
-                      return null;
-                    },
-                  ),
+        child: Form(
+          key: controller.formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CustomFormField(
+                  controller: controller.nameController,
+                  label: 'Name',
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a Name';
+                    }
+                    return null;
+                  },
+                ),
 
-                  CustomFormField(
-                    controller: controller.detailsController,
-                    label: 'details',
-                    keyboardType: TextInputType.name,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a details';
-                      }
-                      return null;
-                    },
-                  ),
+                CustomFormField(
+                  controller: controller.detailsController,
+                  label: 'details',
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a details';
+                    }
+                    return null;
+                  },
+                ),
 
-                  CustomFormField(
-                    controller: controller.careesController,
-                    label: 'Carees',
-                    keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter at least one Task Type';
-                      }
-                      return null;
-                    },
-                  ),
+                CustomFormField(
+                  controller: controller.careesController,
+                  label: 'Carees',
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter at least one Task Type';
+                    }
+                    return null;
+                  },
+                ),
 
-                  TextButton(
-                    onPressed: () {
-                      controller.formKey.currentState?.validate();
-                      controller.createCaregroup(
-                        context: context,
-                      );
-                    },
-                    child: Text('Create'),
-                  ),
-                ],
-              ),
+                TextButton(
+                  onPressed: () {
+                    controller.formKey.currentState?.validate();
+                    controller.createCaregroup(
+                      context: context,
+                    );
+                  },
+                  child: Text('Create'),
+                ),
+              ],
             ),
           ),
         ),
