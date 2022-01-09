@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-
 import '../domain/errors/caregroup_manager_exception.dart';
 import '../domain/models/caregroup.dart';
 import '../infrastructure/datasources/caregroup_datasouce.dart';
@@ -61,17 +59,6 @@ class CaregroupDatasourceImpl implements CaregroupDatasource {
     FirebaseDatabase.instance.ref("caregroups/$id");
 
     final response = await reference.once();
-    return response;
-  }
-
-  @override
-  Future<DatabaseEvent> fetchMyCaregroup() async {
-
-    String? authId = FirebaseAuth.instance.currentUser?.uid;
-    // print('fetchMyCaregroup: authId: $authId');
-    Query query = FirebaseDatabase.instance.ref("caregroups") .orderByChild("auth_id").equalTo(authId).limitToFirst(1);
-
-    final response = await query.once();
     return response;
   }
 

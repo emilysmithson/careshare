@@ -6,9 +6,9 @@ import '../../domain/usecases/all_caregroup_usecases.dart';
 import '../edit_caregroup_screen.dart';
 import '../../../widgets/item_widget.dart';
 
-class CaregroupJobSummaryWidget extends StatelessWidget {
+class CaregroupSummaryWidget extends StatelessWidget {
   final Caregroup caregroup;
-  const CaregroupJobSummaryWidget({Key? key, required this.caregroup}) : super(key: key);
+  const CaregroupSummaryWidget({Key? key, required this.caregroup}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

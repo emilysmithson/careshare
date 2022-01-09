@@ -1,10 +1,12 @@
-import 'caregroup_status.dart';
+import 'package:careshare/caregroup_manager/domain/models/caregroup_status.dart';
+import 'package:careshare/profile_manager/domain/models/profile.dart';
 
 class Caregroup {
   late String? name;
   late String? details;
   late String? id;
   late String? carees;
+  late List<Profile>? careeProfiles;
   CaregroupStatus status;
   DateTime? dateCreated;
   late String? createdBy;
@@ -14,6 +16,7 @@ class Caregroup {
     this.name,
     this.details,
     this.carees,
+    this.careeProfiles,
     required this.status,
     this.dateCreated,
     this.createdBy,

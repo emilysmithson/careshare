@@ -12,7 +12,6 @@ abstract class CaregroupDatasource {
   Future<String> createCaregroup(Caregroup caregroup);
   Future<Either<CaregroupManagerException, bool>> saveCaregroupPhoto(File photo);
   Future<DatabaseEvent> fetchACaregroup(String id);
-  Future<DatabaseEvent> fetchMyCaregroup();
   Future removeACaregroup(String caregroupId);
   Future editCaregroup(Caregroup caregroup);
 }

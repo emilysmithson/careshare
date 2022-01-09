@@ -98,27 +98,6 @@ class CaregroupRepositoryImpl implements CaregroupRepository {
 
 
   @override
-  Future<Either<CaregroupManagerException, Caregroup>> fetchMyCaregroup() async {
-
-    DatabaseEvent response;
-    try {
-      response = await datasource.fetchMyCaregroup();
-    } catch (error) {
-      return Left(CaregroupManagerException(error.toString()));
-    }
-
-    if (response.snapshot.value == null) {
-      return Left(CaregroupManagerException('no value'));
-    } else {
-
-      var rawCaregroup = response.snapshot.children.first;
-
-      return Right(Caregroup.fromJson(rawCaregroup.key, rawCaregroup.value));
-    }
-
-  }
-
-  @override
   Future<Either<CaregroupManagerException, bool>> removeACaregroup(String caregroupId) async {
     try {
       datasource.removeACaregroup(caregroupId);

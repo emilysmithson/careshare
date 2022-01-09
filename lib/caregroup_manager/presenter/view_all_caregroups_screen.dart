@@ -1,7 +1,7 @@
 import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
-import 'caregroup_widgets/caregroup_job_summary_widget.dart';
+import 'caregroup_widgets/caregroup_summary_widget.dart';
 import '../domain/models/caregroup.dart';
 import 'view_all_caregroups_controller.dart';
 
@@ -39,7 +39,7 @@ class _ViewAllCaregroupsScreenState extends State<ViewAllCaregroupsScreen> {
           return SingleChildScrollView(
             child: Column(
                 children: controller.caregroupList.map((Caregroup caregroup) {
-                  return CaregroupJobSummaryWidget(caregroup: caregroup);
+                  return CaregroupSummaryWidget(caregroup: caregroup);
                 }).toList()),
           );
         },

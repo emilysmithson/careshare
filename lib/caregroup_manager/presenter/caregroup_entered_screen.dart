@@ -2,7 +2,7 @@ import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 
-import 'caregroup_widgets/caregroup_job_summary_widget.dart';
+import 'caregroup_widgets/caregroup_summary_widget.dart';
 import '../domain/models/caregroup.dart';
 import 'edit_caregroup_screen.dart';
 import 'view_all_caregroups_screen.dart';
@@ -19,7 +19,7 @@ class CaregroupEnteredScreen extends StatelessWidget {
       endDrawer: CustomDrawer(),
       body: Column(
         children: [
-          CaregroupJobSummaryWidget(
+          CaregroupSummaryWidget(
             caregroup: caregroup,
           ),
           TextButton(

@@ -5,7 +5,6 @@ import 'package:careshare/caregroup_manager/domain/usecases/edit_a_caregroup.dar
 import 'package:careshare/caregroup_manager/domain/usecases/remove_a_caregroup.dart';
 import 'package:careshare/caregroup_manager/domain/usecases/fetch_caregroups.dart';
 import 'package:careshare/caregroup_manager/domain/usecases/fetch_a_caregroup.dart';
-import 'package:careshare/caregroup_manager/domain/usecases/fetch_my_caregroup.dart';
 import 'package:careshare/caregroup_manager/domain/usecases/update_caregroup.dart';
 import 'package:careshare/caregroup_manager/external/caregroup_datasource_impl.dart';
 
@@ -45,14 +44,6 @@ class AllCaregroupUseCases {
     final FetchACaregroup fetchACaregroupDatasource = FetchACaregroup(repository);
 
     return fetchACaregroupDatasource(id);
-  }
-
-  static Future<Either<CaregroupManagerException, Caregroup>> fetchMyCaregroup() async {
-    final CaregroupDatasourceImpl datasource = CaregroupDatasourceImpl();
-    final CaregroupRepositoryImpl repository = CaregroupRepositoryImpl(datasource);
-    final FetchMyCaregroup fetchMyCaregroupDatasource = FetchMyCaregroup(repository);
-
-    return fetchMyCaregroupDatasource();
   }
 
   static Future<Either<CaregroupManagerException, Caregroup>> updateCaregroup(
