@@ -30,12 +30,12 @@ class AllCaregroupUseCases {
   }
 
 
-  static Future<Either<CaregroupManagerException, List<Caregroup>>> fetchCaregroups({String? search}) async {
+  static Future<Either<CaregroupManagerException, List<Caregroup>>> fetchAllCaregroups() async {
     final CaregroupDatasourceImpl datasource = CaregroupDatasourceImpl();
     final CaregroupRepositoryImpl repository = CaregroupRepositoryImpl(datasource);
-    final FetchCaregroups fetchCaregroupsDatasource = FetchCaregroups(repository);
+    final FetchCaregroups fetchAllCaregroupsDatasource = FetchCaregroups(repository);
 
-    return fetchCaregroupsDatasource(search: search);
+    return fetchAllCaregroupsDatasource();
   }
 
   static Future<Either<CaregroupManagerException, Caregroup>> fetchACaregroup(String id) async {

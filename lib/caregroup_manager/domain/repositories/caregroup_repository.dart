@@ -8,7 +8,7 @@ import '../models/caregroup.dart';
 abstract class CaregroupRepository {
   Future<Either<CaregroupManagerException, Caregroup>> updateCaregroup(Caregroup caregroup);
   Future<Either<CaregroupManagerException, Caregroup>> editCaregroup(Caregroup caregroup);
-  Future<Either<CaregroupManagerException, List<Caregroup>>> fetchCaregroups({String? search});
+  Future<Either<CaregroupManagerException, List<Caregroup>>> fetchAllCaregroups();
   Future<Either<CaregroupManagerException, Caregroup>> fetchACaregroup(String id);
   Future<Either<CaregroupManagerException, String>> createCaregroup(Caregroup caregroup);
   Future<Either<CaregroupManagerException, bool>> saveCaregroupPhoto(File photo);

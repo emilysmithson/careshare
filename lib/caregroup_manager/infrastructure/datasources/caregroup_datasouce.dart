@@ -8,7 +8,7 @@ import '../../domain/models/caregroup.dart';
 
 abstract class CaregroupDatasource {
   Future updateCaregroup(Caregroup caregroup);
-  Future<DatabaseEvent> fetchCaregroups({String? search});
+  Future<DatabaseEvent> fetchAllCaregroups();
   Future<String> createCaregroup(Caregroup caregroup);
   Future<Either<CaregroupManagerException, bool>> saveCaregroupPhoto(File photo);
   Future<DatabaseEvent> fetchACaregroup(String id);

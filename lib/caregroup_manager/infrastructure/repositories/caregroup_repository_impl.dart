@@ -36,10 +36,10 @@ class CaregroupRepositoryImpl implements CaregroupRepository {
 
   
   @override
-  Future<Either<CaregroupManagerException, List<Caregroup>>> fetchCaregroups({String? search}) async {
+  Future<Either<CaregroupManagerException, List<Caregroup>>> fetchAllCaregroups() async {
     DatabaseEvent response;
     try {
-      response = await datasource.fetchCaregroups(search: search);
+      response = await datasource.fetchAllCaregroups();
     } catch (error) {
       return Left(CaregroupManagerException(error.toString()));
     }

@@ -8,7 +8,7 @@ class FetchCaregroups {
   final CaregroupRepository repository;
 
   FetchCaregroups(this.repository);
-  Future<Either<CaregroupManagerException, List<Caregroup>>> call({String? search}) {
-    return repository.fetchCaregroups(search: search);
+  Future<Either<CaregroupManagerException, List<Caregroup>>> call() {
+    return repository.fetchAllCaregroups();
   }
 }

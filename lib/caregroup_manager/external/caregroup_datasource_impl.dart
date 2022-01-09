@@ -32,16 +32,10 @@ class CaregroupDatasourceImpl implements CaregroupDatasource {
   //     .then(...);
 
   @override
-  Future<DatabaseEvent> fetchCaregroups({String? search}) async {
+  Future<DatabaseEvent> fetchAllCaregroups() async {
     DatabaseReference reference;
-    if (search == null) {
-      reference = FirebaseDatabase.instance.ref("caregroups");
-    }
-    else {
-      reference = FirebaseDatabase.instance.ref("caregroups/"+search);
-    }
+    reference = FirebaseDatabase.instance.ref("caregroups");
     final response = await reference.once();
-
     return response;
   }
 

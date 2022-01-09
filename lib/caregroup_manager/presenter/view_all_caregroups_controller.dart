@@ -17,8 +17,8 @@ class ViewAllCaregroupsController {
   final List<Caregroup> caregroupList = [];
   final ValueNotifier<PageStatus> status = ValueNotifier<PageStatus>(PageStatus.loading);
 
-  fetchCaregroups() async {
-    final response = await AllCaregroupUseCases.fetchCaregroups();
+  fetchAllCaregroups() async {
+    final response = await AllCaregroupUseCases.fetchAllCaregroups();
 
     response.fold((l) {
       status.value = PageStatus.error;
@@ -38,6 +38,6 @@ class ViewAllCaregroupsController {
     final RemoveACaregroup remove = RemoveACaregroup(repository);
     remove(caregroupId);
     status.value = PageStatus.loading;
-    fetchCaregroups();
+    fetchAllCaregroups();
   }
 }

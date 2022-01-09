@@ -17,7 +17,7 @@ class _ViewAllCaregroupsScreenState extends State<ViewAllCaregroupsScreen> {
 
   @override
   void initState() {
-    controller.fetchCaregroups();
+    controller.fetchAllCaregroups();
 
     super.initState();
   }

@@ -28,7 +28,7 @@ class EditTaskController {
   String? id;
 
   // Future fetchCaregroupList(CareTask originalTask) async {
-  //   final response = await AllCaregroupUseCases.fetchCaregroups();
+  //   final response = await AllCaregroupUseCases.fetchAllCaregroups();
   //   response.fold(
   //           (l) {
   //         // print(">l " + l.message);
