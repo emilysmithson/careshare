@@ -7,10 +7,6 @@ class Caregroup {
   late String? id;
   late String? carees;
   late String? carers;
-  late List<String>? careeList;
-  late List<String>? carerList;
-  late List<Profile>? careeProfiles;
-  late List<Profile>? carerProfiles;
   CaregroupStatus status;
   DateTime? dateCreated;
   late String? createdBy;
@@ -21,10 +17,6 @@ class Caregroup {
     this.details,
     this.carees,
     this.carers,
-    this.careeList,
-    this.carerList,
-    this.careeProfiles,
-    this.carerProfiles,
     required this.status,
     this.dateCreated,
     this.createdBy,
@@ -44,12 +36,12 @@ class Caregroup {
   }
 
   Caregroup.fromJson(dynamic key, dynamic value):
-        name =   value['name'].toString(),
+        name =   value['name'],
         details =   value['details'].toString(),
         createdBy = value['created_by'].toString(),
         dateCreated = DateTime.parse(value['date_created']),
-        carees = value['carees'].toString(),
-        carers = value['carers'].toString(),
+        carees = value['carees'],
+        carers = value['carers'],
         status = CaregroupStatus.caregroupStatusList. firstWhere((element) => element.status == value['status']),
       id = key.toString()
   ;

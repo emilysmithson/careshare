@@ -43,23 +43,11 @@ class _ViewCaregroupScreenState extends State<ViewCaregroupScreen> {
 
           if (l.message=='no value'){
             // print('no value for this authId');
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CreateCaregroupScreen()));
+            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CreateCaregroupScreen()));
           }
         },
             (r) {
               caregroup = r;
-
-          // // retrieve the carees
-          // r.carees.toString().split(',').forEach((String profileId) async {
-          //   final result = await AllProfileUseCases.fetchAProfile(profileId);
-          //     result.fold((l) => null, (r) => careesInCaregroup.add(r));
-          // });
-          //
-          // // retrieve the carers
-          // r.carers.toString().split(',').forEach((String profileId) async {
-          //   final result = await AllProfileUseCases.fetchAProfile(profileId);
-          //   result.fold((l) => null, (r) => carersInCaregroup.add(r));
-          // });
 
           isLoading = false;
           setState(() {});
@@ -73,7 +61,7 @@ class _ViewCaregroupScreenState extends State<ViewCaregroupScreen> {
           // print(">l " + l.message);
 
           if (l.message=='no value'){
-            print('no value for this authId');
+            print('no value for this Id');
           }
         },
             (r) {
@@ -94,25 +82,24 @@ class _ViewCaregroupScreenState extends State<ViewCaregroupScreen> {
   @override
   Widget build(BuildContext context) {
 
-    print('>>>>>>>>>>>>>>>>>');
-    print(profileList.length);
+    if (caregroup!= null) {
+      careesInCaregroup = [];
+      if (caregroup!.carees != null) {
+        caregroup!.carees!.split(',').forEach((profileId) {
+          careesInCaregroup.add(profileList.firstWhere((profile) => profile.id == profileId));
+        });
+      }
+      print('}}}}}}}}}}}}}}}}${careesInCaregroup.length}');
 
+      carersInCaregroup = [];
+      if (caregroup!.carers != null) {
+        caregroup!.carers!.split(',').forEach((profileId) {
+          carersInCaregroup.add(profileList.firstWhere((profile) => profile.id == profileId));
+        });
+      }
+      print('}}}}}}}}}}}}}}}}${carersInCaregroup.length}');
 
-    careesInCaregroup = [];
-    if (caregroup!.carees != null) {
-      caregroup!.carees!.split(',').forEach((profileId) {
-        careesInCaregroup.add(profileList.firstWhere((profile) => profile.id == profileId));
-      });
     }
-    print('}}}}}}}}}}}}}}}}${careesInCaregroup.length}');
-
-    carersInCaregroup = [];
-    if (caregroup!.carers != null) {
-      caregroup!.carers!.split(',').forEach((profileId) {
-        carersInCaregroup.add(profileList.firstWhere((profile) => profile.id == profileId));
-      });
-    }
-    print('}}}}}}}}}}}}}}}}${carersInCaregroup.length}');
 
     if (isLoading){
       return Scaffold(
@@ -165,7 +152,7 @@ class _ViewCaregroupScreenState extends State<ViewCaregroupScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ViewProfileScreen(profile: e)));
+                                          builder: (context) => ViewProfileScreen(profileId: e.id!)));
                                 },
                                 child: Text(e.displayName!),
 
@@ -205,7 +192,7 @@ class _ViewCaregroupScreenState extends State<ViewCaregroupScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ViewProfileScreen(profile: e)));
+                                          builder: (context) => ViewProfileScreen(profileId: e.id!)));
                                 },
                                 child: Text(e.displayName!),
                                 

@@ -12,8 +12,6 @@ class Profile {
   late String? createdBy;
   late String? careeIn;
   late String? carerIn;
-  late List<Caregroup>? careeInCaregroups;
-  late List<Caregroup>? carerInCaregroups;
 
   Profile({
     this.id,
@@ -55,34 +53,16 @@ class Profile {
   }
 
   factory Profile.fromJson(dynamic key, dynamic value) {
-    final authId  = value['auth_id'].toString();
-    final firstName =   value['first_name'].toString();
-    final lastName =   value['last_name'].toString();
-    final displayName =   value['display_name'].toString();
+    final authId  = value['auth_id'];
+    final firstName =   value['first_name'];
+    final lastName =   value['last_name'];
+    final displayName =   value['display_name'];
     final createdBy = value['created_by'].toString();
     final dateCreated = DateTime.parse(value['date_created']);
-    final taskTypes = value['task_types'].toString();
+    final taskTypes = value['task_types'];
     final id = key.toString();
-    final careeIn = value['caree_in'].toString();
-    final carerIn = value['carer_in'].toString();
-
-    // List<Caregroup> careeIn = [];
-    // value['caree_in'].toString().split(',').forEach((String caregroupId) async {
-    //   final result = await AllCaregroupUseCases.fetchACaregroup(caregroupId);
-    //   result.fold((l) => null, (r) => careeIn.add(r));
-    // });
-
-    // List<Caregroup> carerIn = [];
-    // value['carer_in'].toString().split(',').forEach((String caregroupId) async {
-    //
-    //   final result = await AllCaregroupUseCases.fetchACaregroup(caregroupId);
-    //   result.fold(
-    //           (l) => null,
-    //           (r) => carerIn.add(r)
-    //   );
-    // });
-
-
+    final String? careeIn = value['caree_in']; //(value['caree_in'] == null) ? value['caree_in'] : null;
+    final String? carerIn = value['carer_in']; //(value['carer_in'] == null) ? value['carer_in'] : null;
 
     return Profile(
       authId: authId,

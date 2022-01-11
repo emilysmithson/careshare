@@ -33,7 +33,11 @@ class CaregroupSummaryWidget extends StatelessWidget {
 
               itemWidget(
                 title: 'Carees',
-                content: caregroup.carees!,
+                content: caregroup.carees ?? "",
+              ),
+              itemWidget(
+                title: 'Carers',
+                content: caregroup.carers ?? "",
               ),
               itemWidget(
                 title: 'Status',
