@@ -5,7 +5,7 @@ enum PageStatus {
   success,
 }
 
-class ViewMyProfileController {
+class ViewProfileController {
 
 
 }

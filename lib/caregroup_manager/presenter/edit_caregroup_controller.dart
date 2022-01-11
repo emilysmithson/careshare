@@ -12,6 +12,7 @@ class CreateOrEditACaregroupController {
   late TextEditingController nameController;
   late TextEditingController detailsController;
   late TextEditingController careesController;
+  late TextEditingController carersController;
 
   initialiseControllers(Caregroup? originalCaregroup) {
     if (originalCaregroup != null) {
@@ -26,6 +27,9 @@ class CreateOrEditACaregroupController {
     );
     careesController = TextEditingController(
       text: originalCaregroup?.carees,
+    );
+    carersController = TextEditingController(
+      text: originalCaregroup?.carers,
     );
   }
 

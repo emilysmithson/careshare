@@ -22,6 +22,8 @@ class ViewAllCaregroupsController {
 
     response.fold((l) {
       status.value = PageStatus.error;
+      print('##############################');
+      print(l.message);
     }, (r) {
       caregroupList.clear();
       caregroupList.addAll(r);
@@ -35,7 +37,7 @@ class ViewAllCaregroupsController {
     }
     final CaregroupDatasourceImpl datasource = CaregroupDatasourceImpl();
     final CaregroupRepositoryImpl repository = CaregroupRepositoryImpl(datasource);
-    final RemoveACaregroup remove = RemoveACaregroup(repository);
+    final RemoveCaregroup remove = RemoveCaregroup(repository);
     remove(caregroupId);
     status.value = PageStatus.loading;
     fetchAllCaregroups();

@@ -5,6 +5,7 @@ import '../../domain/models/caregroup.dart';
 import '../../domain/usecases/all_caregroup_usecases.dart';
 import '../edit_caregroup_screen.dart';
 import '../../../widgets/item_widget.dart';
+import '../view_caregroup_screen.dart';
 
 class CaregroupSummaryWidget extends StatelessWidget {
   final Caregroup caregroup;
@@ -48,6 +49,20 @@ class CaregroupSummaryWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
+                            builder: (context) => ViewCaregroupScreen(caregroupId: caregroup.id!),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.remove_red_eye,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
                             builder: (context) => CreateOrEditACaregroupScreen(
                               caregroup: caregroup,
                             ),
@@ -61,7 +76,7 @@ class CaregroupSummaryWidget extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        AllCaregroupUseCases.removeACaregroup(caregroup.id!);
+                        AllCaregroupUseCases.removeCaregroup(caregroup.id!);
                       },
                       icon: const Icon(
                         Icons.delete,

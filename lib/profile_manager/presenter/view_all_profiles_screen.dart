@@ -1,7 +1,7 @@
 import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
-import 'profile_widgets/profile_job_summary_widget.dart';
+import 'profile_widgets/profile_summary_widget.dart';
 import '../domain/models/profile.dart';
 import 'view_all_profiles_controller.dart';
 
@@ -39,7 +39,7 @@ class _ViewAllProfilesScreenState extends State<ViewAllProfilesScreen> {
           return SingleChildScrollView(
             child: Column(
                 children: controller.profileList.map((Profile profile) {
-                  return ProfileJobSummaryWidget(profile: profile);
+                  return ProfileSummaryWidget(profile: profile);
                 }).toList()),
           );
         },

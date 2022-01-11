@@ -76,6 +76,18 @@ class _CreateOrEditACaregroupScreenState extends State<CreateOrEditACaregroupScr
                   },
                 ),
 
+                CustomFormField(
+                  controller: controller.carersController,
+                  label: 'Carers',
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter at least one Task Type';
+                    }
+                    return null;
+                  },
+                ),
+
                 TextButton(
                   onPressed: () {
                     controller.formKey.currentState?.validate();

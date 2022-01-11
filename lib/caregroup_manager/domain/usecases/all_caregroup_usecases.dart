@@ -33,7 +33,7 @@ class AllCaregroupUseCases {
   static Future<Either<CaregroupManagerException, List<Caregroup>>> fetchAllCaregroups() async {
     final CaregroupDatasourceImpl datasource = CaregroupDatasourceImpl();
     final CaregroupRepositoryImpl repository = CaregroupRepositoryImpl(datasource);
-    final FetchCaregroups fetchAllCaregroupsDatasource = FetchCaregroups(repository);
+    final FetchAllCaregroups fetchAllCaregroupsDatasource = FetchAllCaregroups(repository);
 
     return fetchAllCaregroupsDatasource();
   }
@@ -57,12 +57,12 @@ class AllCaregroupUseCases {
     return response;
   }
 
-  static Future<Either<CaregroupManagerException, bool>> removeACaregroup(
+  static Future<Either<CaregroupManagerException, bool>> removeCaregroup(
       String id,
       ) {
     final CaregroupDatasourceImpl datasource = CaregroupDatasourceImpl();
     final CaregroupRepositoryImpl repository = CaregroupRepositoryImpl(datasource);
-    final RemoveACaregroup removeACaregroupUseCase = RemoveACaregroup(repository);
+    final RemoveCaregroup removeACaregroupUseCase = RemoveCaregroup(repository);
     return removeACaregroupUseCase(id);
   }
   

@@ -2,7 +2,7 @@ import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 
-import 'profile_widgets/profile_job_summary_widget.dart';
+import 'profile_widgets/profile_summary_widget.dart';
 import '../domain/models/profile.dart';
 import 'edit_profile_screen.dart';
 import 'view_all_profiles_screen.dart';
@@ -19,7 +19,7 @@ class ProfileEnteredScreen extends StatelessWidget {
       endDrawer: CustomDrawer(),
       body: Column(
         children: [
-          ProfileJobSummaryWidget(
+          ProfileSummaryWidget(
             profile: profile,
           ),
           TextButton(

@@ -4,10 +4,10 @@ import '../errors/caregroup_manager_exception.dart';
 import '../models/caregroup.dart';
 import '../repositories/caregroup_repository.dart';
 
-class FetchCaregroups {
+class FetchAllCaregroups {
   final CaregroupRepository repository;
 
-  FetchCaregroups(this.repository);
+  FetchAllCaregroups(this.repository);
   Future<Either<CaregroupManagerException, List<Caregroup>>> call() {
     return repository.fetchAllCaregroups();
   }

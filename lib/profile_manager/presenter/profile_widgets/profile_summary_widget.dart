@@ -6,9 +6,9 @@ import '../../domain/usecases/all_profile_usecases.dart';
 import '../edit_profile_screen.dart';
 import '../../../widgets/item_widget.dart';
 
-class ProfileJobSummaryWidget extends StatelessWidget {
+class ProfileSummaryWidget extends StatelessWidget {
   final Profile profile;
-  const ProfileJobSummaryWidget({Key? key, required this.profile}) : super(key: key);
+  const ProfileSummaryWidget({Key? key, required this.profile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

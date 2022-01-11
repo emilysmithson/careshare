@@ -6,7 +6,11 @@ class Caregroup {
   late String? details;
   late String? id;
   late String? carees;
+  late String? carers;
+  late List<String>? careeList;
+  late List<String>? carerList;
   late List<Profile>? careeProfiles;
+  late List<Profile>? carerProfiles;
   CaregroupStatus status;
   DateTime? dateCreated;
   late String? createdBy;
@@ -16,7 +20,11 @@ class Caregroup {
     this.name,
     this.details,
     this.carees,
+    this.carers,
+    this.careeList,
+    this.carerList,
     this.careeProfiles,
+    this.carerProfiles,
     required this.status,
     this.dateCreated,
     this.createdBy,
@@ -28,6 +36,7 @@ class Caregroup {
       'name': name,
       'details': details,
       'carees': carees,
+      'carers': carers,
       'status': status.status,
       'created_by': createdBy,
       'date_created': dateCreated.toString(),
@@ -40,6 +49,7 @@ class Caregroup {
         createdBy = value['created_by'].toString(),
         dateCreated = DateTime.parse(value['date_created']),
         carees = value['carees'].toString(),
+        carers = value['carers'].toString(),
         status = CaregroupStatus.caregroupStatusList. firstWhere((element) => element.status == value['status']),
       id = key.toString()
   ;
