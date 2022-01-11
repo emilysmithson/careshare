@@ -85,17 +85,22 @@ class _ViewCaregroupScreenState extends State<ViewCaregroupScreen> {
       careesInCaregroup = [];
       if (caregroup!.carees != null) {
         caregroup!.carees!.split(',').forEach((profileId) {
-          careesInCaregroup.add(profileList.firstWhere((profile) => profile.id == profileId));
+          Profile caree = profileList.firstWhere((profile) => profile.id == profileId);
+          if (caree != null) {
+            careesInCaregroup.add(caree);
+          }
         });
       }
 
       carersInCaregroup = [];
       if (caregroup!.carers != null) {
         caregroup!.carers!.split(',').forEach((profileId) {
-          carersInCaregroup.add(profileList.firstWhere((profile) => profile.id == profileId));
+          Profile carer = profileList.firstWhere((profile) => profile.id == profileId);
+          if (carer != null) {
+            carersInCaregroup.add(carer);
+          }
         });
       }
-
     }
 
     if (isLoading){

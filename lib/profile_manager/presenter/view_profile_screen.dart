@@ -88,15 +88,22 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
 
       profile!.careeIn!.split(',').forEach((caregroupId) {
         print('careeInCaregroups - caregroupId: $caregroupId');
-        careeInCaregroups.add(caregroupList.firstWhere((caregroup) => caregroup.id == caregroupId));
+        Caregroup caree = caregroupList.firstWhere((caregroup) => caregroup.id == caregroupId);
+        if (caree!= null) {
+          careeInCaregroups.add(caree);
+        }
       });
     }
 
     carerInCaregroups = [];
     if (profile != null && profile!.carerIn != null) {
+
       profile!.carerIn!.split(',').forEach((caregroupId) {
         print('carerInCaregroups - caregroupId: $caregroupId');
-        carerInCaregroups.add(caregroupList.firstWhere((caregroup) => caregroup.id == caregroupId));
+        Caregroup carer = caregroupList.firstWhere((caregroup) => caregroup.id == caregroupId);
+        if (carer!= null) {
+          carerInCaregroups.add(carer);
+        }
       });
     }
 
@@ -230,15 +237,6 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
 
 
 
-
-                itemWidget(
-                  title: 'Caree In',
-                  content: this.profile!.careeIn ?? "",
-                ),
-                itemWidget(
-                  title: 'Carer In',
-                  content: this.profile!.carerIn ?? "",
-                ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Row(
