@@ -8,7 +8,6 @@ import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:careshare/widgets/item_widget.dart';
 import 'package:flutter/material.dart';
-import 'create_caregroup_screen.dart';
 import 'view_caregroup_controller.dart';
 import 'edit_caregroup_screen.dart';
 
@@ -89,7 +88,6 @@ class _ViewCaregroupScreenState extends State<ViewCaregroupScreen> {
           careesInCaregroup.add(profileList.firstWhere((profile) => profile.id == profileId));
         });
       }
-      print('}}}}}}}}}}}}}}}}${careesInCaregroup.length}');
 
       carersInCaregroup = [];
       if (caregroup!.carers != null) {
@@ -97,7 +95,6 @@ class _ViewCaregroupScreenState extends State<ViewCaregroupScreen> {
           carersInCaregroup.add(profileList.firstWhere((profile) => profile.id == profileId));
         });
       }
-      print('}}}}}}}}}}}}}}}}${carersInCaregroup.length}');
 
     }
 

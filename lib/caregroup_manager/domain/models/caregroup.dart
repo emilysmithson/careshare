@@ -1,5 +1,4 @@
 import 'package:careshare/caregroup_manager/domain/models/caregroup_status.dart';
-import 'package:careshare/profile_manager/domain/models/profile.dart';
 
 class Caregroup {
   late String? name;

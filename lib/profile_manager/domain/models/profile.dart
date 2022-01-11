@@ -1,5 +1,3 @@
-import '../../../caregroup_manager/domain/models/caregroup.dart';
-
 
 class Profile {
   late String? firstName;

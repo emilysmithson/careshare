@@ -3,7 +3,6 @@ import 'package:careshare/caregroup_manager/domain/usecases/all_caregroup_usecas
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_screen.dart';
 import 'package:careshare/profile_manager/domain/models/profile.dart';
 import 'package:careshare/profile_manager/domain/usecases/all_profile_usecases.dart';
-import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary_widget.dart';
 import 'package:careshare/profile_manager/presenter/view_profile_controller.dart';
 import 'package:careshare/widgets/custom_app_bar.dart';
 import 'package:careshare/widgets/custom_drawer.dart';
@@ -92,7 +91,6 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
         careeInCaregroups.add(caregroupList.firstWhere((caregroup) => caregroup.id == caregroupId));
       });
     }
-    print('}}}}}}}}}}}}}}}}${careeInCaregroups.length}');
 
     carerInCaregroups = [];
     if (profile != null && profile!.carerIn != null) {
@@ -101,10 +99,6 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
         carerInCaregroups.add(caregroupList.firstWhere((caregroup) => caregroup.id == caregroupId));
       });
     }
-    print('}}}}}}}}}}}}}}}}${carerInCaregroups.length}');
-
-
-
 
     if (isLoading){
       return Scaffold(
@@ -129,25 +123,25 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
               children: [
                 itemWidget(
                   title: 'First Name',
-                  content: this.profile!.firstName!,
+                  content: profile!.firstName!,
                 ),
                 itemWidget(
                   title: 'Last Name',
-                  content: this.profile!.lastName!,
+                  content: profile!.lastName!,
                 ),
                 itemWidget(
                   title: 'Display Name',
-                  content: this.profile!.displayName!,
+                  content: profile!.displayName!,
                 ),
 
                 itemWidget(
                   title: 'Task Types',
-                  content: this.profile!.taskTypes!,
+                  content: profile!.taskTypes!,
                 ),
 
                 itemWidget(
                   title: 'authId',
-                  content: this.profile!.authId!,
+                  content: profile!.authId!,
                 ),
 
 
