@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../domain/models/task_priority.dart';
 import '../domain/models/task.dart';
-import '../domain/models/task_type.dart';
 import '../domain/models/task_status.dart';
 import '../domain/usecases/all_task_usecases.dart';
 import 'task_entered_screen.dart';
@@ -12,7 +11,6 @@ import 'package:careshare/global.dart';
 
 class EditTaskController {
   final formKey = GlobalKey<FormState>();
-  TaskType? taskType;
   TaskSize? taskSize;
   TaskStatus? taskStatus;
   bool isCreateTask = true;
@@ -25,6 +23,7 @@ class EditTaskController {
 
   late TextEditingController titleController;
   late TextEditingController detailsController;
+  late TextEditingController categoryController;
   String? id;
 
   // Future fetchCaregroupList(CareTask originalTask) async {
@@ -75,7 +74,9 @@ class EditTaskController {
     detailsController = TextEditingController(
       text: originalTask?.details,
     );
-    taskType = originalTask?.taskType;
+    categoryController = TextEditingController(
+      text: originalTask?.category,
+    );
     taskSize = originalTask?.taskSize;
 
   // await fetchCaregroupList();
@@ -91,11 +92,11 @@ class EditTaskController {
       final CareTask task = CareTask(
         caregroupId: caregroup!.id!,
         caregroupDisplayName: caregroup!.name!,
-        taskType: taskType!,
         taskSize: taskSize!,
         taskStatus: TaskStatus.created,
         title: titleController.text,
         details: detailsController.text,
+        category: categoryController.text,
         dateCreated: DateTime.now(),
         taskPriority: priority,
       );

@@ -59,10 +59,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                   title: 'Details',
                   content: widget.task.details,
                 ),
-                itemWidget(
-                  title: 'Type',
-                  content: widget.task.taskType.type,
-                ),
+
                 itemWidget(
                   title: 'Size',
                   content: widget.task.taskSize.size,

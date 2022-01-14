@@ -40,10 +40,6 @@ class TaskDetailWidget extends StatelessWidget {
                 content: task.details,
               ),
               itemWidget(
-                title: 'Type',
-                content: task.taskType.type,
-              ),
-              itemWidget(
                 title: 'Size',
                 content: task.taskSize.size,
               ),

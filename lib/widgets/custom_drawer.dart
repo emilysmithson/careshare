@@ -183,7 +183,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             title: Text('All Categories',
               style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
             ),
-            trailing: Icon(Icons.people_alt, size: 30, color: Colors.white,),
+            trailing: Icon(Icons.category, size: 30, color: Colors.white,),
             onTap: () {
               Navigator.push(
                 context,
@@ -201,7 +201,7 @@ class CustomDrawer extends StatelessWidget with PreferredSizeWidget {
             title: Text('New Category',
               style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
             ),
-            trailing: Icon(Icons.add_box_outlined, size: 30, color: Colors.white,),
+            trailing: Icon(Icons.add_box, size: 30, color: Colors.white,),
             onTap: () {
               Navigator.push(
                 context,

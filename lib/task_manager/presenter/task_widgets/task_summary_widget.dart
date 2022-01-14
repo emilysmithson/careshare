@@ -38,8 +38,8 @@ class TaskSummaryWidget extends StatelessWidget {
                 content: task.details,
               ),
               itemWidget(
-                title: 'Type',
-                content: task.taskType.type,
+                title: 'Category',
+                content: task.category,
               ),
               itemWidget(
                 title: 'Size',

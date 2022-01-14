@@ -1,7 +1,7 @@
+import 'package:careshare/category_manager/domain/models/category.dart';
 
 import 'task_priority.dart';
 import 'task_size.dart';
-import 'task_type.dart';
 import 'task_status.dart';
 
 class CareTask {
@@ -9,9 +9,9 @@ class CareTask {
   final String caregroupId;
   final String caregroupDisplayName;
   final TaskPriority taskPriority;
-  final TaskType taskType;
   final TaskSize taskSize;
   final String details;
+  final String category;
   late String? id;
 
   late String? createdBy;
@@ -29,10 +29,10 @@ class CareTask {
     required this.caregroupId,
     required this.caregroupDisplayName,
     required this.details,
+    required this.category,
     this.id,
     this.createdBy,
     this.createdByDisplayName,
-    required this.taskType,
     required this.taskSize,
     required this.taskStatus,
     this.dateCreated,
@@ -49,9 +49,9 @@ class CareTask {
       'caregroup_id': caregroupId,
       'caregroup_display_name': caregroupDisplayName,
       'details': details,
+      'category': category,
       'created_by': createdBy,
       'created_by_display_name': createdByDisplayName,
-      'type': taskType.type,
       'size': taskSize.value,
       'status': taskStatus.status,
       'date_created': dateCreated.toString(),
@@ -68,7 +68,8 @@ class CareTask {
     final caregroupId = value['caregroup_id'] ?? '';
     final caregroupDisplayName = value['caregroup_display_name'] ?? '';
     final details = value['details'] ?? '';
-    final taskType = TaskType.taskTypeList.firstWhere((element) => element.type == value['type']);
+    final category = value['category'];
+
     final taskSize = TaskSize.taskSizeList.firstWhere((element) => element.value == value['size']);
     final taskStatus = TaskStatus.taskStatusList.firstWhere((element) => element.status == value['status']);
     final priority = TaskPriority.priorityList.firstWhere((element) => value['priority'] == element.value);
@@ -92,7 +93,7 @@ class CareTask {
         caregroupId: caregroupId,
         caregroupDisplayName: caregroupDisplayName,
         details: details,
-        taskType: taskType,
+        category: category,
         taskSize: taskSize,
         taskStatus: taskStatus,
         taskPriority: priority,

@@ -1,4 +1,5 @@
 import 'package:careshare/caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
+import 'package:careshare/category_manager/domain/usecases/all_category_usecases.dart';
 import 'package:careshare/story_manager/presenter/story_widgets/news_feed_widget.dart';
 import 'package:careshare/widgets/custom_drawer.dart';
 import '../../../caregroup_manager/domain/usecases/all_caregroup_usecases.dart';
@@ -55,12 +56,27 @@ class _HomePageState extends State<HomePage> {
             });
   }
 
+  Future fetchCategories() async {
+
+    final response = await AllCategoryUseCases.fetchAllCategories();
+    response.fold(
+            (l) {
+          // print(">l " + l.message);
+
+        },
+            (r) {
+          categories = r;
+
+        });
+  }
+
 
 
 
   @override
   void initState() {
     fetchProfile();
+    fetchCategories();
     super.initState();
   }
 

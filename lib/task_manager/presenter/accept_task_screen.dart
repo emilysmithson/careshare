@@ -55,10 +55,6 @@ class _AcceptTaskScreenState extends State<AcceptTaskScreen> {
                     content: widget.task.details,
                   ),
                   itemWidget(
-                    title: 'Type',
-                    content: widget.task.taskType.type,
-                  ),
-                  itemWidget(
                     title: 'Size',
                     content: widget.task.taskSize.size,
                   ),

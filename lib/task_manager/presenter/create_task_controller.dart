@@ -1,11 +1,11 @@
 import 'package:careshare/caregroup_manager/domain/models/caregroup.dart';
+import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/story_manager/domain/models/story.dart';
 import 'package:careshare/story_manager/domain/usecases/all_story_usecases.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/models/task_priority.dart';
 import '../domain/models/task.dart';
-import '../domain/models/task_type.dart';
 import '../domain/models/task_status.dart';
 import '../domain/models/task_size.dart';
 import '../domain/usecases/all_task_usecases.dart';
@@ -14,10 +14,10 @@ import 'package:careshare/global.dart';
 
 class CreateTaskController {
   final formKey = GlobalKey<FormState>();
-  TaskType? taskType;
   TaskStatus? taskStatus;
   bool isLoading = true;
   Caregroup? caregroup;
+  Category? category;
 
   TaskPriority priority = TaskPriority.medium;
   TaskSize taskSize = TaskSize.medium;
@@ -25,8 +25,12 @@ class CreateTaskController {
   final List<Caregroup> caregroupList = carerInCaregroups;
   final List<String> caregroupOptions = [];
 
+  final List<Category> categoryList = categories;
+  final List<String> categoryOptions = [];
+
   late TextEditingController titleController;
   late TextEditingController detailsController;
+  late TextEditingController categoryController;
   String? id;
 
 
@@ -36,9 +40,15 @@ class CreateTaskController {
       caregroupOptions.add(element.name!);
     });
 
+    categoryList.forEach((element) {
+      categoryOptions.add(element.name!);
+    });
+
+
     titleController = TextEditingController();
     detailsController = TextEditingController();
-    taskType = null;
+    categoryController = TextEditingController();
+
     // taskSize = null;
 
   }
@@ -51,11 +61,11 @@ class CreateTaskController {
       final CareTask task = CareTask(
         caregroupId: caregroup!.id!,
         caregroupDisplayName: caregroup!.name!,
-        taskType: taskType!,
         taskSize: taskSize,
         taskStatus: TaskStatus.created,
         title: titleController.text,
         details: detailsController.text,
+        category: categoryController.text,
         dateCreated: DateTime.now(),
         taskPriority: priority,
       );

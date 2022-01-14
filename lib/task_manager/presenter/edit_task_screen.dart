@@ -8,10 +8,8 @@ import 'package:flutter/material.dart';
 import '../../style/style.dart';
 import '../../widgets/custom_form_field.dart';
 import '../domain/models/task.dart';
-import '../domain/models/task_type.dart';
 import '../domain/models/task_size.dart';
 import 'task_widgets/select_priority.dart';
-import 'task_widgets/select_task_type.dart';
 import 'task_widgets/select_task_size.dart';
 import 'edit_task_controller.dart';
 
@@ -114,30 +112,11 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     return null;
                   },
                 ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.all(6),
-                  padding: EdgeInsets.all(6),
-                  decoration: Style.boxDecoration,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SelectTaskType(
-                        onSelect: (TaskType newTaskType) {
-                          controller.taskType = newTaskType;
-                        },
-                        currentType: controller.taskType,
-                      ),
-                      Text(
-                        showTaskTypeError ? 'Please select a task type' : '',
-                        style: TextStyle(
-                          color: Colors.red.shade600,
-                          fontSize: 12,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+
+
+
+
+
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -171,7 +150,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 TextButton(
                   onPressed: () {
                     controller.formKey.currentState?.validate();
-                    if (controller.taskType == null) {
+                    if (controller.caregroup == null) {
                       setState(() {
                         showTaskTypeError = true;
                       });
