@@ -91,8 +91,9 @@ class TaskRepositoryImpl implements TaskRepository {
     return Right(careTaskList);
   }
 
+  // acceptTask
   @override
-  Future<Either<TaskManagerException, String>> addComment(
+  Future<Either<TaskManagerException, String>> acceptTask(
       {required Comment comment,
       required String taskId,
       required DateTime acceptedDateTime,
@@ -100,10 +101,34 @@ class TaskRepositoryImpl implements TaskRepository {
       String? displayName}) async {
     String response;
     try {
-      response = await datasource.addComment(
+      response = await datasource.acceptTask(
         comment: comment,
         taskId: taskId,
         acceptedDateTime: acceptedDateTime,
+        profileId: profileId,
+        displayName: displayName,
+      );
+    } catch (error) {
+      return Left(TaskManagerException(error.toString()));
+    }
+    return Right(response);
+  }
+
+
+  // completeTask
+  @override
+  Future<Either<TaskManagerException, String>> completeTask(
+      {required Comment comment,
+        required String taskId,
+        required DateTime completedDateTime,
+        required String profileId,
+        String? displayName}) async {
+    String response;
+    try {
+      response = await datasource.completeTask(
+        comment: comment,
+        taskId: taskId,
+        completedDateTime: completedDateTime,
         profileId: profileId,
         displayName: displayName,
       );

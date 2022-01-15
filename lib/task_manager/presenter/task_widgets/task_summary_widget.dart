@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../style/style.dart';
 import '../../domain/models/task.dart';
 import '../../domain/usecases/all_task_usecases.dart';
+import '../complete_task_screen.dart';
 import '../edit_task_screen.dart';
 import '../accept_task_screen.dart';
 import '../view_task_screen.dart';
@@ -123,7 +124,23 @@ class TaskSummaryWidget extends StatelessWidget {
                       },
                       icon: const Icon(
                         Icons.adjust,
-                        color: Colors.grey,
+                        color: Colors.amber,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CompleteTaskScreen(
+                              task: task,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.adjust,
+                        color: Colors.green,
                       ),
                     ),
                     Padding(

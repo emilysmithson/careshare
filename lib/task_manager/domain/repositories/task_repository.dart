@@ -10,10 +10,16 @@ abstract class TaskRepository {
       String search);
   Future<Either<TaskManagerException, CareTask>> editTask(CareTask task);
   Future<Either<TaskManagerException, bool>> removeTask(String taskId);
-  Future<Either<TaskManagerException, String>> addComment(
+  Future<Either<TaskManagerException, String>> acceptTask(
       {required Comment comment,
-      required String taskId,
-      required DateTime acceptedDateTime,
-      required String profileId,
-      String? displayName});
+        required String taskId,
+        required DateTime acceptedDateTime,
+        required String profileId,
+        String? displayName});
+  Future<Either<TaskManagerException, String>> completeTask(
+      {required Comment comment,
+        required String taskId,
+        required DateTime completedDateTime,
+        required String profileId,
+        String? displayName});
 }

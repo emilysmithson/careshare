@@ -7,9 +7,9 @@ import '../domain/models/task.dart';
 import '../domain/usecases/all_task_usecases.dart';
 import 'task_entered_screen.dart';
 
-class AcceptTaskController {
+class CompleteTaskController {
   final formKey = GlobalKey<FormState>();
-  DateTime? acceptedDateTime;
+  DateTime? completedDateTime;
   String? id;
   late CareTask task;
 
@@ -18,14 +18,14 @@ class AcceptTaskController {
   initialiseControllers(CareTask? originalTask) {
     task = originalTask!;
     id = originalTask.id;
-    acceptedDateTime = originalTask.taskAcceptedForDate;
+    completedDateTime = originalTask.taskCompletedDate;
 
     commentController = TextEditingController(
       text: "",
     );
   }
 
-  acceptATask({required BuildContext context}) async {
+  completeATask({required BuildContext context}) async {
     if (formKey.currentState!.validate()) {
 
       // Create the comment
@@ -36,11 +36,11 @@ class AcceptTaskController {
           commment: commentController.text);
 
       // Save the comment
-      AllTaskUseCases.acceptTask(
+      AllTaskUseCases.completeTask(
         comment: comment,
         taskId: task.id!,
         profileId: myProfile.id!,
-        acceptedDateTime: DateTime.now(),
+        completedDateTime: DateTime.now(),
         displayName: myProfile.displayName,
       );
 
@@ -54,7 +54,7 @@ class AcceptTaskController {
           createdBy: myProfile.id,
           createdByDisplayName: myProfile.displayName,
           story:
-              '${myProfile.displayName} accepted task ${task.title} for caregroup ${task.caregroupDisplayName} on ${DateTime.now().toString()}');
+              '${myProfile.displayName} completed task ${task.title} for caregroup ${task.caregroupDisplayName} on ${DateTime.now().toString()}');
 
       // Save the story
       AllStoryUseCases.createAStory(newStory);

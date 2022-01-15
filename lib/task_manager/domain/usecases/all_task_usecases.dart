@@ -1,4 +1,3 @@
-import 'package:careshare/task_manager/domain/usecases/add_comment.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../external/task_datasource_impl.dart';
@@ -9,6 +8,8 @@ import 'create_a_task.dart';
 import 'edit_a_task.dart';
 import 'fetch_tasks.dart';
 import 'remove_a_task.dart';
+import 'accept_task.dart';
+import 'complete_task.dart';
 
 class AllTaskUseCases {
   static Future<Either<TaskManagerException, String>> createATask(
@@ -49,7 +50,7 @@ class AllTaskUseCases {
     return removeTaskUseCase(id);
   }
 
-  static Future<Either<TaskManagerException, String>> addComment(
+  static Future<Either<TaskManagerException, String>> acceptTask(
       {required Comment comment,
       required String taskId,
       required DateTime acceptedDateTime,
@@ -57,8 +58,8 @@ class AllTaskUseCases {
       String? displayName}) async {
     final TaskDatasourceImpl datasource = TaskDatasourceImpl();
     final TaskRepositoryImpl repository = TaskRepositoryImpl(datasource);
-    final AddComment addCommentUseCase = AddComment(repository);
-    return addCommentUseCase(
+    final AcceptTask acceptTaskUseCase = AcceptTask(repository);
+    return acceptTaskUseCase(
       comment: comment,
       taskId: taskId,
       acceptedDateTime: acceptedDateTime,
@@ -66,4 +67,25 @@ class AllTaskUseCases {
       displayName: displayName,
     );
   }
+
+
+  static Future<Either<TaskManagerException, String>> completeTask(
+      {required Comment comment,
+        required String taskId,
+        required DateTime completedDateTime,
+        required String profileId,
+        String? displayName}) async {
+    final TaskDatasourceImpl datasource = TaskDatasourceImpl();
+    final TaskRepositoryImpl repository = TaskRepositoryImpl(datasource);
+    final CompleteTask completeTaskUseCase = CompleteTask(repository);
+    return completeTaskUseCase(
+      comment: comment,
+      taskId: taskId,
+      completedDateTime: completedDateTime,
+      profileId: profileId,
+      displayName: displayName,
+    );
+  }
+
+
 }

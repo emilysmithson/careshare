@@ -3,7 +3,7 @@ import 'package:careshare/task_manager/domain/models/task.dart';
 import 'package:careshare/task_manager/domain/repositories/task_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class AddComment {
+class AcceptTask {
   final TaskRepository repository;
 //task.taskAcceptedForDate = acceptedDateTime;
   // task.taskStatus = TaskStatus.accepted;
@@ -11,14 +11,14 @@ class AddComment {
   // task.acceptedBy = myProfile.id;
   // task.acceptedByDisplayName = myProfile.displayName ?? 'anonymous';
 
-  AddComment(this.repository);
+  AcceptTask(this.repository);
   Future<Either<TaskManagerException, String>> call(
       {required Comment comment,
       required String taskId,
       required DateTime acceptedDateTime,
       required String profileId,
       String? displayName}) {
-    return repository.addComment(
+    return repository.acceptTask(
       comment: comment,
       taskId: taskId,
       acceptedDateTime: acceptedDateTime,

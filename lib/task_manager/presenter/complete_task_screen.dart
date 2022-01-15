@@ -5,29 +5,29 @@ import 'package:careshare/widgets/item_widget.dart';
 import 'package:flutter/material.dart';
 import '../../global.dart';
 import '../domain/models/task.dart';
-import 'accept_task_controller.dart';
+import 'complete_task_controller.dart';
 import 'package:intl/intl.dart';
 import '../../widgets/date_picker.dart';
 import '../../widgets/custom_form_field.dart';
 
 
 
-class AcceptTaskScreen extends StatefulWidget {
+class CompleteTaskScreen extends StatefulWidget {
   final CareTask task;
-  const AcceptTaskScreen({
+  const CompleteTaskScreen({
     Key? key,
     required this.task,
   }) : super(key: key);
 
   @override
-  State<AcceptTaskScreen> createState() =>
-      _AcceptTaskScreenState();
+  State<CompleteTaskScreen> createState() =>
+      _CompleteTaskScreenState();
 }
 
-class _AcceptTaskScreenState extends State<AcceptTaskScreen> {
-  late AcceptTaskController controller = AcceptTaskController();
+class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
+  late CompleteTaskController controller = CompleteTaskController();
   bool showTaskTypeError = false;
-  DateTime? acceptedDateTime;
+  DateTime? completedDateTime;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _AcceptTaskScreenState extends State<AcceptTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      appBar: CustomAppBar('Accept a Task'),
+      appBar: CustomAppBar('Complete a Task'),
       endDrawer: CustomDrawer(),
       body: SafeArea(
           child: Form(
@@ -71,7 +71,7 @@ class _AcceptTaskScreenState extends State<AcceptTaskScreen> {
 
 
                   DatePicker(onDateTimeChanged: (date){
-                    controller.acceptedDateTime = date;
+                    controller.completedDateTime = date;
                     },
 
                   ),
@@ -91,11 +91,11 @@ class _AcceptTaskScreenState extends State<AcceptTaskScreen> {
 
                   TextButton(
                     onPressed: () {
-                      controller.acceptATask(
+                      controller.completeATask(
                         context: context,
                       );
                     },
-                    child: Text('Accept Task',),
+                    child: Text('Complete Task',),
                   ),
                 ],
               ),

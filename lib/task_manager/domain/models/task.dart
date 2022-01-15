@@ -1,5 +1,3 @@
-import 'package:careshare/category_manager/domain/models/category.dart';
-
 import 'task_priority.dart';
 import 'task_size.dart';
 import 'task_status.dart';
@@ -22,6 +20,9 @@ class CareTask {
   late String? acceptedBy;
   late String? acceptedByDisplayName;
   DateTime? taskAcceptedForDate;
+  late String? completedBy;
+  late String? completedByDisplayName;
+  DateTime? taskCompletedDate;
   List<Comment>? comments;
 
   CareTask({
@@ -40,6 +41,9 @@ class CareTask {
     this.acceptedBy,
     this.acceptedByDisplayName,
     this.taskAcceptedForDate,
+    this.completedBy,
+    this.completedByDisplayName,
+    this.taskCompletedDate,
     this.comments,
   });
 
@@ -59,6 +63,9 @@ class CareTask {
       'accepted_by': acceptedBy,
       'accepted_by_display_name': acceptedByDisplayName,
       'accepted_for_date': taskAcceptedForDate.toString(),
+      'completed_by': completedBy,
+      'completed_by_display_name': completedByDisplayName,
+      'completed_date': taskCompletedDate.toString(),
       'comments': comments?.map((comment) => comment.toJson()),
     };
   }
@@ -79,6 +86,9 @@ class CareTask {
     final taskAcceptedForDate = DateTime.tryParse(value['accepted_for_date']);
     final acceptedBy = value['accepted_by'] ?? '';
     final acceptedByDisplayName = value['accepted_by_display_name'] ?? '';
+    final taskCompletedDate = (value['completed_date']!=null) ? DateTime.tryParse(value['completed_date']) : null;
+    final completedBy = value['completed_by'] ?? '';
+    final completedByDisplayName = value['completed_by_display_name'] ?? '';
 
     final List<Comment> comments = <Comment>[];
     if (value['comments'] != null) {
@@ -103,6 +113,9 @@ class CareTask {
         taskAcceptedForDate: taskAcceptedForDate,
         acceptedBy: acceptedBy,
         acceptedByDisplayName: acceptedByDisplayName,
+        taskCompletedDate: taskCompletedDate,
+        completedBy: completedBy,
+        completedByDisplayName: completedByDisplayName,
         comments: comments);
   }
 }
