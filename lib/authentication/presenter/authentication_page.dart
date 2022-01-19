@@ -1,8 +1,5 @@
-import 'package:careshare/widgets/custom_app_bar.dart';
-import 'package:careshare/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/custom_form_field.dart';
 import 'authentication_controller.dart';
 
 class AuthenticationPage extends StatelessWidget {
@@ -16,8 +13,6 @@ class AuthenticationPage extends StatelessWidget {
       builder: (context, bool register, _) {
         return Scaffold(
           backgroundColor: Colors.grey.shade100,
-          appBar: CustomAppBar('Register'),
-          endDrawer: CustomDrawer(),
           body: SafeArea(
             child: Form(
               key: controller.formKey,
@@ -30,9 +25,13 @@ class AuthenticationPage extends StatelessWidget {
                           'You should receive an email to reset your password. \nPlease check your junk mail if you do not see it.',
                           textAlign: TextAlign.center),
                     ),
-                  CustomFormField(
+                  TextFormField(
                     controller: controller.emailAdressController,
-                    label: 'E-mail address',
+                    decoration: const InputDecoration(
+                      label: Text(
+                        'E-mail address',
+                      ),
+                    ),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null) {
@@ -48,10 +47,24 @@ class AuthenticationPage extends StatelessWidget {
                     },
                   ),
                   if (!controller.forgottenPassword)
-                    CustomFormField(
+                    TextFormField(
                       maxLines: 1,
                       controller: controller.passwordController,
-                      label: 'Password',
+                      decoration: const InputDecoration(
+                        label: Text(
+                          'Password',
+                        ),
+                        //  icon: IconButton(
+                        // icon: Icon(
+                        //     controller.hidePassword
+                        //         ? Icons.visibility_off
+                        //         : Icons.visibility,
+                        //     color: Colors.grey),
+                        // onPressed: () {
+                        //   controller.toggleShowPassword();
+                        // },
+                      ),
+                      // ),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == null) {
@@ -64,43 +77,38 @@ class AuthenticationPage extends StatelessWidget {
                         return null;
                       },
                       obscureText: controller.hidePassword,
-                      trailing: IconButton(
-                        icon: Icon(
-                            controller.hidePassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: Colors.grey),
-                        onPressed: () {
-                          controller.toggleShowPassword();
-                        },
-                      ),
                     ),
                   if (register && !controller.forgottenPassword)
-                    CustomFormField(
-                        maxLines: 1,
-                        label: 'Confirm password',
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please confirm your password';
-                          }
-                          if (controller.passwordController.text != value) {
-                            return 'Your passwords do not match';
-                          }
+                    TextFormField(
+                      maxLines: 1,
+                      decoration: const InputDecoration(
+                        label: Text(
+                          'Confirm Password',
+                        ),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please confirm your password';
+                        }
+                        if (controller.passwordController.text != value) {
+                          return 'Your passwords do not match';
+                        }
 
-                          return null;
-                        },
-                        obscureText: controller.hidePassword,
-                        trailing: IconButton(
-                          icon: Icon(
-                              controller.hidePassword
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: Colors.grey),
-                          onPressed: () {
-                            controller.toggleShowPassword();
-                          },
-                        )),
+                        return null;
+                      },
+                      obscureText: controller.hidePassword,
+                      // trailing: IconButton(
+                      //   icon: Icon(
+                      //       controller.hidePassword
+                      //           ? Icons.visibility_off
+                      //           : Icons.visibility,
+                      //       color: Colors.grey),
+                      //   onPressed: () {
+                      //     controller.toggleShowPassword();
+                      //   },
+                      // ),
+                    ),
                   ElevatedButton(
                     onPressed: () async {
                       if (controller.forgottenPassword) {
@@ -121,9 +129,8 @@ class AuthenticationPage extends StatelessWidget {
                         controller.forgottenPassword = false;
                       }
                     },
-                    child: Text(register
-                        ? 'Already registered?'
-                        : 'Need to register?'),
+                    child: Text(
+                        register ? 'Already registered?' : 'Need to register?'),
                   ),
                   const Spacer(),
                   if (!register && !controller.forgottenPassword)

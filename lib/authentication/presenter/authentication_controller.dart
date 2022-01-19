@@ -1,10 +1,9 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:careshare/task_manager/presenter/tasks_view.dart';
+import 'package:careshare/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../home_page/presenter/home_page.dart';
-import '../../widgets/snackbar.dart';
 
 class AuthenticationController {
   final formKey = GlobalKey<FormState>();
@@ -36,8 +35,8 @@ class AuthenticationController {
               email: emailAdressController.text,
               password: passwordController.text);
 
-          return Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const HomePage()));
+          return Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => TasksView()));
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
             return showErrorMessage(
@@ -55,7 +54,8 @@ class AuthenticationController {
             email: emailAdressController.text,
             password: passwordController.text);
 
-        return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+        return Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const TasksView()));
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           showErrorMessage(

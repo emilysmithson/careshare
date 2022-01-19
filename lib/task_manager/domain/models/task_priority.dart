@@ -5,32 +5,32 @@ class TaskPriority {
   final int value;
   final Color color;
 
-  TaskPriority({
+  const TaskPriority({
     required this.level,
     required this.value,
     required this.color,
   });
-  static final TaskPriority highest = TaskPriority(
+  static const TaskPriority highest = TaskPriority(
     level: 'Highest',
     value: 1,
     color: Colors.red,
   );
-  static final TaskPriority high = TaskPriority(
+  static const TaskPriority high = TaskPriority(
     level: 'High',
     value: 2,
     color: Colors.orange,
   );
-  static final TaskPriority medium = TaskPriority(
+  static const TaskPriority medium = TaskPriority(
     level: 'Medium',
     value: 3,
     color: Colors.yellow,
   );
-  static final TaskPriority low = TaskPriority(
+  static const TaskPriority low = TaskPriority(
     level: 'Low',
     value: 4,
     color: Colors.blueGrey,
   );
-  static final TaskPriority lowest = TaskPriority(
+  static const TaskPriority lowest = TaskPriority(
     level: 'Lowest',
     value: 5,
     color: Colors.grey,

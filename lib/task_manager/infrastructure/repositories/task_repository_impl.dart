@@ -12,8 +12,9 @@ class TaskRepositoryImpl implements TaskRepository {
   TaskRepositoryImpl(this.datasource);
 
   @override
-  Future<Either<TaskManagerException, String>> createTask(CareTask task) async {
-    String response;
+  Future<Either<TaskManagerException, CareTask>> createTask(
+      CareTask task) async {
+    CareTask response;
     try {
       response = await datasource.createTask(task);
     } catch (error) {
@@ -48,6 +49,17 @@ class TaskRepositoryImpl implements TaskRepository {
 
   @override
   Future<Either<TaskManagerException, CareTask>> editTask(CareTask task) async {
+    try {
+      datasource.editTask(task);
+    } catch (error) {
+      return Left(TaskManagerException(error.toString()));
+    }
+    return Right(task);
+  }
+
+  @override
+  Future<Either<TaskManagerException, CareTask>> editTaskTitle(
+      CareTask task) async {
     try {
       datasource.editTask(task);
     } catch (error) {
@@ -114,15 +126,14 @@ class TaskRepositoryImpl implements TaskRepository {
     return Right(response);
   }
 
-
   // completeTask
   @override
   Future<Either<TaskManagerException, String>> completeTask(
       {required Comment comment,
-        required String taskId,
-        required DateTime completedDateTime,
-        required String profileId,
-        String? displayName}) async {
+      required String taskId,
+      required DateTime completedDateTime,
+      required String profileId,
+      String? displayName}) async {
     String response;
     try {
       response = await datasource.completeTask(
@@ -136,5 +147,20 @@ class TaskRepositoryImpl implements TaskRepository {
       return Left(TaskManagerException(error.toString()));
     }
     return Right(response);
+  }
+
+  @override
+  Future<Either<TaskManagerException, CareTask>> editTaskField(
+      {required CareTask task, required String field, required value}) async {
+    try {
+      datasource.editTaskField(
+        task: task,
+        field: field,
+        value: value,
+      );
+    } catch (error) {
+      return Left(TaskManagerException(error.toString()));
+    }
+    return Right(task);
   }
 }
