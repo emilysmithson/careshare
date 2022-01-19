@@ -10,12 +10,14 @@ import '../infrastructure/repositories/task_repository_impl.dart';
 enum PageStatus {
   loading,
   error,
-  success,
+  loaded,
 }
 
-class ViewAllTasksController {
-  final List<CareTask> careTaskList = [];
-  final ValueNotifier<PageStatus> status = ValueNotifier<PageStatus>(PageStatus.loading);
+class TasksViewController {
+  final ValueNotifier<List<CareTask>> careTaskList =
+      ValueNotifier<List<CareTask>>([]);
+  final ValueNotifier<PageStatus> status =
+      ValueNotifier<PageStatus>(PageStatus.loading);
 
   fetchTasks() async {
     final response = await AllTaskUseCases.fetchAllTasks();
@@ -23,9 +25,9 @@ class ViewAllTasksController {
     response.fold((l) {
       status.value = PageStatus.error;
     }, (r) {
-      careTaskList.clear();
-      careTaskList.addAll(r);
-      status.value = PageStatus.success;
+      careTaskList.value.clear();
+      careTaskList.value.addAll(r);
+      status.value = PageStatus.loaded;
     });
   }
 

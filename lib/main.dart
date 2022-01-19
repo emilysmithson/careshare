@@ -1,3 +1,4 @@
+import 'package:careshare/profile/profile_module.dart';
 import 'package:careshare/task_manager/presenter/tasks_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,28 +36,33 @@ void main() {
           border: OutlineInputBorder(),
         ),
       ),
-      home: const App(),
+      home: App(),
     ),
   );
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
-  // Future fetchProfile() async {
-  //   final response = await AllProfileUseCases.fetchMyProfile();
-  //   response.fold(
-  //           (l) {
-  //             // print(">l " + l.message);
-  //             },
-  //           (r) {myProfileId = r.id!;});
-  // }
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  late ProfileModule profileModule;
+
+  Future initialise() async {
+    await Firebase.initializeApp();
+    profileModule = ProfileModule();
+    await profileModule.fetchProfiles();
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       // Initialize FlutterFire
-      future: Firebase.initializeApp(),
+      future: initialise(),
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {}
@@ -67,7 +73,9 @@ class App extends StatelessWidget {
             return AuthenticationPage();
           }
 
-          return TasksView();
+          return TasksView(
+            profileModule: profileModule,
+          );
         }
 
         // Otherwise, show something whilst waiting for initialization to complete

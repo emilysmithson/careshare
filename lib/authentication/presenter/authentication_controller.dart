@@ -35,8 +35,7 @@ class AuthenticationController {
               email: emailAdressController.text,
               password: passwordController.text);
 
-          return Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => TasksView()));
+          return Navigator.pop(context);
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
             return showErrorMessage(
@@ -54,8 +53,7 @@ class AuthenticationController {
             email: emailAdressController.text,
             password: passwordController.text);
 
-        return Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const TasksView()));
+        return Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           showErrorMessage(

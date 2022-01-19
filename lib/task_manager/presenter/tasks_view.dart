@@ -1,20 +1,33 @@
+import 'package:careshare/profile/profile_module.dart';
 import 'package:careshare/task_manager/presenter/add_task_floating_action_button.dart';
+import 'package:careshare/task_manager/presenter/tasks_view_controller.dart';
+import 'package:careshare/widgets/task_summary.dart';
 
 import 'package:flutter/material.dart';
 
 class TasksView extends StatefulWidget {
-  const TasksView({Key? key}) : super(key: key);
+  final ProfileModule profileModule;
+  const TasksView({Key? key, required this.profileModule}) : super(key: key);
 
   @override
   _TasksViewState createState() => _TasksViewState();
 }
 
 class _TasksViewState extends State<TasksView> {
-  GlobalKey key = GlobalKey();
+  final controller = TasksViewController();
+
+  @override
+  void initState() {
+    controller.fetchTasks();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: key,
+      appBar: AppBar(
+        title: const Text('Tasks'),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const AddTaskFloatingActionButton(),
       bottomNavigationBar: BottomNavigationBar(
@@ -38,7 +51,39 @@ class _TasksViewState extends State<TasksView> {
         ],
         type: BottomNavigationBarType.fixed,
       ),
-      body: const Center(child: Text('Task page')),
+      body: ValueListenableBuilder(
+          valueListenable: controller.status,
+          builder: (context, status, widget) {
+            return body;
+          }),
     );
+  }
+
+  Widget get body {
+    switch (controller.status.value) {
+      case PageStatus.loading:
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      case PageStatus.error:
+        return const Center(child: Text('Something went wrong'));
+      case PageStatus.loaded:
+        return SafeArea(
+          child: ValueListenableBuilder(
+              valueListenable: controller.careTaskList,
+              builder: (context, careTaskList, _) {
+                return Column(
+                  children: controller.careTaskList.value
+                      .map(
+                        (task) => TaskSummary(
+                          task: task,
+                          profileModule: widget.profileModule,
+                        ),
+                      )
+                      .toList(),
+                );
+              }),
+        );
+    }
   }
 }
