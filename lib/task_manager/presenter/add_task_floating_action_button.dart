@@ -1,11 +1,13 @@
-import 'package:careshare/task_manager/domain/usecases/all_task_usecases.dart';
+import 'package:careshare/profile/usecases/fetch_profiles.dart';
 import 'package:careshare/task_manager/presenter/task_view.dart';
-import 'package:flutter/foundation.dart';
+import 'package:careshare/task_manager/usecases/create_a_task.dart';
 
 import 'package:flutter/material.dart';
 
 class AddTaskFloatingActionButton extends StatefulWidget {
-  const AddTaskFloatingActionButton({Key? key}) : super(key: key);
+  final FetchProfiles profileModule;
+  const AddTaskFloatingActionButton({Key? key, required this.profileModule})
+      : super(key: key);
 
   @override
   State<AddTaskFloatingActionButton> createState() =>
@@ -20,20 +22,18 @@ class _AddTaskFloatingActionButtonState
     if (textEditingController.text.isEmpty) {
       return;
     }
-    final result =
-        await AllTaskUseCases.createATask(textEditingController.text);
-    result.fold((l) {
-      if (kDebugMode) {
-        print('error: ${l.message}');
-      }
-    }, (r) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TaskView(task: r),
+    final createATask = CreateATask();
+    final result = await createATask(textEditingController.text);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TaskView(
+          task: result,
+          profileModule: widget.profileModule,
         ),
-      );
-    });
+      ),
+    );
   }
 
   bool isVisible = true;

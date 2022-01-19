@@ -1,12 +1,12 @@
-import 'package:careshare/profile/profile_module.dart';
-import 'package:careshare/task_manager/domain/models/task.dart';
+import 'package:careshare/profile/usecases/fetch_profiles.dart';
+import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TaskSummary extends StatelessWidget {
   final CareTask task;
-  final ProfileModule profileModule;
+  final FetchProfiles profileModule;
   const TaskSummary({
     Key? key,
     required this.task,
@@ -20,7 +20,10 @@ class TaskSummary extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TaskView(task: task),
+            builder: (context) => TaskView(
+              task: task,
+              profileModule: profileModule,
+            ),
           ),
         );
       },

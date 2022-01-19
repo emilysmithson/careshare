@@ -1,14 +1,9 @@
-import 'package:careshare/task_manager/domain/errors/task_manager_exception.dart';
-import 'package:careshare/task_manager/domain/models/task.dart';
-import 'package:careshare/task_manager/domain/repositories/task_repository.dart';
-import 'package:dartz/dartz.dart';
+import 'package:careshare/task_manager/models/task.dart';
+
+import 'package:firebase_database/firebase_database.dart';
 
 class EditTaskField {
-  final TaskRepository repository;
-
-  EditTaskField(this.repository);
-
-  Future<Either<TaskManagerException, CareTask>> call(
+  CareTask call(
       {required CareTask task,
       required TaskField taskField,
       required dynamic newValue}) {
@@ -52,11 +47,10 @@ class EditTaskField {
         field = 'task_completed_date';
         break;
     }
+    DatabaseReference reference =
+        FirebaseDatabase.instance.ref("tasks_test/${task.id}/$field");
 
-    return repository.editTaskField(
-      task: newTask,
-      field: field,
-      value: newValue,
-    );
+    reference.set(newValue);
+    return newTask;
   }
 }

@@ -1,5 +1,6 @@
-import 'package:careshare/profile/profile_module.dart';
+import 'package:careshare/profile/usecases/fetch_profiles.dart';
 import 'package:careshare/task_manager/presenter/tasks_view.dart';
+import 'package:careshare/task_manager/usecases/fetch_tasks.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ void main() {
           border: OutlineInputBorder(),
         ),
       ),
-      home: App(),
+      home: const App(),
     ),
   );
 }
@@ -49,12 +50,15 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late ProfileModule profileModule;
+  late FetchProfiles fetchProfiles;
+  late FetchTasks taskManagerModule;
 
   Future initialise() async {
     await Firebase.initializeApp();
-    profileModule = ProfileModule();
-    await profileModule.fetchProfiles();
+    fetchProfiles = FetchProfiles();
+    await fetchProfiles();
+    taskManagerModule = FetchTasks();
+    await taskManagerModule.fetchTasks();
     return;
   }
 
@@ -74,7 +78,8 @@ class _AppState extends State<App> {
           }
 
           return TasksView(
-            profileModule: profileModule,
+            taskManagerModule: taskManagerModule,
+            profileModule: fetchProfiles,
           );
         }
 

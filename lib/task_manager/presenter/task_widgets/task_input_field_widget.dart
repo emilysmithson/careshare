@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:careshare/task_manager/domain/models/task.dart';
+import 'package:careshare/task_manager/models/task.dart';
 
 import 'package:flutter/material.dart';
 
