@@ -3,46 +3,40 @@ import 'task_size.dart';
 import 'task_status.dart';
 
 class CareTask {
-  final String title;
-  final String caregroupId;
-  final String caregroupDisplayName;
-  final TaskPriority taskPriority;
-  final TaskSize taskSize;
-  final String details;
-  final String category;
-  late String? id;
+  String title;
+  String? description;
+  TaskPriority taskPriority;
+  TaskEffort taskEffort;
+  String? details;
+  String? category;
+  final String id;
 
-  late String? createdBy;
-  late String? createdByDisplayName;
-  DateTime? dateCreated;
+  final String createdBy;
+  final DateTime dateCreated;
 
   TaskStatus taskStatus;
-  late String? acceptedBy;
-  late String? acceptedByDisplayName;
+  String? acceptedBy;
+
   DateTime? taskAcceptedForDate;
-  late String? completedBy;
-  late String? completedByDisplayName;
+  String? completedBy;
+
   DateTime? taskCompletedDate;
   List<Comment>? comments;
 
   CareTask({
     required this.title,
-    required this.caregroupId,
-    required this.caregroupDisplayName,
-    required this.details,
-    required this.category,
-    this.id,
-    this.createdBy,
-    this.createdByDisplayName,
-    required this.taskSize,
-    required this.taskStatus,
-    this.dateCreated,
-    required this.taskPriority,
+    this.description,
+    this.details,
+    this.category,
+    required this.id,
+    required this.createdBy,
+    this.taskEffort = TaskEffort.medium,
+    this.taskStatus = TaskStatus.created,
+    required this.dateCreated,
+    this.taskPriority = TaskPriority.medium,
     this.acceptedBy,
-    this.acceptedByDisplayName,
     this.taskAcceptedForDate,
     this.completedBy,
-    this.completedByDisplayName,
     this.taskCompletedDate,
     this.comments,
   });
@@ -50,21 +44,16 @@ class CareTask {
   Map<String, dynamic> toJson() {
     return {
       'title': title,
-      'caregroup_id': caregroupId,
-      'caregroup_display_name': caregroupDisplayName,
       'details': details,
       'category': category,
       'created_by': createdBy,
-      'created_by_display_name': createdByDisplayName,
-      'size': taskSize.value,
+      'task_effort': taskEffort.value,
       'status': taskStatus.status,
       'date_created': dateCreated.toString(),
       'priority': taskPriority.value,
       'accepted_by': acceptedBy,
-      'accepted_by_display_name': acceptedByDisplayName,
       'accepted_for_date': taskAcceptedForDate.toString(),
       'completed_by': completedBy,
-      'completed_by_display_name': completedByDisplayName,
       'completed_date': taskCompletedDate.toString(),
       'comments': comments?.map((comment) => comment.toJson()),
     };
@@ -72,23 +61,26 @@ class CareTask {
 
   factory CareTask.fromJson(dynamic key, dynamic value) {
     final title = value['title'] ?? '';
-    final caregroupId = value['caregroup_id'] ?? '';
-    final caregroupDisplayName = value['caregroup_display_name'] ?? '';
+
     final details = value['details'] ?? '';
     final category = value['category'];
 
-    final taskSize = TaskSize.taskSizeList.firstWhere((element) => element.value == value['size']);
-    final taskStatus = TaskStatus.taskStatusList.firstWhere((element) => element.status == value['status']);
-    final priority = TaskPriority.priorityList.firstWhere((element) => value['priority'] == element.value);
+    final taskSize = TaskEffort.taskSizeList
+        .firstWhere((element) => element.value == value['task_effort']);
+    final taskStatus = TaskStatus.taskStatusList
+        .firstWhere((element) => element.status == value['status']);
+    final priority = TaskPriority.priorityList
+        .firstWhere((element) => value['priority'] == element.value);
     final createdBy = value['created_by'] ?? '';
-    final createdByDisplayName = value['created_by_display_name'] ?? '';
+
     final dateCreated = DateTime.parse(value['date_created']);
     final taskAcceptedForDate = DateTime.tryParse(value['accepted_for_date']);
     final acceptedBy = value['accepted_by'] ?? '';
-    final acceptedByDisplayName = value['accepted_by_display_name'] ?? '';
-    final taskCompletedDate = (value['completed_date']!=null) ? DateTime.tryParse(value['completed_date']) : null;
+
+    final taskCompletedDate = (value['completed_date'] != null)
+        ? DateTime.tryParse(value['completed_date'])
+        : null;
     final completedBy = value['completed_by'] ?? '';
-    final completedByDisplayName = value['completed_by_display_name'] ?? '';
 
     final List<Comment> comments = <Comment>[];
     if (value['comments'] != null) {
@@ -100,22 +92,17 @@ class CareTask {
     return CareTask(
         id: key,
         title: title,
-        caregroupId: caregroupId,
-        caregroupDisplayName: caregroupDisplayName,
         details: details,
         category: category,
-        taskSize: taskSize,
+        taskEffort: taskSize,
         taskStatus: taskStatus,
         taskPriority: priority,
         createdBy: createdBy,
-        createdByDisplayName: createdByDisplayName,
         dateCreated: dateCreated,
         taskAcceptedForDate: taskAcceptedForDate,
         acceptedBy: acceptedBy,
-        acceptedByDisplayName: acceptedByDisplayName,
         taskCompletedDate: taskCompletedDate,
         completedBy: completedBy,
-        completedByDisplayName: completedByDisplayName,
         comments: comments);
   }
 }
@@ -164,4 +151,16 @@ class Comment {
 
     return newComment;
   }
+}
+
+enum TaskField {
+  title,
+  taskPriority,
+  taskEffort,
+  details,
+  category,
+  taskStatus,
+  acceptedBy,
+  completedBy,
+  taskCompleteDate,
 }
