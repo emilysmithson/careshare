@@ -78,7 +78,7 @@ class _AppState extends State<App> {
           }
 
           return TasksView(
-            taskManagerModule: taskManagerModule,
+            fetchTasks: taskManagerModule,
             profileModule: fetchProfiles,
           );
         }

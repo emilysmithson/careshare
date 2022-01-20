@@ -31,6 +31,16 @@ class FetchProfiles {
   }
 
   String? getNickName(String id) {
-    return profileList.firstWhere((element) => element.id == id).nickName;
+    String? name;
+    try {
+      name = profileList.firstWhere((element) => element.id == id).nickName;
+    } catch (e) {
+      print('this bit');
+      return 'no name found';
+    }
+    if (name == null) {
+      return 'No name found';
+    }
+    return name;
   }
 }
