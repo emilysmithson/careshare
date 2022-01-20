@@ -1,12 +1,17 @@
-import 'package:careshare/profile/usecases/fetch_profiles.dart';
+import 'package:careshare/authentication/cubit/authentication_cubit.dart';
+import 'package:careshare/authentication/presenter/authentication_page.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
+
 import 'package:careshare/task_manager/presenter/tasks_view.dart';
-import 'package:careshare/task_manager/usecases/fetch_tasks.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:careshare/task_manager/repository/create_a_task.dart';
+import 'package:careshare/task_manager/repository/edit_task_field.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'authentication/presenter/authentication_page.dart';
+import 'task_manager/repository/remove_a_task.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +42,21 @@ void main() {
           border: OutlineInputBorder(),
         ),
       ),
-      home: const App(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => TaskCubit(
+              removeATask: RemoveATask(),
+              createATask: CreateATask(),
+              editTaskField: EditTaskField(),
+            )..fetchTasks(),
+          ),
+          BlocProvider(
+            create: (context) => AuthenticationCubit()..checkAuthentication(),
+          ),
+        ],
+        child: const App(),
+      ),
     ),
   );
 }
@@ -50,36 +69,25 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late FetchProfiles fetchProfiles;
-  late FetchTasks taskManagerModule;
-
-  Future initialise() async {
-    await Firebase.initializeApp();
-    fetchProfiles = FetchProfiles();
-    await fetchProfiles();
-    taskManagerModule = FetchTasks();
-    await taskManagerModule.fetchTasks();
-    return;
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      // Initialize FlutterFire
-      future: initialise(),
+      future: Firebase.initializeApp(),
       builder: (context, snapshot) {
         // Check for errors
-        if (snapshot.hasError) {}
+        if (snapshot.hasError) {
+          return const Center(child: Text('Ooops, something went wrong.'));
+        }
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          if (FirebaseAuth.instance.currentUser == null) {
-            return AuthenticationPage();
-          }
-
-          return TasksView(
-            fetchTasks: taskManagerModule,
-            profileModule: fetchProfiles,
+          return BlocBuilder<AuthenticationCubit, AuthenticationState>(
+            builder: (context, state) {
+              if (state is AuthenticationLoaded) {
+                return const TasksView();
+              }
+              return AuthenticationPage();
+            },
           );
         }
 

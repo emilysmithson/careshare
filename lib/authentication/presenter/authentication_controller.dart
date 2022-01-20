@@ -1,76 +1,34 @@
-// ignore_for_file: invalid_use_of_protected_member
+// // ignore_for_file: invalid_use_of_protected_member
 
-import 'package:careshare/widgets/snackbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+// import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 
-class AuthenticationController {
-  final formKey = GlobalKey<FormState>();
-  final emailAdressController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool hidePassword = true;
-  bool resetSent = false;
-  bool forgottenPassword = false;
-  final register = ValueNotifier<bool>(true);
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 
-  void toggleShowPassword() {
-    hidePassword = !hidePassword;
+// class AuthenticationController {
+//   final formKey = GlobalKey<FormState>();
+//   final emailAdressController = TextEditingController();
+//   final passwordController = TextEditingController();
+//   bool hidePassword = true;
+//   bool resetSent = false;
+//   bool forgottenPassword = false;
+//   final register = ValueNotifier<bool>(true);
 
-    // ignore: invalid_use_of_visible_for_testing_member
-    register.notifyListeners();
-  }
+//   Future authenticate(BuildContext context) async {
+//     final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
+//     if (formKey.currentState!.validate()) {
+//       authenticationCubit.register(
+//           email: emailAdressController.text, password: passwordController.text);
+//     } else {
+//       authenticationCubit.signIn(
+//           email: emailAdressController.text, password: passwordController.text);
+//     }
+//   }
 
-  void toggleForgotPassword() {
-    forgottenPassword = true;
-    // ignore: invalid_use_of_visible_for_testing_member
-    register.notifyListeners();
-  }
-
-  Future authenticate(BuildContext context) async {
-    if (formKey.currentState!.validate()) {
-      if (register.value) {
-        try {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: emailAdressController.text,
-              password: passwordController.text);
-
-          return Navigator.pop(context);
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'weak-password') {
-            return showErrorMessage(
-                context: context,
-                message: 'The password provided is too weak.');
-          } else if (e.code == 'email-already-in-use') {
-            showErrorMessage(
-                context: context,
-                message: 'The account already exists for that email.');
-          }
-        }
-      }
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailAdressController.text,
-            password: passwordController.text);
-
-        return Navigator.pop(context);
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          showErrorMessage(
-              context: context, message: 'No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          showErrorMessage(
-              context: context,
-              message: 'Wrong password provided for that user.');
-        }
-      }
-    }
-  }
-
-  void sendPasswordReminder() {
-    FirebaseAuth.instance
-        .sendPasswordResetEmail(email: emailAdressController.text);
-    resetSent = true;
-    forgottenPassword = false;
-    register.value = false;
-  }
-}
+//   void sendPasswordReminder(
+//     BuildContext context,
+//   ) {
+//     final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
+//     authenticationCubit.resetPassword(email: emailAdressController.text);
+//   }
+// }

@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 class FetchTasks {
   ValueNotifier<List<CareTask>> careTaskList =
       ValueNotifier<List<CareTask>>([]);
-  fetchTasks() async {
+  Stream<CareTask> fetchTasks() async* {
     DatabaseReference reference = FirebaseDatabase.instance.ref('tasks_test');
     final response = reference.onValue;
     response.listen((event) {

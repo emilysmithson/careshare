@@ -1,19 +1,14 @@
-import 'package:careshare/profile/usecases/fetch_profiles.dart';
-import 'package:careshare/task_manager/presenter/add_task_floating_action_button.dart';
+import 'package:careshare/authentication/cubit/authentication_cubit.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
-import 'package:careshare/task_manager/usecases/fetch_tasks.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/task_summary.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TasksView extends StatefulWidget {
-  final FetchProfiles profileModule;
-  final FetchTasks fetchTasks;
-
   const TasksView({
     Key? key,
-    required this.profileModule,
-    required this.fetchTasks,
   }) : super(key: key);
 
   @override
@@ -21,8 +16,6 @@ class TasksView extends StatefulWidget {
 }
 
 class _TasksViewState extends State<TasksView> {
-  // final controller = TasksViewController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +23,12 @@ class _TasksViewState extends State<TasksView> {
           title: const Text('Tasks'),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: AddTaskFloatingActionButton(
-          fetchTasks: widget.fetchTasks,
-          profileModule: widget.profileModule,
+        // floatingActionButton: const AddTaskFloatingActionButton(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            final authCubit = BlocProvider.of<AuthenticationCubit>(context);
+            authCubit.signOut();
+          },
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: const [
@@ -59,27 +55,31 @@ class _TasksViewState extends State<TasksView> {
   }
 
   Widget get body {
-    return SafeArea(
-      child: ValueListenableBuilder(
-          valueListenable: widget.fetchTasks.careTaskList,
-          builder: (context, careTaskList, _) {
-            if (widget.fetchTasks.careTaskList.value.isEmpty) {
-              return const Center(child: Text('No tasks'));
-            }
-            return SingleChildScrollView(
-              child: Column(
-                children: widget.fetchTasks.careTaskList.value
-                    .map(
-                      (task) => TaskSummary(
-                        fetchTasks: widget.fetchTasks,
-                        task: task,
-                        profileModule: widget.profileModule,
-                      ),
-                    )
-                    .toList(),
-              ),
-            );
-          }),
-    );
+    return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
+      if (state is TaskLoading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (state is TaskLoading) {
+        return const Center(
+          child: Text('No tasks'),
+        );
+      } else if (state is TaskLoaded) {
+        return SingleChildScrollView(
+          child: Column(
+            children: state.careTaskList
+                .map(
+                  (task) => TaskSummary(
+                    task: task,
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      }
+      return const Center(
+        child: Text('Oops something went wrong'),
+      );
+    });
   }
 }

@@ -1,21 +1,16 @@
-import 'package:careshare/profile/usecases/fetch_profiles.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_view.dart';
-import 'package:careshare/task_manager/presenter/task_widgets/assign_to_widget.dart';
-import 'package:careshare/task_manager/usecases/fetch_tasks.dart';
-import 'package:careshare/task_manager/usecases/remove_a_task.dart';
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskSummary extends StatelessWidget {
   final CareTask task;
-  final FetchProfiles profileModule;
-  final FetchTasks fetchTasks;
+
   const TaskSummary({
     Key? key,
     required this.task,
-    required this.fetchTasks,
-    required this.profileModule,
   }) : super(key: key);
 
   @override
@@ -26,9 +21,7 @@ class TaskSummary extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => TaskView(
-              fetchTasks: fetchTasks,
               task: task,
-              profileModule: profileModule,
             ),
           ),
         );
@@ -49,23 +42,24 @@ class TaskSummary extends StatelessWidget {
                 Text(
                   'Description: ${task.details}',
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Created by: ${profileModule.getNickName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  task.acceptedBy == null || task.acceptedBy!.isEmpty
-                      ? 'Not currently assigned to anyone'
-                      : 'Assigned to: ${profileModule.getNickName(task.acceptedBy!)} on ${DateFormat('E').add_jm().format(task.acceptedOnDate!)}',
-                ),
+                // const SizedBox(height: 8),
+                // Text(
+                //   'Created by: ${profileModule.getNickName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
+                // ),
+                // const SizedBox(height: 8),
+                // Text(
+                //   task.acceptedBy == null || task.acceptedBy!.isEmpty
+                //       ? 'Not currently assigned to anyone'
+                //       : 'Assigned to: ${profileModule.getNickName(task.acceptedBy!)} on ${DateFormat('E').add_jm().format(task.acceptedOnDate!)}',
+                // ),
                 Row(
                   children: [
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.grey),
                       onPressed: () {
-                        final removeTask = RemoveATask();
-                        removeTask(task.id);
+                        final taskCubit = BlocProvider.of<TaskCubit>(context);
+
+                        taskCubit.removeTask(task.id);
                       },
                     ),
                   ],

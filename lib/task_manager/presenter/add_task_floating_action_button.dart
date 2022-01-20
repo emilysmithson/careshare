@@ -1,16 +1,13 @@
-import 'package:careshare/profile/usecases/fetch_profiles.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/presenter/task_view.dart';
-import 'package:careshare/task_manager/usecases/create_a_task.dart';
-import 'package:careshare/task_manager/usecases/fetch_tasks.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddTaskFloatingActionButton extends StatefulWidget {
-  final FetchProfiles profileModule;
-  final FetchTasks fetchTasks;
-  const AddTaskFloatingActionButton(
-      {Key? key, required this.profileModule, required this.fetchTasks})
-      : super(key: key);
+  const AddTaskFloatingActionButton({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AddTaskFloatingActionButton> createState() =>
@@ -25,16 +22,14 @@ class _AddTaskFloatingActionButtonState
     if (textEditingController.text.isEmpty) {
       return;
     }
-    final createATask = CreateATask();
-    final result = await createATask(textEditingController.text);
+    final taskCubit = BlocProvider.of<TaskCubit>(context);
+    final result = await taskCubit.createATask(textEditingController.text);
 
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => TaskView(
           task: result,
-          fetchTasks: widget.fetchTasks,
-          profileModule: widget.profileModule,
         ),
       ),
     );
