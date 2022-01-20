@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 
 class TasksView extends StatefulWidget {
   final FetchProfiles profileModule;
-  final FetchTasks taskManagerModule;
+  final FetchTasks fetchTasks;
+
   const TasksView({
     Key? key,
     required this.profileModule,
-    required this.taskManagerModule,
+    required this.fetchTasks,
   }) : super(key: key);
 
   @override
@@ -30,6 +31,7 @@ class _TasksViewState extends State<TasksView> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: AddTaskFloatingActionButton(
+          fetchTasks: widget.fetchTasks,
           profileModule: widget.profileModule,
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -59,16 +61,17 @@ class _TasksViewState extends State<TasksView> {
   Widget get body {
     return SafeArea(
       child: ValueListenableBuilder(
-          valueListenable: widget.taskManagerModule.careTaskList,
+          valueListenable: widget.fetchTasks.careTaskList,
           builder: (context, careTaskList, _) {
-            if (widget.taskManagerModule.careTaskList.value.isEmpty) {
-              return const Center(child: CircularProgressIndicator());
+            if (widget.fetchTasks.careTaskList.value.isEmpty) {
+              return const Center(child: Text('No tasks'));
             }
             return SingleChildScrollView(
               child: Column(
-                children: widget.taskManagerModule.careTaskList.value
+                children: widget.fetchTasks.careTaskList.value
                     .map(
                       (task) => TaskSummary(
+                        fetchTasks: widget.fetchTasks,
                         task: task,
                         profileModule: widget.profileModule,
                       ),

@@ -29,6 +29,7 @@ class FetchTasks {
         );
         careTaskList.value.clear();
         careTaskList.value.addAll(_careTaskList);
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
         careTaskList.notifyListeners();
       }
     });

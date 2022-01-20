@@ -1,3 +1,5 @@
+import 'package:careshare/task_manager/models/comment.dart';
+
 import 'task_priority.dart';
 import 'task_size.dart';
 import 'task_status.dart';
@@ -16,6 +18,7 @@ class CareTask {
 
   TaskStatus taskStatus;
   String? acceptedBy;
+  DateTime? acceptedOnDate;
 
   DateTime? taskAcceptedForDate;
   String? completedBy;
@@ -29,6 +32,7 @@ class CareTask {
     this.details,
     this.category,
     required this.id,
+    this.acceptedOnDate,
     required this.createdBy,
     this.taskEffort = TaskEffort.medium,
     this.taskStatus = TaskStatus.created,
@@ -52,6 +56,7 @@ class CareTask {
       'date_created': dateCreated.toString(),
       'priority': taskPriority.value,
       'accepted_by': acceptedBy,
+      'accepted_on_date': acceptedOnDate.toString(),
       'accepted_for_date': taskAcceptedForDate.toString(),
       'completed_by': completedBy,
       'completed_date': taskCompletedDate.toString(),
@@ -74,6 +79,9 @@ class CareTask {
     final createdBy = value['created_by'] ?? '';
 
     final dateCreated = DateTime.parse(value['date_created']);
+    final DateTime? acceptedOnDate = (value['accepted_on_date'] != null)
+        ? DateTime.tryParse(value['accepted_on_date'])
+        : null;
     final taskAcceptedForDate = DateTime.tryParse(value['accepted_for_date']);
     final acceptedBy = value['accepted_by'] ?? '';
 
@@ -101,55 +109,10 @@ class CareTask {
         dateCreated: dateCreated,
         taskAcceptedForDate: taskAcceptedForDate,
         acceptedBy: acceptedBy,
+        acceptedOnDate: acceptedOnDate,
         taskCompletedDate: taskCompletedDate,
         completedBy: completedBy,
         comments: comments);
-  }
-}
-
-class Comment {
-  final String commment;
-  late String? createdBy;
-  late String? createdByDisplayName;
-  DateTime? dateCreated;
-  late String? id;
-
-  @override
-  String toString() {
-    return '''
-      comment: $commment
-      created by: $createdByDisplayName
-      date created: $dateCreated
-    ''';
-  }
-
-  Comment({
-    required this.commment,
-    this.id,
-    this.createdBy,
-    this.createdByDisplayName,
-    this.dateCreated,
-  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'commment': commment,
-      'created_by': createdBy,
-      'created_by_display_name': createdByDisplayName,
-      'date_created': dateCreated.toString(),
-    };
-  }
-
-  factory Comment.fromJson(String key, value) {
-    Comment newComment = Comment(
-      commment: value['commment'] ?? '',
-      createdBy: value['created_by'] ?? '',
-      createdByDisplayName: value['created_by_name'] ?? '',
-      dateCreated: DateTime.parse(value['date_created']),
-      id: key,
-    );
-
-    return newComment;
   }
 }
 
@@ -163,4 +126,5 @@ enum TaskField {
   acceptedBy,
   completedBy,
   taskCompleteDate,
+  acceptedOnDate,
 }

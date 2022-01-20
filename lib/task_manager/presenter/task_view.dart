@@ -1,17 +1,21 @@
 import 'package:careshare/profile/usecases/fetch_profiles.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/presenter/task_widgets/assign_to_widget.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_widget.dart';
 import 'package:careshare/task_manager/usecases/edit_task_field.dart';
+import 'package:careshare/task_manager/usecases/fetch_tasks.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 class TaskView extends StatefulWidget {
   final CareTask task;
   final FetchProfiles profileModule;
+  final FetchTasks fetchTasks;
   const TaskView({
     Key? key,
     required this.task,
+    required this.fetchTasks,
     required this.profileModule,
   }) : super(key: key);
 
@@ -71,6 +75,29 @@ class _TaskViewState extends State<TaskView> {
                   );
                 },
               ),
+              SizedBox(height: spacing),
+              ValueListenableBuilder(
+                  valueListenable: widget.fetchTasks.careTaskList,
+                  builder: (_, __, ___) {
+                    return AssignToWidget(
+                      task: task,
+                      fetchProfiles: widget.profileModule,
+                    );
+                  }),
+              SizedBox(height: spacing),
+              // TaskInputFieldWidget(
+              //   label: 'Add a comment',
+              //   maxLines: 5,
+              //   currentValue: '',
+              //   task: task,
+              //   onChanged: (value) {
+              //     editTaskField(
+              //       task: widget.task,
+              //       newValue: value,
+              //       taskField: TaskField.comments,
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),

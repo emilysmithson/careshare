@@ -1,12 +1,15 @@
 import 'package:careshare/profile/usecases/fetch_profiles.dart';
 import 'package:careshare/task_manager/presenter/task_view.dart';
 import 'package:careshare/task_manager/usecases/create_a_task.dart';
+import 'package:careshare/task_manager/usecases/fetch_tasks.dart';
 
 import 'package:flutter/material.dart';
 
 class AddTaskFloatingActionButton extends StatefulWidget {
   final FetchProfiles profileModule;
-  const AddTaskFloatingActionButton({Key? key, required this.profileModule})
+  final FetchTasks fetchTasks;
+  const AddTaskFloatingActionButton(
+      {Key? key, required this.profileModule, required this.fetchTasks})
       : super(key: key);
 
   @override
@@ -30,6 +33,7 @@ class _AddTaskFloatingActionButtonState
       MaterialPageRoute(
         builder: (context) => TaskView(
           task: result,
+          fetchTasks: widget.fetchTasks,
           profileModule: widget.profileModule,
         ),
       ),
