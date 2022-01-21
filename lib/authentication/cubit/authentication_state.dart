@@ -90,6 +90,4 @@ class AuthenticationResetPassword extends AuthenticationState {
 
 class AuthenicationAwaitingConfirmation extends AuthenticationState {}
 
-class AuthenicationPasswordSent extends AuthenticationState {}
-
 class AuthenticationError extends AuthenticationState {}

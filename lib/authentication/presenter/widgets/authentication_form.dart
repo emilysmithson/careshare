@@ -172,8 +172,21 @@ class AuthenticationForm extends StatelessWidget {
                       final authenticationCubit =
                           BlocProvider.of<AuthenticationCubit>(context);
 
-                      authenticationCubit.switchToResetPassword(
+                      authenticationCubit.sentPasswordReset(
                           emailAddress: emailController.text);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                              'A password reset link has been sent to ${emailController.text}',
+                            ),
+                            content: const Text(
+                              'Please check your junk folder if it does not arrive quickly.',
+                            ),
+                          );
+                        },
+                      );
                     },
                     child: const Text('Forgotten Password?'),
                   ),

@@ -53,8 +53,7 @@ class _AppState extends State<App> {
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
         if (state is AuthenticationLoaded) {
-          BlocProvider.of<TaskCubit>(context)
-              .fetchTasks(view: CareTaskView.overview);
+          BlocProvider.of<TaskCubit>(context).fetchTasks();
           BlocProvider.of<ProfileCubit>(context).fetchProfiles();
           return const TaskManagerView();
         }

@@ -24,70 +24,75 @@ class TaskDetailedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: spacing),
-                TaskInputFieldWidget(
-                  label: 'Title',
-                  maxLines: 1,
-                  currentValue: task.title,
-                  task: task,
-                  onChanged: (value) {
-                    BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
-                      taskField: TaskField.title,
-                      task: task,
-                      newValue: value,
-                    );
-                  },
-                ),
-                SizedBox(height: spacing),
-                Text(
-                  'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
-                ),
-                SizedBox(height: spacing),
-                TaskInputFieldWidget(
-                  label: 'Description',
-                  maxLines: 5,
-                  currentValue: task.details,
-                  task: task,
-                  onChanged: (value) {
-                    BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
-                      task: task,
-                      newValue: value,
-                      taskField: TaskField.details,
-                    );
-                  },
-                ),
-                SizedBox(height: spacing),
-                AssignToWidget(
-                  task: task,
-                ),
-                SizedBox(height: spacing),
-                // TaskInputFieldWidget(
-                //   label: 'Add a comment',
-                //   maxLines: 5,
-                //   currentValue: '',
-                //   task: task,
-                //   onChanged: (value) {
-                //     BlocProvider.of<TaskCubit>(context).editTask(
-                //       task: task,
-                //       newValue: Comment(commment: value),
-                //       taskField: TaskField.comments,
-                //     );
-                //   },
-                // ),
-                ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<TaskCubit>(context).showTasksOverview();
+      appBar: AppBar(title: const Text('Task Details')),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: BlocBuilder<TaskCubit, TaskState>(
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: spacing),
+                  TaskInputFieldWidget(
+                    label: 'Title',
+                    maxLines: 1,
+                    currentValue: task.title,
+                    task: task,
+                    onChanged: (value) {
+                      BlocProvider.of<TaskCubit>(context)
+                          .editTaskFieldRepository(
+                        taskField: TaskField.title,
+                        task: task,
+                        newValue: value,
+                      );
                     },
-                    child: const Text('Save')),
-              ],
-            ),
+                  ),
+                  SizedBox(height: spacing),
+                  Text(
+                    'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
+                  ),
+                  SizedBox(height: spacing),
+                  TaskInputFieldWidget(
+                    label: 'Description',
+                    maxLines: 5,
+                    currentValue: task.details,
+                    task: task,
+                    onChanged: (value) {
+                      BlocProvider.of<TaskCubit>(context)
+                          .editTaskFieldRepository(
+                        task: task,
+                        newValue: value,
+                        taskField: TaskField.details,
+                      );
+                    },
+                  ),
+                  SizedBox(height: spacing),
+                  AssignToWidget(
+                    task: task,
+                  ),
+                  SizedBox(height: spacing),
+                  // TaskInputFieldWidget(
+                  //   label: 'Add a comment',
+                  //   maxLines: 5,
+                  //   currentValue: '',
+                  //   task: task,
+                  //   onChanged: (value) {
+                  //     BlocProvider.of<TaskCubit>(context).editTask(
+                  //       task: task,
+                  //       newValue: Comment(commment: value),
+                  //       taskField: TaskField.comments,
+                  //     );
+                  //   },
+                  // ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Save')),
+                ],
+              );
+            },
           ),
         ),
       ),

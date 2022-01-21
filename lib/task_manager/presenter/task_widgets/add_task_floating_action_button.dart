@@ -1,7 +1,11 @@
+import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
+import 'package:careshare/task_manager/models/task.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../task_detailed_view.dart';
 
 class AddTaskFloatingActionButton extends StatefulWidget {
   const AddTaskFloatingActionButton({
@@ -22,8 +26,25 @@ class _AddTaskFloatingActionButtonState
       return;
     }
     final taskCubit = BlocProvider.of<TaskCubit>(context);
-    await taskCubit.createTask(textEditingController.text);
-    Navigator.pop(context);
+    final CareTask? task =
+        await taskCubit.createTask(textEditingController.text);
+    if (task == null) {
+      Navigator.pop(context);
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: BlocProvider.of<TaskCubit>(context),
+            child: BlocProvider.value(
+              value: BlocProvider.of<ProfileCubit>(context),
+              child: TaskDetailedView(
+                task: task,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   bool isVisible = true;

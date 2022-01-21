@@ -121,8 +121,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(AuthenticationLogin(initialEmailValue: emailAddress));
   }
 
-  switchToResetPassword({String? emailAddress}) {
-    emit(AuthenticationResetPassword(initialEmailValue: emailAddress));
+  sentPasswordReset({required String emailAddress}) {
+    FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress);
   }
 
   logout(ProfileCubit profileCubit) {

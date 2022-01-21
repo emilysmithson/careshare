@@ -1,5 +1,4 @@
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view.dart';
 
 import 'package:careshare/task_manager/presenter/tasks_overview.dart';
 
@@ -64,12 +63,8 @@ class _TaskManagerViewState extends State<TaskManagerView> {
             child: Text('no tasks'),
           );
         }
-        switch (state.view) {
-          case CareTaskView.overview:
-            return TasksOverview(careTaskList: state.careTaskList);
-          case CareTaskView.details:
-            return TaskDetailedView(task: state.task!);
-        }
+
+        return TasksOverview(careTaskList: state.careTaskList);
       }
 
       return const Center(

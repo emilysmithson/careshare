@@ -1,6 +1,7 @@
 import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -18,7 +19,19 @@ class TaskSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        BlocProvider.of<TaskCubit>(context).showTaskDetails(task);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: BlocProvider.of<TaskCubit>(context),
+              child: BlocProvider.value(
+                value: BlocProvider.of<ProfileCubit>(context),
+                child: TaskDetailedView(
+                  task: task,
+                ),
+              ),
+            ),
+          ),
+        );
       },
       child: Container(
         width: double.infinity,

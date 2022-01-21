@@ -21,12 +21,8 @@ class TaskCubit extends Cubit<TaskState> {
   }) : super(const TaskInitial());
 
   final List<CareTask> careTaskList = [];
-  CareTaskView currentView = CareTaskView.overview;
-  CareTask? currentCareTask;
 
-  createTask(
-    String title,
-  ) async {
+  createTask(String title) async {
     CareTask? task;
     try {
       task = await createATaskRepository(title);
@@ -34,34 +30,24 @@ class TaskCubit extends Cubit<TaskState> {
       emit(TaskError(e.toString()));
     }
     if (task == null) {
-      emit(const TaskError('Something went wrong, task is null'));
-    } else {
-      currentView = CareTaskView.details;
-      currentCareTask = task;
       emit(
-        TaskLoaded(
-          task: task,
-          careTaskList: careTaskList,
-          view: CareTaskView.details,
-        ),
+        const TaskError('Something went wrong, task is null'),
       );
     }
+    return task;
   }
 
-  fetchTasks({
-    required CareTaskView view,
-  }) async {
+  fetchTasks() async {
     try {
       emit(const TaskLoading());
-
       DatabaseReference reference = FirebaseDatabase.instance.ref('tasks_test');
       final response = reference.onValue;
       response.listen((event) {
+        emit(const TaskLoading());
         if (event.snapshot.value == null) {
           emit(
             TaskLoaded(
               careTaskList: careTaskList,
-              view: CareTaskView.details,
             ),
           );
         } else {
@@ -76,9 +62,7 @@ class TaskCubit extends Cubit<TaskState> {
 
           emit(
             TaskLoaded(
-              task: currentCareTask,
               careTaskList: careTaskList,
-              view: currentView,
             ),
           );
         }
@@ -93,7 +77,7 @@ class TaskCubit extends Cubit<TaskState> {
       required TaskField taskField,
       required dynamic newValue}) {
     emit(const TaskLoading());
-    currentCareTask = task;
+
     editTaskFieldRepository(
         task: task, taskField: taskField, newValue: newValue);
   }
@@ -102,34 +86,26 @@ class TaskCubit extends Cubit<TaskState> {
     emit(const TaskLoading());
     removeATaskRepository(id);
     careTaskList.removeWhere((element) => element.id == id);
-    currentCareTask = null;
+
     emit(
       TaskLoaded(
         careTaskList: careTaskList,
-        view: CareTaskView.overview,
       ),
     );
   }
 
   showTaskDetails(CareTask task) {
-    currentView = CareTaskView.details;
-    currentCareTask = task;
     emit(
       TaskLoaded(
-        task: task,
         careTaskList: careTaskList,
-        view: CareTaskView.details,
       ),
     );
   }
 
   showTasksOverview() {
-    currentView = CareTaskView.overview;
-    currentCareTask = null;
     emit(
       TaskLoaded(
         careTaskList: careTaskList,
-        view: CareTaskView.overview,
       ),
     );
   }
