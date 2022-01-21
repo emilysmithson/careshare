@@ -5,7 +5,7 @@ import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
-import 'package:careshare/task_manager/repository/edit_task_field.dart';
+import 'package:careshare/task_manager/repository/edit_task_field_repository.dart';
 
 import 'package:flutter/material.dart';
 
@@ -29,9 +29,9 @@ void main() {
             ),
             BlocProvider(
               create: (context) => TaskCubit(
-                removeATask: RemoveATask(),
-                createATask: CreateATask(),
-                editTaskField: EditTaskField(),
+                removeATaskRepository: RemoveATask(),
+                createATaskRepository: CreateATask(),
+                editTaskFieldRepository: EditTaskFieldRepository(),
               ),
             ),
           ],

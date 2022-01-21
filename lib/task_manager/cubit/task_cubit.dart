@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
-import 'package:careshare/task_manager/repository/edit_task_field.dart';
+import 'package:careshare/task_manager/repository/edit_task_field_repository.dart';
 import 'package:careshare/task_manager/repository/remove_a_task.dart';
 
 import 'package:equatable/equatable.dart';
@@ -11,13 +11,13 @@ import 'package:flutter/foundation.dart';
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
-  final CreateATask createATask;
-  final EditTaskField editTaskField;
-  final RemoveATask removeATask;
+  final CreateATask createATaskRepository;
+  final EditTaskFieldRepository editTaskFieldRepository;
+  final RemoveATask removeATaskRepository;
   TaskCubit({
-    required this.createATask,
-    required this.editTaskField,
-    required this.removeATask,
+    required this.createATaskRepository,
+    required this.editTaskFieldRepository,
+    required this.removeATaskRepository,
   }) : super(const TaskInitial());
 
   final List<CareTask> careTaskList = [];
@@ -29,7 +29,7 @@ class TaskCubit extends Cubit<TaskState> {
   ) async {
     CareTask? task;
     try {
-      task = await createATask(title);
+      task = await createATaskRepository(title);
     } catch (e) {
       emit(TaskError(e.toString()));
     }
@@ -92,13 +92,15 @@ class TaskCubit extends Cubit<TaskState> {
       {required CareTask task,
       required TaskField taskField,
       required dynamic newValue}) {
+    emit(const TaskLoading());
     currentCareTask = task;
-    editTaskField(task: task, taskField: taskField, newValue: newValue);
+    editTaskFieldRepository(
+        task: task, taskField: taskField, newValue: newValue);
   }
 
   removeTask(String id) {
     emit(const TaskLoading());
-    removeATask(id);
+    removeATaskRepository(id);
     careTaskList.removeWhere((element) => element.id == id);
     currentCareTask = null;
     emit(

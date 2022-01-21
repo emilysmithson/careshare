@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import 'task_widgets/assign_to_widget.dart';
+
 class TaskDetailedView extends StatelessWidget {
   final CareTask task;
 
@@ -35,7 +37,7 @@ class TaskDetailedView extends StatelessWidget {
                   currentValue: task.title,
                   task: task,
                   onChanged: (value) {
-                    BlocProvider.of<TaskCubit>(context).editTaskField(
+                    BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
                       taskField: TaskField.title,
                       task: task,
                       newValue: value,
@@ -53,7 +55,7 @@ class TaskDetailedView extends StatelessWidget {
                   currentValue: task.details,
                   task: task,
                   onChanged: (value) {
-                    BlocProvider.of<TaskCubit>(context).editTaskField(
+                    BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
                       task: task,
                       newValue: value,
                       taskField: TaskField.details,
@@ -62,10 +64,9 @@ class TaskDetailedView extends StatelessWidget {
                 ),
                 SizedBox(height: spacing),
 
-                //  AssignToWidget(
-                //   task: task,
-                //   fetchProfiles: widget.profileModule,
-                // );
+                AssignToWidget(
+                  task: task,
+                ),
 
                 SizedBox(height: spacing),
                 // TaskInputFieldWidget(

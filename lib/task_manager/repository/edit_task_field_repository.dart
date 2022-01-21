@@ -2,7 +2,7 @@ import 'package:careshare/task_manager/models/task.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 
-class EditTaskField {
+class EditTaskFieldRepository {
   CareTask call(
       {required CareTask task,
       required TaskField taskField,
@@ -70,6 +70,7 @@ class EditTaskField {
       //   value = newTask.comments.map((e) => e.toJson());
       // break;
     }
+
     DatabaseReference reference =
         FirebaseDatabase.instance.ref("tasks_test/${task.id}/$field");
 
