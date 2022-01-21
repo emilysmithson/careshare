@@ -1,10 +1,12 @@
+import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_widget.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class TaskDetailedView extends StatelessWidget {
   final CareTask task;
@@ -33,19 +35,17 @@ class TaskDetailedView extends StatelessWidget {
                   currentValue: task.title,
                   task: task,
                   onChanged: (value) {
-                    final taskCubit = BlocProvider.of<TaskCubit>(context);
-
-                    taskCubit.editTaskField(
+                    BlocProvider.of<TaskCubit>(context).editTaskField(
                       taskField: TaskField.title,
                       task: task,
                       newValue: value,
                     );
                   },
                 ),
-                // SizedBox(height: spacing),
-                // Text(
-                //   'Created by: ${widget.profileModule.getNickName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
-                // ),
+                SizedBox(height: spacing),
+                Text(
+                  'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
+                ),
                 SizedBox(height: spacing),
                 TaskInputFieldWidget(
                   label: 'Description',
@@ -53,8 +53,7 @@ class TaskDetailedView extends StatelessWidget {
                   currentValue: task.details,
                   task: task,
                   onChanged: (value) {
-                    final taskCubit = BlocProvider.of<TaskCubit>(context);
-                    taskCubit.editTaskField(
+                    BlocProvider.of<TaskCubit>(context).editTaskField(
                       task: task,
                       newValue: value,
                       taskField: TaskField.details,
@@ -84,7 +83,7 @@ class TaskDetailedView extends StatelessWidget {
                 // ),
                 ElevatedButton(
                     onPressed: () {
-                      BlocProvider.of<TaskCubit>(context).showTasksView();
+                      BlocProvider.of<TaskCubit>(context).showTasksOverview();
                     },
                     child: const Text('Save')),
               ],

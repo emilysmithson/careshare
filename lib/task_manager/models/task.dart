@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:careshare/task_manager/models/comment.dart';
 
 import 'task_priority.dart';
@@ -113,6 +115,49 @@ class CareTask {
         taskCompletedDate: taskCompletedDate,
         completedBy: completedBy,
         comments: comments);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is CareTask &&
+        other.title == title &&
+        other.description == description &&
+        other.taskPriority == taskPriority &&
+        other.taskEffort == taskEffort &&
+        other.details == details &&
+        other.category == category &&
+        other.id == id &&
+        other.createdBy == createdBy &&
+        other.dateCreated == dateCreated &&
+        other.taskStatus == taskStatus &&
+        other.acceptedBy == acceptedBy &&
+        other.acceptedOnDate == acceptedOnDate &&
+        other.taskAcceptedForDate == taskAcceptedForDate &&
+        other.completedBy == completedBy &&
+        other.taskCompletedDate == taskCompletedDate &&
+        listEquals(other.comments, comments);
+  }
+
+  @override
+  int get hashCode {
+    return title.hashCode ^
+        description.hashCode ^
+        taskPriority.hashCode ^
+        taskEffort.hashCode ^
+        details.hashCode ^
+        category.hashCode ^
+        id.hashCode ^
+        createdBy.hashCode ^
+        dateCreated.hashCode ^
+        taskStatus.hashCode ^
+        acceptedBy.hashCode ^
+        acceptedOnDate.hashCode ^
+        taskAcceptedForDate.hashCode ^
+        completedBy.hashCode ^
+        taskCompletedDate.hashCode ^
+        comments.hashCode;
   }
 }
 

@@ -2,9 +2,8 @@ import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view.dart';
 
-import 'package:careshare/task_manager/presenter/tasks_view.dart';
+import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
 import 'package:careshare/task_manager/repository/edit_task_field.dart';
 
@@ -54,8 +53,10 @@ class _AppState extends State<App> {
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
         if (state is AuthenticationLoaded) {
-          BlocProvider.of<TaskCubit>(context).fetchTasks();
-          return const TasksView();
+          BlocProvider.of<TaskCubit>(context)
+              .fetchTasks(view: CareTaskView.overview);
+          BlocProvider.of<ProfileCubit>(context).fetchProfiles();
+          return const TaskManagerView();
         }
         return const AuthenticationPage();
       },

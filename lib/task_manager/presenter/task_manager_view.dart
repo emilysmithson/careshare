@@ -1,23 +1,23 @@
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view.dart';
 
-import 'package:careshare/task_manager/presenter/task_widgets/task_summary.dart';
+import 'package:careshare/task_manager/presenter/tasks_overview.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'add_task_floating_action_button.dart';
+import 'task_widgets/add_task_floating_action_button.dart';
 
-class TasksView extends StatefulWidget {
-  const TasksView({
+class TaskManagerView extends StatefulWidget {
+  const TaskManagerView({
     Key? key,
   }) : super(key: key);
 
   @override
-  _TasksViewState createState() => _TasksViewState();
+  _TaskManagerViewState createState() => _TaskManagerViewState();
 }
 
-class _TasksViewState extends State<TasksView> {
+class _TaskManagerViewState extends State<TaskManagerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,29 +57,21 @@ class _TasksViewState extends State<TasksView> {
           child: CircularProgressIndicator(),
         );
       }
-      if (state is TaskLoading) {
-        return const Center(
-          child: Text('No tasks'),
-        );
-      }
+
       if (state is TaskLoaded) {
-        return SingleChildScrollView(
-          child: Column(
-            children: state.careTaskList
-                .map(
-                  (task) => TaskSummary(
-                    task: task,
-                  ),
-                )
-                .toList(),
-          ),
-        );
+        if (state.careTaskList.isEmpty) {
+          return const Center(
+            child: Text('no tasks'),
+          );
+        }
+        switch (state.view) {
+          case CareTaskView.overview:
+            return TasksOverview(careTaskList: state.careTaskList);
+          case CareTaskView.details:
+            return TaskDetailedView(task: state.task!);
+        }
       }
-      if (state is TaskDetailsState) {
-        return TaskDetailedView(
-          task: state.task,
-        );
-      }
+
       return const Center(
         child: Text('Oops something went wrong'),
       );

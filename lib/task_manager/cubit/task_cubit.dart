@@ -19,8 +19,10 @@ class TaskCubit extends Cubit<TaskState> {
     required this.editTaskField,
     required this.removeATask,
   }) : super(const TaskInitial());
-  bool init = true;
+
   final List<CareTask> careTaskList = [];
+  CareTaskView currentView = CareTaskView.overview;
+  CareTask? currentCareTask;
 
   createTask(
     String title,
@@ -34,33 +36,51 @@ class TaskCubit extends Cubit<TaskState> {
     if (task == null) {
       emit(const TaskError('Something went wrong, task is null'));
     } else {
-      emit(TaskDetailsState(task));
+      currentView = CareTaskView.details;
+      currentCareTask = task;
+      emit(
+        TaskLoaded(
+          task: task,
+          careTaskList: careTaskList,
+          view: CareTaskView.details,
+        ),
+      );
     }
   }
 
-  fetchTasks() {
+  fetchTasks({
+    required CareTaskView view,
+  }) async {
     try {
-      if (init) {
-        emit(const TaskLoading());
-      }
+      emit(const TaskLoading());
+
       DatabaseReference reference = FirebaseDatabase.instance.ref('tasks_test');
       final response = reference.onValue;
       response.listen((event) {
         if (event.snapshot.value == null) {
-          emit(const TaskLoaded([]));
+          emit(
+            TaskLoaded(
+              careTaskList: careTaskList,
+              view: CareTaskView.details,
+            ),
+          );
         } else {
           Map<dynamic, dynamic> returnedList =
               event.snapshot.value as Map<dynamic, dynamic>;
-
+          careTaskList.clear();
           returnedList.forEach(
             (key, value) {
               careTaskList.add(CareTask.fromJson(key, value));
             },
           );
-          if (init) {
-            emit(TaskLoaded(careTaskList));
-            init = false;
-          }
+
+          emit(
+            TaskLoaded(
+              task: currentCareTask,
+              careTaskList: careTaskList,
+              view: currentView,
+            ),
+          );
         }
       });
     } catch (error) {
@@ -72,18 +92,43 @@ class TaskCubit extends Cubit<TaskState> {
       {required CareTask task,
       required TaskField taskField,
       required dynamic newValue}) {
+    currentCareTask = task;
     editTaskField(task: task, taskField: taskField, newValue: newValue);
   }
 
   removeTask(String id) {
+    emit(const TaskLoading());
     removeATask(id);
+    careTaskList.removeWhere((element) => element.id == id);
+    currentCareTask = null;
+    emit(
+      TaskLoaded(
+        careTaskList: careTaskList,
+        view: CareTaskView.overview,
+      ),
+    );
   }
 
   showTaskDetails(CareTask task) {
-    emit(TaskDetailsState(task));
+    currentView = CareTaskView.details;
+    currentCareTask = task;
+    emit(
+      TaskLoaded(
+        task: task,
+        careTaskList: careTaskList,
+        view: CareTaskView.details,
+      ),
+    );
   }
 
-  showTasksView() {
-    emit(TaskLoaded(careTaskList));
+  showTasksOverview() {
+    currentView = CareTaskView.overview;
+    currentCareTask = null;
+    emit(
+      TaskLoaded(
+        careTaskList: careTaskList,
+        view: CareTaskView.overview,
+      ),
+    );
   }
 }

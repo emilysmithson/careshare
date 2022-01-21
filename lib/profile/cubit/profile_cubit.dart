@@ -68,7 +68,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     profileList.clear();
   }
 
-  String? getNickName(String id) {
+  String? getName(String id) {
     String? name;
     try {
       name = profileList.firstWhere((element) => element.id == id).name;
