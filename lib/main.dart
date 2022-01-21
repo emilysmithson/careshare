@@ -1,57 +1,63 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:careshare/authentication/cubit/authentication_cubit.dart';
+import 'package:careshare/authentication/presenter/authentication_page.dart';
+import 'package:careshare/profile/cubit/profile_cubit.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
+
+import 'package:careshare/task_manager/presenter/task_manager_view.dart';
+import 'package:careshare/task_manager/repository/create_a_task.dart';
+import 'package:careshare/task_manager/repository/edit_task_field_repository.dart';
+
 import 'package:flutter/material.dart';
 
-import 'authentication/presenter/authentication_page.dart';
-import 'home_page/presenter/home_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/presentation/custom_theme.dart';
+import 'task_manager/repository/remove_a_task.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MaterialApp(home: App()));
+  runApp(
+    MaterialApp(
+        theme: CustomTheme().call(),
+        home: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => AuthenticationCubit()..checkAuthentication(),
+            ),
+            BlocProvider(
+              create: (context) => ProfileCubit(),
+            ),
+            BlocProvider(
+              create: (context) => TaskCubit(
+                removeATaskRepository: RemoveATask(),
+                createATaskRepository: CreateATask(),
+                editTaskFieldRepository: EditTaskFieldRepository(),
+              ),
+            ),
+          ],
+          child: const App(),
+        )),
+  );
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
+  @override
+  State<App> createState() => _AppState();
+}
 
-  // Future fetchProfile() async {
-  //   final response = await AllProfileUseCases.fetchMyProfile();
-  //   response.fold(
-  //           (l) {
-  //             // print(">l " + l.message);
-  //             },
-  //           (r) {myProfileId = r.id!;});
-  // }
-
-
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      // Initialize FlutterFire
-      future: Firebase.initializeApp(),
-      builder: (context, snapshot) {
-        // Check for errors
-        if (snapshot.hasError) {}
-
-        // Once complete, show your application
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (FirebaseAuth.instance.currentUser == null) {
-            return AuthenticationPage();
-          }
-
-          // fetchProfile();
-
-
-          // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-          // print('myProfileId: $myProfileId');
-          // print('#caregroups: {$caregroups}');
-
-          return const HomePage();
+    return BlocBuilder<AuthenticationCubit, AuthenticationState>(
+      builder: (context, state) {
+        if (state is AuthenticationLoaded) {
+          BlocProvider.of<TaskCubit>(context).fetchTasks();
+          BlocProvider.of<ProfileCubit>(context).fetchProfiles();
+          return const TaskManagerView();
         }
-
-        // Otherwise, show something whilst waiting for initialization to complete
-        return const CircularProgressIndicator();
+        return const AuthenticationPage();
       },
     );
   }
