@@ -2,6 +2,7 @@ import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_priority.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_widget.dart';
 
@@ -72,6 +73,27 @@ class TaskDetailedView extends StatelessWidget {
                     task: task,
                   ),
                   SizedBox(height: spacing),
+                  Text('Priority: ${task.taskPriority.level}'),
+                  Slider(
+                    label: task.taskPriority.level,
+                    value: task.taskPriority.value.toDouble(),
+                    min: 1,
+                    activeColor: Colors.grey,
+                    inactiveColor: Colors.grey,
+                    max: 5,
+                    thumbColor: task.taskPriority.color,
+                    divisions: 4,
+                    onChanged: (value) {
+                      BlocProvider.of<TaskCubit>(context).editTask(
+                        task: task,
+                        newValue: value,
+                        taskField: TaskField.taskPriority,
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: spacing),
+
                   // TaskInputFieldWidget(
                   //   label: 'Add a comment',
                   //   maxLines: 5,

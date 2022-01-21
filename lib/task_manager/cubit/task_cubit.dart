@@ -22,21 +22,6 @@ class TaskCubit extends Cubit<TaskState> {
 
   final List<CareTask> careTaskList = [];
 
-  createTask(String title) async {
-    CareTask? task;
-    try {
-      task = await createATaskRepository(title);
-    } catch (e) {
-      emit(TaskError(e.toString()));
-    }
-    if (task == null) {
-      emit(
-        const TaskError('Something went wrong, task is null'),
-      );
-    }
-    return task;
-  }
-
   fetchTasks() async {
     try {
       emit(const TaskLoading());
@@ -70,6 +55,21 @@ class TaskCubit extends Cubit<TaskState> {
     } catch (error) {
       emit(TaskError(error.toString()));
     }
+  }
+
+  createTask(String title) async {
+    CareTask? task;
+    try {
+      task = await createATaskRepository(title);
+    } catch (e) {
+      emit(TaskError(e.toString()));
+    }
+    if (task == null) {
+      emit(
+        const TaskError('Something went wrong, task is null'),
+      );
+    }
+    return task;
   }
 
   editTask(

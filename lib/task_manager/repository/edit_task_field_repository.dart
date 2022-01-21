@@ -1,4 +1,5 @@
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_priority.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 
@@ -28,9 +29,10 @@ class EditTaskFieldRepository {
         value = newValue.value;
         break;
       case TaskField.taskPriority:
-        newTask.taskPriority = newValue;
+        newTask.taskPriority = TaskPriority.priorityList
+            .firstWhere((element) => element.value == newValue.truncate());
         field = 'task_priority';
-        value = newValue.value;
+        value = newValue;
         break;
       case TaskField.category:
         newTask.category = newValue;

@@ -12,12 +12,12 @@ class TaskPriority {
   });
   static const TaskPriority highest = TaskPriority(
     level: 'Highest',
-    value: 1,
+    value: 5,
     color: Colors.red,
   );
   static const TaskPriority high = TaskPriority(
     level: 'High',
-    value: 2,
+    value: 4,
     color: Colors.orange,
   );
   static const TaskPriority medium = TaskPriority(
@@ -27,12 +27,12 @@ class TaskPriority {
   );
   static const TaskPriority low = TaskPriority(
     level: 'Low',
-    value: 4,
+    value: 2,
     color: Colors.blueGrey,
   );
   static const TaskPriority lowest = TaskPriority(
     level: 'Lowest',
-    value: 5,
+    value: 1,
     color: Colors.grey,
   );
   static final List<TaskPriority> priorityList = [
