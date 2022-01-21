@@ -2,17 +2,23 @@ import 'package:bloc/bloc.dart';
 import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationInitial());
 
-  checkAuthentication() {
+  checkAuthentication() async {
     emit(AuthenticationLoading());
+    try {
+      await Firebase.initializeApp();
+    } catch (error) {
+      emit(AuthenticationError());
+    }
     final User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      emit(AuthenticationRegister());
+      emit(const AuthenticationRegister());
     } else {
       emit(AuthenticationLoaded(user));
     }
@@ -23,54 +29,78 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String email,
     required String password,
     required ProfileCubit profileCubit,
-  }) {
+  }) async {
     try {
       emit(AuthenticationLoading());
-      FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        return emit(
-            const AuthenticationError('The password provided is too weak.'));
+        return emit(AuthenticationRegister(
+            errorMessage: 'The password provided is too weak.',
+            initialEmailValue: email,
+            initialNameValue: name));
       } else if (e.code == 'email-already-in-use') {
-        return emit(const AuthenticationError(
-            'The account already exists for that email.'));
+        return emit(
+          AuthenticationRegister(
+              errorMessage: 'The account already exists for that email.',
+              initialEmailValue: email,
+              initialNameValue: name),
+        );
       }
+      return emit(
+        AuthenticationRegister(
+            errorMessage: e.message.toString(),
+            initialEmailValue: email,
+            initialNameValue: name),
+      );
     }
 
     final User? user = FirebaseAuth.instance.currentUser;
+
     if (user == null) {
-      emit(AuthenticationRegister());
+      emit(const AuthenticationRegister());
     } else {
       profileCubit.createProfile(
+        id: FirebaseAuth.instance.currentUser!.uid,
         email: email,
         name: name,
       );
+
       emit(AuthenticationLoaded(user));
     }
   }
 
   signIn({
+    required ProfileCubit profileCubit,
     required String email,
     required String password,
     required String name,
-  }) {
+  }) async {
     try {
-      FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        return emit(const AuthenticationError('user found for that email.'));
+        return emit(AuthenticationLogin(
+          errorMessage: 'User already exists for that email.',
+          initialEmailValue: email,
+        ));
       } else if (e.code == 'wrong-password') {
-        return emit(
-            const AuthenticationError('password provided for that user.'));
+        return emit(AuthenticationLogin(
+          errorMessage: 'Incorrect password',
+          initialEmailValue: email,
+        ));
       }
+      return emit(AuthenticationLogin(
+        errorMessage: e.message.toString(),
+        initialEmailValue: email,
+      ));
     }
     final User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      emit(AuthenticationRegister());
+      emit(const AuthenticationRegister());
     } else {
-      user.updateDisplayName(name);
       emit(AuthenticationLoaded(user));
     }
   }
@@ -81,20 +111,23 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 
-  switchToRegister() {
-    emit(AuthenticationRegister());
+  switchToRegister({
+    String? emailAddress,
+  }) {
+    emit(AuthenticationRegister(initialEmailValue: emailAddress));
   }
 
-  switchToLogin() {
-    emit(AuthenticationLogin());
+  switchToLogin({String? emailAddress}) {
+    emit(AuthenticationLogin(initialEmailValue: emailAddress));
   }
 
-  switchToResetPassword() {
-    emit(AuthenticationResetPassword());
+  switchToResetPassword({String? emailAddress}) {
+    emit(AuthenticationResetPassword(initialEmailValue: emailAddress));
   }
 
-  signOut() {
+  signOut(ProfileCubit profileCubit) {
     FirebaseAuth.instance.signOut();
-    emit(AuthenticationRegister());
+    profileCubit.clearList();
+    emit(const AuthenticationRegister());
   }
 }

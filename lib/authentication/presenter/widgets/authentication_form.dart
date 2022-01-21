@@ -14,26 +14,41 @@ class AuthenticationForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? errorMessage;
+    String? initialNameValue;
+    String? initialEmailValue;
     late String title;
     late String buttonText;
     late String textButtonText;
     switch (state.runtimeType) {
       case AuthenticationRegister:
+        errorMessage = (state as AuthenticationRegister).errorMessage;
         title = 'Register';
-        buttonText = 'Submit';
+        buttonText = 'Register';
         textButtonText = 'Already Registered?';
+        initialEmailValue = (state as AuthenticationRegister).initialEmailValue;
+        initialNameValue = (state as AuthenticationRegister).initialNameValue;
         break;
       case AuthenticationLogin:
+        errorMessage = (state as AuthenticationLogin).errorMessage;
         title = 'Login';
-        buttonText = 'Submit';
+        buttonText = 'Login';
         textButtonText = 'Need to Register?';
+        initialEmailValue = (state as AuthenticationLogin).initialEmailValue;
         break;
       default:
+        initialEmailValue =
+            (state as AuthenticationResetPassword).initialEmailValue;
         title = 'Forgotten Password';
         buttonText = 'Send password reset email';
         textButtonText = 'Sign in';
     }
-
+    if (initialEmailValue != null) {
+      emailController.text = initialEmailValue;
+    }
+    if (initialNameValue != null) {
+      nameController.text = initialNameValue;
+    }
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: Center(
@@ -43,6 +58,7 @@ class AuthenticationForm extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: [
+                // Name field
                 if (state is AuthenticationRegister)
                   TextFormField(
                     controller: nameController,
@@ -50,11 +66,10 @@ class AuthenticationForm extends StatelessWidget {
                       label: Text('Name'),
                     ),
                     validator: (value) {
-                      if (value == null) {
+                      if (value == null || value.length < 3) {
                         return 'Please enter your name';
                       }
                     },
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     keyboardType: TextInputType.name,
                   ),
                 const SizedBox(height: 16),
@@ -75,7 +90,6 @@ class AuthenticationForm extends StatelessWidget {
                     }
                     return null;
                   },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 16),
@@ -99,9 +113,12 @@ class AuthenticationForm extends StatelessWidget {
 
                       return null;
                     },
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     obscureText: true,
                   ),
+                Text(
+                  errorMessage ?? '',
+                  style: const TextStyle(color: Colors.red),
+                ),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -119,6 +136,8 @@ class AuthenticationForm extends StatelessWidget {
                           break;
                         case AuthenticationLogin:
                           authenticationCubit.signIn(
+                            profileCubit:
+                                BlocProvider.of<ProfileCubit>(context),
                             email: emailController.text,
                             password: passwordController.text,
                             name: nameController.text,
@@ -138,9 +157,11 @@ class AuthenticationForm extends StatelessWidget {
                     final authenticationCubit =
                         BlocProvider.of<AuthenticationCubit>(context);
                     if (state is! AuthenticationLogin) {
-                      authenticationCubit.switchToLogin();
+                      authenticationCubit.switchToLogin(
+                          emailAddress: emailController.text);
                     } else {
-                      authenticationCubit.switchToRegister();
+                      authenticationCubit.switchToRegister(
+                          emailAddress: emailController.text);
                     }
                   },
                   child: Text(textButtonText),
@@ -151,7 +172,8 @@ class AuthenticationForm extends StatelessWidget {
                       final authenticationCubit =
                           BlocProvider.of<AuthenticationCubit>(context);
 
-                      authenticationCubit.switchToResetPassword();
+                      authenticationCubit.switchToResetPassword(
+                          emailAddress: emailController.text);
                     },
                     child: const Text('Forgotten Password?'),
                   ),

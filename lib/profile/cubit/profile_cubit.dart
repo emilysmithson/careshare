@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/profile/models/profile.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 part 'profile_state.dart';
@@ -11,9 +11,10 @@ class ProfileCubit extends Cubit<ProfileState> {
   createProfile({
     required String name,
     required String email,
+    required String id,
   }) {
     Profile profile = Profile(
-      id: FirebaseAuth.instance.currentUser!.uid,
+      id: id,
       name: name,
       email: email,
     );
@@ -30,7 +31,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   final List<Profile> profileList = [];
-  fetchProfiles() async {
+  Future fetchProfiles() async {
     try {
       emit(ProfileLoading());
       DatabaseReference reference =
@@ -61,6 +62,10 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       );
     }
+  }
+
+  clearList() {
+    profileList.clear();
   }
 
   String? getNickName(String id) {

@@ -31,6 +31,22 @@ class TaskLoaded extends TaskState {
   int get hashCode => careTaskList.hashCode;
 }
 
+class TaskDetailsState extends TaskState {
+  final CareTask task;
+
+  const TaskDetailsState(this.task);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is TaskDetailsState && other.task == task;
+  }
+
+  @override
+  int get hashCode => task.hashCode;
+}
+
 class TaskError extends TaskState {
   final String message;
   const TaskError(this.message);

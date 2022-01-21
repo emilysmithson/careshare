@@ -6,10 +6,10 @@ import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_w
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
-class TaskView extends StatelessWidget {
+class TaskDetailedView extends StatelessWidget {
   final CareTask task;
 
-  const TaskView({
+  const TaskDetailedView({
     Key? key,
     required this.task,
   }) : super(key: key);
@@ -19,7 +19,6 @@ class TaskView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -83,6 +82,11 @@ class TaskView extends StatelessWidget {
                 //     );
                 //   },
                 // ),
+                ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<TaskCubit>(context).showTasksView();
+                    },
+                    child: const Text('Save')),
               ],
             ),
           ),

@@ -1,10 +1,12 @@
-import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/task_summary.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'add_task_floating_action_button.dart';
 
 class TasksView extends StatefulWidget {
   const TasksView({
@@ -23,13 +25,7 @@ class _TasksViewState extends State<TasksView> {
           title: const Text('Tasks'),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        // floatingActionButton: const AddTaskFloatingActionButton(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            final authCubit = BlocProvider.of<AuthenticationCubit>(context);
-            authCubit.signOut();
-          },
-        ),
+        floatingActionButton: const AddTaskFloatingActionButton(),
         bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(
@@ -60,11 +56,13 @@ class _TasksViewState extends State<TasksView> {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state is TaskLoading) {
+      }
+      if (state is TaskLoading) {
         return const Center(
           child: Text('No tasks'),
         );
-      } else if (state is TaskLoaded) {
+      }
+      if (state is TaskLoaded) {
         return SingleChildScrollView(
           child: Column(
             children: state.careTaskList
@@ -75,6 +73,11 @@ class _TasksViewState extends State<TasksView> {
                 )
                 .toList(),
           ),
+        );
+      }
+      if (state is TaskDetailsState) {
+        return TaskDetailedView(
+          task: state.task,
         );
       }
       return const Center(

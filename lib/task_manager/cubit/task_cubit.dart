@@ -19,22 +19,33 @@ class TaskCubit extends Cubit<TaskState> {
     required this.editTaskField,
     required this.removeATask,
   }) : super(const TaskInitial());
+  bool init = true;
+  final List<CareTask> careTaskList = [];
 
-  createTask(String title) {
+  createTask(
+    String title,
+  ) async {
+    CareTask? task;
     try {
-      createATask(title);
+      task = await createATask(title);
     } catch (e) {
       emit(TaskError(e.toString()));
+    }
+    if (task == null) {
+      emit(const TaskError('Something went wrong, task is null'));
+    } else {
+      emit(TaskDetailsState(task));
     }
   }
 
   fetchTasks() {
     try {
-      emit(const TaskLoading());
+      if (init) {
+        emit(const TaskLoading());
+      }
       DatabaseReference reference = FirebaseDatabase.instance.ref('tasks_test');
       final response = reference.onValue;
       response.listen((event) {
-        final List<CareTask> _careTaskList = [];
         if (event.snapshot.value == null) {
           emit(const TaskLoaded([]));
         } else {
@@ -43,11 +54,13 @@ class TaskCubit extends Cubit<TaskState> {
 
           returnedList.forEach(
             (key, value) {
-              _careTaskList.add(CareTask.fromJson(key, value));
+              careTaskList.add(CareTask.fromJson(key, value));
             },
           );
-
-          emit(TaskLoaded(_careTaskList));
+          if (init) {
+            emit(TaskLoaded(careTaskList));
+            init = false;
+          }
         }
       });
     } catch (error) {
@@ -64,5 +77,13 @@ class TaskCubit extends Cubit<TaskState> {
 
   removeTask(String id) {
     removeATask(id);
+  }
+
+  showTaskDetails(CareTask task) {
+    emit(TaskDetailsState(task));
+  }
+
+  showTasksView() {
+    emit(TaskLoaded(careTaskList));
   }
 }

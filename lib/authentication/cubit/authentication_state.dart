@@ -27,28 +27,69 @@ class AuthenticationLoaded extends AuthenticationState {
   int get hashCode => user.hashCode;
 }
 
-class AuthenticationLogin extends AuthenticationState {}
+class AuthenticationLogin extends AuthenticationState {
+  final String? errorMessage;
+  final String? initialEmailValue;
 
-class AuthenticationRegister extends AuthenticationState {}
-
-class AuthenticationResetPassword extends AuthenticationState {}
-
-class AuthenicationAwaitingConfirmation extends AuthenticationState {}
-
-class AuthenicationPasswordSent extends AuthenticationState {}
-
-class AuthenticationError extends AuthenticationState {
-  final String message;
-
-  const AuthenticationError(this.message);
+  const AuthenticationLogin({this.errorMessage, this.initialEmailValue});
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is AuthenticationError && other.message == message;
+    return other is AuthenticationLogin &&
+        other.errorMessage == errorMessage &&
+        other.initialEmailValue == initialEmailValue;
   }
 
   @override
-  int get hashCode => message.hashCode;
+  int get hashCode => errorMessage.hashCode ^ initialEmailValue.hashCode;
 }
+
+class AuthenticationRegister extends AuthenticationState {
+  final String? errorMessage;
+  final String? initialEmailValue;
+  final String? initialNameValue;
+
+  const AuthenticationRegister({
+    this.errorMessage,
+    this.initialEmailValue,
+    this.initialNameValue,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AuthenticationRegister &&
+        other.errorMessage == errorMessage &&
+        other.initialEmailValue == initialEmailValue &&
+        other.initialNameValue == initialNameValue;
+  }
+
+  @override
+  int get hashCode => errorMessage.hashCode ^ initialEmailValue.hashCode;
+}
+
+class AuthenticationResetPassword extends AuthenticationState {
+  final String? initialEmailValue;
+
+  const AuthenticationResetPassword({this.initialEmailValue});
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AuthenticationResetPassword &&
+        other.initialEmailValue == initialEmailValue;
+  }
+
+  @override
+  int get hashCode => initialEmailValue.hashCode;
+}
+
+class AuthenicationAwaitingConfirmation extends AuthenticationState {}
+
+class AuthenicationPasswordSent extends AuthenticationState {}
+
+class AuthenticationError extends AuthenticationState {}
