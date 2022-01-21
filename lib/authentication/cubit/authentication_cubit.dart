@@ -71,7 +71,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  signIn({
+  login({
     required ProfileCubit profileCubit,
     required String email,
     required String password,
@@ -125,7 +125,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(AuthenticationResetPassword(initialEmailValue: emailAddress));
   }
 
-  signOut(ProfileCubit profileCubit) {
+  logout(ProfileCubit profileCubit) {
     FirebaseAuth.instance.signOut();
     profileCubit.clearList();
     emit(const AuthenticationRegister());

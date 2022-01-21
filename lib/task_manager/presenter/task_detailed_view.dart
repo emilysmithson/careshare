@@ -1,5 +1,6 @@
 import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
+
 import 'package:careshare/task_manager/models/task.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_widget.dart';
@@ -63,11 +64,9 @@ class TaskDetailedView extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: spacing),
-
                 AssignToWidget(
                   task: task,
                 ),
-
                 SizedBox(height: spacing),
                 // TaskInputFieldWidget(
                 //   label: 'Add a comment',
@@ -75,9 +74,9 @@ class TaskDetailedView extends StatelessWidget {
                 //   currentValue: '',
                 //   task: task,
                 //   onChanged: (value) {
-                //     editTaskField(
-                //       task: widget.task,
-                //       newValue: value,
+                //     BlocProvider.of<TaskCubit>(context).editTask(
+                //       task: task,
+                //       newValue: Comment(commment: value),
                 //       taskField: TaskField.comments,
                 //     );
                 //   },

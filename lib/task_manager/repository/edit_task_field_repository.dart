@@ -66,9 +66,8 @@ class EditTaskFieldRepository {
       // case TaskField.comments:
       //   newTask.comments.add(newValue);
       //   field = 'comments';
-
       //   value = newTask.comments.map((e) => e.toJson());
-      // break;
+      //   break;
     }
 
     DatabaseReference reference =

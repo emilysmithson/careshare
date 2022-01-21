@@ -1,5 +1,7 @@
+import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,19 +33,16 @@ class TaskSummary extends StatelessWidget {
                   'Title: ${task.title}',
                 ),
                 const SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
-                  'Description: ${task.details}',
+                  'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
                 ),
-                // const SizedBox(height: 8),
-                // Text(
-                //   'Created by: ${profileModule.getNickName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
-                // ),
-                // const SizedBox(height: 8),
-                // Text(
-                //   task.acceptedBy == null || task.acceptedBy!.isEmpty
-                //       ? 'Not currently assigned to anyone'
-                //       : 'Assigned to: ${profileModule.getNickName(task.acceptedBy!)} on ${DateFormat('E').add_jm().format(task.acceptedOnDate!)}',
-                // ),
+                const SizedBox(height: 8),
+                Text(
+                  task.acceptedBy == null || task.acceptedBy!.isEmpty
+                      ? 'Not currently assigned to anyone'
+                      : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)} on ${DateFormat('E').add_jm().format(task.acceptedOnDate!)}',
+                ),
                 Row(
                   children: [
                     IconButton(

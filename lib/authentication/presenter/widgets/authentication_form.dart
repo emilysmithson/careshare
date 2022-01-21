@@ -135,7 +135,7 @@ class AuthenticationForm extends StatelessWidget {
                           );
                           break;
                         case AuthenticationLogin:
-                          authenticationCubit.signIn(
+                          authenticationCubit.login(
                             profileCubit:
                                 BlocProvider.of<ProfileCubit>(context),
                             email: emailController.text,
