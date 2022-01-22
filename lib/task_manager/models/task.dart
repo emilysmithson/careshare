@@ -1,3 +1,4 @@
+import 'package:careshare/categories/models/category.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:careshare/task_manager/models/comment.dart';
@@ -12,7 +13,7 @@ class CareTask {
   TaskPriority taskPriority;
   TaskEffort taskEffort;
   String? details;
-  String? category;
+  CareCategory? category;
   final String id;
 
   final String createdBy;
@@ -51,7 +52,7 @@ class CareTask {
     return {
       'title': title,
       'details': details,
-      'category': category,
+      'category': category?.toJson(),
       'created_by': createdBy,
       'task_effort': taskEffort.value,
       'status': taskStatus.status,
@@ -70,8 +71,10 @@ class CareTask {
     final title = value['title'] ?? '';
 
     final details = value['details'] ?? '';
-    final category = value['category'];
-
+    CareCategory? category;
+    if (value['category'] != null) {
+      category = CareCategory.fromJson(value['category']);
+    }
     final taskSize = TaskEffort.taskSizeList
         .firstWhere((element) => element.value == value['task_effort']);
     final taskStatus = TaskStatus.taskStatusList

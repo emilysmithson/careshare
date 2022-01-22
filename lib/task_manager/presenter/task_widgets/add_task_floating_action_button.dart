@@ -1,3 +1,4 @@
+import 'package:careshare/categories/cubit/categories_cubit.dart';
 import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
@@ -34,14 +35,16 @@ class _AddTaskFloatingActionButtonState
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: BlocProvider.of<TaskCubit>(context),
-            child: BlocProvider.value(
-              value: BlocProvider.of<ProfileCubit>(context),
-              child: TaskDetailedView(
-                task: task,
-              ),
-            ),
-          ),
+              value: BlocProvider.of<TaskCubit>(context),
+              child: BlocProvider.value(
+                value: BlocProvider.of<ProfileCubit>(context),
+                child: BlocProvider.value(
+                  value: BlocProvider.of<CategoriesCubit>(context),
+                  child: TaskDetailedView(
+                    task: task,
+                  ),
+                ),
+              )),
         ),
       );
     }

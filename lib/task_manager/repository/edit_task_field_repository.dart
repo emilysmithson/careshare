@@ -1,3 +1,4 @@
+import 'package:careshare/categories/models/category.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_priority.dart';
 
@@ -37,7 +38,7 @@ class EditTaskFieldRepository {
       case TaskField.category:
         newTask.category = newValue;
         field = 'category';
-        value = newValue;
+        value = (newValue as CareCategory).toJson();
         break;
       case TaskField.taskStatus:
         newTask.taskStatus = newValue;

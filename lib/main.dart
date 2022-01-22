@@ -1,5 +1,6 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
+import 'package:careshare/categories/cubit/categories_cubit.dart';
 import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
@@ -26,6 +27,9 @@ void main() {
             ),
             BlocProvider(
               create: (context) => ProfileCubit(),
+            ),
+            BlocProvider(
+              create: (context) => CategoriesCubit(),
             ),
             BlocProvider(
               create: (context) => TaskCubit(
@@ -55,6 +59,7 @@ class _AppState extends State<App> {
         if (state is AuthenticationLoaded) {
           BlocProvider.of<TaskCubit>(context).fetchTasks();
           BlocProvider.of<ProfileCubit>(context).fetchProfiles();
+          BlocProvider.of<CategoriesCubit>(context).fetchCategories();
           return const TaskManagerView();
         }
         return const AuthenticationPage();
