@@ -24,10 +24,9 @@ class TaskDetailedView extends StatelessWidget {
     required this.task,
   }) : super(key: key);
 
-  final double spacing = 16;
-
   @override
   Widget build(BuildContext context) {
+    const double spacing = 16;
     return Scaffold(
       appBar: AppBar(title: const Text('Task Details')),
       body: Padding(
@@ -38,7 +37,7 @@ class TaskDetailedView extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: spacing),
+                  const SizedBox(height: spacing),
                   TaskInputFieldWidget(
                     label: 'Title',
                     maxLines: 1,
@@ -53,11 +52,11 @@ class TaskDetailedView extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: spacing),
+                  const SizedBox(height: spacing),
                   Text(
                     'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
                   ),
-                  SizedBox(height: spacing),
+                  const SizedBox(height: spacing),
                   TaskInputFieldWidget(
                     label: 'Description',
                     maxLines: 5,
@@ -72,11 +71,11 @@ class TaskDetailedView extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: spacing),
+                  const SizedBox(height: spacing),
                   AssignToWidget(
                     task: task,
                   ),
-                  SizedBox(height: spacing),
+                  const SizedBox(height: spacing),
                   Text('Priority: ${task.taskPriority.level}'),
                   Slider(
                     label: task.taskPriority.level,
@@ -96,22 +95,7 @@ class TaskDetailedView extends StatelessWidget {
                     },
                   ),
                   const Text('Category'),
-
-                  BlocBuilder<CategoriesCubit, CategoriesState>(
-                    builder: (context, state) {
-                      return Wrap(
-                        children: BlocProvider.of<CategoriesCubit>(context)
-                            .categoryList
-                            .map((CareCategory category) => CategoryPicker(
-                                  category: category,
-                                  task: task,
-                                ))
-                            .toList(),
-                      );
-                    },
-                  ),
-                  const AddCategoryWidget(),
-                  SizedBox(height: spacing),
+                  CategoryPicker(task: task)
 
                   // TaskInputFieldWidget(
                   //   label: 'Add a comment',
@@ -126,6 +110,7 @@ class TaskDetailedView extends StatelessWidget {
                   //     );
                   //   },
                   // ),
+                  ,
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);

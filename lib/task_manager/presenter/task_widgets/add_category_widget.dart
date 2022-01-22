@@ -24,7 +24,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
           id: DateTime.now().millisecondsSinceEpoch.toString());
     }
 
-    return TextButton(
+    return IconButton(
       onPressed: () {
         showModalBottomSheet(
             context: context,
@@ -76,7 +76,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
               ));
             });
       },
-      child: const Text('Add new category'),
+      icon: Icon(Icons.add),
     );
   }
 }
