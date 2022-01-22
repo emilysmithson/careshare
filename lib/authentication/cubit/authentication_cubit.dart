@@ -4,6 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import '../../firebase_options.dart';
+
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
@@ -12,7 +14,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   checkAuthentication() async {
     emit(AuthenticationLoading());
     try {
-      await Firebase.initializeApp();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
     } catch (error) {
       emit(AuthenticationError());
     }
