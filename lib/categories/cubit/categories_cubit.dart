@@ -52,6 +52,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
               categoryList.add(CareCategory.fromJson(value));
             },
           );
+
           emit(CategoriesLoaded(categoryList));
         }
       });

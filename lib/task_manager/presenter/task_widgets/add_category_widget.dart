@@ -1,10 +1,10 @@
 import 'package:careshare/categories/cubit/categories_cubit.dart';
-import 'package:careshare/task_manager/cubit/task_cubit.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddCategoryWidget extends StatefulWidget {
-  AddCategoryWidget({Key? key}) : super(key: key);
+  const AddCategoryWidget({Key? key}) : super(key: key);
 
   @override
   _AddCategoryWidgetState createState() => _AddCategoryWidgetState();
@@ -76,7 +76,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
               ));
             });
       },
-      child: Text('Add new category'),
+      child: const Text('Add new category'),
     );
   }
 }

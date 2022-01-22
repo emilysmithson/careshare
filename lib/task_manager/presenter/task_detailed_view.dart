@@ -4,7 +4,7 @@ import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/models/task_priority.dart';
+
 import 'package:careshare/task_manager/presenter/task_widgets/add_category_widget.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/category_picker.dart';
 
@@ -97,16 +97,20 @@ class TaskDetailedView extends StatelessWidget {
                   ),
                   const Text('Category'),
 
-                  Wrap(
-                    children: BlocProvider.of<CategoriesCubit>(context)
-                        .categoryList
-                        .map((CareCategory category) => CategoryPicker(
-                              category: category,
-                              task: task,
-                            ))
-                        .toList(),
+                  BlocBuilder<CategoriesCubit, CategoriesState>(
+                    builder: (context, state) {
+                      return Wrap(
+                        children: BlocProvider.of<CategoriesCubit>(context)
+                            .categoryList
+                            .map((CareCategory category) => CategoryPicker(
+                                  category: category,
+                                  task: task,
+                                ))
+                            .toList(),
+                      );
+                    },
                   ),
-                  AddCategoryWidget(),
+                  const AddCategoryWidget(),
                   SizedBox(height: spacing),
 
                   // TaskInputFieldWidget(
