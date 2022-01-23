@@ -47,6 +47,7 @@ class _AddTaskFloatingActionButtonState
               )),
         ),
       );
+      textEditingController.clear();
     }
   }
 
