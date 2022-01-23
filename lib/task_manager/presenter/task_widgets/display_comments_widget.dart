@@ -12,8 +12,11 @@ class DisplayCommentsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
+        if (task.comments == null) {
+          return Container();
+        }
         return Column(
-          children: task.comments
+          children: task.comments!
               .map(
                 (comment) => Padding(
                   padding: const EdgeInsets.all(8.0),

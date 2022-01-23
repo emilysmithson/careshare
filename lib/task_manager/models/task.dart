@@ -27,7 +27,7 @@ class CareTask {
   String? completedBy;
 
   DateTime? taskCompletedDate;
-  List<Comment> comments;
+  List<Comment>? comments = [];
 
   CareTask({
     required this.title,
@@ -45,7 +45,7 @@ class CareTask {
     this.taskAcceptedForDate,
     this.completedBy,
     this.taskCompletedDate,
-    this.comments = const [],
+    this.comments,
   });
 
   Map<String, dynamic> toJson() {
@@ -63,7 +63,7 @@ class CareTask {
       'accepted_for_date': taskAcceptedForDate.toString(),
       'completed_by': completedBy,
       'completed_date': taskCompletedDate.toString(),
-      'comments': comments.map((comment) => comment.toJson()).toList(),
+      'comments': comments?.map((comment) => comment.toJson()).toList(),
     };
   }
 

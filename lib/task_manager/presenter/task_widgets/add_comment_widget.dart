@@ -24,6 +24,7 @@ class AddCommentWidget extends StatelessWidget {
         ),
       ),
       onSubmitted: (value) {
+        controller.clear();
         Profile profile =
             BlocProvider.of<ProfileCubit>(context).fetchMyProfile();
         BlocProvider.of<TaskCubit>(context).editTask(
@@ -36,7 +37,6 @@ class AddCommentWidget extends StatelessWidget {
               dateCreated: DateTime.now()),
           taskField: TaskField.comment,
         );
-        controller.clear();
       },
     );
   }

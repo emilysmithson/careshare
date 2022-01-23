@@ -69,7 +69,7 @@ class EditTaskFieldRepository {
         value = newValue.toString();
         break;
       case TaskField.comment:
-        newTask.comments.add(newValue);
+        newTask.comments?.add(newValue);
 
         field = 'comments/${newValue.id}';
         value = newValue.toJson();
