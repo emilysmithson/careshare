@@ -1,6 +1,7 @@
 import 'package:careshare/categories/models/category.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_priority.dart';
+import 'package:careshare/task_manager/models/task_effort.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 
@@ -25,9 +26,10 @@ class EditTaskFieldRepository {
         value = newValue;
         break;
       case TaskField.taskEffort:
-        newTask.taskEffort = newValue;
+        newTask.taskEffort = TaskEffort.taskSizeList
+            .firstWhere((element) => element.value == newValue.truncate());
         field = 'task_effort';
-        value = newValue.value;
+        value = newValue;
         break;
       case TaskField.taskPriority:
         newTask.taskPriority = TaskPriority.priorityList
@@ -66,11 +68,12 @@ class EditTaskFieldRepository {
 
         value = newValue.toString();
         break;
-      // case TaskField.comments:
-      //   newTask.comments.add(newValue);
-      //   field = 'comments';
-      //   value = newTask.comments.map((e) => e.toJson());
-      //   break;
+      case TaskField.comment:
+        newTask.comments.add(newValue);
+
+        field = 'comments/${newValue.id}';
+        value = newValue.toJson();
+        break;
     }
 
     DatabaseReference reference =

@@ -57,10 +57,11 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
-  createTask(String title) async {
+  Future<CareTask?> createTask(String title) async {
     CareTask? task;
     try {
       task = await createATaskRepository(title);
+      return task;
     } catch (e) {
       emit(TaskError(e.toString()));
     }
@@ -69,7 +70,6 @@ class TaskCubit extends Cubit<TaskState> {
         const TaskError('Something went wrong, task is null'),
       );
     }
-    return task;
   }
 
   editTask(

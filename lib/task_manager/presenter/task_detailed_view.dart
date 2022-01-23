@@ -1,12 +1,12 @@
-import 'package:careshare/categories/cubit/categories_cubit.dart';
-import 'package:careshare/categories/models/category.dart';
 import 'package:careshare/profile/cubit/profile_cubit.dart';
+
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
 
-import 'package:careshare/task_manager/presenter/task_widgets/add_category_widget.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/category_picker.dart';
+import 'package:careshare/task_manager/presenter/task_widgets/add_comment_widget.dart';
+import 'package:careshare/task_manager/presenter/task_widgets/display_comments_widget.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_widget.dart';
 
@@ -94,23 +94,31 @@ class TaskDetailedView extends StatelessWidget {
                       );
                     },
                   ),
+                  const SizedBox(height: spacing),
+                  Text('Effort Required: ${task.taskEffort.definition}'),
+                  Slider(
+                    label: task.taskEffort.definition,
+                    value: task.taskEffort.value.toDouble(),
+                    min: 1,
+                    activeColor: Colors.grey,
+                    inactiveColor: Colors.grey,
+                    max: 6,
+                    divisions: 5,
+                    onChanged: (value) {
+                      BlocProvider.of<TaskCubit>(context).editTask(
+                        task: task,
+                        newValue: value,
+                        taskField: TaskField.taskEffort,
+                      );
+                    },
+                  ),
                   const Text('Category'),
-                  CategoryPicker(task: task)
-
-                  // TaskInputFieldWidget(
-                  //   label: 'Add a comment',
-                  //   maxLines: 5,
-                  //   currentValue: '',
-                  //   task: task,
-                  //   onChanged: (value) {
-                  //     BlocProvider.of<TaskCubit>(context).editTask(
-                  //       task: task,
-                  //       newValue: Comment(commment: value),
-                  //       taskField: TaskField.comments,
-                  //     );
-                  //   },
-                  // ),
-                  ,
+                  CategoryPicker(task: task),
+                  const SizedBox(height: spacing),
+                  const SizedBox(height: spacing),
+                  DisplayCommentsWidget(task: task),
+                  AddCommentWidget(task: task),
+                  const SizedBox(height: spacing),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);

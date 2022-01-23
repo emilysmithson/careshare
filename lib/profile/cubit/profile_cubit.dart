@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
@@ -76,5 +77,10 @@ class ProfileCubit extends Cubit<ProfileState> {
       return 'no name found';
     }
     return name;
+  }
+
+  Profile fetchMyProfile() {
+    return profileList.firstWhere(
+        (element) => element.id == FirebaseAuth.instance.currentUser!.uid);
   }
 }

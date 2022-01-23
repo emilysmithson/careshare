@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:careshare/task_manager/models/comment.dart';
 
 import 'task_priority.dart';
-import 'task_size.dart';
+import 'task_effort.dart';
 import 'task_status.dart';
 
 class CareTask {
@@ -27,7 +27,7 @@ class CareTask {
   String? completedBy;
 
   DateTime? taskCompletedDate;
-  List<Comment>? comments;
+  List<Comment> comments;
 
   CareTask({
     required this.title,
@@ -45,7 +45,7 @@ class CareTask {
     this.taskAcceptedForDate,
     this.completedBy,
     this.taskCompletedDate,
-    this.comments,
+    this.comments = const [],
   });
 
   Map<String, dynamic> toJson() {
@@ -63,7 +63,7 @@ class CareTask {
       'accepted_for_date': taskAcceptedForDate.toString(),
       'completed_by': completedBy,
       'completed_date': taskCompletedDate.toString(),
-      'comments': comments?.map((comment) => comment.toJson()),
+      'comments': comments.map((comment) => comment.toJson()).toList(),
     };
   }
 
@@ -94,11 +94,11 @@ class CareTask {
         ? DateTime.tryParse(value['completed_date'])
         : null;
     final completedBy = value['completed_by'] ?? '';
+    final List<Comment> comments = [];
 
-    final List<Comment> comments = <Comment>[];
     if (value['comments'] != null) {
       value['comments'].forEach((k, v) {
-        comments.add(Comment.fromJson(k, v));
+        comments.add(Comment.fromJson(v));
       });
     }
 
@@ -175,4 +175,5 @@ enum TaskField {
   completedBy,
   taskCompleteDate,
   acceptedOnDate,
+  comment
 }

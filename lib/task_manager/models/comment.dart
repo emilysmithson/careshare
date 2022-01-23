@@ -1,9 +1,9 @@
 class Comment {
   final String commment;
-  late String? createdBy;
-  late String? createdByDisplayName;
-  DateTime? dateCreated;
-  late String? id;
+  final String createdBy;
+  final String createdByDisplayName;
+  final DateTime dateCreated;
+  final String id;
 
   @override
   String toString() {
@@ -16,10 +16,10 @@ class Comment {
 
   Comment({
     required this.commment,
-    this.id,
-    this.createdBy,
-    this.createdByDisplayName,
-    this.dateCreated,
+    required this.id,
+    required this.createdBy,
+    required this.createdByDisplayName,
+    required this.dateCreated,
   });
 
   Map<String, dynamic> toJson() {
@@ -28,16 +28,17 @@ class Comment {
       'created_by': createdBy,
       'created_by_display_name': createdByDisplayName,
       'date_created': dateCreated.toString(),
+      'id': id,
     };
   }
 
-  factory Comment.fromJson(String key, value) {
+  factory Comment.fromJson(value) {
     Comment newComment = Comment(
       commment: value['commment'] ?? '',
       createdBy: value['created_by'] ?? '',
       createdByDisplayName: value['created_by_name'] ?? '',
       dateCreated: DateTime.parse(value['date_created']),
-      id: key,
+      id: value['id'],
     );
 
     return newComment;
