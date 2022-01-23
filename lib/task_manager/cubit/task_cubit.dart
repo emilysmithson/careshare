@@ -70,6 +70,7 @@ class TaskCubit extends Cubit<TaskState> {
         const TaskError('Something went wrong, task is null'),
       );
     }
+    return null;
   }
 
   editTask(

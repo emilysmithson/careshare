@@ -15,17 +15,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(AuthenticationLoading());
     try {
       await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: "AIzaSyCqYe7ZI5IkfCh_909kD7PQj4EqcLAUT8k",
-            authDomain: "careshare-data.firebaseapp.com",
-            databaseURL:
-                "https://careshare-data-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "careshare-data",
-            storageBucket: "careshare-data.appspot.com",
-            messagingSenderId: "468078459323",
-            appId: "1:468078459323:web:e5d84472a92c49af4f2c9e",
-            measurementId: "G-5MS77VHJDB"),
-      );
+          options: DefaultFirebaseOptions.currentPlatform);
     } catch (error) {
       emit(AuthenticationError());
     }

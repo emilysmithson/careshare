@@ -69,6 +69,7 @@ class AuthenticationForm extends StatelessWidget {
                       if (value == null || value.length < 3) {
                         return 'Please enter your name';
                       }
+                      return null;
                     },
                     keyboardType: TextInputType.name,
                   ),
