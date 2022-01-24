@@ -34,7 +34,7 @@ class EditTaskFieldRepository {
       case TaskField.taskPriority:
         newTask.taskPriority = TaskPriority.priorityList
             .firstWhere((element) => element.value == newValue.truncate());
-        field = 'task_priority';
+        field = 'priority';
         value = newValue;
         break;
       case TaskField.category:

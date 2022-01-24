@@ -79,8 +79,10 @@ class CareTask {
         .firstWhere((element) => element.value == value['task_effort']);
     final taskStatus = TaskStatus.taskStatusList
         .firstWhere((element) => element.status == value['status']);
+
     final priority = TaskPriority.priorityList
         .firstWhere((element) => value['priority'] == element.value);
+    print(priority);
     final createdBy = value['created_by'] ?? '';
 
     final dateCreated = DateTime.parse(value['date_created']);

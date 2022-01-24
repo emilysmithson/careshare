@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-class TaskPriority {
+class TaskPriority extends Equatable {
   final String level;
   final int value;
   final Color color;
@@ -42,4 +43,7 @@ class TaskPriority {
     low,
     lowest,
   ];
+
+  @override
+  List<Object> get props => [level, value, color];
 }

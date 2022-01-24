@@ -37,40 +37,55 @@ class TaskSummary extends StatelessWidget {
         );
       },
       child: Container(
-        width: double.infinity,
+        width: 180,
+        height: 200,
         padding: const EdgeInsets.all(8.0),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(task.title,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                const SizedBox(height: 8),
-                Text(
-                  'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  task.acceptedBy == null || task.acceptedBy!.isEmpty
-                      ? 'Not currently assigned to anyone'
-                      : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
-                ),
-                Row(
+            child: BlocBuilder<TaskCubit, TaskState>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.grey),
-                      onPressed: () {
-                        final taskCubit = BlocProvider.of<TaskCubit>(context);
-
-                        taskCubit.removeTask(task.id);
-                      },
+                    Text(task.title,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
                     ),
+                    const SizedBox(height: 8),
+                    Text(
+                      task.acceptedBy == null || task.acceptedBy!.isEmpty
+                          ? 'Not currently assigned to anyone'
+                          : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
+                    ),
+                    Row(
+                      children: [
+                        const Text('Priority: '),
+                        Text(
+                          task.taskPriority.level,
+                          style: TextStyle(color: task.taskPriority.color),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.grey),
+                          onPressed: () {
+                            final taskCubit =
+                                BlocProvider.of<TaskCubit>(context);
+
+                            taskCubit.removeTask(task.id);
+                          },
+                        ),
+                      ],
+                    )
                   ],
-                )
-              ],
+                );
+              },
             ),
           ),
         ),

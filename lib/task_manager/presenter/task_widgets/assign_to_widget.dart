@@ -3,6 +3,7 @@ import 'package:careshare/profile/models/profile.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:intl/intl.dart';
@@ -54,6 +55,11 @@ class _AssignToWidgetState extends State<AssignToWidget> {
                             task: widget.task,
                             taskField: TaskField.acceptedOnDate,
                           );
+                          BlocProvider.of<TaskCubit>(context).editTask(
+                            newValue: TaskStatus.created,
+                            task: widget.task,
+                            taskField: TaskField.taskStatus,
+                          );
                           Navigator.pop(context);
                         },
                         child: const Text('Unassign'),
@@ -93,6 +99,11 @@ class _AssignToWidgetState extends State<AssignToWidget> {
           newValue: DateTime.now(),
           task: widget.task,
           taskField: TaskField.acceptedOnDate,
+        );
+        BlocProvider.of<TaskCubit>(context).editTask(
+          newValue: TaskStatus.accepted,
+          task: widget.task,
+          taskField: TaskField.taskStatus,
         );
         Navigator.pop(context);
       },

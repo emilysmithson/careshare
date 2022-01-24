@@ -8,16 +8,14 @@ class TasksOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: careTaskList
-            .map(
-              (task) => TaskSummary(
-                task: task,
-              ),
-            )
-            .toList(),
-      ),
+    return Wrap(
+      children: careTaskList
+          .map(
+            (task) => TaskSummary(
+              task: task,
+            ),
+          )
+          .toList(),
     );
   }
 }

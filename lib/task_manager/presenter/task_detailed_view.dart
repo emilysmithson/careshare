@@ -5,7 +5,7 @@ import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/category_picker.dart';
-import 'package:careshare/task_manager/presenter/task_widgets/add_comment_widget.dart';
+
 import 'package:careshare/task_manager/presenter/task_widgets/display_comments_widget.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_widget.dart';
@@ -117,7 +117,6 @@ class TaskDetailedView extends StatelessWidget {
                   const SizedBox(height: spacing),
                   const SizedBox(height: spacing),
                   DisplayCommentsWidget(task: task),
-                  AddCommentWidget(task: task),
                   const SizedBox(height: spacing),
                   ElevatedButton(
                       onPressed: () {
