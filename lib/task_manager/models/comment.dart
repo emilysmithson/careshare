@@ -36,7 +36,7 @@ class Comment {
     Comment newComment = Comment(
       commment: value['commment'] ?? '',
       createdBy: value['created_by'] ?? '',
-      createdByDisplayName: value['created_by_name'] ?? '',
+      createdByDisplayName: value['created_by_display_name'] ?? '',
       dateCreated: DateTime.parse(value['date_created']),
       id: value['id'],
     );

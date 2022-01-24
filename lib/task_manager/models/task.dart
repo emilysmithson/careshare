@@ -82,7 +82,7 @@ class CareTask {
 
     final priority = TaskPriority.priorityList
         .firstWhere((element) => value['priority'] == element.value);
-    print(priority);
+
     final createdBy = value['created_by'] ?? '';
 
     final dateCreated = DateTime.parse(value['date_created']);

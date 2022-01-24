@@ -24,7 +24,7 @@ class TaskPriority extends Equatable {
   static const TaskPriority medium = TaskPriority(
     level: 'Medium',
     value: 3,
-    color: Colors.yellow,
+    color: Colors.brown,
   );
   static const TaskPriority low = TaskPriority(
     level: 'Low',

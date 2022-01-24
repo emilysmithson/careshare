@@ -37,8 +37,8 @@ class TaskSummary extends StatelessWidget {
         );
       },
       child: Container(
-        width: 180,
-        height: 200,
+        width: 190,
+        height: 250,
         padding: const EdgeInsets.all(8.0),
         child: Card(
           child: Padding(
@@ -70,6 +70,7 @@ class TaskSummary extends StatelessWidget {
                         ),
                       ],
                     ),
+                    Text('Effort: ${task.taskEffort.definition}'),
                     Row(
                       children: [
                         IconButton(
