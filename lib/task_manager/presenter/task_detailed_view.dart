@@ -53,6 +53,8 @@ class TaskDetailedView extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: spacing),
+                  CategoryPicker(task: task),
+                  const SizedBox(height: spacing),
                   Text(
                     'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
                   ),
@@ -112,17 +114,28 @@ class TaskDetailedView extends StatelessWidget {
                       );
                     },
                   ),
-                  const Text('Category'),
-                  CategoryPicker(task: task),
                   const SizedBox(height: spacing),
                   const SizedBox(height: spacing),
                   DisplayCommentsWidget(task: task),
                   const SizedBox(height: spacing),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Save')),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Save')),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.grey),
+                        onPressed: () {
+                          final taskCubit = BlocProvider.of<TaskCubit>(context);
+
+                          taskCubit.removeTask(task.id);
+                        },
+                      )
+                    ],
+                  ),
                 ],
               );
             },

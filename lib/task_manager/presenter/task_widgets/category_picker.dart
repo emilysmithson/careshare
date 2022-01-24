@@ -12,6 +12,9 @@ class CategoryPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (task.category != null) {
+      return Text('Category: ${task.category!.name}');
+    }
     List<Widget> widgetList = [];
 
     widgetList.addAll(
@@ -42,8 +45,14 @@ class CategoryPicker extends StatelessWidget {
     widgetList.add(const AddCategoryWidget());
     return BlocBuilder<CategoriesCubit, CategoriesState>(
       builder: (context, state) {
-        return Wrap(
-          children: widgetList,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Category'),
+            Wrap(
+              children: widgetList,
+            ),
+          ],
         );
       },
     );

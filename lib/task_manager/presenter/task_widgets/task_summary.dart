@@ -3,6 +3,7 @@ import 'package:careshare/profile/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view.dart';
+import 'package:careshare/task_manager/presenter/task_widgets/add_category_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,6 +62,7 @@ class TaskSummary extends StatelessWidget {
                           ? 'Not currently assigned to anyone'
                           : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
                     ),
+                    const SizedBox(height: 8),
                     Row(
                       children: [
                         const Text('Priority: '),
@@ -70,20 +72,8 @@ class TaskSummary extends StatelessWidget {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 8),
                     Text('Effort: ${task.taskEffort.definition}'),
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.grey),
-                          onPressed: () {
-                            final taskCubit =
-                                BlocProvider.of<TaskCubit>(context);
-
-                            taskCubit.removeTask(task.id);
-                          },
-                        ),
-                      ],
-                    )
                   ],
                 );
               },

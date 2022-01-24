@@ -62,7 +62,7 @@ class AddCommentWidget extends StatelessWidget {
                         child: TextField(
                           controller: controller,
                           decoration: const InputDecoration(
-                            label: Text('Enter category name'),
+                            label: Text('Enter comment'),
                           ),
                           autofocus: true,
                           textCapitalization: TextCapitalization.sentences,
@@ -83,7 +83,7 @@ class AddCommentWidget extends StatelessWidget {
                           ),
                           ElevatedButton(
                             onPressed: onSubmit,
-                            child: const Text('Create'),
+                            child: const Text('Add comment'),
                           ),
                         ],
                       )

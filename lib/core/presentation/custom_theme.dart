@@ -25,7 +25,13 @@ class CustomTheme {
       ),
       inputDecorationTheme: const InputDecorationTheme(
         contentPadding: EdgeInsets.all(8),
-        border: OutlineInputBorder(),
+        border: InputBorder.none,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1.0,
+            color: Colors.blue,
+          ),
+        ),
       ),
     );
   }
