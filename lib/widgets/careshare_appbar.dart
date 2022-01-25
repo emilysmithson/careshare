@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
+class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
 
   final String title;
 
-  CustomAppBar(
+  CareshareAppBar(
       this.title,
       { Key? key}) : preferredSize = Size.fromHeight(50.0),
         super(key: key);
@@ -18,7 +18,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             icon: Image.asset('images/CareShareLogo50.jpg'),
             onPressed: () {},
           ),
-          title: Text(title)
+          title: Text(title),
     );
   }
 }

@@ -9,7 +9,8 @@ import 'package:careshare/task_manager/presenter/task_widgets/category_picker.da
 import 'package:careshare/task_manager/presenter/task_widgets/display_comments_widget.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_widget.dart';
-import 'package:careshare/widgets/custom_app_bar.dart';
+import 'package:careshare/widgets/careshare_appbar.dart';
+import 'package:careshare/widgets/careshare_drawer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
