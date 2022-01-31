@@ -25,7 +25,6 @@ class CustomTheme {
       ),
       inputDecorationTheme: const InputDecorationTheme(
         contentPadding: EdgeInsets.all(8),
-        border: InputBorder.none,
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 1.0,

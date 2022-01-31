@@ -51,6 +51,7 @@ class TaskDetailedView extends StatelessWidget {
                         newValue: value,
                       );
                     },
+                    
                   ),
                   const SizedBox(height: spacing),
                   CategoryPicker(task: task),
