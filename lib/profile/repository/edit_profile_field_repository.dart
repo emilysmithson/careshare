@@ -16,6 +16,16 @@ class EditProfileFieldRepository {
         field = 'name';
         value = newValue;
         break;
+      case ProfileField.firstName:
+        newProfile.firstName = newValue;
+        field = 'firstName';
+        value = newValue;
+        break;
+      case ProfileField.lastName:
+        newProfile.lastName = newValue;
+        field = 'lastName';
+        value = newValue;
+        break;
       case ProfileField.email:
         newProfile.email = newValue;
         field = 'email';

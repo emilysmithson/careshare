@@ -18,12 +18,16 @@ class ProfileCubit extends Cubit<ProfileState> {
   }) : super(ProfileInitial());
   createProfile({
     required String name,
+    String? firstName,
+    String? lastName,
     required String email,
     required String id,
   }) {
     Profile profile = Profile(
       id: id,
       name: name,
+      firstName: firstName ?? "",
+      lastName: lastName ?? "",
       email: email,
     );
     try {

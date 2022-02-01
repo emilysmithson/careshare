@@ -1,15 +1,14 @@
-import 'package:careshare/profile/models/profile.dart';
-import 'package:careshare/profile/presenter/profile_widgets/profile_summary.dart';
+import 'package:careshare/profile/cubit/profile_cubit.dart';
+import 'package:careshare/profile/presenter/profile_detailed_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../main.dart';
-
 
 class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
-
 
   CareshareDrawer({ Key? key,}) : preferredSize = Size.fromHeight(50.0),super(key: key);
 
@@ -131,14 +130,31 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             ),
             trailing: Icon(Icons.person, size: 30, color: Colors.white,),
             onTap: () {
-              Navigator.push(
-                context,
+
+              Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => ProfileSummary(
-                    profile: Profile(id: 'a', name: 'aaa', email: 'aaa@aaa.com')
-                  ),
-                ),
+                  builder: (_) => BlocProvider.value(
+                      value: BlocProvider.of<ProfileCubit>(context),
+                          child: ProfileDetailedView(
+//                            profile: Profile(id: 'a', name: 'aaaaa', firstName: 'aaaaa', lastName: 'aaaaa', email: 'aaa@aaa.aaaa'),
+                              profile: BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
+                          ),
+                        ),
+                      )
               );
+
+
+              // Navigator.push(
+              //   context,
+              //
+              //   MaterialPageRoute(
+              //     builder: (context) => ProfileSummary(
+              //       profile: Profile(id: 'a', name: 'aaa', email: 'aaa@aaa.com')
+              //     ),
+              //   ),
+              //
+              //
+              // );
             },
           ),
 

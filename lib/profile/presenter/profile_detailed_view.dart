@@ -7,8 +7,6 @@ import 'package:careshare/widgets/careshare_drawer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-
 
 class ProfileDetailedView extends StatelessWidget {
   final Profile profile;
@@ -32,9 +30,10 @@ class ProfileDetailedView extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   const SizedBox(height: spacing),
                   ProfileInputFieldWidget(
-                    label: 'Title',
+                    label: 'Name',
                     maxLines: 1,
                     currentValue: profile.name,
                     profile: profile,
@@ -46,8 +45,55 @@ class ProfileDetailedView extends StatelessWidget {
                         newValue: value,
                       );
                     },
-                    
                   ),
+                  const SizedBox(height: spacing),
+                  ProfileInputFieldWidget(
+                    label: 'First Name',
+                    maxLines: 1,
+                    currentValue: profile.firstName,
+                    profile: profile,
+                    onChanged: (value) {
+                      BlocProvider.of<ProfileCubit>(context)
+                          .editProfileFieldRepository(
+                        profileField: ProfileField.firstName,
+                        profile: profile,
+                        newValue: value,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: spacing),
+                  ProfileInputFieldWidget(
+                    label: 'Last Name',
+                    maxLines: 1,
+                    currentValue: profile.lastName,
+                    profile: profile,
+                    onChanged: (value) {
+                      BlocProvider.of<ProfileCubit>(context)
+                          .editProfileFieldRepository(
+                        profileField: ProfileField.lastName,
+                        profile: profile,
+                        newValue: value,
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: spacing),
+                  ProfileInputFieldWidget(
+                    label: 'Email',
+                    maxLines: 1,
+                    currentValue: profile.email,
+                    profile: profile,
+                    onChanged: (value) {
+                      BlocProvider.of<ProfileCubit>(context)
+                          .editProfileFieldRepository(
+                        profileField: ProfileField.email,
+                        profile: profile,
+                        newValue: value,
+                      );
+                    },
+
+                  ),
+
 
                   const SizedBox(height: spacing),
                   Row(
