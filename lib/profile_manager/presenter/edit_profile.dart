@@ -2,6 +2,7 @@ import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_input_field_widget.dart';
+import 'package:careshare/profile_manager/presenter/view_profile.dart';
 import 'package:careshare/widgets/careshare_appbar.dart';
 import 'package:careshare/widgets/careshare_drawer.dart';
 
@@ -100,7 +101,17 @@ class EditProfile extends StatelessWidget {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.pop(context);
+
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (_) => BlocProvider.value(
+                                    value: BlocProvider.of<ProfileCubit>(context),
+                                    child: ViewProfile(
+                                      profile: BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
+                                    ),
+                                  ),
+                                )
+                            );
                           },
                           child: const Text('Save')),
                     ],

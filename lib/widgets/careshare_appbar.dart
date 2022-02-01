@@ -1,4 +1,7 @@
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
+import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
@@ -16,7 +19,8 @@ class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
     return AppBar(
           leading: IconButton(
             icon: Image.asset('images/CareShareLogo50.jpg'),
-            onPressed: () {},
+            onPressed: () {Navigator.pop(context);
+            },
           ),
           title: Text(title),
     );

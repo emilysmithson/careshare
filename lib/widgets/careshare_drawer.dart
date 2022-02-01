@@ -136,7 +136,6 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
                   builder: (_) => BlocProvider.value(
                       value: BlocProvider.of<ProfileCubit>(context),
                           child: ViewProfile(
-//                            profile: Profile(id: 'a', name: 'aaaaa', firstName: 'aaaaa', lastName: 'aaaaa', email: 'aaa@aaa.aaaa'),
                               profile: BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
                           ),
                         ),
