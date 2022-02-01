@@ -1,3 +1,5 @@
+import 'package:careshare/profile/models/profile.dart';
+import 'package:careshare/profile/presenter/profile_widgets/profile_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -120,26 +122,28 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
           //   },
           // ),
           //
-          // Divider(),
-          //
-          // ListTile(
-          //   tileColor: Colors.lightBlueAccent,
-          //   title: Text('My Profile',
-          //     style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
-          //   ),
-          //   trailing: Icon(Icons.person, size: 30, color: Colors.white,),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => ViewMyProfilePage(),
-          //       ),
-          //     );
-          //   },
-          // ),
-          //
-          // Divider(),
-          //
+          Divider(),
+
+          ListTile(
+            tileColor: Colors.lightBlueAccent,
+            title: Text('My Profile',
+              style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
+            ),
+            trailing: Icon(Icons.person, size: 30, color: Colors.white,),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileSummary(
+                    profile: Profile(id: 'a', name: 'aaa', email: 'aaa@aaa.com')
+                  ),
+                ),
+              );
+            },
+          ),
+
+          Divider(),
+
           ListTile(
             tileColor: Colors.lightBlueAccent,
             title: Text('Signout',

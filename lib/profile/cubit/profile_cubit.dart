@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/profile/models/profile.dart';
 import 'package:equatable/equatable.dart';
+import 'package:careshare/profile/repository/edit_profile_field_repository.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
@@ -8,7 +9,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit() : super(ProfileInitial());
+
+  final EditProfileFieldRepository editProfileFieldRepository;
+  
+  ProfileCubit({
+    required this.editProfileFieldRepository,
+
+  }) : super(ProfileInitial());
   createProfile({
     required String name,
     required String email,
@@ -83,4 +90,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     return profileList.firstWhere(
         (element) => element.id == FirebaseAuth.instance.currentUser!.uid);
   }
+
+
+  editProfile(
+      {required Profile profile,
+        required ProfileField profileField,
+        required dynamic newValue}) {
+    emit(const ProfileLoading());
+
+    editProfileFieldRepository(
+        profile: profile, profileField: profileField, newValue: newValue);
+  }
+
+
+  
 }

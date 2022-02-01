@@ -9,7 +9,9 @@ abstract class ProfileState extends Equatable {
 
 class ProfileInitial extends ProfileState {}
 
-class ProfileLoading extends ProfileState {}
+class ProfileLoading extends ProfileState {
+  const ProfileLoading();
+}
 
 class ProfileListEmpty extends ProfileState {}
 

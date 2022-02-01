@@ -35,3 +35,8 @@ class Profile {
     ''';
   }
 }
+
+enum ProfileField {
+  name,
+  email,
+}
