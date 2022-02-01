@@ -17,7 +17,7 @@ class ViewProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double spacing = 16;
+    // const double spacing = 16;
     return Scaffold(
       appBar: CareshareAppBar('Profile Details'),
       endDrawer: CareshareDrawer(),

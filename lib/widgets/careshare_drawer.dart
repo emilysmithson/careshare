@@ -131,7 +131,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             trailing: Icon(Icons.person, size: 30, color: Colors.white,),
             onTap: () {
 
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => BlocProvider.value(
                       value: BlocProvider.of<ProfileCubit>(context),
