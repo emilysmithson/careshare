@@ -1,5 +1,5 @@
 import 'package:careshare/categories/cubit/categories_cubit.dart';
-import 'package:careshare/profile/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 

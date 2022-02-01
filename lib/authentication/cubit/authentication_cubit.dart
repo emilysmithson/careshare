@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:careshare/profile/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

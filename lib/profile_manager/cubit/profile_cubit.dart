@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:careshare/profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:equatable/equatable.dart';
-import 'package:careshare/profile/repository/edit_profile_field_repository.dart';
+import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
@@ -91,6 +91,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Profile fetchMyProfile() {
+    print('UID: ${FirebaseAuth.instance.currentUser!.uid}');
     return profileList.firstWhere(
         (element) => element.id == FirebaseAuth.instance.currentUser!.uid);
   }

@@ -1,4 +1,4 @@
-import 'package:careshare/profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class EditProfileFieldRepository {
@@ -18,12 +18,12 @@ class EditProfileFieldRepository {
         break;
       case ProfileField.firstName:
         newProfile.firstName = newValue;
-        field = 'firstName';
+        field = 'first_name';
         value = newValue;
         break;
       case ProfileField.lastName:
         newProfile.lastName = newValue;
-        field = 'lastName';
+        field = 'last_name';
         value = newValue;
         break;
       case ProfileField.email:

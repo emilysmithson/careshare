@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:careshare/profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 import 'package:flutter/material.dart';
 

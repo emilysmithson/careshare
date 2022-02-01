@@ -1,8 +1,8 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/categories/cubit/categories_cubit.dart';
-import 'package:careshare/profile/cubit/profile_cubit.dart';
-import 'package:careshare/profile/repository/edit_profile_field_repository.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';

@@ -1,5 +1,5 @@
-import 'package:careshare/profile/cubit/profile_cubit.dart';
-import 'package:careshare/profile/presenter/profile_detailed_view.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/presenter/view_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -135,7 +135,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
                 MaterialPageRoute(
                   builder: (_) => BlocProvider.value(
                       value: BlocProvider.of<ProfileCubit>(context),
-                          child: ProfileDetailedView(
+                          child: ViewProfile(
 //                            profile: Profile(id: 'a', name: 'aaaaa', firstName: 'aaaaa', lastName: 'aaaaa', email: 'aaa@aaa.aaaa'),
                               profile: BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
                           ),

@@ -1,7 +1,7 @@
 import 'package:careshare/categories/cubit/categories_cubit.dart';
-import 'package:careshare/profile/cubit/profile_cubit.dart';
-import 'package:careshare/profile/models/profile.dart';
-import 'package:careshare/profile/presenter/profile_detailed_view.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +26,7 @@ class ProfileSummary extends StatelessWidget {
                 value: BlocProvider.of<ProfileCubit>(context),
                 child: BlocProvider.value(
                   value: BlocProvider.of<CategoriesCubit>(context),
-                  child: ProfileDetailedView(
+                  child: EditProfile(
                     profile: profile,
                   ),
                 ),

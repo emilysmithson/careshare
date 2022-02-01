@@ -1,5 +1,5 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
-import 'package:careshare/profile/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/widgets/careshare_appbar.dart';
 import 'package:careshare/widgets/careshare_drawer.dart';
 import 'package:flutter/material.dart';
