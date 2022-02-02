@@ -97,6 +97,16 @@ class ProfileCubit extends Cubit<ProfileState> {
     return name;
   }
 
+  String? getPhoto(String id) {
+    String? photoURL;
+    try {
+      photoURL = profileList.firstWhere((element) => element.id == id).photoURL;
+    } catch (e) {
+      return 'no name found';
+    }
+    return photoURL;
+  }
+
   Profile fetchMyProfile() {
     print('UID: ${FirebaseAuth.instance.currentUser!.uid}');
     return profileList.firstWhere(

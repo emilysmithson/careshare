@@ -27,6 +27,7 @@ class TaskDetailedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double spacing = 16;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Task Details')),
       body: Padding(
@@ -34,6 +35,10 @@ class TaskDetailedView extends StatelessWidget {
         child: SingleChildScrollView(
           child: BlocBuilder<TaskCubit, TaskState>(
             builder: (context, state) {
+              final String? createdByPhoto =
+                  BlocProvider.of<ProfileCubit>(context)
+                      .getPhoto(task.createdBy);
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -57,8 +62,26 @@ class TaskDetailedView extends StatelessWidget {
                   const SizedBox(height: spacing),
                   CategoryPicker(task: task),
                   const SizedBox(height: spacing),
-                  Text(
-                    'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
+                  Row(
+                    children: [
+                      if (createdByPhoto != null)
+                        Center(
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(createdByPhoto),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                      const SizedBox(width: 16),
+                      Text(
+                        'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
+                      ),
+                    ],
                   ),
                   const SizedBox(height: spacing),
                   TaskInputFieldWidget(

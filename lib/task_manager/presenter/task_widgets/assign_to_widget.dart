@@ -89,35 +89,44 @@ class _AssignToWidgetState extends State<AssignToWidget> {
 
   Widget profileWidget(Profile profile) {
     return GestureDetector(
-      onTap: () {
-        BlocProvider.of<TaskCubit>(context).editTask(
-          newValue: profile.id,
-          task: widget.task,
-          taskField: TaskField.acceptedBy,
-        );
-        BlocProvider.of<TaskCubit>(context).editTask(
-          newValue: DateTime.now(),
-          task: widget.task,
-          taskField: TaskField.acceptedOnDate,
-        );
-        BlocProvider.of<TaskCubit>(context).editTask(
-          newValue: TaskStatus.accepted,
-          task: widget.task,
-          taskField: TaskField.taskStatus,
-        );
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.all(8),
-        height: 70,
-        width: 70,
-        decoration: const BoxDecoration(
-          color: Colors.yellow,
-          shape: BoxShape.circle,
-        ),
-        child: Center(child: Text(profile.name)),
-      ),
-    );
+        onTap: () {
+          BlocProvider.of<TaskCubit>(context).editTask(
+            newValue: profile.id,
+            task: widget.task,
+            taskField: TaskField.acceptedBy,
+          );
+          BlocProvider.of<TaskCubit>(context).editTask(
+            newValue: DateTime.now(),
+            task: widget.task,
+            taskField: TaskField.acceptedOnDate,
+          );
+          BlocProvider.of<TaskCubit>(context).editTask(
+            newValue: TaskStatus.accepted,
+            task: widget.task,
+            taskField: TaskField.taskStatus,
+          );
+          Navigator.pop(context);
+        },
+        child: SizedBox(
+          width: 60,
+          child: Column(
+            children: [
+              if (profile.photoURL != null)
+                Center(
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: NetworkImage(profile.photoURL!),
+                          fit: BoxFit.cover),
+                    ),
+                  ),
+                ),
+              Text(profile.name)
+            ],
+          ),
+        ));
   }
 }
