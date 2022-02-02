@@ -49,6 +49,9 @@ class ProfileSummary extends StatelessWidget {
                   children: [
                     Text(profile.name,
                         style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text('First name: ${profile.firstName}'),
+                    Text('Last name: ${profile.lastName}'),
+                    Text('e-mail: ${profile.email}'),
                   ],
                 );
               },

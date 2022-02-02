@@ -63,6 +63,7 @@ class ProfileCubit extends Cubit<ProfileState> {
               profileList.add(Profile.fromJson(value));
             },
           );
+          print(profileList);
           emit(ProfileLoaded(profileList));
         }
       });

@@ -1,4 +1,5 @@
 import 'package:careshare/home_page/cubit/home_page_cubit.dart';
+import 'package:careshare/profile_manager/presenter/profile_overview.dart';
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -174,6 +175,30 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             onTap: () {
               BlocProvider.of<HomePageCubit>(context)
                   .navigateTo(const TaskManagerView());
+              Navigator.pop(context);
+            },
+          ),
+
+          const Divider(),
+
+          ListTile(
+            tileColor: Colors.lightBlueAccent,
+            title: const Text(
+              'Profile Manager',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.task,
+              size: 30,
+              color: Colors.white,
+            ),
+            onTap: () {
+              BlocProvider.of<HomePageCubit>(context)
+                  .navigateTo(const ProfilesOverview());
               Navigator.pop(context);
             },
           ),
