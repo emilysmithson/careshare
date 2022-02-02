@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:careshare/profile_manager/models/fetch_photo_url.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
@@ -59,11 +60,17 @@ class ProfileCubit extends Cubit<ProfileState> {
               event.snapshot.value as Map<dynamic, dynamic>;
           profileList.clear();
           returnedList.forEach(
-            (key, value) {
-              profileList.add(Profile.fromJson(value));
+            (key, value) async {
+              Profile profile = Profile.fromJson(value);
+
+              if (profile.photo != null) {
+                profile.photoURL = await fetchPhotoUrl(profile.photo!);
+              }
+
+              profileList.add(profile);
             },
           );
-          print(profileList);
+
           emit(ProfileLoaded(profileList));
         }
       });

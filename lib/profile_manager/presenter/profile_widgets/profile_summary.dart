@@ -44,16 +44,36 @@ class ProfileSummary extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: BlocBuilder<ProfileCubit, ProfileState>(
               builder: (context, state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(profile.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text('First name: ${profile.firstName}'),
-                    Text('Last name: ${profile.lastName}'),
-                    Text('e-mail: ${profile.email}'),
-                  ],
-                );
+                if (state is ProfileLoaded) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (profile.photoURL != null)
+                        Center(
+                          child: Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(profile.photoURL!),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 8),
+                      Center(
+                        child: Text(profile.name,
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Text('First name: ${profile.firstName}'),
+                      Text('Last name: ${profile.lastName}'),
+                      Text('e-mail: ${profile.email}'),
+                    ],
+                  );
+                }
+                return Container();
               },
             ),
           ),

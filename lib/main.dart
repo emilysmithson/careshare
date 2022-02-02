@@ -19,8 +19,6 @@ import 'task_manager/repository/remove_a_task.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 void main() {
-  firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(

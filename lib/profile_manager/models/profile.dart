@@ -1,9 +1,13 @@
+import 'package:careshare/profile_manager/models/fetch_photo_url.dart';
+
 class Profile {
   String name;
   String firstName;
   String lastName;
   String email;
   final String? id;
+  String? photo;
+  String? photoURL;
 
   Profile({
     required this.id,
@@ -11,16 +15,18 @@ class Profile {
     required this.firstName,
     required this.lastName,
     required this.email,
+    this.photo,
+    this.photoURL,
   });
 
   factory Profile.fromJson(dynamic json) {
     return Profile(
-      id: json['id'],
-      name: json['name'] ?? "",
-      firstName: json['first_name'] ?? "",
-      lastName: json['last_name'] ?? "",
-      email: json['email'] ?? "",
-    );
+        id: json['id'],
+        name: json['name'] ?? "",
+        firstName: json['first_name'] ?? "",
+        lastName: json['last_name'] ?? "",
+        email: json['email'] ?? "",
+        photo: json['photo']);
   }
 
   Map<String, dynamic> toJson() {

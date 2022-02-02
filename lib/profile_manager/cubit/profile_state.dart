@@ -34,7 +34,9 @@ class ProfileError extends ProfileState {
 class ProfileLoaded extends ProfileState {
   final List<Profile> profileList;
 
-  const ProfileLoaded(this.profileList);
+  const ProfileLoaded(
+    this.profileList,
+  );
 
   @override
   bool operator ==(Object other) {
