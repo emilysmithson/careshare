@@ -38,7 +38,7 @@ class TaskSummary extends StatelessWidget {
       },
       child: Container(
         width: 190,
-        height: 250,
+        height: 270,
         padding: const EdgeInsets.all(8.0),
         child: Card(
           child: Padding(
@@ -50,7 +50,6 @@ class TaskSummary extends StatelessWidget {
                   children: [
                     Text(task.title,
                         style: const TextStyle(fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 8),
                     const SizedBox(height: 8),
                     Text(
                       'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',

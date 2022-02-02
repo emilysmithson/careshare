@@ -1,6 +1,8 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/categories/cubit/categories_cubit.dart';
+import 'package:careshare/home_page/cubit/home_page_cubit.dart';
+import 'package:careshare/home_page/presenter/homepage.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
@@ -29,7 +31,6 @@ void main() {
             BlocProvider(
               create: (context) => ProfileCubit(
                 editProfileFieldRepository: EditProfileFieldRepository(),
-
               ),
             ),
             BlocProvider(
@@ -41,6 +42,9 @@ void main() {
                 createATaskRepository: CreateATask(),
                 editTaskFieldRepository: EditTaskFieldRepository(),
               ),
+            ),
+            BlocProvider(
+              create: (context) => HomePageCubit(),
             ),
           ],
           child: const App(),
@@ -64,7 +68,8 @@ class _AppState extends State<App> {
           BlocProvider.of<TaskCubit>(context).fetchTasks();
           BlocProvider.of<ProfileCubit>(context).fetchProfiles();
           BlocProvider.of<CategoriesCubit>(context).fetchCategories();
-          return const TaskManagerView();
+
+          return const HomePage();
         }
         return const AuthenticationPage();
       },

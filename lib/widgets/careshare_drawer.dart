@@ -10,18 +10,20 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  CareshareDrawer({ Key? key,}) : preferredSize = Size.fromHeight(50.0),super(key: key);
+  CareshareDrawer({
+    Key? key,
+  })  : preferredSize = const Size.fromHeight(50.0),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Drawer(
-
       child: ListView(
-        children:  [
+        children: [
           const ListTile(
             tileColor: Colors.blueAccent,
-            title: Text('Careshare Menu',
+            title: Text(
+              'Careshare Menu',
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.w800,
@@ -30,7 +32,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             ),
           ),
 
-          Divider(),
+          const Divider(),
 
           //
           // ListTile(
@@ -125,23 +127,29 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
-            title: Text('My Profile',
-              style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
+            title: Text(
+              'My Profile',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
             ),
-            trailing: Icon(Icons.person, size: 30, color: Colors.white,),
+            trailing: Icon(
+              Icons.person,
+              size: 30,
+              color: Colors.white,
+            ),
             onTap: () {
-
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => BlocProvider.value(
-                      value: BlocProvider.of<ProfileCubit>(context),
-                          child: ViewProfile(
-                              profile: BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
-                          ),
-                        ),
-                      )
-              );
-
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => BlocProvider.value(
+                  value: BlocProvider.of<ProfileCubit>(context),
+                  child: ViewProfile(
+                    profile:
+                        BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
+                  ),
+                ),
+              ));
 
               // Navigator.push(
               //   context,
@@ -161,10 +169,19 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
-            title: Text('Signout',
-              style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
+            title: Text(
+              'Signout',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
             ),
-            trailing: Icon(Icons.logout, size: 30, color: Colors.white,),
+            trailing: Icon(
+              Icons.logout,
+              size: 30,
+              color: Colors.white,
+            ),
             onTap: () {
               FirebaseAuth.instance.signOut();
               Navigator.push(
@@ -172,13 +189,11 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
                 MaterialPageRoute(
                   builder: (context) => const App(),
                 ),
-
               );
             },
           ),
         ],
       ),
     );
-
   }
 }
