@@ -77,7 +77,7 @@ class EditTaskFieldRepository {
     }
 
     DatabaseReference reference =
-        FirebaseDatabase.instance.ref("tasks_test/${task.id}/$field");
+        FirebaseDatabase.instance.ref("tasks/${task.id}/$field");
 
     reference.set(value);
     return newTask;

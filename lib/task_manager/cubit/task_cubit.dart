@@ -25,7 +25,7 @@ class TaskCubit extends Cubit<TaskState> {
   fetchTasks() async {
     try {
       emit(const TaskLoading());
-      DatabaseReference reference = FirebaseDatabase.instance.ref('tasks_test');
+      DatabaseReference reference = FirebaseDatabase.instance.ref('tasks');
       final response = reference.onValue;
       response.listen((event) {
         emit(const TaskLoading());

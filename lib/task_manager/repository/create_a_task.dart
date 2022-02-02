@@ -12,7 +12,7 @@ class CreateATask {
       createdBy: FirebaseAuth.instance.currentUser!.uid,
       dateCreated: DateTime.now(),
     );
-    DatabaseReference reference = FirebaseDatabase.instance.ref('tasks_test');
+    DatabaseReference reference = FirebaseDatabase.instance.ref('tasks');
 
     reference.child(task.id).set(task.toJson());
 

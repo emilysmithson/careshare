@@ -8,3 +8,11 @@ abstract class NavigationState extends Equatable {
 }
 
 class NavigationInitial extends NavigationState {}
+
+class NavigationLoaded extends NavigationState {
+  final Widget content;
+
+  NavigationLoaded(this.content);
+
+}
+

@@ -27,6 +27,7 @@ class _TaskManagerViewState extends State<TaskManagerView> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: const AddTaskFloatingActionButton(),
+
         bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(

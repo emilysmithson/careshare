@@ -55,7 +55,7 @@ class CareTask {
       'category': category?.toJson(),
       'created_by': createdBy,
       'task_effort': taskEffort.value,
-      'status': taskStatus.status,
+      'task_status': taskStatus.status,
       'date_created': dateCreated.toString(),
       'priority': taskPriority.value,
       'accepted_by': acceptedBy,
@@ -78,7 +78,7 @@ class CareTask {
     final taskSize = TaskEffort.taskSizeList
         .firstWhere((element) => element.value == value['task_effort']);
     final taskStatus = TaskStatus.taskStatusList
-        .firstWhere((element) => element.status == value['status']);
+        .firstWhere((element) => element.status == value['task_status']);
 
     final priority = TaskPriority.priorityList
         .firstWhere((element) => value['priority'] == element.value);
