@@ -1,10 +1,12 @@
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/presenter/view_profile.dart';
+import 'package:careshare/home_page/cubit/home_page_cubit.dart';
+import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../main.dart';
+import '../profile_manager/models/profile.dart';
+import '../profile_manager/presenter/profile_widgets/profile_summary.dart';
 
 class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
   @override
@@ -123,11 +125,11 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
           //   },
           // ),
           //
-          Divider(),
+          const Divider(),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
-            title: Text(
+            title: const Text(
               'My Profile',
               style: TextStyle(
                 fontSize: 20.0,
@@ -135,41 +137,52 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
                 color: Colors.white,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.person,
               size: 30,
               color: Colors.white,
             ),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => BlocProvider.value(
-                  value: BlocProvider.of<ProfileCubit>(context),
-                  child: ViewProfile(
-                    profile:
-                        BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
-                  ),
-                ),
-              ));
-
-              // Navigator.push(
-              //   context,
-              //
-              //   MaterialPageRoute(
-              //     builder: (context) => ProfileSummary(
-              //       profile: Profile(id: 'a', name: 'aaa', email: 'aaa@aaa.com')
-              //     ),
-              //   ),
-              //
-              //
-              // );
+              BlocProvider.of<HomePageCubit>(context).navigateTo(
+                ProfileSummary(
+                    profile: Profile(
+                        id: 'a',
+                        name: 'aaa',
+                        email: 'aaa@aaa.com',
+                        firstName: '',
+                        lastName: '')),
+              );
+              Navigator.pop(context);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            tileColor: Colors.lightBlueAccent,
+            title: const Text(
+              'Task Manager',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.task,
+              size: 30,
+              color: Colors.white,
+            ),
+            onTap: () {
+              BlocProvider.of<HomePageCubit>(context)
+                  .navigateTo(const TaskManagerView());
+              Navigator.pop(context);
             },
           ),
 
-          Divider(),
+          const Divider(),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
-            title: Text(
+            title: const Text(
               'Signout',
               style: TextStyle(
                 fontSize: 20.0,
@@ -177,7 +190,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
                 color: Colors.white,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.logout,
               size: 30,
               color: Colors.white,

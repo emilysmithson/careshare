@@ -37,9 +37,9 @@ class TaskSummary extends StatelessWidget {
         );
       },
       child: Container(
-        width: 190,
+        width: 180,
         height: 270,
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),

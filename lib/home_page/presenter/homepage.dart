@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         return Scaffold(
             appBar: CareshareAppBar('CareShare'),
-            drawer: CareshareDrawer(),
+            endDrawer: CareshareDrawer(),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             floatingActionButton: const AddTaskFloatingActionButton(),

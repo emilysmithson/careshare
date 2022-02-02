@@ -9,14 +9,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-
   final EditProfileFieldRepository editProfileFieldRepository;
-  
+
   ProfileCubit({
     required this.editProfileFieldRepository,
-
   }) : super(ProfileInitial());
-
 
   createProfile({
     required String name,
@@ -47,7 +44,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final List<Profile> profileList = [];
   Future fetchProfiles() async {
     try {
-      emit(ProfileLoading());
+      emit(const ProfileLoading());
       DatabaseReference reference =
           FirebaseDatabase.instance.ref('profiles_test');
       final response = reference.onValue;
@@ -98,17 +95,13 @@ class ProfileCubit extends Cubit<ProfileState> {
         (element) => element.id == FirebaseAuth.instance.currentUser!.uid);
   }
 
-
   editProfile(
       {required Profile profile,
-        required ProfileField profileField,
-        required dynamic newValue}) {
+      required ProfileField profileField,
+      required dynamic newValue}) {
     emit(const ProfileLoading());
 
     editProfileFieldRepository(
         profile: profile, profileField: profileField, newValue: newValue);
   }
-
-
-  
 }

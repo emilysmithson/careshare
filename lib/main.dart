@@ -7,7 +7,6 @@ import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
-import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
 import 'package:careshare/task_manager/repository/edit_task_field_repository.dart';
 

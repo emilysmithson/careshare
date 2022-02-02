@@ -28,98 +28,93 @@ class ViewProfile extends StatelessWidget {
             builder: (context, state) {
               return Column(
                 children: [
-
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         flex: 4,
                         child: Text('Name',
-                          style: const TextStyle(fontWeight: FontWeight.normal)),
+                            style: TextStyle(fontWeight: FontWeight.normal)),
                       ),
                       Expanded(
                         flex: 6,
                         child: Text(profile.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
                       )
                     ],
                   ),
-
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         flex: 4,
                         child: Text('First Name',
-                            style: const TextStyle(fontWeight: FontWeight.normal)),
+                            style: TextStyle(fontWeight: FontWeight.normal)),
                       ),
                       Expanded(
                         flex: 6,
                         child: Text(profile.firstName,
-                            style: const TextStyle(fontWeight: FontWeight.bold)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
                       )
                     ],
                   ),
-
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         flex: 4,
                         child: Text('Last Name',
-                            style: const TextStyle(fontWeight: FontWeight.normal)),
+                            style: TextStyle(fontWeight: FontWeight.normal)),
                       ),
                       Expanded(
                         flex: 6,
                         child: Text(profile.lastName,
-                            style: const TextStyle(fontWeight: FontWeight.bold)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
                       )
                     ],
                   ),
-
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         flex: 4,
                         child: Text('Email',
-                            style: const TextStyle(fontWeight: FontWeight.normal)),
+                            style: TextStyle(fontWeight: FontWeight.normal)),
                       ),
                       Expanded(
                         flex: 6,
                         child: Text(profile.email,
-                            style: const TextStyle(fontWeight: FontWeight.bold)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
                       )
                     ],
                   ),
-
                   const SizedBox(height: 16),
                   const SizedBox(height: 16),
-
                   Row(
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (_) => BlocProvider.value(
-                                    value: BlocProvider.of<ProfileCubit>(context),
-                                    child: EditProfile(
-                                      profile: BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
-                                    ),
-                                  ),
-                                )
-                            );
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              builder: (_) => BlocProvider.value(
+                                value: BlocProvider.of<ProfileCubit>(context),
+                                child: EditProfile(
+                                  profile:
+                                      BlocProvider.of<ProfileCubit>(context)
+                                          .fetchMyProfile(),
+                                ),
+                              ),
+                            ));
                           },
                           child: const Text('Edit')),
-
                     ],
                   ),
-
-
                 ],
               );
-
 
               //   Column(
               //   crossAxisAlignment: CrossAxisAlignment.start,
