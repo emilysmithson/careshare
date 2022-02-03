@@ -31,25 +31,30 @@ class TaskSection extends StatelessWidget {
         ),
         SizedBox(
           height: 220,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: (status == TaskStatus.accepted) ?
+
+          child: Container(
+            color: Colors.blue[50],
+
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: (status == TaskStatus.accepted) ?
+                careTaskList
+                  .where((element) => element.taskStatus == status && element.acceptedBy == BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id)
+                  .map(
+                    (task) => TaskSummary(
+                      task: task,
+                    ),
+                  ).toList()
+              :
               careTaskList
-                .where((element) => element.taskStatus == status && element.acceptedBy == BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id)
-                .map(
-                  (task) => TaskSummary(
-                    task: task,
-                  ),
-                ).toList()
-            :
-            careTaskList
-                .where((element) => element.taskStatus == status)
-                .map(
-                  (task) => TaskSummary(
-                task: task,
-              ),
-            ).toList()
-            ,
+                  .where((element) => element.taskStatus == status)
+                  .map(
+                    (task) => TaskSummary(
+                  task: task,
+                ),
+              ).toList()
+              ,
+            ),
           ),
         ),
       ],
