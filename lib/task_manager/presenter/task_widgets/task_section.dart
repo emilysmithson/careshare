@@ -18,6 +18,7 @@ class TaskSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? id = BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id;
     return Column(
       children: [
         Container(
@@ -29,34 +30,35 @@ class TaskSection extends StatelessWidget {
             style: Theme.of(context).textTheme.headline6,
           ),
         ),
-        SizedBox(
-          height: 220,
-
-          child: Container(
-            color: Colors.blue[50],
-
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: (status == TaskStatus.accepted) ?
-                careTaskList
-                  .where((element) => element.taskStatus == status && element.acceptedBy == BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id)
-                  .map(
-                    (task) => TaskSummary(
-                      task: task,
-                    ),
-                  ).toList()
-              :
-              careTaskList
-                  .where((element) => element.taskStatus == status)
-                  .map(
-                    (task) => TaskSummary(
-                  task: task,
-                ),
-              ).toList()
-              ,
+        if (id != null)
+          SizedBox(
+            height: 220,
+            child: Container(
+              color: Colors.blue[50],
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: (status == TaskStatus.accepted)
+                    ? careTaskList
+                        .where((element) =>
+                            element.taskStatus == status &&
+                            element.acceptedBy == id)
+                        .map(
+                          (task) => TaskSummary(
+                            task: task,
+                          ),
+                        )
+                        .toList()
+                    : careTaskList
+                        .where((element) => element.taskStatus == status)
+                        .map(
+                          (task) => TaskSummary(
+                            task: task,
+                          ),
+                        )
+                        .toList(),
+              ),
             ),
           ),
-        ),
       ],
     );
   }
