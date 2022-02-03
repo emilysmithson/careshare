@@ -1,4 +1,4 @@
-part of 'categories_cubit.dart';
+part of 'category_cubit.dart';
 
 abstract class CategoriesState extends Equatable {
   const CategoriesState();

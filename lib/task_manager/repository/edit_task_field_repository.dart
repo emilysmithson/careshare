@@ -1,4 +1,4 @@
-import 'package:careshare/categories/models/category.dart';
+import 'package:careshare/category_manager/models/category.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_priority.dart';
 import 'package:careshare/task_manager/models/task_effort.dart';

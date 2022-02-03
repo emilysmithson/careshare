@@ -1,6 +1,6 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
-import 'package:careshare/categories/cubit/categories_cubit.dart';
+import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/home_page/cubit/home_page_cubit.dart';
 import 'package:careshare/home_page/presenter/homepage.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
@@ -16,7 +16,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/presentation/custom_theme.dart';
 import 'task_manager/repository/remove_a_task.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,5 @@
-import 'package:careshare/categories/cubit/categories_cubit.dart';
-import 'package:careshare/categories/models/category.dart';
+import 'package:careshare/category_manager/cubit/category_cubit.dart';
+import 'package:careshare/category_manager/models/category.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/add_category_widget.dart';

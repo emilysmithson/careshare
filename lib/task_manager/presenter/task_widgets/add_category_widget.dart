@@ -1,4 +1,4 @@
-import 'package:careshare/categories/cubit/categories_cubit.dart';
+import 'package:careshare/category_manager/cubit/category_cubit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
