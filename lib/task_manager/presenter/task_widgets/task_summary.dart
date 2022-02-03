@@ -2,6 +2,7 @@ import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view.dart';
 
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class TaskSummary extends StatelessWidget {
       },
       child: Container(
         width: 180,
-        height: 270,
+        height: 200,
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
         color: Colors.blue[50],
         child: Card(
@@ -63,13 +64,18 @@ class TaskSummary extends StatelessWidget {
                     const SizedBox(height: 8),
 
 
-                    Text(
+                    if ( task.taskStatus == TaskStatus.created) Text(
                       'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
                     ),
+                    if ( task.taskStatus == TaskStatus.created) const SizedBox(height: 8),
+
+                    Text(
+                      'Category: ${task.category?.name}'
+                      ),
                     const SizedBox(height: 8),
                     Text(
                       task.acceptedBy == null || task.acceptedBy!.isEmpty
-                          ? 'Not currently assigned to anyone'
+                          ? 'Not currently assigned'// to anyone'
                           : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
                     ),
                     const SizedBox(height: 8),
