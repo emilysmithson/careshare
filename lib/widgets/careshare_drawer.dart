@@ -1,4 +1,5 @@
 import 'package:careshare/home_page/cubit/home_page_cubit.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/profile_overview.dart';
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../main.dart';
-import '../profile_manager/models/profile.dart';
 import '../profile_manager/presenter/profile_widgets/profile_summary.dart';
 
 class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
@@ -146,12 +146,8 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             onTap: () {
               BlocProvider.of<HomePageCubit>(context).navigateTo(
                 ProfileSummary(
-                    profile: Profile(
-                        id: 'a',
-                        name: 'aaa',
-                        email: 'aaa@aaa.com',
-                        firstName: '',
-                        lastName: '')),
+                    profile: BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
+                ),
               );
               Navigator.pop(context);
             },

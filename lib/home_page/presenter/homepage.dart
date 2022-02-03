@@ -21,30 +21,32 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
             appBar: CareshareAppBar('CareShare'),
             endDrawer: CareshareDrawer(),
+
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             floatingActionButton: const AddTaskFloatingActionButton(),
-            bottomNavigationBar: BottomNavigationBar(
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.all_inbox),
-                  label: 'All Tasks',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.compare_outlined),
-                  label: 'Completed',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.my_library_add),
-                  label: 'My Tasks',
-                ),
-              ],
-              type: BottomNavigationBarType.fixed,
-            ),
+
+            // bottomNavigationBar: BottomNavigationBar(
+            //   items: const [
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.home),
+            //       label: 'Home',
+            //     ),
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.all_inbox),
+            //       label: 'All Tasks',
+            //     ),
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.compare_outlined),
+            //       label: 'Completed',
+            //     ),
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.my_library_add),
+            //       label: 'My Tasks',
+            //     ),
+            //   ],
+            //   type: BottomNavigationBarType.fixed,
+            // ),
             body: state.content);
       },
     );
