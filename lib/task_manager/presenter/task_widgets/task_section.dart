@@ -1,24 +1,15 @@
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/task_summary.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskSection extends StatelessWidget {
   final String title;
-  final TaskStatus status;
-  final List<CareTask> careTaskList;
-  const TaskSection(
-      {Key? key,
-      required this.title,
-      required this.status,
-      required this.careTaskList})
+  final Iterable<CareTask> careTaskList;
+  const TaskSection({Key? key, required this.title, required this.careTaskList})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String? id = BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id;
     return Column(
       children: [
         Container(
@@ -30,35 +21,22 @@ class TaskSection extends StatelessWidget {
             style: Theme.of(context).textTheme.headline6,
           ),
         ),
-        if (id != null)
-          SizedBox(
-            height: 220,
-            child: Container(
-              color: Colors.blue[50],
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: (status == TaskStatus.accepted)
-                    ? careTaskList
-                        .where((element) =>
-                            element.taskStatus == status &&
-                            element.acceptedBy == id)
-                        .map(
-                          (task) => TaskSummary(
-                            task: task,
-                          ),
-                        )
-                        .toList()
-                    : careTaskList
-                        .where((element) => element.taskStatus == status)
-                        .map(
-                          (task) => TaskSummary(
-                            task: task,
-                          ),
-                        )
-                        .toList(),
-              ),
+        SizedBox(
+          height: 200,
+          child: Container(
+            color: Colors.blue[50],
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: careTaskList
+                  .map(
+                    (task) => TaskSummary(
+                      task: task,
+                    ),
+                  )
+                  .toList(),
             ),
           ),
+        ),
       ],
     );
   }

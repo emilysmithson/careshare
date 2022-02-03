@@ -1,8 +1,10 @@
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/task_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TasksOverview extends StatelessWidget {
   final List<CareTask> careTaskList;
@@ -16,18 +18,19 @@ class TasksOverview extends StatelessWidget {
         children: [
           TaskSection(
             title: 'New Tasks',
-            status: TaskStatus.created,
-            careTaskList: careTaskList,
+            careTaskList: careTaskList.where((element) => element.taskStatus == TaskStatus.created),
           ),
           TaskSection(
             title: 'My Tasks',
-            status: TaskStatus.accepted,
-            careTaskList: careTaskList,
-          ),
+            careTaskList: careTaskList.where((element) => element.taskStatus == TaskStatus.accepted && element.acceptedBy == BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id)
+    ),
           TaskSection(
             title: 'Completed Tasks',
-            status: TaskStatus.completed,
-            careTaskList: careTaskList,
+            careTaskList: careTaskList.where((element) => element.taskStatus == TaskStatus.completed),
+          ),
+          TaskSection(
+            title: 'Other People''s Tasks',
+              careTaskList: careTaskList.where((element) => element.taskStatus == TaskStatus.accepted && element.acceptedBy != BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id)
           ),
         ],
       ),
