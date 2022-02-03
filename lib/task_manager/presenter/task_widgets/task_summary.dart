@@ -1,5 +1,6 @@
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
@@ -38,8 +39,8 @@ class TaskSummary extends StatelessWidget {
         );
       },
       child: Container(
-        width: 180,
-        height: 200,
+        width: 250,
+        height: 190,
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
         color: Colors.blue[50],
         child: Card(
@@ -50,46 +51,52 @@ class TaskSummary extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    Container(
-                      width: double.infinity,
-                      color: Colors.blue[50],
-                      padding: const EdgeInsets.all(1.0),
-                      child: Text(
-                        task.title,
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                    ),
-
-                    const SizedBox(height: 8),
-
-
-                    if ( task.taskStatus == TaskStatus.created) Text(
-                      'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
-                    ),
-                    if ( task.taskStatus == TaskStatus.created) const SizedBox(height: 8),
-
-                    Text(
-                      'Category: ${task.category?.name}'
-                      ),
-                    const SizedBox(height: 8),
-                    Text(
-                      task.acceptedBy == null || task.acceptedBy!.isEmpty
-                          ? 'Not currently assigned'// to anyone'
-                          : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
-                    ),
-                    const SizedBox(height: 8),
                     Row(
                       children: [
-                        const Text('Priority: '),
-                        Text(
-                          task.taskPriority.level,
-                          style: TextStyle(color: task.taskPriority.color),
-                        ),
+                        ProfilePhotoWidget(
+                            size: 50, id: task.acceptedBy ?? task.createdBy),
+                        const Spacer(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  const TextSpan(text: 'Priority: '),
+                                  TextSpan(
+                                    text: task.taskPriority.level,
+                                    style: TextStyle(
+                                        color: task.taskPriority.color),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text('Difficulty: ${task.taskEffort.size}'),
+                            if (task.category != null)
+                              Text('Type: ${task.category!.name}'),
+                          ],
+                        )
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Text('Effort: ${task.taskEffort.definition}'),
+                    Text(
+                      task.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    if (task.taskStatus == TaskStatus.created)
+                      Text(
+                        'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
+                      ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      task.acceptedBy == null || task.acceptedBy!.isEmpty
+                          ? 'Not currently assigned' // to anyone'
+                          : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
+                    ),
                   ],
                 );
               },
