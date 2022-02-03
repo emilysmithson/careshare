@@ -1,4 +1,5 @@
 import 'package:careshare/home_page/cubit/home_page_cubit.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/profile_overview.dart';
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:flutter/material.dart';
@@ -144,15 +145,10 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onTap: () {
-              BlocProvider.of<HomePageCubit>(context).navigateTo(
-                ProfileSummary(
-                    profile: Profile(
-                        id: 'a',
-                        name: 'aaa',
-                        email: 'aaa@aaa.com',
-                        firstName: '',
-                        lastName: '')),
-              );
+              final Profile profile =
+                  BlocProvider.of<ProfileCubit>(context).fetchMyProfile();
+              BlocProvider.of<HomePageCubit>(context)
+                  .navigateTo(ProfileSummary(profile: profile));
               Navigator.pop(context);
             },
           ),

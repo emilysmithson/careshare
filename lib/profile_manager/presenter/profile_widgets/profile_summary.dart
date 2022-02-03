@@ -2,6 +2,7 @@ import 'package:careshare/categories/cubit/categories_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
+import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,19 +49,7 @@ class ProfileSummary extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (profile.photoURL != null)
-                        Center(
-                          child: Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: NetworkImage(profile.photoURL!),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ),
+                      ProfilePhotoWidget(id: profile.id!, size: 80),
                       const SizedBox(height: 8),
                       Center(
                         child: Text(profile.name,

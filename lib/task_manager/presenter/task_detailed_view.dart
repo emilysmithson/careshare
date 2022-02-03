@@ -1,4 +1,5 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
@@ -35,10 +36,6 @@ class TaskDetailedView extends StatelessWidget {
         child: SingleChildScrollView(
           child: BlocBuilder<TaskCubit, TaskState>(
             builder: (context, state) {
-              final String? createdByPhoto =
-                  BlocProvider.of<ProfileCubit>(context)
-                      .getPhoto(task.createdBy);
-
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -64,19 +61,7 @@ class TaskDetailedView extends StatelessWidget {
                   const SizedBox(height: spacing),
                   Row(
                     children: [
-                      if (createdByPhoto != null)
-                        Center(
-                          child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: NetworkImage(createdByPhoto),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ),
+                      ProfilePhotoWidget(id: task.createdBy),
                       const SizedBox(width: 16),
                       Text(
                         'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
