@@ -18,20 +18,30 @@ class TasksOverview extends StatelessWidget {
         children: [
           TaskSection(
             title: 'New Tasks',
-            careTaskList: careTaskList.where((element) => element.taskStatus == TaskStatus.created),
+            careTaskList: careTaskList
+                .where((element) => element.taskStatus == TaskStatus.created),
           ),
           TaskSection(
-            title: 'My Tasks',
-            careTaskList: careTaskList.where((element) => element.taskStatus == TaskStatus.accepted && element.acceptedBy == BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id)
-    ),
+              title: 'My Tasks',
+              careTaskList: careTaskList.where((element) =>
+                  element.taskStatus == TaskStatus.accepted &&
+                  element.acceptedBy ==
+                      BlocProvider.of<ProfileCubit>(context)
+                          .fetchMyProfile()
+                          .id)),
           TaskSection(
             title: 'Completed Tasks',
-            careTaskList: careTaskList.where((element) => element.taskStatus == TaskStatus.completed),
+            careTaskList: careTaskList
+                .where((element) => element.taskStatus == TaskStatus.completed),
           ),
           TaskSection(
-            title: 'Other People''s Tasks',
-              careTaskList: careTaskList.where((element) => element.taskStatus == TaskStatus.accepted && element.acceptedBy != BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id)
-          ),
+              title: 'Other People' 's Tasks',
+              careTaskList: careTaskList.where((element) =>
+                  element.taskStatus == TaskStatus.accepted &&
+                  element.acceptedBy !=
+                      BlocProvider.of<ProfileCubit>(context)
+                          .fetchMyProfile()
+                          .id)),
         ],
       ),
     );

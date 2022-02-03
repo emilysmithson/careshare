@@ -1,4 +1,5 @@
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/presenter/task_widgets/add_task_floating_action_button.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/task_summary.dart';
 import 'package:flutter/material.dart';
 
@@ -25,16 +26,34 @@ class TaskSection extends StatelessWidget {
           height: 190,
           child: Container(
             color: Colors.blue[50],
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: careTaskList
-                  .map(
-                    (task) => TaskSummary(
-                      task: task,
+            child: careTaskList.isEmpty
+                ? Container(
+                    child: Container(
+                      width: double.infinity,
+                      height: 190,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0, vertical: 8),
+                      color: Colors.blue[50],
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 250,
+                          height: 190,
+                          child: Card(),
+                        ),
+                      ),
                     ),
                   )
-                  .toList(),
-            ),
+                : ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: careTaskList
+                        .map(
+                          (task) => TaskSummary(
+                            task: task,
+                          ),
+                        )
+                        .toList(),
+                  ),
           ),
         ),
       ],
