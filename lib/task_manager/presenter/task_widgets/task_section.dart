@@ -28,19 +28,23 @@ class TaskSection extends StatelessWidget {
             color: Colors.blue[50],
             child: careTaskList.isEmpty
                 ? Container(
-                    child: Container(
-                      width: double.infinity,
-                      height: 190,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4.0, vertical: 8),
-                      color: Colors.blue[50],
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          width: 250,
-                          height: 190,
-                          child: Card(),
-                        ),
+                    width: double.infinity,
+                    height: 190,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 4.0, vertical: 8),
+                    color: Colors.blue[50],
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: SizedBox(
+                        width: 250,
+                        height: 190,
+                        child: Card(
+                            child: Center(
+                                child: IconButton(
+                                    onPressed: () {
+                                      AddTaskBottomSheet().call(context);
+                                    },
+                                    icon: const Icon(Icons.add)))),
                       ),
                     ),
                   )
