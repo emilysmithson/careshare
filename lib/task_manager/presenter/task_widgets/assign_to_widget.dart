@@ -80,7 +80,7 @@ class _AssignToWidgetState extends State<AssignToWidget> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              if (widget.task.acceptedBy != null ||
+              if (widget.task.acceptedBy != null &&
                   widget.task.acceptedBy!.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
