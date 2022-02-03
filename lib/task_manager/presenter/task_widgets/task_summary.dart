@@ -1,4 +1,4 @@
-import 'package:careshare/categories/cubit/categories_cubit.dart';
+import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
@@ -40,6 +40,7 @@ class TaskSummary extends StatelessWidget {
         width: 180,
         height: 270,
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
+        color: Colors.blue[50],
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -48,9 +49,20 @@ class TaskSummary extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(task.title,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+
+                    Container(
+                      width: double.infinity,
+                      color: Colors.blue[50],
+                      padding: const EdgeInsets.all(1.0),
+                      child: Text(
+                        task.title,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ),
+
                     const SizedBox(height: 8),
+
+
                     Text(
                       'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
                     ),

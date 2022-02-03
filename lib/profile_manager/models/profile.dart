@@ -1,4 +1,3 @@
-import 'package:careshare/profile_manager/models/fetch_photo_url.dart';
 
 class Profile {
   String name;

@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:careshare/categories/models/category.dart';
+import 'package:careshare/category_manager/models/category.dart';
 
 import 'package:equatable/equatable.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
-part 'categories_state.dart';
+part 'category_state.dart';
 
 class CategoriesCubit extends Cubit<CategoriesState> {
   CategoriesCubit() : super(CategoriesInitial());

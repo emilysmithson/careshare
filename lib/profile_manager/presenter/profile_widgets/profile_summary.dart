@@ -1,4 +1,4 @@
-import 'package:careshare/categories/cubit/categories_cubit.dart';
+import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';

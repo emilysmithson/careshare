@@ -1,7 +1,9 @@
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/task_summary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskSection extends StatelessWidget {
   final String title;
@@ -24,21 +26,35 @@ class TaskSection extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             title,
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.headline6,
           ),
         ),
         SizedBox(
           height: 220,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: careTaskList
-                .where((element) => element.taskStatus == status)
-                .map(
-                  (task) => TaskSummary(
-                    task: task,
-                  ),
-                )
-                .toList(),
+
+          child: Container(
+            color: Colors.blue[50],
+
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: (status == TaskStatus.accepted) ?
+                careTaskList
+                  .where((element) => element.taskStatus == status && element.acceptedBy == BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id)
+                  .map(
+                    (task) => TaskSummary(
+                      task: task,
+                    ),
+                  ).toList()
+              :
+              careTaskList
+                  .where((element) => element.taskStatus == status)
+                  .map(
+                    (task) => TaskSummary(
+                  task: task,
+                ),
+              ).toList()
+              ,
+            ),
           ),
         ),
       ],
