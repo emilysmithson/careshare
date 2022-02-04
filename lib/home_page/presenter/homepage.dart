@@ -21,12 +21,10 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
             appBar: CareshareAppBar('CareShare'),
             endDrawer: CareshareDrawer(),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                AddTaskBottomSheet().call(context);
-              },
-              child: const Icon(Icons.add),
-            ),
+
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: const AddTaskFloatingActionButton(),
 
             // bottomNavigationBar: BottomNavigationBar(
             //   items: const [

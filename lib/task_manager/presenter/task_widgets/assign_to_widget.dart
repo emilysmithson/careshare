@@ -1,6 +1,5 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
-import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
@@ -78,20 +77,11 @@ class _AssignToWidgetState extends State<AssignToWidget> {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              if (widget.task.acceptedBy != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: ProfilePhotoWidget(id: widget.task.acceptedBy!),
-                ),
-              Text(widget.task.acceptedBy == null ||
-                      widget.task.acceptedBy!.isEmpty ||
-                      widget.task.acceptedOnDate == null
-                  ? 'Assign this task...'
-                  : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(widget.task.acceptedBy!)} on ${DateFormat('E').add_jm().format(widget.task.acceptedOnDate!)}'),
-            ],
-          ),
+          child: Text(widget.task.acceptedBy == null ||
+                  widget.task.acceptedBy!.isEmpty ||
+                  widget.task.acceptedOnDate == null
+              ? 'Assign this task...'
+              : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(widget.task.acceptedBy!)} on ${DateFormat('E').add_jm().format(widget.task.acceptedOnDate!)}'),
         ),
       ),
     );

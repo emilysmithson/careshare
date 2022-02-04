@@ -71,7 +71,7 @@ class ProfileCubit extends Cubit<ProfileState> {
             },
           );
 
-          emit(ProfileLoaded(profileList: profileList));
+          emit(ProfileLoaded(profileList));
         }
       });
     } catch (error) {
@@ -108,6 +108,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Profile fetchMyProfile() {
+    print('UID: ${FirebaseAuth.instance.currentUser!.uid}');
     return profileList.firstWhere(
         (element) => element.id == FirebaseAuth.instance.currentUser!.uid);
   }

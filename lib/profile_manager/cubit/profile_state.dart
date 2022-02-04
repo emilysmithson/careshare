@@ -33,12 +33,10 @@ class ProfileError extends ProfileState {
 
 class ProfileLoaded extends ProfileState {
   final List<Profile> profileList;
-  // final Profile? myProfile;
 
-  const ProfileLoaded({
-    required this.profileList,
-    // required this.myProfile,
-  });
+  const ProfileLoaded(
+    this.profileList,
+  );
 
   @override
   bool operator ==(Object other) {

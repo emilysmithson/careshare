@@ -57,6 +57,8 @@ class TaskDetailedView extends StatelessWidget {
                   const SizedBox(height: spacing),
                   CategoryPicker(task: task),
                   const SizedBox(height: spacing),
+                  CategoryPicker(task: task),
+                  const SizedBox(height: spacing),
                   Row(
                     children: [
                       ProfilePhotoWidget(id: task.createdBy),
