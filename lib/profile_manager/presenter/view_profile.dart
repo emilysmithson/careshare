@@ -105,7 +105,7 @@ class ViewProfile extends StatelessWidget {
                                 child: EditProfile(
                                   profile:
                                       BlocProvider.of<ProfileCubit>(context)
-                                          .fetchMyProfile(),
+                                          .myProfile,
                                 ),
                               ),
                             ));

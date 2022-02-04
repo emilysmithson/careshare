@@ -4,6 +4,7 @@ import 'package:careshare/task_manager/models/task_priority.dart';
 import 'package:careshare/task_manager/models/task_effort.dart';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 
 class EditTaskFieldRepository {
   CareTask call(
@@ -89,7 +90,9 @@ class EditTaskFieldRepository {
     try {
       reference.set(value);
     } catch (error) {
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
     }
     return newTask;
   }

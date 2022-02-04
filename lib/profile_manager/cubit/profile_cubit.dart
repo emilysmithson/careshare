@@ -7,10 +7,13 @@ import 'package:careshare/profile_manager/repository/edit_profile_field_reposito
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final EditProfileFieldRepository editProfileFieldRepository;
+  final List<Profile> profileList = [];
+  late Profile myProfile;
 
   ProfileCubit({
     required this.editProfileFieldRepository,
@@ -29,6 +32,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       firstName: firstName ?? "",
       lastName: lastName ?? "",
       email: email,
+      kudos: 0,
     );
     try {
       DatabaseReference reference =
@@ -42,14 +46,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  final List<Profile> profileList = [];
   Future fetchProfiles() async {
     try {
       emit(const ProfileLoading());
       DatabaseReference reference =
           FirebaseDatabase.instance.ref('profiles_test');
       final response = reference.onValue;
-      response.listen((event) {
+
+      response.listen((event) async {
         if (event.snapshot.value == null) {
           if (kDebugMode) {
             print('empty list');
@@ -63,13 +67,19 @@ class ProfileCubit extends Cubit<ProfileState> {
             (key, value) async {
               Profile profile = Profile.fromJson(value);
 
-              if (profile.photo != null) {
-                profile.photoURL = await fetchPhotoUrl(profile.photo!);
-              }
-
               profileList.add(profile);
             },
           );
+          profileList.forEach(
+            (profile) async {
+              if (profile.photo != null) {
+                profile.photoURL = await fetchPhotoUrl(profile.photo!);
+              }
+            },
+          );
+          print(profileList);
+          myProfile = profileList.firstWhere((element) =>
+              element.id == FirebaseAuth.instance.currentUser!.uid);
 
           emit(ProfileLoaded(profileList: profileList));
         }
@@ -107,11 +117,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     return photoURL;
   }
 
-  Profile fetchMyProfile() {
-    return profileList.firstWhere(
-        (element) => element.id == FirebaseAuth.instance.currentUser!.uid);
-  }
-
   editProfile(
       {required Profile profile,
       required ProfileField profileField,
@@ -120,5 +125,14 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     editProfileFieldRepository(
         profile: profile, profileField: profileField, newValue: newValue);
+  }
+
+  addKudos(String id) {
+    Profile profile = profileList.firstWhere((element) => element.id == id);
+
+    int newKudos = profile.kudos + 1;
+
+    editProfile(
+        newValue: newKudos, profile: profile, profileField: ProfileField.kudos);
   }
 }

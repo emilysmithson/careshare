@@ -146,13 +146,12 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             ),
             onTap: () {
               final Profile profile =
-                  BlocProvider.of<ProfileCubit>(context).fetchMyProfile();
+                  BlocProvider.of<ProfileCubit>(context).myProfile;
               BlocProvider.of<HomePageCubit>(context)
                   .navigateTo(ProfileSummary(profile: profile));
               BlocProvider.of<HomePageCubit>(context).navigateTo(
                 ProfileSummary(
-                  profile:
-                      BlocProvider.of<ProfileCubit>(context).fetchMyProfile(),
+                  profile: BlocProvider.of<ProfileCubit>(context).myProfile,
                 ),
               );
               Navigator.pop(context);

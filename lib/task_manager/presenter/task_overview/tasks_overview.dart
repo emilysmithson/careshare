@@ -30,9 +30,7 @@ class TasksOverview extends StatelessWidget {
               (element) =>
                   element.taskStatus == TaskStatus.accepted &&
                   element.acceptedBy ==
-                      BlocProvider.of<ProfileCubit>(context)
-                          .fetchMyProfile()
-                          .id,
+                      BlocProvider.of<ProfileCubit>(context).myProfile.id,
             ),
           ),
           TaskSection(
@@ -46,9 +44,7 @@ class TasksOverview extends StatelessWidget {
               (element) =>
                   element.taskStatus == TaskStatus.accepted &&
                   element.acceptedBy !=
-                      BlocProvider.of<ProfileCubit>(context)
-                          .fetchMyProfile()
-                          .id,
+                      BlocProvider.of<ProfileCubit>(context).myProfile.id,
             ),
           ),
         ],

@@ -24,8 +24,7 @@ class AcceptATask extends StatefulWidget {
 class _AcceptATaskState extends State<AcceptATask> {
   @override
   Widget build(BuildContext context) {
-    final Profile profile =
-        BlocProvider.of<ProfileCubit>(context).fetchMyProfile();
+    final Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
     if (widget.showButton) {
       return ElevatedButton(
         onPressed: () {

@@ -24,7 +24,7 @@ class KudosWidget extends StatelessWidget {
     if (task.taskStatus != TaskStatus.completed) {
       return Container();
     }
-    Profile profile = BlocProvider.of<ProfileCubit>(context).fetchMyProfile();
+    Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
     _onTap() {
       BlocProvider.of<TaskCubit>(context).editTask(
         task: task,
@@ -34,12 +34,13 @@ class KudosWidget extends StatelessWidget {
         ),
         taskField: TaskField.kudos,
       );
+      BlocProvider.of<ProfileCubit>(context).addKudos(task.completedBy!);
     }
 
     Kudos? kudos =
         task.kudos?.firstWhereOrNull((element) => element.id == profile.id);
 
-    if (task.completedBy == profile.id || kudos != null) {
+    if (kudos != null) {
       return Row(
         children: [
           const Icon(Icons.star),

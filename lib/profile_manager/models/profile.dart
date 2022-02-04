@@ -1,4 +1,3 @@
-
 class Profile {
   String name;
   String firstName;
@@ -7,6 +6,7 @@ class Profile {
   final String? id;
   String? photo;
   String? photoURL;
+  int kudos;
 
   Profile({
     required this.id,
@@ -16,16 +16,19 @@ class Profile {
     required this.email,
     this.photo,
     this.photoURL,
+    required this.kudos,
   });
 
   factory Profile.fromJson(dynamic json) {
     return Profile(
-        id: json['id'],
-        name: json['name'] ?? "",
-        firstName: json['first_name'] ?? "",
-        lastName: json['last_name'] ?? "",
-        email: json['email'] ?? "",
-        photo: json['photo']);
+      id: json['id'],
+      name: json['name'] ?? "",
+      firstName: json['first_name'] ?? "",
+      lastName: json['last_name'] ?? "",
+      email: json['email'] ?? "",
+      photo: json['photo'],
+      kudos: json['kudos'] ?? 0,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class Profile {
       'first_name': firstName,
       'last_name': lastName,
       'email': email,
+      'kudos': kudos,
     };
   }
 
@@ -46,7 +50,7 @@ class Profile {
     firstName: $firstName,
     lastName: $lastName,
     email: $email,
-
+    kudos: $kudos,
     ''';
   }
 }
@@ -56,4 +60,5 @@ enum ProfileField {
   firstName,
   lastName,
   email,
+  kudos,
 }

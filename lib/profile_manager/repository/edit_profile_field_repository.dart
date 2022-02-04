@@ -31,6 +31,11 @@ class EditProfileFieldRepository {
         field = 'email';
         value = newValue;
         break;
+      case ProfileField.kudos:
+        newProfile.kudos = newValue;
+        field = 'kudos';
+        value = newValue;
+        break;
     }
 
     DatabaseReference reference =

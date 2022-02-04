@@ -27,4 +27,14 @@ class Kudos {
     return '''id: $id
               dateTime: $dateTime''';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Kudos && other.id == id && other.dateTime == dateTime;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ dateTime.hashCode;
 }
