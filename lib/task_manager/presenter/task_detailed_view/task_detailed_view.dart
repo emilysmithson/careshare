@@ -78,7 +78,7 @@ class TaskDetailedView extends StatelessWidget {
                     ),
                     SizedBox(
                         width: double.infinity, child: NotesWidget(task: task)),
-                    CategoryWidget(task: task),
+                    if (task.category != null) CategoryWidget(task: task),
                     SizedBox(
                         width: double.infinity,
                         child: PriorityWidget(task: task)),
@@ -94,11 +94,18 @@ class TaskDetailedView extends StatelessWidget {
                     DisplayCommentsWidget(task: task),
                     Row(
                       children: [
-                        ElevatedButton(
+                        if (task.category != null)
+                          ElevatedButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: const Text('Save')),
+                            child: const Text('Save'),
+                          ),
+                        if (task.category == null)
+                          CategoryWidget(
+                            task: task,
+                            showButton: true,
+                          ),
                         const Spacer(),
                         if (task.taskStatus == TaskStatus.created)
                           AcceptATask(
