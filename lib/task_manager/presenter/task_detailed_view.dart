@@ -4,7 +4,6 @@ import 'package:careshare/profile_manager/presenter/profile_widgets/profile_phot
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/presenter/task_widgets/accept_widget.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/category_picker.dart';
 

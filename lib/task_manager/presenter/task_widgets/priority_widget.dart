@@ -80,27 +80,5 @@ class PriorityWidget extends StatelessWidget {
         ),
       ),
     );
-    return Column(
-      children: [
-        Text('Priority: ${task.taskPriority.level}'),
-        Slider(
-          label: task.taskPriority.level,
-          value: task.taskPriority.value.toDouble(),
-          min: 1,
-          activeColor: Colors.grey,
-          inactiveColor: Colors.grey,
-          max: 5,
-          thumbColor: task.taskPriority.color,
-          divisions: 4,
-          onChanged: (value) {
-            BlocProvider.of<TaskCubit>(context).editTask(
-              task: task,
-              newValue: value,
-              taskField: TaskField.taskPriority,
-            );
-          },
-        ),
-      ],
-    );
   }
 }
