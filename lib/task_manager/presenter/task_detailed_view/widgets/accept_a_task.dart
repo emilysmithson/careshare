@@ -28,10 +28,11 @@ class _AcceptATaskState extends State<AcceptATask> {
         BlocProvider.of<ProfileCubit>(context).fetchMyProfile();
     if (widget.showButton) {
       return ElevatedButton(
-          onPressed: () {
-            _showDialog(profile);
-          },
-          child: const Text('Accept this task'));
+        onPressed: () {
+          _showDialog(profile);
+        },
+        child: const Text('Accept this task'),
+      );
     }
     return GestureDetector(
       onTap: () {
@@ -54,16 +55,17 @@ class _AcceptATaskState extends State<AcceptATask> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-          title: Text(widget.task.acceptedBy == null
-              ? 'Accept this task'
-              : 'Unassign this task'),
+          title: Text(
+              widget.task.acceptedBy == null || widget.task.acceptedBy == ''
+                  ? 'Accept this task'
+                  : 'Unassign this task'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  widget.task.acceptedBy == null
+                  widget.task.acceptedBy == null || widget.task.acceptedBy == ''
                       ? ElevatedButton(
                           onPressed: () {
                             BlocProvider.of<TaskCubit>(context)
