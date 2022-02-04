@@ -48,6 +48,7 @@ class TaskDetailedView extends StatelessWidget {
                 final taskCubit = BlocProvider.of<TaskCubit>(context);
 
                 taskCubit.removeTask(task.id);
+                Navigator.pop(context);
               },
             ),
           ],

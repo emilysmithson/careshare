@@ -20,6 +20,7 @@ class TaskSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      // navigate to details view
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -40,7 +41,6 @@ class TaskSummary extends StatelessWidget {
       },
       child: Container(
         width: 250,
-        height: 190,
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
         color: Colors.blue[50],
         child: Card(
@@ -48,13 +48,18 @@ class TaskSummary extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: BlocBuilder<TaskCubit, TaskState>(
               builder: (context, state) {
+                String photoId = task.acceptedBy ?? task.createdBy;
+                if (photoId == '') {
+                  photoId = task.createdBy;
+                }
+
                 return Wrap(
                   runSpacing: 4,
                   children: [
                     Row(
                       children: [
-                        ProfilePhotoWidget(
-                            size: 50, id: task.acceptedBy ?? task.createdBy),
+                        // Photo
+                        ProfilePhotoWidget(size: 50, id: photoId),
                         const Spacer(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,

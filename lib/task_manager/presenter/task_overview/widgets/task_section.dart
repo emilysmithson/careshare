@@ -25,13 +25,12 @@ class TaskSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 190,
+          height: 200,
           child: Container(
             color: Colors.blue[50],
             child: careTaskList.isEmpty
                 ? Container(
                     width: double.infinity,
-                    height: 190,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 4.0, vertical: 8),
                     color: Colors.blue[50],
