@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
 import 'package:careshare/task_manager/repository/edit_task_field_repository.dart';
 import 'package:careshare/task_manager/repository/remove_a_task.dart';
@@ -81,6 +82,48 @@ class TaskCubit extends Cubit<TaskState> {
 
     editTaskFieldRepository(
         task: task, taskField: taskField, newValue: newValue);
+  }
+
+  completeTask(
+      {required CareTask task,
+      required String id,
+      required DateTime dateTime}) {
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.completedBy,
+      newValue: id,
+    );
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.taskCompleteDate,
+      newValue: dateTime,
+    );
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.taskStatus,
+      newValue: TaskStatus.completed,
+    );
+  }
+
+  assignTask(
+    CareTask task,
+    String? id,
+  ) {
+    editTask(
+      newValue: id,
+      task: task,
+      taskField: TaskField.acceptedBy,
+    );
+    editTask(
+      newValue: id == null ? null : DateTime.now(),
+      task: task,
+      taskField: TaskField.acceptedOnDate,
+    );
+    editTask(
+      newValue: id == null ? TaskStatus.created : TaskStatus.accepted,
+      task: task,
+      taskField: TaskField.taskStatus,
+    );
   }
 
   removeTask(String id) {

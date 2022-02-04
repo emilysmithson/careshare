@@ -49,7 +49,7 @@ class TaskSummary extends StatelessWidget {
             child: BlocBuilder<TaskCubit, TaskState>(
               builder: (context, state) {
                 return Wrap(
-                  runSpacing: 8,
+                  runSpacing: 4,
                   children: [
                     Row(
                       children: [
@@ -71,7 +71,9 @@ class TaskSummary extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            const SizedBox(height: 4),
                             Text('Difficulty: ${task.taskEffort.size}'),
+                            const SizedBox(height: 4),
                             if (task.category != null)
                               Text('Type: ${task.category!.name}'),
                           ],

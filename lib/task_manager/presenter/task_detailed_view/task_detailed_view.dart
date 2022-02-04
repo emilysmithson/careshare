@@ -1,11 +1,12 @@
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
+import 'package:careshare/core/presentation/photo_and_name_widget.dart';
 
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/category_widget.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/complete_task_widget.dart';
 
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/display_comments_widget.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/effort_widget.dart';
@@ -14,7 +15,6 @@ import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/prio
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 import 'widgets/accept_a_task.dart';
 import 'widgets/task_input_field_widget.dart';
@@ -37,7 +37,21 @@ class TaskDetailedView extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Task Details')),
+        appBar: AppBar(
+          title: const Text('Task Details'),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.delete,
+              ),
+              onPressed: () {
+                final taskCubit = BlocProvider.of<TaskCubit>(context);
+
+                taskCubit.removeTask(task.id);
+              },
+            ),
+          ],
+        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
@@ -68,15 +82,10 @@ class TaskDetailedView extends StatelessWidget {
                         width: double.infinity,
                         child: PriorityWidget(task: task)),
                     EffortWidget(task: task),
-                    Row(
-                      children: [
-                        ProfilePhotoWidget(id: task.createdBy),
-                        const SizedBox(width: 16),
-                        Text(
-                          'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)} on ${DateFormat('E').add_jm().format(task.dateCreated)}',
-                        ),
-                      ],
-                    ),
+                    PhotoAndNameWidget(
+                        id: task.createdBy,
+                        text: 'Created by:',
+                        dateTime: task.dateCreated),
                     AcceptATask(
                       task: task,
                     ),
@@ -89,15 +98,13 @@ class TaskDetailedView extends StatelessWidget {
                             },
                             child: const Text('Save')),
                         const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.grey),
-                          onPressed: () {
-                            final taskCubit =
-                                BlocProvider.of<TaskCubit>(context);
-
-                            taskCubit.removeTask(task.id);
-                          },
-                        )
+                        if (task.taskStatus == TaskStatus.created)
+                          AcceptATask(
+                            task: task,
+                            showButton: true,
+                          ),
+                        if (task.taskStatus == TaskStatus.accepted)
+                          CompleteTaskWidget(task: task),
                       ],
                     ),
                   ],

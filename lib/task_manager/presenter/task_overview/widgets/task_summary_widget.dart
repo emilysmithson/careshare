@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/task.dart';
+
 class TaskSummaryWidget extends StatefulWidget {
-  const TaskSummaryWidget({Key? key}) : super(key: key);
+  final CareTask task;
+  const TaskSummaryWidget({
+    Key? key,
+    required this.task,
+  }) : super(key: key);
 
   @override
   State<TaskSummaryWidget> createState() => _TaskSummaryWidgetState();
