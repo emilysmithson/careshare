@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubit/task_cubit.dart';
-import '../../models/task.dart';
+import '../../../cubit/task_cubit.dart';
+import '../../../models/task.dart';
 
 class NotesWidget extends StatefulWidget {
   final CareTask task;

@@ -6,7 +6,7 @@ import 'package:careshare/task_manager/models/task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../task_detailed_view.dart';
+import '../task_detailed_view/task_detailed_view.dart';
 
 class AddTaskBottomSheet {
   call(

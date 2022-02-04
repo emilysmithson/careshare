@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../category_manager/cubit/category_cubit.dart';
-import '../../../category_manager/models/category.dart';
-import '../../cubit/task_cubit.dart';
-import '../../models/task.dart';
+import '../../../../category_manager/cubit/category_cubit.dart';
+import '../../../../category_manager/models/category.dart';
+import '../../../cubit/task_cubit.dart';
+import '../../../models/task.dart';
 import 'add_category_widget.dart';
 
 class CategoryWidget extends StatelessWidget {
