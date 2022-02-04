@@ -93,24 +93,19 @@ class _AcceptATaskState extends State<AcceptATask> {
               )),
         );
       },
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              if (widget.task.acceptedBy != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: ProfilePhotoWidget(id: widget.task.acceptedBy!),
-                ),
-              Text(widget.task.acceptedBy == null ||
-                      widget.task.acceptedBy!.isEmpty ||
-                      widget.task.acceptedOnDate == null
-                  ? 'Accept this task'
-                  : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(widget.task.acceptedBy!)} on ${DateFormat('E').add_jm().format(widget.task.acceptedOnDate!)}'),
-            ],
-          ),
-        ),
+      child: Row(
+        children: [
+          if (widget.task.acceptedBy != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: ProfilePhotoWidget(id: widget.task.acceptedBy!),
+            ),
+          Text(widget.task.acceptedBy == null ||
+                  widget.task.acceptedBy!.isEmpty ||
+                  widget.task.acceptedOnDate == null
+              ? 'Accept this task'
+              : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(widget.task.acceptedBy!)} on ${DateFormat('E').add_jm().format(widget.task.acceptedOnDate!)}'),
+        ],
       ),
     );
   }

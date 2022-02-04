@@ -10,12 +10,14 @@ class TaskInputFieldWidget extends StatefulWidget {
   final Function onChanged;
   final int maxLines;
   final String label;
+  final TextStyle? style;
   const TaskInputFieldWidget({
     Key? key,
     required this.task,
     required this.label,
     this.currentValue,
     required this.onChanged,
+    this.style,
     this.maxLines = 1,
   }) : super(
           key: key,
@@ -47,6 +49,7 @@ class _TaskInputFieldWidgetState extends State<TaskInputFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: widget.style,
       maxLines: widget.maxLines,
       controller: controller,
       onChanged: (value) async {
@@ -56,9 +59,7 @@ class _TaskInputFieldWidgetState extends State<TaskInputFieldWidget> {
         });
       },
       decoration: InputDecoration(
-        
-
-        label: Text(widget.label),
+        hintText: widget.label,
       ),
     );
   }

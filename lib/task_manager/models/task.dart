@@ -9,7 +9,7 @@ import 'task_status.dart';
 
 class CareTask {
   String title;
-  String? description;
+
   TaskPriority taskPriority;
   TaskEffort taskEffort;
   String? details;
@@ -31,7 +31,6 @@ class CareTask {
 
   CareTask({
     required this.title,
-    this.description,
     this.details,
     this.category,
     required this.id,
@@ -128,7 +127,6 @@ class CareTask {
 
     return other is CareTask &&
         other.title == title &&
-        other.description == description &&
         other.taskPriority == taskPriority &&
         other.taskEffort == taskEffort &&
         other.details == details &&
@@ -148,7 +146,6 @@ class CareTask {
   @override
   int get hashCode {
     return title.hashCode ^
-        description.hashCode ^
         taskPriority.hashCode ^
         taskEffort.hashCode ^
         details.hashCode ^

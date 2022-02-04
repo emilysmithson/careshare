@@ -24,6 +24,7 @@ class CustomTheme {
             fontSize: 14.0, fontWeight: FontWeight.bold, color: Colors.black),
       ),
       inputDecorationTheme: const InputDecorationTheme(
+        border: InputBorder.none,
         contentPadding: EdgeInsets.all(8),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
