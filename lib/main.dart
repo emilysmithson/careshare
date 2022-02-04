@@ -65,7 +65,7 @@ class _AppState extends State<App> {
     await BlocProvider.of<TaskCubit>(context).fetchTasks();
 
     await BlocProvider.of<CategoriesCubit>(context).fetchCategories();
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 5000));
     setState(() {
       isLoading = false;
     });
