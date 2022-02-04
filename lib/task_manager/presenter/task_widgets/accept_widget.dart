@@ -10,36 +10,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-class AssignToWidget extends StatefulWidget {
+class AcceptWidget extends StatefulWidget {
   final CareTask task;
 
-  const AssignToWidget({
+  const AcceptWidget({
     Key? key,
     required this.task,
   }) : super(key: key);
 
   @override
-  _AssignToWidgetState createState() => _AssignToWidgetState();
+  _AcceptWidgetState createState() => _AcceptWidgetState();
 }
 
-class _AssignToWidgetState extends State<AssignToWidget> {
+class _AcceptWidgetState extends State<AcceptWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        List<Profile> profileList =
-            BlocProvider.of<ProfileCubit>(context).profileList;
 
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
-              title: const Text('Assign this task to:'),
+              title: const Text('Accept this task:'),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Wrap(
-                      children:
-                          profileList.map((e) => profileWidget(e)).toList()),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -47,7 +43,7 @@ class _AssignToWidgetState extends State<AssignToWidget> {
                         onPressed: () {
                           // unassign = assign to null
                           BlocProvider.of<TaskCubit>(context).editTask(
-                            newValue: null,
+                            newValue: BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id,
                             task: widget.task,
                             taskField: TaskField.acceptedBy,
                           );
@@ -63,7 +59,7 @@ class _AssignToWidgetState extends State<AssignToWidget> {
                           );
                           Navigator.pop(context);
                         },
-                        child: const Text('Unassign'),
+                        child: const Text('Accept'),
                       ),
                       ElevatedButton(
                         onPressed: () => Navigator.pop(context),
@@ -88,8 +84,8 @@ class _AssignToWidgetState extends State<AssignToWidget> {
               Text(widget.task.acceptedBy == null ||
                       widget.task.acceptedBy!.isEmpty ||
                       widget.task.acceptedOnDate == null
-                  ? 'Assign this task...'
-                  : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(widget.task.acceptedBy!)} on ${DateFormat('E').add_jm().format(widget.task.acceptedOnDate!)}'),
+                  ? 'Accept this task...'
+                  : 'Accepted by: ${BlocProvider.of<ProfileCubit>(context).getName(widget.task.acceptedBy!)} on ${DateFormat('E').add_jm().format(widget.task.acceptedOnDate!)}'),
             ],
           ),
         ),

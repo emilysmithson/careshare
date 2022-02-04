@@ -81,7 +81,7 @@ class TaskSummary extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       task.title,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.subtitle2,
                     ),
                     if (task.taskStatus == TaskStatus.created)
                       Text(
