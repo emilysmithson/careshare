@@ -7,7 +7,6 @@ import 'package:careshare/task_manager/models/task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class AddCommentWidget extends StatelessWidget {
   final CareTask task;
   AddCommentWidget({

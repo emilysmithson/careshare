@@ -14,44 +14,45 @@ class DisplayCommentsWidget extends StatelessWidget {
     return Card(
       child: BlocBuilder<TaskCubit, TaskState>(
         builder: (context, state) {
-          if (task.comments == null) {
-            return const Text('Comments');
-          }
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Comments'),
-                Column(
-                  children: task.comments!
-                      .map(
-                        (comment) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            child: Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.green[100],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(comment.commment),
-                                    Text(
-                                        '${comment.createdByDisplayName} on ${DateFormat('E').add_jm().format(comment.dateCreated)}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .caption),
-                                  ],
-                                )),
+                if (task.comments != null)
+                  Column(
+                    children: task.comments!
+                        .map(
+                          (comment) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              child: Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green[100],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(comment.commment),
+                                      Text(
+                                          '${comment.createdByDisplayName} on ${DateFormat('E').add_jm().format(comment.dateCreated)}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .caption),
+                                    ],
+                                  )),
+                            ),
                           ),
-                        ),
-                      )
-                      .toList(),
+                        )
+                        .toList(),
+                  ),
+                Center(
+                  child: AddCommentWidget(task: task),
                 ),
-                Center(child: AddCommentWidget(task: task)),
               ],
             ),
           );
