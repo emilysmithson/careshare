@@ -4,8 +4,9 @@ import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/add_kudos_widget.dart';
 
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/category_widget.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/choose_category_widget.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/complete_task_widget.dart';
 
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/display_comments_widget.dart';
@@ -78,7 +79,7 @@ class TaskDetailedView extends StatelessWidget {
                     ),
                     SizedBox(
                         width: double.infinity, child: NotesWidget(task: task)),
-                    if (task.category != null) CategoryWidget(task: task),
+                    if (task.category != null) ChooseCategoryWidget(task: task),
                     SizedBox(
                         width: double.infinity,
                         child: PriorityWidget(task: task)),
@@ -102,7 +103,7 @@ class TaskDetailedView extends StatelessWidget {
                             child: const Text('Save'),
                           ),
                         if (task.category == null)
-                          CategoryWidget(
+                          ChooseCategoryWidget(
                             task: task,
                             showButton: true,
                           ),
@@ -114,6 +115,10 @@ class TaskDetailedView extends StatelessWidget {
                           ),
                         if (task.taskStatus == TaskStatus.accepted)
                           CompleteTaskWidget(task: task),
+                        if (task.taskStatus == TaskStatus.completed)
+                          KudosWidget(
+                            task: task,
+                          )
                       ],
                     ),
                   ],

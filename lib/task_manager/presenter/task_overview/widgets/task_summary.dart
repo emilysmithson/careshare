@@ -5,6 +5,7 @@ import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/add_kudos_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,13 +98,12 @@ class TaskSummary extends StatelessWidget {
                         'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
                       ),
                     Text(
-                      'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
-                    ),
-                    Text(
                       task.acceptedBy == null || task.acceptedBy!.isEmpty
                           ? 'Not currently assigned' // to anyone'
                           : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
                     ),
+                    if (task.taskStatus == TaskStatus.completed)
+                      KudosWidget(task: task)
                   ],
                 );
               },

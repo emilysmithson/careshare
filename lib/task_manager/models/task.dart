@@ -1,10 +1,11 @@
-import 'package:careshare/category_manager/models/category.dart';
 import 'package:flutter/foundation.dart';
 
+import 'package:careshare/category_manager/models/category.dart';
 import 'package:careshare/task_manager/models/comment.dart';
 
-import 'task_priority.dart';
+import 'kudos.dart';
 import 'task_effort.dart';
+import 'task_priority.dart';
 import 'task_status.dart';
 
 class CareTask {
@@ -28,6 +29,7 @@ class CareTask {
 
   DateTime? taskCompletedDate;
   List<Comment>? comments = [];
+  List<Kudos>? kudos = [];
 
   CareTask({
     required this.title,
@@ -45,6 +47,7 @@ class CareTask {
     this.completedBy,
     this.taskCompletedDate,
     this.comments,
+    this.kudos,
   });
 
   Map<String, dynamic> toJson() {
@@ -63,6 +66,7 @@ class CareTask {
       'completed_by': completedBy,
       'completed_date': taskCompletedDate.toString(),
       'comments': comments?.map((comment) => comment.toJson()).toList(),
+      'kudos': kudos?.map((kudos) => kudos.toJson()).toList(),
     };
   }
 
@@ -102,6 +106,13 @@ class CareTask {
         comments.add(Comment.fromJson(v));
       });
     }
+    final List<Kudos> kudos = [];
+
+    if (value['kudos'] != null) {
+      value['kudos'].forEach((k, v) {
+        kudos.add(Kudos.fromJson(v));
+      });
+    }
 
     return CareTask(
         id: key,
@@ -118,7 +129,8 @@ class CareTask {
         acceptedOnDate: acceptedOnDate,
         taskCompletedDate: taskCompletedDate,
         completedBy: completedBy,
-        comments: comments);
+        comments: comments,
+        kudos: kudos);
   }
 
   @override
@@ -140,7 +152,8 @@ class CareTask {
         other.taskAcceptedForDate == taskAcceptedForDate &&
         other.completedBy == completedBy &&
         other.taskCompletedDate == taskCompletedDate &&
-        listEquals(other.comments, comments);
+        listEquals(other.comments, comments) &&
+        listEquals(other.kudos, kudos);
   }
 
   @override
@@ -159,7 +172,8 @@ class CareTask {
         taskAcceptedForDate.hashCode ^
         completedBy.hashCode ^
         taskCompletedDate.hashCode ^
-        comments.hashCode;
+        comments.hashCode ^
+        kudos.hashCode;
   }
 }
 
@@ -174,5 +188,6 @@ enum TaskField {
   completedBy,
   taskCompleteDate,
   acceptedOnDate,
-  comment
+  comment,
+  kudos,
 }

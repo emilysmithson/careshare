@@ -7,10 +7,10 @@ import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 import 'add_category_widget.dart';
 
-class CategoryWidget extends StatelessWidget {
+class ChooseCategoryWidget extends StatelessWidget {
   final CareTask task;
   final bool showButton;
-  const CategoryWidget({
+  const ChooseCategoryWidget({
     Key? key,
     required this.task,
     this.showButton = false,

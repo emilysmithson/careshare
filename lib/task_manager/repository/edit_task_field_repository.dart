@@ -74,12 +74,23 @@ class EditTaskFieldRepository {
         field = 'comments/${newValue.id}';
         value = newValue.toJson();
         break;
+      case TaskField.kudos:
+        newTask.kudos?.add(newValue);
+
+        field = 'kudos/${newValue.id}';
+
+        value = newValue.toJson();
+
+        break;
     }
 
     DatabaseReference reference =
         FirebaseDatabase.instance.ref("tasks/${task.id}/$field");
-
-    reference.set(value);
+    try {
+      reference.set(value);
+    } catch (error) {
+      print(error);
+    }
     return newTask;
   }
 }
