@@ -1,10 +1,12 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
-import 'package:careshare/task_manager/presenter/task_widgets/task_section.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'widgets/task_section.dart';
 
 class TasksOverview extends StatelessWidget {
   final List<CareTask> careTaskList;

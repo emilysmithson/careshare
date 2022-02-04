@@ -12,13 +12,12 @@ import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/effo
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/notes_widget.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/priority_widget.dart';
 
-import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_widget.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import 'widgets/accept_a_task.dart';
+import 'widgets/task_input_field_widget.dart';
 
 class TaskDetailedView extends StatelessWidget {
   final CareTask task;

@@ -32,7 +32,9 @@ class _AcceptATaskState extends State<AcceptATask> {
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
-              title: const Text('Accept this task'),
+              title: Text(widget.task.acceptedBy == null
+                  ? 'Accept this task'
+                  : 'Unassign this task'),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

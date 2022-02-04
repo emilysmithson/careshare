@@ -48,8 +48,8 @@ class TaskSummary extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: BlocBuilder<TaskCubit, TaskState>(
               builder: (context, state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                return Wrap(
+                  runSpacing: 8,
                   children: [
                     Row(
                       children: [
@@ -78,20 +78,20 @@ class TaskSummary extends StatelessWidget {
                         )
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      task.title,
-                      style: Theme.of(context).textTheme.subtitle2,
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        task.title,
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
                     ),
                     if (task.taskStatus == TaskStatus.created)
                       Text(
                         'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
                       ),
-                    const SizedBox(height: 8),
                     Text(
                       'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
                     ),
-                    const SizedBox(height: 8),
                     Text(
                       task.acceptedBy == null || task.acceptedBy!.isEmpty
                           ? 'Not currently assigned' // to anyone'

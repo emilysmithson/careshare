@@ -1,7 +1,9 @@
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/presenter/task_widgets/add_task_bottom_sheet.dart';
-import 'package:careshare/task_manager/presenter/task_widgets/task_summary.dart';
+import 'package:careshare/task_manager/presenter/task_overview/widgets/task_summary.dart';
+
 import 'package:flutter/material.dart';
+
+import 'add_task_bottom_sheet.dart';
 
 class TaskSection extends StatelessWidget {
   final String title;
