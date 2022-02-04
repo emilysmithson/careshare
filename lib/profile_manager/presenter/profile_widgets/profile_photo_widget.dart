@@ -11,7 +11,11 @@ class ProfilePhotoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (id.isEmpty) {
+      return Container();
+    }
     final photoURL = BlocProvider.of<ProfileCubit>(context).getPhoto(id);
+
     if (photoURL != null) {
       return Center(
         child: Container(

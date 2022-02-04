@@ -59,15 +59,31 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  bool isLoading = true;
+  initialiseHomePage(BuildContext context) async {
+    await BlocProvider.of<ProfileCubit>(context).fetchProfiles();
+    await BlocProvider.of<TaskCubit>(context).fetchTasks();
+
+    await BlocProvider.of<CategoriesCubit>(context).fetchCategories();
+    await Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
         if (state is AuthenticationLoaded) {
-          BlocProvider.of<TaskCubit>(context).fetchTasks();
-          BlocProvider.of<ProfileCubit>(context).fetchProfiles();
-          BlocProvider.of<CategoriesCubit>(context).fetchCategories();
-
+          if (isLoading) {
+            initialiseHomePage(context);
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
           return const HomePage();
         }
         return const AuthenticationPage();

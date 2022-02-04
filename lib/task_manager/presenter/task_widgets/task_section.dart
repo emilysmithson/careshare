@@ -1,19 +1,12 @@
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/models/task_status.dart';
+import 'package:careshare/task_manager/presenter/task_widgets/add_task_bottom_sheet.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/task_summary.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskSection extends StatelessWidget {
   final String title;
-  final TaskStatus status;
-  final List<CareTask> careTaskList;
-  const TaskSection(
-      {Key? key,
-      required this.title,
-      required this.status,
-      required this.careTaskList})
+  final Iterable<CareTask> careTaskList;
+  const TaskSection({Key? key, required this.title, required this.careTaskList})
       : super(key: key);
 
   @override
@@ -30,31 +23,41 @@ class TaskSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 220,
-
+          height: 190,
           child: Container(
             color: Colors.blue[50],
-
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: (status == TaskStatus.accepted) ?
-                careTaskList
-                  .where((element) => element.taskStatus == status && element.acceptedBy == BlocProvider.of<ProfileCubit>(context).fetchMyProfile().id)
-                  .map(
-                    (task) => TaskSummary(
-                      task: task,
+            child: careTaskList.isEmpty
+                ? Container(
+                    width: double.infinity,
+                    height: 190,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 4.0, vertical: 8),
+                    color: Colors.blue[50],
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: SizedBox(
+                        width: 250,
+                        height: 190,
+                        child: Card(
+                            child: Center(
+                                child: IconButton(
+                                    onPressed: () {
+                                      AddTaskBottomSheet().call(context);
+                                    },
+                                    icon: const Icon(Icons.add)))),
+                      ),
                     ),
-                  ).toList()
-              :
-              careTaskList
-                  .where((element) => element.taskStatus == status)
-                  .map(
-                    (task) => TaskSummary(
-                  task: task,
-                ),
-              ).toList()
-              ,
-            ),
+                  )
+                : ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: careTaskList
+                        .map(
+                          (task) => TaskSummary(
+                            task: task,
+                          ),
+                        )
+                        .toList(),
+                  ),
           ),
         ),
       ],

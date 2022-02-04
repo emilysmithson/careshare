@@ -8,6 +8,8 @@ import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_widgets/category_picker.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/display_comments_widget.dart';
+import 'package:careshare/task_manager/presenter/task_widgets/effort_widget.dart';
+import 'package:careshare/task_manager/presenter/task_widgets/priority_widget.dart';
 
 import 'package:careshare/task_manager/presenter/task_widgets/task_input_field_widget.dart';
 
@@ -15,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import 'task_widgets/assign_to_widget.dart';
+import 'task_widgets/accept_a_task.dart';
 
 class TaskDetailedView extends StatelessWidget {
   final CareTask task;
@@ -57,8 +59,6 @@ class TaskDetailedView extends StatelessWidget {
                   const SizedBox(height: spacing),
                   CategoryPicker(task: task),
                   const SizedBox(height: spacing),
-                  CategoryPicker(task: task),
-                  const SizedBox(height: spacing),
                   Row(
                     children: [
                       ProfilePhotoWidget(id: task.createdBy),
@@ -84,47 +84,13 @@ class TaskDetailedView extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: spacing),
-                  AssignToWidget(
+                  AcceptATask(
                     task: task,
                   ),
                   const SizedBox(height: spacing),
-                  Text('Priority: ${task.taskPriority.level}'),
-                  Slider(
-                    label: task.taskPriority.level,
-                    value: task.taskPriority.value.toDouble(),
-                    min: 1,
-                    activeColor: Colors.grey,
-                    inactiveColor: Colors.grey,
-                    max: 5,
-                    thumbColor: task.taskPriority.color,
-                    divisions: 4,
-                    onChanged: (value) {
-                      BlocProvider.of<TaskCubit>(context).editTask(
-                        task: task,
-                        newValue: value,
-                        taskField: TaskField.taskPriority,
-                      );
-                    },
-                  ),
+                  PriorityWidget(task: task),
                   const SizedBox(height: spacing),
-                  Text('Effort Required: ${task.taskEffort.definition}'),
-                  Slider(
-                    label: task.taskEffort.definition,
-                    value: task.taskEffort.value.toDouble(),
-                    min: 1,
-                    activeColor: Colors.grey,
-                    inactiveColor: Colors.grey,
-                    max: 6,
-                    divisions: 5,
-                    onChanged: (value) {
-                      BlocProvider.of<TaskCubit>(context).editTask(
-                        task: task,
-                        newValue: value,
-                        taskField: TaskField.taskEffort,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: spacing),
+                  EffortWidget(task: task),
                   const SizedBox(height: spacing),
                   DisplayCommentsWidget(task: task),
                   const SizedBox(height: spacing),

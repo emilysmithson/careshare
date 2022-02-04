@@ -4,7 +4,7 @@ import 'package:careshare/widgets/careshare_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../task_manager/presenter/task_widgets/add_task_floating_action_button.dart';
+import '../../task_manager/presenter/task_widgets/add_task_bottom_sheet.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,10 +21,12 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
             appBar: CareshareAppBar('CareShare'),
             endDrawer: CareshareDrawer(),
-
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: const AddTaskFloatingActionButton(),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                AddTaskBottomSheet().call(context);
+              },
+              child: const Icon(Icons.add),
+            ),
 
             // bottomNavigationBar: BottomNavigationBar(
             //   items: const [

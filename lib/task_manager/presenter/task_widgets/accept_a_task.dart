@@ -10,61 +10,79 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-class AssignToWidget extends StatefulWidget {
+class AcceptATask extends StatefulWidget {
   final CareTask task;
 
-  const AssignToWidget({
+  const AcceptATask({
     Key? key,
     required this.task,
   }) : super(key: key);
 
   @override
-  _AssignToWidgetState createState() => _AssignToWidgetState();
+  _AcceptATaskState createState() => _AcceptATaskState();
 }
 
-class _AssignToWidgetState extends State<AssignToWidget> {
+class _AcceptATaskState extends State<AcceptATask> {
   @override
   Widget build(BuildContext context) {
+    final Profile profile =
+        BlocProvider.of<ProfileCubit>(context).fetchMyProfile();
     return GestureDetector(
       onTap: () {
-        List<Profile> profileList =
-            BlocProvider.of<ProfileCubit>(context).profileList;
-
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
-              title: const Text('Assign this task to:'),
+              title: const Text('Accept this task'),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Wrap(
-                      children:
-                          profileList.map((e) => profileWidget(e)).toList()),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          // unassign = assign to null
-                          BlocProvider.of<TaskCubit>(context).editTask(
-                            newValue: null,
-                            task: widget.task,
-                            taskField: TaskField.acceptedBy,
-                          );
-                          BlocProvider.of<TaskCubit>(context).editTask(
-                            newValue: null,
-                            task: widget.task,
-                            taskField: TaskField.acceptedOnDate,
-                          );
-                          BlocProvider.of<TaskCubit>(context).editTask(
-                            newValue: TaskStatus.created,
-                            task: widget.task,
-                            taskField: TaskField.taskStatus,
-                          );
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Unassign'),
-                      ),
+                      widget.task.acceptedBy == null
+                          ? ElevatedButton(
+                              onPressed: () {
+                                BlocProvider.of<TaskCubit>(context).editTask(
+                                  newValue: profile.id,
+                                  task: widget.task,
+                                  taskField: TaskField.acceptedBy,
+                                );
+                                BlocProvider.of<TaskCubit>(context).editTask(
+                                  newValue: DateTime.now(),
+                                  task: widget.task,
+                                  taskField: TaskField.acceptedOnDate,
+                                );
+                                BlocProvider.of<TaskCubit>(context).editTask(
+                                  newValue: TaskStatus.created,
+                                  task: widget.task,
+                                  taskField: TaskField.taskStatus,
+                                );
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Accept task'),
+                            )
+                          : ElevatedButton(
+                              onPressed: () {
+                                // unassign = assign to null
+                                BlocProvider.of<TaskCubit>(context).editTask(
+                                  newValue: null,
+                                  task: widget.task,
+                                  taskField: TaskField.acceptedBy,
+                                );
+                                BlocProvider.of<TaskCubit>(context).editTask(
+                                  newValue: null,
+                                  task: widget.task,
+                                  taskField: TaskField.acceptedOnDate,
+                                );
+                                BlocProvider.of<TaskCubit>(context).editTask(
+                                  newValue: TaskStatus.created,
+                                  task: widget.task,
+                                  taskField: TaskField.taskStatus,
+                                );
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Unassign'),
+                            ),
                       ElevatedButton(
                         onPressed: () => Navigator.pop(context),
                         child: const Text('Cancel'),
@@ -88,7 +106,7 @@ class _AssignToWidgetState extends State<AssignToWidget> {
               Text(widget.task.acceptedBy == null ||
                       widget.task.acceptedBy!.isEmpty ||
                       widget.task.acceptedOnDate == null
-                  ? 'Assign this task...'
+                  ? 'Accept this task'
                   : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(widget.task.acceptedBy!)} on ${DateFormat('E').add_jm().format(widget.task.acceptedOnDate!)}'),
             ],
           ),
