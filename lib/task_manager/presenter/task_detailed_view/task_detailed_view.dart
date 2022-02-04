@@ -86,9 +86,10 @@ class TaskDetailedView extends StatelessWidget {
                         id: task.createdBy,
                         text: 'Created by:',
                         dateTime: task.dateCreated),
-                    AcceptATask(
-                      task: task,
-                    ),
+                    if (task.taskStatus == TaskStatus.accepted)
+                      AcceptATask(
+                        task: task,
+                      ),
                     DisplayCommentsWidget(task: task),
                     Row(
                       children: [
