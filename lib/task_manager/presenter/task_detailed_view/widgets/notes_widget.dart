@@ -25,10 +25,15 @@ class _NotesWidgetState extends State<NotesWidget> {
           value: BlocProvider.of<TaskCubit>(context),
           child: AlertDialog(
             title: const Text('Notes'),
-            content: TextField(
-              autofocus: true,
-              controller: controller,
-              maxLines: null,
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: TextField(
+                textAlignVertical: TextAlignVertical.top,
+                expands: true,
+                autofocus: true,
+                controller: controller,
+                maxLines: null,
+              ),
             ),
             actions: [
               ElevatedButton(
