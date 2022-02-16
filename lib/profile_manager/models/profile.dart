@@ -4,8 +4,8 @@ class Profile {
   String lastName;
   String email;
   final String? id;
-  String? photo;
-  String? photoURL;
+  String photo;
+
   int kudos;
 
   Profile({
@@ -14,8 +14,7 @@ class Profile {
     required this.firstName,
     required this.lastName,
     required this.email,
-    this.photo,
-    this.photoURL,
+    required this.photo,
     required this.kudos,
   });
 
@@ -26,7 +25,7 @@ class Profile {
       firstName: json['first_name'] ?? "",
       lastName: json['last_name'] ?? "",
       email: json['email'] ?? "",
-      photo: json['photo'],
+      photo: json['photo'] ?? "",
       kudos: json['kudos'] ?? 0,
     );
   }

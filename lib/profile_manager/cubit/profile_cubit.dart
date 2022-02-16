@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:careshare/profile_manager/models/fetch_photo_url.dart';
+
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
@@ -33,6 +33,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       lastName: lastName ?? "",
       email: email,
       kudos: 0,
+      photo: '',
     );
     try {
       DatabaseReference reference =
@@ -70,14 +71,7 @@ class ProfileCubit extends Cubit<ProfileState> {
               profileList.add(profile);
             },
           );
-          profileList.forEach(
-            (profile) async {
-              if (profile.photo != null) {
-                profile.photoURL = await fetchPhotoUrl(profile.photo!);
-              }
-            },
-          );
-          print(profileList);
+
           myProfile = profileList.firstWhere((element) =>
               element.id == FirebaseAuth.instance.currentUser!.uid);
 
@@ -108,13 +102,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   String? getPhoto(String id) {
-    String? photoURL;
+    String? photo;
     try {
-      photoURL = profileList.firstWhere((element) => element.id == id).photoURL;
+      photo = profileList.firstWhere((element) => element.id == id).photo;
     } catch (e) {
-      return 'no name found';
+      return "https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/nuccia.jpeg?alt=media&token=f9e4cc37-d756-4af5-85e2-18db5b08e897";
     }
-    return photoURL;
+    return photo;
   }
 
   editProfile(
