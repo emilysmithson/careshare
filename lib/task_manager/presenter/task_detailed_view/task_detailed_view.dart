@@ -5,6 +5,7 @@ import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/add_kudos_widget.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/assign_a_task.dart';
 
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/choose_category_widget.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/complete_task_widget.dart';
@@ -17,7 +18,6 @@ import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/prio
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'widgets/accept_a_task.dart';
 import 'widgets/task_input_field_widget.dart';
 
 class TaskDetailedView extends StatelessWidget {
@@ -88,10 +88,9 @@ class TaskDetailedView extends StatelessWidget {
                         id: task.createdBy,
                         text: 'Created by:',
                         dateTime: task.dateCreated),
-                    if (task.taskStatus == TaskStatus.accepted)
-                      AcceptATask(
-                        task: task,
-                      ),
+                    AssignATask(
+                      task: task,
+                    ),
                     DisplayCommentsWidget(task: task),
                     Row(
                       children: [
@@ -108,11 +107,6 @@ class TaskDetailedView extends StatelessWidget {
                             showButton: true,
                           ),
                         const Spacer(),
-                        if (task.taskStatus == TaskStatus.created)
-                          AcceptATask(
-                            task: task,
-                            showButton: true,
-                          ),
                         if (task.taskStatus == TaskStatus.accepted)
                           CompleteTaskWidget(task: task),
                         if (task.taskStatus == TaskStatus.completed)
