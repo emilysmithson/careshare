@@ -21,7 +21,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
-        theme: CustomTheme().call(),
+        theme: CustomTheme.themeData,
         home: MultiBlocProvider(
           providers: [
             BlocProvider(

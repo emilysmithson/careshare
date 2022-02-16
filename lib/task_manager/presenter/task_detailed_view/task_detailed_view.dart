@@ -64,7 +64,7 @@ class TaskDetailedView extends StatelessWidget {
                   children: [
                     TaskInputFieldWidget(
                       label: 'Title',
-                      style: Theme.of(context).textTheme.headline6,
+                      textStyle: Theme.of(context).textTheme.headline6,
                       maxLines: 1,
                       currentValue: task.title,
                       task: task,
