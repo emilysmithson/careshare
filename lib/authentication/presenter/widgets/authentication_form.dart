@@ -4,6 +4,9 @@ import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../category_manager/cubit/category_cubit.dart';
+import '../../../task_manager/cubit/task_cubit.dart';
+
 class AuthenticationForm extends StatelessWidget {
   final AuthenticationState state;
 
@@ -131,6 +134,9 @@ class AuthenticationForm extends StatelessWidget {
                           authenticationCubit.register(
                             profileCubit:
                                 BlocProvider.of<ProfileCubit>(context),
+                            taskCubit: BlocProvider.of<TaskCubit>(context),
+                            categoriesCubit:
+                                BlocProvider.of<CategoriesCubit>(context),
                             email: emailController.text,
                             password: passwordController.text,
                             name: nameController.text,
@@ -140,6 +146,9 @@ class AuthenticationForm extends StatelessWidget {
                           authenticationCubit.login(
                             profileCubit:
                                 BlocProvider.of<ProfileCubit>(context),
+                            taskCubit: BlocProvider.of<TaskCubit>(context),
+                            categoriesCubit:
+                                BlocProvider.of<CategoriesCubit>(context),
                             email: emailController.text,
                             password: passwordController.text,
                             name: nameController.text,

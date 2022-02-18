@@ -30,10 +30,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     if (user == null) {
       emit(const AuthenticationRegister());
     } else {
+      print('is this being called?');
       await profileCubit.fetchProfiles();
       await taskCubit.fetchTasks();
       await categoriesCubit.fetchCategories();
-      await Future.delayed(const Duration(seconds: 1));
+
       emit(AuthenticationLoaded(user));
     }
   }
@@ -43,6 +44,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String email,
     required String password,
     required ProfileCubit profileCubit,
+    required TaskCubit taskCubit,
+    required CategoriesCubit categoriesCubit,
   }) async {
     try {
       emit(AuthenticationLoading());
@@ -80,6 +83,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         email: email,
         name: name,
       );
+      await profileCubit.fetchProfiles();
+      await taskCubit.fetchTasks();
+      await categoriesCubit.fetchCategories();
 
       emit(AuthenticationLoaded(user));
     }
@@ -90,6 +96,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String email,
     required String password,
     required String name,
+    required TaskCubit taskCubit,
+    required CategoriesCubit categoriesCubit,
   }) async {
     try {
       await FirebaseAuth.instance
@@ -115,6 +123,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     if (user == null) {
       emit(const AuthenticationRegister());
     } else {
+      await profileCubit.fetchProfiles();
+      await taskCubit.fetchTasks();
+      await categoriesCubit.fetchCategories();
+
       emit(AuthenticationLoaded(user));
     }
   }
