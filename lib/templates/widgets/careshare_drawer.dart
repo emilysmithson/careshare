@@ -193,7 +193,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onTap: () {
-              Navigator.pushReplacementNamed(
+              Navigator.pushNamed(
                 context,
                 TaskManagerView.routeName,
               );
@@ -218,7 +218,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onTap: () {
-              Navigator.pushReplacementNamed(
+              Navigator.pushNamed(
                 context,
                 ProfilesManager.routeName,
               );
