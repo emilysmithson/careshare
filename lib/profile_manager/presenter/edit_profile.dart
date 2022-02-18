@@ -2,12 +2,12 @@ import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_input_field_widget.dart';
-import 'package:careshare/profile_manager/presenter/view_profile.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProfile extends StatelessWidget {
+  static const routeName = '/edit-profile';
   final Profile profile;
 
   const EditProfile({
@@ -95,17 +95,11 @@ class EditProfile extends StatelessWidget {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (_) => BlocProvider.value(
-                                value: BlocProvider.of<ProfileCubit>(context),
-                                child: ViewProfile(
-                                  profile:
-                                      BlocProvider.of<ProfileCubit>(context)
-                                          .myProfile,
-                                ),
-                              ),
-                            ));
+                            Navigator.pushReplacementNamed(
+                                context, EditProfile.routeName,
+                                arguments:
+                                    BlocProvider.of<ProfileCubit>(context)
+                                        .myProfile);
                           },
                           child: const Text('Save')),
                     ],

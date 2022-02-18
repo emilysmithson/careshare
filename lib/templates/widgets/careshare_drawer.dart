@@ -1,14 +1,12 @@
-import 'package:careshare/home_page/cubit/home_page_cubit.dart';
+import 'package:careshare/authentication/cubit/authentication_cubit.dart';
+import 'package:careshare/authentication/presenter/authentication_page.dart';
+import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_overview.dart';
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../main.dart';
-import '../profile_manager/models/profile.dart';
-import '../profile_manager/presenter/profile_widgets/profile_summary.dart';
 
 class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
   @override
@@ -132,6 +130,31 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
           ListTile(
             tileColor: Colors.lightBlueAccent,
             title: const Text(
+              'Home',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.home,
+              size: 30,
+              color: Colors.white,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(
+                context,
+                HomePage.routeName,
+              );
+            },
+          ),
+          const Divider(),
+
+          ListTile(
+            tileColor: Colors.lightBlueAccent,
+            title: const Text(
               'My Profile',
               style: TextStyle(
                 fontSize: 20.0,
@@ -145,16 +168,12 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onTap: () {
-              final Profile profile =
-                  BlocProvider.of<ProfileCubit>(context).myProfile;
-              BlocProvider.of<HomePageCubit>(context)
-                  .navigateTo(ProfileSummary(profile: profile));
-              BlocProvider.of<HomePageCubit>(context).navigateTo(
-                ProfileSummary(
-                  profile: BlocProvider.of<ProfileCubit>(context).myProfile,
-                ),
-              );
               Navigator.pop(context);
+              Navigator.pushNamed(
+                context,
+                EditProfile.routeName,
+                arguments: BlocProvider.of<ProfileCubit>(context).myProfile,
+              );
             },
           ),
           const Divider(),
@@ -174,9 +193,10 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onTap: () {
-              BlocProvider.of<HomePageCubit>(context)
-                  .navigateTo(const TaskManagerView());
-              Navigator.pop(context);
+              Navigator.pushReplacementNamed(
+                context,
+                TaskManagerView.routeName,
+              );
             },
           ),
 
@@ -198,9 +218,10 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onTap: () {
-              BlocProvider.of<HomePageCubit>(context)
-                  .navigateTo(const ProfilesOverview());
-              Navigator.pop(context);
+              Navigator.pushReplacementNamed(
+                context,
+                ProfilesManager.routeName,
+              );
             },
           ),
 
@@ -222,13 +243,10 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onTap: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const App(),
-                ),
+              BlocProvider.of<AuthenticationCubit>(context).logout(
+                BlocProvider.of<ProfileCubit>(context),
               );
+              Navigator.pushNamed(context, AuthenticationPage.routeName);
             },
           ),
         ],

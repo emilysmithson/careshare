@@ -21,6 +21,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/task_input_field_widget.dart';
 
 class TaskDetailedView extends StatelessWidget {
+  static const String routeName = "/task-detailed-view";
   final CareTask task;
 
   const TaskDetailedView({

@@ -1,8 +1,7 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
-import 'package:careshare/widgets/careshare_appbar.dart';
-import 'package:careshare/widgets/careshare_drawer.dart';
+import 'package:careshare/templates/page_scaffold.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,9 +17,7 @@ class ViewProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // const double spacing = 16;
-    return Scaffold(
-      appBar: CareshareAppBar('Profile Details'),
-      endDrawer: CareshareDrawer(),
+    return PageScaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -98,17 +95,11 @@ class ViewProfile extends StatelessWidget {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (_) => BlocProvider.value(
-                                value: BlocProvider.of<ProfileCubit>(context),
-                                child: EditProfile(
-                                  profile:
-                                      BlocProvider.of<ProfileCubit>(context)
-                                          .myProfile,
-                                ),
-                              ),
-                            ));
+                            Navigator.pushReplacementNamed(
+                                context, EditProfile.routeName,
+                                arguments:
+                                    BlocProvider.of<ProfileCubit>(context)
+                                        .myProfile);
                           },
                           child: const Text('Edit')),
                     ],
