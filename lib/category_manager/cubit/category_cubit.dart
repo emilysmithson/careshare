@@ -19,7 +19,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     );
     try {
       DatabaseReference reference =
-          FirebaseDatabase.instance.ref('categories_test');
+          FirebaseDatabase.instance.ref('categories');
 
       reference.child(category.id!).set(category.toJson());
     } catch (error) {
@@ -34,7 +34,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     try {
       emit(CategoriesLoading());
       DatabaseReference reference =
-          FirebaseDatabase.instance.ref('categories_test');
+          FirebaseDatabase.instance.ref('categories');
       final response = reference.onValue;
       response.listen((event) {
         emit(CategoriesLoading());

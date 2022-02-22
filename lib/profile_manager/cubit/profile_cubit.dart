@@ -37,7 +37,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
     try {
       DatabaseReference reference =
-          FirebaseDatabase.instance.ref('profiles_test');
+          FirebaseDatabase.instance.ref('profiles');
 
       reference.child(profile.id!).set(profile.toJson());
     } catch (error) {
@@ -51,7 +51,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       emit(const ProfileLoading());
       DatabaseReference reference =
-          FirebaseDatabase.instance.ref('profiles_test');
+          FirebaseDatabase.instance.ref('profiles');
       final response = reference.onValue;
 
       response.listen((event) async {
