@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Navigator.pushNamed(context, TaskManagerView.routeName);
+    // Navigator.pushNamed(context, TaskManagerView.routeName);
     return PageScaffold(
       body: Center(
           child: ElevatedButton(

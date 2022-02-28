@@ -1,9 +1,9 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/widgets/authentication_form.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
-import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
+import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +34,8 @@ class AuthenticationPage extends StatelessWidget {
 
         if (state is AuthenticationLoaded) {
           WidgetsBinding.instance.addPostFrameCallback(
-            (_) => Navigator.pushReplacementNamed(context, HomePage.routeName),
+            (_) => Navigator.pushReplacementNamed(
+                context, TaskManagerView.routeName),
           );
           return const Scaffold();
         }
