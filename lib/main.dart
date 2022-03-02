@@ -1,6 +1,8 @@
+import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/router/app_router.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/presentation/custom_theme.dart';
 
@@ -22,9 +24,12 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: CustomTheme.themeData,
-      onGenerateRoute: _appRouter.onGenerateRoute,
+    return BlocProvider(
+      create: (context) => AuthenticationCubit(),
+      child: MaterialApp(
+        theme: CustomTheme.themeData,
+        onGenerateRoute: _appRouter.onGenerateRoute,
+      ),
     );
   }
 }

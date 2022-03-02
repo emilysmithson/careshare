@@ -36,19 +36,17 @@ class AppRouter {
       case AuthenticationPage.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _authenticationCubit,
+            value: _profileCubit,
             child: BlocProvider.value(
-              value: _profileCubit,
+              value: _taskCubit,
               child: BlocProvider.value(
-                value: _taskCubit,
-                child: BlocProvider.value(
-                  value: _categoriesCubit,
-                  child: const AuthenticationPage(),
-                ),
+                value: _categoriesCubit,
+                child: const AuthenticationPage(),
               ),
             ),
           ),
         );
+
       case HomePage.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
