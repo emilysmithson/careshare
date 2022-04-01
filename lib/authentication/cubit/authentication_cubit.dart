@@ -18,17 +18,17 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }) async {
     emit(AuthenticationLoading());
 
-    final User? user = FirebaseAuth.instance.currentUser;
+    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      if (user == null) {
+        emit(const AuthenticationLogin());
+      } else {
+        await profileCubit.fetchProfiles();
+        await taskCubit.fetchTasks();
+        await categoriesCubit.fetchCategories();
 
-    if (user == null) {
-      emit(const AuthenticationRegister());
-    } else {
-      await profileCubit.fetchProfiles();
-      await taskCubit.fetchTasks();
-      await categoriesCubit.fetchCategories();
-
-      emit(AuthenticationLoaded(user));
-    }
+        emit(AuthenticationLoaded(user));
+      }
+    });
   }
 
   register({
