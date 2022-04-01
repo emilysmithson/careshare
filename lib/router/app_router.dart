@@ -8,6 +8,7 @@ import 'package:careshare/profile_manager/presenter/profile_overview.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
+import 'package:careshare/task_manager/presenter/task_category_view/task_category_view.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
@@ -85,6 +86,24 @@ class AppRouter {
             ),
           ),
         );
+      case TaskCategoryView.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _profileCubit,
+            child: BlocProvider.value(
+              value: _taskCubit,
+              child: BlocProvider.value(
+                value: _categoriesCubit,
+                child: TaskCategoryView(
+                    careTaskList: (routeSettings.arguments
+                            as Map<String, dynamic>)['careTaskList']
+                        as List<CareTask>,
+                    title: (routeSettings.arguments
+                        as Map<String, dynamic>)['title']),
+              ),
+            ),
+          ),
+        );
       case ProfileSummary.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
@@ -106,6 +125,7 @@ class AppRouter {
             child: EditProfile(profile: routeSettings.arguments as Profile),
           ),
         );
+
       default:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(

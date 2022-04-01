@@ -50,7 +50,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCcK9J0FUWl-Vj9KbyGZpLZlUVbdya1b14',
-    appId: '1:468078459323:android:a7b7a60a3280a06a4f2c9e',
+    appId: '1:468078459323:android:2ae6008ff8687bf94f2c9e',
     messagingSenderId: '468078459323',
     projectId: 'careshare-data',
     databaseURL: 'https://careshare-data-default-rtdb.europe-west1.firebasedatabase.app',
@@ -59,12 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB-sscffOtYOz2JbcVurLxhhFzotMIKTfg',
-    appId: '1:468078459323:ios:29634f25c61f9f4b4f2c9e',
+    appId: '1:468078459323:ios:c8fdba8f64bf07344f2c9e',
     messagingSenderId: '468078459323',
     projectId: 'careshare-data',
     databaseURL: 'https://careshare-data-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'careshare-data.appspot.com',
-    iosClientId: '468078459323-vcu38f68lqqoogjh3vnvmtj822rk1043.apps.googleusercontent.com',
-    iosBundleId: 'com.careshare',
+    iosClientId: '468078459323-2mu218a7r3apb2g733jgma43giksnm52.apps.googleusercontent.com',
+    iosBundleId: 'co.uk.careshare',
   );
 }

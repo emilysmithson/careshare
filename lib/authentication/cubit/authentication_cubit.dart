@@ -1,11 +1,9 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../category_manager/cubit/category_cubit.dart';
-import '../../firebase_options.dart';
 import '../../task_manager/cubit/task_cubit.dart';
 
 part 'authentication_state.dart';
@@ -19,18 +17,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required CategoriesCubit categoriesCubit,
   }) async {
     emit(AuthenticationLoading());
-    try {
-      await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform);
-    } catch (error) {
-      emit(AuthenticationError());
-    }
+
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
       emit(const AuthenticationRegister());
     } else {
-      print('is this being called?');
       await profileCubit.fetchProfiles();
       await taskCubit.fetchTasks();
       await categoriesCubit.fetchCategories();

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:careshare/category_manager/models/category.dart';
 import 'package:careshare/task_manager/models/comment.dart';
 
+import '../../category_manager/domain/models/category.dart';
 import 'kudos.dart';
 import 'task_effort.dart';
 import 'task_priority.dart';

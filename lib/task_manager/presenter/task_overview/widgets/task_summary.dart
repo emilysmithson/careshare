@@ -1,4 +1,3 @@
-import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
@@ -23,21 +22,9 @@ class TaskSummary extends StatelessWidget {
     return GestureDetector(
       // navigate to details view
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-              value: BlocProvider.of<TaskCubit>(context),
-              child: BlocProvider.value(
-                value: BlocProvider.of<ProfileCubit>(context),
-                child: BlocProvider.value(
-                  value: BlocProvider.of<CategoriesCubit>(context),
-                  child: TaskDetailedView(
-                    task: task,
-                  ),
-                ),
-              ),
-            ),
-          ),
+        Navigator.of(context).pushNamed(
+          TaskDetailedView.routeName,
+          arguments: task,
         );
       },
       child: Container(
@@ -94,14 +81,16 @@ class TaskSummary extends StatelessWidget {
                       ),
                     ),
                     if (task.taskStatus == TaskStatus.created)
-                      Text(
-                        'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
+                        ),
                       ),
-                    Text(
-                      task.acceptedBy == null || task.acceptedBy!.isEmpty
-                          ? 'Not currently assigned' // to anyone'
-                          : 'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
-                    ),
+                    if (task.acceptedBy != null && task.acceptedBy!.isNotEmpty)
+                      Text(
+                        'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
+                      ),
                     if (task.taskStatus == TaskStatus.completed)
                       KudosWidget(task: task)
                   ],

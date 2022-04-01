@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:careshare/category_manager/models/category.dart';
+import 'package:careshare/category_manager/domain/models/category.dart';
 
 import 'package:equatable/equatable.dart';
 
@@ -13,13 +13,13 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     required String name,
     required String id,
   }) {
+    emit(CategoriesLoading());
     final category = CareCategory(
       id: id,
       name: name,
     );
     try {
-      DatabaseReference reference =
-          FirebaseDatabase.instance.ref('categories');
+      DatabaseReference reference = FirebaseDatabase.instance.ref('categories');
 
       reference.child(category.id!).set(category.toJson());
     } catch (error) {
@@ -27,14 +27,14 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         print(error);
       }
     }
+    emit(CategoriesLoaded(categoryList));
   }
 
   final List<CareCategory> categoryList = [];
   Future fetchCategories() async {
     try {
       emit(CategoriesLoading());
-      DatabaseReference reference =
-          FirebaseDatabase.instance.ref('categories');
+      DatabaseReference reference = FirebaseDatabase.instance.ref('categories');
       final response = reference.onValue;
       response.listen((event) {
         emit(CategoriesLoading());

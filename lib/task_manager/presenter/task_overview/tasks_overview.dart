@@ -20,32 +20,39 @@ class TasksOverview extends StatelessWidget {
         children: [
           TaskSection(
             title: 'New Tasks',
-            careTaskList: careTaskList.where(
-              (element) => element.taskStatus == TaskStatus.created,
-            ),
+            careTaskList: careTaskList
+                .where(
+                  (element) => element.taskStatus == TaskStatus.created,
+                )
+                .toList(),
           ),
           TaskSection(
             title: 'My Tasks',
-            careTaskList: careTaskList.where(
-              (element) =>
-                  element.taskStatus == TaskStatus.accepted &&
-                  element.acceptedBy ==
-                      BlocProvider.of<ProfileCubit>(context).myProfile.id,
-            ),
+            careTaskList: careTaskList
+                .where(
+                  (element) =>
+                      element.taskStatus == TaskStatus.accepted &&
+                      element.acceptedBy ==
+                          BlocProvider.of<ProfileCubit>(context).myProfile.id,
+                )
+                .toList(),
           ),
           TaskSection(
             title: 'Completed Tasks',
             careTaskList: careTaskList
-                .where((element) => element.taskStatus == TaskStatus.completed),
+                .where((element) => element.taskStatus == TaskStatus.completed)
+                .toList(),
           ),
           TaskSection(
             title: 'Other People' 's Tasks',
-            careTaskList: careTaskList.where(
-              (element) =>
-                  element.taskStatus == TaskStatus.accepted &&
-                  element.acceptedBy !=
-                      BlocProvider.of<ProfileCubit>(context).myProfile.id,
-            ),
+            careTaskList: careTaskList
+                .where(
+                  (element) =>
+                      element.taskStatus == TaskStatus.accepted &&
+                      element.acceptedBy !=
+                          BlocProvider.of<ProfileCubit>(context).myProfile.id,
+                )
+                .toList(),
           ),
         ],
       ),

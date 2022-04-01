@@ -7,7 +7,6 @@ import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/add_kudos_widget.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/assign_a_task.dart';
 
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/choose_category_widget.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/complete_task_widget.dart';
 
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/display_comments_widget.dart';
@@ -18,6 +17,7 @@ import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/prio
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'widgets/choose_category_widget.dart';
 import 'widgets/task_input_field_widget.dart';
 
 class TaskDetailedView extends StatelessWidget {
