@@ -44,8 +44,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }) async {
     try {
       emit(AuthenticationLoading());
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         return emit(AuthenticationRegister(
@@ -96,8 +98,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required CategoriesCubit categoriesCubit,
   }) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return emit(AuthenticationLogin(
