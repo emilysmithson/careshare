@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 
 import 'package:careshare/profile_manager/models/profile.dart';
@@ -5,6 +7,7 @@ import 'package:equatable/equatable.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -20,12 +23,22 @@ class ProfileCubit extends Cubit<ProfileState> {
   }) : super(ProfileInitial());
 
   createProfile({
+    required File photo,
     required String name,
     String? firstName,
     String? lastName,
     required String email,
     required String id,
-  }) {
+  }) async {
+    emit(const ProfileLoading());
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child('profile_photos')
+        .child(id + '.jpg');
+
+    await ref.putFile(photo);
+    final url = await ref.getDownloadURL();
+
     Profile profile = Profile(
       id: id,
       name: name,
@@ -33,11 +46,10 @@ class ProfileCubit extends Cubit<ProfileState> {
       lastName: lastName ?? "",
       email: email,
       kudos: 0,
-      photo: '',
+      photo: url,
     );
     try {
-      DatabaseReference reference =
-          FirebaseDatabase.instance.ref('profiles');
+      DatabaseReference reference = FirebaseDatabase.instance.ref('profiles');
 
       reference.child(profile.id!).set(profile.toJson());
     } catch (error) {
@@ -45,13 +57,13 @@ class ProfileCubit extends Cubit<ProfileState> {
         print(error);
       }
     }
+    emit(ProfileLoaded(profileList: profileList));
   }
 
   Future fetchProfiles() async {
     try {
       emit(const ProfileLoading());
-      DatabaseReference reference =
-          FirebaseDatabase.instance.ref('profiles');
+      DatabaseReference reference = FirebaseDatabase.instance.ref('profiles');
       final response = reference.onValue;
 
       response.listen((event) async {

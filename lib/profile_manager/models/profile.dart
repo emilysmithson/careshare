@@ -38,6 +38,7 @@ class Profile {
       'last_name': lastName,
       'email': email,
       'kudos': kudos,
+      'photo': photo
     };
   }
 
@@ -60,4 +61,5 @@ enum ProfileField {
   lastName,
   email,
   kudos,
+  photo,
 }

@@ -1,11 +1,13 @@
 import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class EditProfileFieldRepository {
-  Profile call(
+  Future<Profile> call(
       {required Profile profile,
       required ProfileField profileField,
-      required dynamic newValue}) {
+      required dynamic newValue}) async {
     Profile newProfile = profile;
     late String field;
     // ignore: prefer_typing_uninitialized_variables
@@ -35,6 +37,18 @@ class EditProfileFieldRepository {
         newProfile.kudos = newValue;
         field = 'kudos';
         value = newValue;
+        break;
+      case ProfileField.photo:
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('profile_photos')
+            .child(FirebaseAuth.instance.currentUser!.uid + '.jpg');
+
+        await ref.putFile(newValue);
+        final url = await ref.getDownloadURL();
+        newProfile.photo = url;
+        field = 'photo';
+        value = url;
         break;
     }
 

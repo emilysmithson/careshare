@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,17 +20,17 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }) async {
     emit(AuthenticationLoading());
 
-    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-      if (user == null) {
-        emit(const AuthenticationLogin());
-      } else {
-        await profileCubit.fetchProfiles();
-        await taskCubit.fetchTasks();
-        await categoriesCubit.fetchCategories();
+    final user = FirebaseAuth.instance.currentUser;
 
-        emit(AuthenticationLoaded(user));
-      }
-    });
+    if (user == null) {
+      emit(const AuthenticationLogin());
+    } else {
+      await profileCubit.fetchProfiles();
+      await taskCubit.fetchTasks();
+      await categoriesCubit.fetchCategories();
+
+      emit(AuthenticationLoaded(user));
+    }
   }
 
   register({
@@ -38,6 +40,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required ProfileCubit profileCubit,
     required TaskCubit taskCubit,
     required CategoriesCubit categoriesCubit,
+    required File photo,
   }) async {
     try {
       emit(AuthenticationLoading());
@@ -70,10 +73,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     if (user == null) {
       emit(const AuthenticationRegister());
     } else {
-      profileCubit.createProfile(
+      await profileCubit.createProfile(
         id: FirebaseAuth.instance.currentUser!.uid,
         email: email,
         name: name,
+        photo: photo,
       );
       await profileCubit.fetchProfiles();
       await taskCubit.fetchTasks();
