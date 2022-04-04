@@ -41,7 +41,7 @@ class TaskSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 220,
+          height: 120,
           child: Container(
             color: Colors.blue[50],
             child: careTaskList.isEmpty

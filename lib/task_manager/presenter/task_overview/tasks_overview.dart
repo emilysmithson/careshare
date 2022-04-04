@@ -1,3 +1,4 @@
+import 'package:careshare/kudos/kudos_board.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
@@ -18,6 +19,9 @@ class TasksOverview extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          KudosBoard(
+            profileList: BlocProvider.of<ProfileCubit>(context).profileList,
+          ),
           TaskSection(
             title: 'New Tasks',
             careTaskList: careTaskList
