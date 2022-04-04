@@ -20,7 +20,6 @@ class TaskSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // navigate to details view
       onTap: () {
         Navigator.of(context).pushNamed(
           TaskDetailedView.routeName,
@@ -29,6 +28,7 @@ class TaskSummary extends StatelessWidget {
       },
       child: Container(
         width: 250,
+        height: 200,
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
         color: Colors.blue[50],
         child: Card(

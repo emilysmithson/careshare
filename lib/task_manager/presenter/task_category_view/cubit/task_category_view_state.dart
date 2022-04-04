@@ -1,11 +1,6 @@
 part of 'task_category_view_cubit.dart';
 
 abstract class TaskCategoryViewState extends Equatable {
-  final List<String> filterCategories = [
-    'Priority',
-    'Category',
-    'Created By',
-  ];
   final List<String> sortCategories = [
     'Date created',
     'Priority',

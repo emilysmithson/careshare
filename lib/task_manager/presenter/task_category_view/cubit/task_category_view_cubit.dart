@@ -2,8 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../category_manager/domain/models/category.dart';
-
 part 'task_category_view_state.dart';
 
 class TaskCategoryViewCubit extends Cubit<TaskCategoryViewState> {
@@ -17,17 +15,22 @@ class TaskCategoryViewCubit extends Cubit<TaskCategoryViewState> {
           ),
         );
 
-  filterBy(CareCategory careCategory) {
+  filterBy(String careCategory) {
     emit(
       TaskCategoryViewInitial(careTaskList: careTaskList),
     );
-    final List<CareTask> _tempCareTaskList = careTaskList;
-    careTaskList.clear();
-    careTaskList.addAll(
-      _tempCareTaskList.where((careTask) => careTask.category == careCategory),
+    if (careCategory == 'Show all') {
+      return;
+    }
+    final List<CareTask> _tempCareTaskList = [];
+
+    _tempCareTaskList.addAll(
+      careTaskList.where(
+        (careTask) => careTask.category!.id == careCategory,
+      ),
     );
     emit(
-      TaskCategoryViewAmendedList(careTaskList: careTaskList),
+      TaskCategoryViewAmendedList(careTaskList: _tempCareTaskList),
     );
   }
 
