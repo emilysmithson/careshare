@@ -1,5 +1,4 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
@@ -27,9 +26,8 @@ class TaskSummary extends StatelessWidget {
         );
       },
       child: Container(
-        width: 250,
-        height: 200,
-        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
+        width: 160,
+        padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2),
         color: Colors.blue[50],
         child: Card(
           child: Padding(
@@ -41,58 +39,64 @@ class TaskSummary extends StatelessWidget {
                   photoId = task.createdBy;
                 }
 
-                return Wrap(
-                  runSpacing: 4,
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        // Photo
-                        ProfilePhotoWidget(size: 50, id: photoId),
-                        const Spacer(),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  const TextSpan(text: 'Priority: '),
-                                  TextSpan(
-                                    text: task.taskPriority.level,
-                                    style: TextStyle(
-                                        color: task.taskPriority.color),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text('Difficulty: ${task.taskEffort.size}'),
-                            const SizedBox(height: 4),
-                            if (task.category != null)
-                              Text('Type: ${task.category!.name}'),
-                          ],
-                        )
-                      ],
-                    ),
                     SizedBox(
                       width: double.infinity,
                       child: Text(
                         task.title,
-                        style: Theme.of(context).textTheme.subtitle2,
+                        // style: Theme.of(context).textTheme.subtitle2,
+                        textAlign: TextAlign.center,
                       ),
                     ),
+                    const SizedBox(height: 4),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Priority: ',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          TextSpan(
+                            text: task.taskPriority.level,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: task.taskPriority.color),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Difficulty: ${task.taskEffort.size}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 4),
+                    if (task.category != null)
+                      Text(
+                        'Type: ${task.category!.name}',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    const SizedBox(height: 4),
                     if (task.taskStatus == TaskStatus.created)
                       SizedBox(
                         width: double.infinity,
                         child: Text(
                           'Created by: ${BlocProvider.of<ProfileCubit>(context).getName(task.createdBy)}',
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
+                    const SizedBox(height: 4),
                     if (task.acceptedBy != null && task.acceptedBy!.isNotEmpty)
                       Text(
                         'Assigned to: ${BlocProvider.of<ProfileCubit>(context).getName(task.acceptedBy!)}',
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
+                    const SizedBox(height: 4),
                     if (task.taskStatus == TaskStatus.completed)
-                      KudosWidget(task: task)
+                      KudosWidget(task: task),
                   ],
                 );
               },

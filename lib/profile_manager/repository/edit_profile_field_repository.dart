@@ -39,7 +39,7 @@ class EditProfileFieldRepository {
     }
 
     DatabaseReference reference =
-        FirebaseDatabase.instance.ref("profiles_test/${profile.id}/$field");
+        FirebaseDatabase.instance.ref("profiles/${profile.id}/$field");
 
     reference.set(value);
     return newProfile;

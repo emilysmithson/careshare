@@ -43,10 +43,11 @@ class KudosWidget extends StatelessWidget {
     if (kudos != null) {
       return Row(
         children: [
-          const Icon(Icons.star),
+          const Icon(Icons.star, size: 16),
           const SizedBox(width: 16),
-          Text(task.kudos?.length.toString() ?? '0'),
-          const Text(' Kudos')
+          Text(task.kudos?.length.toString() ?? '0',
+              style: Theme.of(context).textTheme.bodySmall),
+          Text(' Kudos', style: Theme.of(context).textTheme.bodySmall)
         ],
       );
     }
