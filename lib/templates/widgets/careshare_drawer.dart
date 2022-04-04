@@ -246,7 +246,10 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               BlocProvider.of<AuthenticationCubit>(context).logout(
                 BlocProvider.of<ProfileCubit>(context),
               );
-              Navigator.pushNamed(context, AuthenticationPage.routeName);
+              Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AuthenticationPage.routeName,
+                  ModalRoute.withName(AuthenticationPage.routeName));
             },
           ),
         ],

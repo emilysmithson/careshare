@@ -140,7 +140,7 @@ class AuthenticationForm extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (photo == null) {
+                      if (photo == null && state is AuthenticationRegister) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content:
