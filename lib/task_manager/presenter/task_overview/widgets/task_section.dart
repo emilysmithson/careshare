@@ -7,9 +7,14 @@ import 'package:flutter/material.dart';
 import 'add_task_bottom_sheet.dart';
 
 class TaskSection extends StatelessWidget {
+  final Color color;
   final String title;
   final List<CareTask> careTaskList;
-  const TaskSection({Key? key, required this.title, required this.careTaskList})
+  const TaskSection(
+      {Key? key,
+      required this.title,
+      required this.careTaskList,
+      required this.color})
       : super(key: key);
 
   @override
@@ -31,7 +36,7 @@ class TaskSection extends StatelessWidget {
             tag: title,
             child: Container(
               width: double.infinity,
-              color: Colors.blue[100],
+              color: color,
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 title + ' >',
@@ -43,24 +48,26 @@ class TaskSection extends StatelessWidget {
         SizedBox(
           height: 120,
           child: Container(
-            color: Colors.blue[50],
+            color: color.withOpacity(0.5),
             child: careTaskList.isEmpty
                 ? Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(2),
-                    color: Colors.blue[50],
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
                         width: 160,
                         height: 190,
                         child: Card(
-                            child: Center(
-                                child: IconButton(
-                                    onPressed: () {
-                                      AddTaskBottomSheet().call(context);
-                                    },
-                                    icon: const Icon(Icons.add)))),
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {
+                                AddTaskBottomSheet().call(context);
+                              },
+                              icon: const Icon(Icons.add),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   )
@@ -76,6 +83,7 @@ class TaskSection extends StatelessWidget {
                   ),
           ),
         ),
+        // const SizedBox(height: 4),
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 class CustomTheme {
   static ThemeData themeData = ThemeData(
+    // cardTheme: CardTheme(shape: ShapeBorder()),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

@@ -1,4 +1,3 @@
-import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
@@ -27,10 +26,11 @@ class TaskSummary extends StatelessWidget {
         );
       },
       child: Container(
+        color: Colors.orange.withOpacity(0),
         width: 160,
-        padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2),
-        color: Colors.blue[50],
+        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
         child: Card(
+          elevation: 4,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: BlocBuilder<TaskCubit, TaskState>(
@@ -52,55 +52,57 @@ class TaskSummary extends StatelessWidget {
                             padding: const EdgeInsets.all(4.0),
                             child: Text(
                               task.title,
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.start,
                               overflow: TextOverflow.fade,
                             ),
                           ),
                         ),
                         if (task.taskStatus == TaskStatus.completed)
+                          const Spacer(),
+                        if (task.taskStatus == TaskStatus.completed)
                           KudosWidget(task: task),
                       ],
                     ),
-                    if (task.taskStatus == TaskStatus.created)
-                      Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: ProfilePhotoWidget(
-                          id: task.createdBy,
-                          size: 30,
-                        ),
-                      ),
+                    // if (task.taskStatus == TaskStatus.created)
+                    //   Positioned(
+                    //     right: 0,
+                    //     bottom: 0,
+                    //     child: ProfilePhotoWidget(
+                    //       id: task.createdBy,
+                    //       size: 30,
+                    //     ),
+                    //   ),
 
-                    if (task.acceptedBy != null && task.acceptedBy!.isNotEmpty)
-                      Positioned(
-                        right: 4,
-                        bottom: 4,
-                        child:
-                            ProfilePhotoWidget(id: task.acceptedBy!, size: 30),
-                      ),
-                    Positioned(
-                      left: -5,
-                      top: -5,
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: BoxDecoration(
-                            color: task.taskPriority.color,
-                            shape: BoxShape.circle),
-                      ),
-                    ),
+                    // if (task.acceptedBy != null && task.acceptedBy!.isNotEmpty)
+                    //   Positioned(
+                    //     right: 4,
+                    //     bottom: 4,
+                    //     child:
+                    //         ProfilePhotoWidget(id: task.acceptedBy!, size: 30),
+                    //   ),
+                    // Positioned(
+                    //   left: -5,
+                    //   top: -5,
+                    //   child: Container(
+                    //     height: 10,
+                    //     width: 10,
+                    //     decoration: BoxDecoration(
+                    //         color: task.taskPriority.color,
+                    //         shape: BoxShape.circle),
+                    //   ),
+                    // ),
 
-                    // const SizedBox(height: 4),
-                    // Text.rich(
-                    //   TextSpan(
-                    //     children: [
-                    //       TextSpan(
-                    //         text: 'Priority: ',
-                    //         style: Theme.of(context).textTheme.bodySmall,
-                    //       ),
-                    //       TextSpan(
-                    //         text: task.taskPriority.level,
-                    //         style: Theme.of(context)
+                    // // const SizedBox(height: 4),
+                    // // Text.rich(
+                    // //   TextSpan(
+                    // //     children: [
+                    // //       TextSpan(
+                    // //         text: 'Priority: ',
+                    // //         style: Theme.of(context).textTheme.bodySmall,
+                    // //       ),
+                    // //       TextSpan(
+                    // //         text: task.taskPriority.level,
+                    // //         style: Theme.of(context)
                     //             .textTheme
                     //             .bodySmall
                     //             ?.copyWith(color: task.taskPriority.color),
