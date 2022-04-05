@@ -44,6 +44,7 @@ class TaskSummary extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: [
                     Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
                           width: double.infinity,
@@ -56,7 +57,6 @@ class TaskSummary extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Spacer(),
                         if (task.taskStatus == TaskStatus.completed)
                           KudosWidget(task: task),
                       ],
