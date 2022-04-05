@@ -44,7 +44,7 @@ class KudosWidget extends StatelessWidget {
       return Row(
         children: [
           const Icon(Icons.star, size: 16),
-          const SizedBox(width: 16),
+          const SizedBox(width: 2),
           Text(task.kudos?.length.toString() ?? '0',
               style: Theme.of(context).textTheme.bodySmall),
           Text(' Kudos', style: Theme.of(context).textTheme.bodySmall)

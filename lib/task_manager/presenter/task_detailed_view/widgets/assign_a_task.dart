@@ -100,7 +100,7 @@ class _AssignATaskState extends State<AssignATask> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      if (widget.task.acceptedBy != null ||
+                      if (widget.task.acceptedBy != null &&
                           widget.task.acceptedBy!.isNotEmpty)
                         ElevatedButton(
                           onPressed: () {
