@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/task_status.dart';
+import '../../task_detailed_view/widgets/add_kudos_widget.dart';
 
 class TaskSummary extends StatelessWidget {
   final CareTask task;
@@ -42,16 +43,23 @@ class TaskSummary extends StatelessWidget {
                 return Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          task.title,
-                          // style: Theme.of(context).textTheme.subtitle2,
-                          textAlign: TextAlign.center,
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              task.title,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.fade,
+                            ),
+                          ),
                         ),
-                      ),
+                        const Spacer(),
+                        if (task.taskStatus == TaskStatus.completed)
+                          KudosWidget(task: task),
+                      ],
                     ),
                     if (task.taskStatus == TaskStatus.created)
                       Positioned(
@@ -127,8 +135,6 @@ class TaskSummary extends StatelessWidget {
                     //     style: Theme.of(context).textTheme.bodySmall,
                     //   ),
                     // const SizedBox(height: 4),
-                    // if (task.taskStatus == TaskStatus.completed)
-                    //   KudosWidget(task: task),
                   ],
                 );
               },
