@@ -77,6 +77,7 @@ class TaskSection extends StatelessWidget {
                         .map(
                           (task) => TaskSummary(
                             task: task,
+                            isInListView: false,
                           ),
                         )
                         .toList(),

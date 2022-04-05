@@ -10,10 +10,12 @@ import '../../task_detailed_view/widgets/add_kudos_widget.dart';
 
 class TaskSummary extends StatelessWidget {
   final CareTask task;
+  final bool isInListView;
 
   const TaskSummary({
     Key? key,
     required this.task,
+    required this.isInListView,
   }) : super(key: key);
 
   @override
@@ -40,28 +42,42 @@ class TaskSummary extends StatelessWidget {
                   photoId = task.createdBy;
                 }
 
-                return Stack(
-                  clipBehavior: Clip.none,
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              task.title,
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.fade,
+                    if (isInListView)
+                      Container(
+                        height: 10,
+                        width: 10,
+                        margin: const EdgeInsets.only(right: 8),
+                        decoration: BoxDecoration(
+                          color: task.taskPriority.color,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(
+                                task.title,
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.fade,
+                              ),
                             ),
                           ),
-                        ),
-                        if (task.taskStatus == TaskStatus.completed)
-                          const Spacer(),
-                        if (task.taskStatus == TaskStatus.completed)
-                          KudosWidget(task: task),
-                      ],
+                          if (task.taskStatus == TaskStatus.completed &&
+                              !isInListView)
+                            const Spacer(),
+                          if (task.taskStatus == TaskStatus.completed)
+                            KudosWidget(task: task),
+                        ],
+                      ),
                     ),
                     // if (task.taskStatus == TaskStatus.created)
                     //   Positioned(
@@ -80,17 +96,6 @@ class TaskSummary extends StatelessWidget {
                     //     child:
                     //         ProfilePhotoWidget(id: task.acceptedBy!, size: 30),
                     //   ),
-                    // Positioned(
-                    //   left: -5,
-                    //   top: -5,
-                    //   child: Container(
-                    //     height: 10,
-                    //     width: 10,
-                    //     decoration: BoxDecoration(
-                    //         color: task.taskPriority.color,
-                    //         shape: BoxShape.circle),
-                    //   ),
-                    // ),
 
                     // // const SizedBox(height: 4),
                     // // Text.rich(

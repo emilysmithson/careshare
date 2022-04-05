@@ -81,18 +81,15 @@ class TaskCategoryView extends StatelessWidget {
                 ),
               ],
             ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: state.careTaskList
-                        .map(
-                          (task) => TaskSummary(task: task),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ],
+            body: ListView(
+              children: state.careTaskList
+                  .map(
+                    (task) => TaskSummary(
+                      task: task,
+                      isInListView: true,
+                    ),
+                  )
+                  .toList(),
             ),
           );
         },
