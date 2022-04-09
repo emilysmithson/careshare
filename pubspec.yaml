@@ -31,9 +31,10 @@ dependencies:
   dartz: ^0.10.1
   equatable: ^2.0.3
   firebase: ^9.0.2
+  firebase_analytics: ^9.1.4
   firebase_auth: ^3.3.10
   firebase_core: ^1.14.0
-  firebase_database: ^9.0.3
+  firebase_database: ^9.0.9
   firebase_messaging: ^11.2.12
   firebase_storage: ^10.2.10
   flutter:
