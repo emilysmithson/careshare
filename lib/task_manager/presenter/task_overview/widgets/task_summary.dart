@@ -28,8 +28,7 @@ class TaskSummary extends StatelessWidget {
         );
       },
       child: Container(
-        color: Colors.orange.withOpacity(0),
-        width: 160,
+        width: 140,
         padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
         child: Card(
           elevation: 4,
@@ -60,14 +59,16 @@ class TaskSummary extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                task.title,
-                                textAlign: TextAlign.start,
-                                overflow: TextOverflow.fade,
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  task.title,
+                                  textAlign: TextAlign.start,
+                                  overflow: TextOverflow.fade,
+                                ),
                               ),
                             ),
                           ),
