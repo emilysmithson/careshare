@@ -72,9 +72,6 @@ class TaskSummary extends StatelessWidget {
                               ),
                             ),
                           ),
-                          if (task.taskStatus == TaskStatus.completed &&
-                              !isInListView)
-                            const Spacer(),
                           if (task.taskStatus == TaskStatus.completed)
                             KudosWidget(task: task),
                         ],
