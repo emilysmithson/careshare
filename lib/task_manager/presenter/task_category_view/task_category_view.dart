@@ -84,9 +84,12 @@ class TaskCategoryView extends StatelessWidget {
             body: ListView(
               children: state.careTaskList
                   .map(
-                    (task) => TaskSummary(
-                      task: task,
-                      isInListView: true,
+                    (task) => SizedBox(
+                      height: 100,
+                      child: TaskSummary(
+                        task: task,
+                        isInListView: true,
+                      ),
                     ),
                   )
                   .toList(),

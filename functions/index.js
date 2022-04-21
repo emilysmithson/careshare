@@ -11,7 +11,7 @@ exports.notifyUsers = functions.database.ref("tasks/{task}")
       // const createdBy = snapshotVal.createdBy;
       console.debug(title1);
       console.debug(snapshotVal);
-      // Grab the current value of what was written to the Realtime Database.
+      // Grab the current value     of what was written to the Realtime Database.
       admin.messaging().sendToTopic("task", {
         notification:
           {

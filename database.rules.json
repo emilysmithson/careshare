@@ -1,0 +1,23 @@
+{
+  "rules": {
+"caregroups":{
+ ".read": "auth!=null",
+    ".write": "auth!=null"
+},
+  "categories":{
+    ".read": "auth!=null",
+      ".write": "auth!=null",
+  }, 
+    "profiles":{
+      ".read":"auth!=null",
+        ".write": "auth!=null"
+    },
+        "tasks":{
+      ".read":"auth!=null",
+        ".write": "auth!=null"
+    },  "stories":{
+      ".read":"auth!=null",
+        ".write": "auth!=null"
+    }
+  }
+}
