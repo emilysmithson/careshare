@@ -1,3 +1,4 @@
+import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
 import 'package:flutter/material.dart';
 
 class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -17,7 +18,10 @@ class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
         icon: Image.asset('images/CareShareLogo50.jpg'),
         onPressed: () {},
       ),
-      title: Text(title),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [Text(title), const BellWidget()],
+      ),
     );
   }
 }
