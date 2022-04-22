@@ -22,7 +22,7 @@ class PhotoAndNameWidget extends StatelessWidget {
         const SizedBox(width: 16),
         Text("$text ${BlocProvider.of<ProfileCubit>(context).getName(id)}"
             "${dateTime != null ? ' on ' : ''}"
-            "${dateTime != null ? DateFormat('E d MMM').add_jm().format(dateTime!) : ''}"),
+            "${dateTime != null ? DateFormat('E d MMM yyyy').add_jm().format(dateTime!) : ''}"),
       ],
     );
   }

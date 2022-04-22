@@ -93,6 +93,7 @@ class TaskDetailedView extends StatelessWidget {
                     PriorityWidget(
                       task: task,
                     ),
+                    EffortWidget(task: task),
                     if (task.category != null) ChooseCategoryWidget(task: task),
                     EffortWidget(task: task),
                     PhotoAndNameWidget(
