@@ -1,3 +1,4 @@
+import 'package:careshare/task_manager/models/task_priority.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,70 +11,54 @@ class PriorityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Text.rich(
-        TextSpan(
-          children: [
-            const TextSpan(text: 'Priority: '),
-            TextSpan(
-              text: task.taskPriority.level,
-              style: TextStyle(color: task.taskPriority.color),
-            ),
-          ],
-        ),
+    return InputDecorator(
+      decoration: const InputDecoration(
+        label: Text('Priority'),
       ),
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (_) => BlocProvider.value(
-                  value: BlocProvider.of<TaskCubit>(context),
-                  child: BlocBuilder<TaskCubit, TaskState>(
-                    builder: (context, state) {
-                      return AlertDialog(
-                        title: Text.rich(
-                          TextSpan(
-                            children: [
-                              const TextSpan(text: 'Priority: '),
-                              TextSpan(
-                                text: task.taskPriority.level,
-                                style:
-                                    TextStyle(color: task.taskPriority.color),
-                              ),
-                            ],
-                          ),
-                        ),
-                        content: SizedBox(
-                          height: 40,
-                          child: Slider(
-                            label: task.taskPriority.level,
-                            value: task.taskPriority.value.toDouble(),
-                            min: 1,
-                            activeColor: Colors.grey,
-                            inactiveColor: Colors.grey,
-                            max: 5,
-                            thumbColor: task.taskPriority.color,
-                            divisions: 4,
-                            onChanged: (value) {
-                              BlocProvider.of<TaskCubit>(context).editTask(
-                                task: task,
-                                newValue: value,
-                                taskField: TaskField.taskPriority,
-                              );
-                            },
-                          ),
-                        ),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Ok'))
-                        ],
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: TaskPriority.priorityList
+              .map(
+                (e) => Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<TaskCubit>(context).editTask(
+                        task: task,
+                        newValue: e.value,
+                        taskField: TaskField.taskPriority,
                       );
                     },
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: task.taskPriority == e
+                          ? BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(),
+                            )
+                          : null,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              color: e.color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(e.level),
+                        ],
+                      ),
+                    ),
                   ),
-                ));
-      },
+                ),
+              )
+              .toList(),
+        ),
+      ),
     );
   }
 }

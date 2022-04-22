@@ -11,13 +11,12 @@ import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/comp
 
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/display_comments_widget.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/effort_widget.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/notes_widget.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/priority_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widgets/choose_category_widget.dart';
+import 'widgets/priority_widget.dart';
 import 'widgets/task_input_field_widget.dart';
 
 class TaskDetailedView extends StatelessWidget {
@@ -65,7 +64,7 @@ class TaskDetailedView extends StatelessWidget {
                   children: [
                     TaskInputFieldWidget(
                       label: 'Title',
-                      textStyle: Theme.of(context).textTheme.headline6,
+                      // textStyle: Theme.of(context).textTheme.headline6,
                       maxLines: 1,
                       currentValue: task.title,
                       task: task,
@@ -78,12 +77,23 @@ class TaskDetailedView extends StatelessWidget {
                         );
                       },
                     ),
-                    SizedBox(
-                        width: double.infinity, child: NotesWidget(task: task)),
+                    TaskInputFieldWidget(
+                        currentValue: task.details,
+                        maxLines: 3,
+                        task: task,
+                        label: 'Description',
+                        onChanged: (value) {
+                          BlocProvider.of<TaskCubit>(context)
+                              .editTaskFieldRepository(
+                            task: task,
+                            newValue: value,
+                            taskField: TaskField.details,
+                          );
+                        }),
+                    PriorityWidget(
+                      task: task,
+                    ),
                     if (task.category != null) ChooseCategoryWidget(task: task),
-                    SizedBox(
-                        width: double.infinity,
-                        child: PriorityWidget(task: task)),
                     EffortWidget(task: task),
                     PhotoAndNameWidget(
                         id: task.createdBy,

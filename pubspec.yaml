@@ -37,6 +37,7 @@ dependencies:
   firebase_database: ^9.0.9
   firebase_messaging: ^11.2.12
   firebase_storage: ^10.2.10
+  cloud_functions: ^3.2.13
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1

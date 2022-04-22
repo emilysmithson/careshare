@@ -59,8 +59,7 @@ class _TaskInputFieldWidgetState extends State<TaskInputFieldWidget> {
         });
       },
       decoration: InputDecoration(
-        border: InputBorder.none,
-        hintText: widget.label,
+        label: Text(widget.label),
       ),
     );
   }
