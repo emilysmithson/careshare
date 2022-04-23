@@ -3,6 +3,7 @@ const admin = require("firebase-admin");
 
 admin.initializeApp();
 exports.kudos = functions.https.onCall(async (data) => {
+
   // Adds a record of the kudos to the task
   const taskId = data["task_id"];
   const snapshot = await admin.database().ref("tasks/"+taskId).get();
@@ -11,6 +12,7 @@ exports.kudos = functions.https.onCall(async (data) => {
     "id": data["kudos_giver_id"],
     "date_time": data["date_time"],
   });
+
   // Gives the completer kudos
   const userId = snapshotVal["accepted_by"];
   await admin.database().ref("profiles/"+userId+"/kudos").
@@ -18,19 +20,17 @@ exports.kudos = functions.https.onCall(async (data) => {
           admin.database.
               ServerValue.increment(snapshotVal["task_effort"]),
       );
-  // await admin.database()
-  //     .ref("profiles")
-  //     .child(userId)
-  //     .child("kudos")
-  //     .set(50);
+
   // const kudosGiverId = data["kudos_giver_id"];
   // Returns the text received
   // console.debug(taskId, kudosGiverId);
   console.debug("kudos"+userId);
+
+  // Send the task completer a message
   admin.messaging().sendToTopic(userId, {
     notification:
       {
-        title: data["kudos_giver_name"] + " has given you some kudos!",
+        title: data["kudos_giver_name"] + " has given you kudos!",
         body: snapshotVal["title"],
         clickAction: "FLUTTER_NOTIFICATION_CLICK",
       },
