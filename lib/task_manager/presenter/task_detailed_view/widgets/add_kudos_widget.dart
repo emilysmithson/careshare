@@ -41,15 +41,16 @@ class KudosWidget extends StatelessWidget {
         task.kudos?.firstWhereOrNull((element) => element.id == profile.id);
 
     if (kudos != null) {
-      return Row(
-        children: [
-          const Icon(Icons.star, size: 16),
-          const SizedBox(width: 2),
-          Text(task.kudos?.length.toString() ?? '0',
-              style: Theme.of(context).textTheme.bodySmall),
-          Text(' Kudos', style: Theme.of(context).textTheme.bodySmall)
-        ],
-      );
+      return Container();
+      // return Row(
+      //   children: [
+      //     const Icon(Icons.star, size: 16),
+      //     const SizedBox(width: 2),
+      //     Text(task.kudos?.length.toString() ?? '0',
+      //         style: Theme.of(context).textTheme.bodySmall),
+      //     Text(' Kudos', style: Theme.of(context).textTheme.bodySmall)
+      //   ],
+      // );
     }
 
     return ElevatedButton.icon(

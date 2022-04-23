@@ -2,10 +2,11 @@ import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/presenter/task_overview/tasks_overview.dart';
 import 'package:careshare/templates/page_scaffold.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'task_overview/widgets/add_task_bottom_sheet.dart';
 
 class TaskManagerView extends StatefulWidget {
   static const String routeName = "/task-manager";
@@ -23,19 +24,19 @@ class _TaskManagerViewState extends State<TaskManagerView> {
     return PageScaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            HttpsCallable callable =
-                FirebaseFunctions.instance.httpsCallable('writeMessage');
-            final resp = await callable.call(<String, dynamic>{
-              'text': 'A message sent from a client device',
-            });
-            print("result: ${resp.data}");
+            // HttpsCallable callable =
+            //     FirebaseFunctions.instance.httpsCallable('writeMessage');
+            // final resp = await callable.call(<String, dynamic>{
+            //   'text': 'A message sent from a client device',
+            // });
+            // print("result: ${resp.data}");
             // HttpsCallable callable =
             //     FirebaseFunctions.instance.httpsCallable('kudos');
             // await callable.call(<String, dynamic>{
             //   'user_name': 'Emily',
             //   'user_id': 1,
             // });
-            // AddTaskBottomSheet().call(context);
+            AddTaskBottomSheet().call(context);
           },
           child: const Icon(Icons.add)),
       body: BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {

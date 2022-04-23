@@ -22,13 +22,13 @@ class TasksOverview extends StatelessWidget {
             profileList: BlocProvider.of<ProfileCubit>(context).profileList,
           ),
           TaskSection(
-              title: 'New Tasks',
-              careTaskList: careTaskList
-                  .where(
-                    (element) => element.taskStatus == TaskStatus.created,
-                  )
-                  .toList(),
-              color: const Color.fromARGB(255, 115, 214, 236)),
+            title: 'New Tasks',
+            careTaskList: careTaskList
+                .where(
+                  (element) => element.taskStatus == TaskStatus.created,
+                )
+                .toList(),
+          ),
           TaskSection(
             title: 'My Tasks',
             careTaskList: careTaskList
@@ -39,26 +39,24 @@ class TasksOverview extends StatelessWidget {
                           BlocProvider.of<ProfileCubit>(context).myProfile.id,
                 )
                 .toList(),
-            color: const Color.fromARGB(255, 111, 235, 212),
           ),
           TaskSection(
-              title: 'Completed Tasks',
-              careTaskList: careTaskList
-                  .where(
-                      (element) => element.taskStatus == TaskStatus.completed)
-                  .toList(),
-              color: const Color.fromARGB(255, 178, 255, 181)),
+            title: 'Completed Tasks',
+            careTaskList: careTaskList
+                .where((element) => element.taskStatus == TaskStatus.completed)
+                .toList(),
+          ),
           TaskSection(
-              title: "Other People's Tasks",
-              careTaskList: careTaskList
-                  .where(
-                    (element) =>
-                        element.taskStatus == TaskStatus.accepted &&
-                        element.acceptedBy !=
-                            BlocProvider.of<ProfileCubit>(context).myProfile.id,
-                  )
-                  .toList(),
-              color: const Color.fromARGB(255, 224, 224, 224)),
+            title: "Other People's Tasks",
+            careTaskList: careTaskList
+                .where(
+                  (element) =>
+                      element.taskStatus == TaskStatus.accepted &&
+                      element.acceptedBy !=
+                          BlocProvider.of<ProfileCubit>(context).myProfile.id,
+                )
+                .toList(),
+          ),
         ],
       ),
     );

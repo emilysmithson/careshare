@@ -1,21 +1,18 @@
-import 'package:careshare/core/presentation/photo_and_name_widget.dart';
-
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/models/task_status.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/add_kudos_widget.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/assign_a_task.dart';
-
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/complete_task_widget.dart';
-
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/display_comments_widget.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/effort_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/presentation/photo_and_name_widget.dart';
+import '../../models/task_status.dart';
+import 'widgets/add_kudos_widget.dart';
+import 'widgets/assign_a_task.dart';
 import 'widgets/choose_category_widget.dart';
+import 'widgets/complete_task_widget.dart';
+import 'widgets/display_comments_widget.dart';
+import 'widgets/effort_widget.dart';
 import 'widgets/priority_widget.dart';
 import 'widgets/task_input_field_widget.dart';
 
@@ -37,49 +34,67 @@ class TaskDetailedView extends StatelessWidget {
           currentFocus.unfocus();
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Task Details'),
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.delete,
-              ),
-              onPressed: () {
-                final taskCubit = BlocProvider.of<TaskCubit>(context);
-
-                taskCubit.removeTask(task.id);
-                Navigator.pop(context);
-              },
+      child: BlocBuilder<TaskCubit, TaskState>(
+        builder: (context, state) {
+          return Scaffold(
+            floatingActionButton: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (task.taskStatus == TaskStatus.accepted)
+                  CompleteTaskWidget(task: task),
+                if (task.taskStatus == TaskStatus.completed)
+                  KudosWidget(
+                    task: task,
+                  )
+              ],
             ),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: BlocBuilder<TaskCubit, TaskState>(
-              builder: (context, state) {
-                return Wrap(
+            appBar: AppBar(
+              title: const Text('Task Details'),
+              actions: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                  ),
+                  onPressed: () {
+                    final taskCubit = BlocProvider.of<TaskCubit>(context);
+
+                    taskCubit.removeTask(task.id);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Wrap(
                   runSpacing: 24,
                   children: [
-                    TaskInputFieldWidget(
-                      label: 'Title',
-                      // textStyle: Theme.of(context).textTheme.headline6,
-                      maxLines: 1,
-                      currentValue: task.title,
-                      task: task,
-                      onChanged: (value) {
-                        BlocProvider.of<TaskCubit>(context)
-                            .editTaskFieldRepository(
-                          taskField: TaskField.title,
-                          task: task,
-                          newValue: value,
-                        );
-                      },
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: TaskInputFieldWidget(
+                        label: 'Title',
+                        maxLines: 1,
+                        currentValue: task.title,
+                        task: task,
+                        onChanged: (value) {
+                          BlocProvider.of<TaskCubit>(context)
+                              .editTaskFieldRepository(
+                            taskField: TaskField.title,
+                            task: task,
+                            newValue: value,
+                          );
+                        },
+                      ),
+                    ),
+                    PhotoAndNameWidget(
+                      id: task.createdBy,
+                      text: 'Created by:',
+                      dateTime: task.dateCreated,
                     ),
                     TaskInputFieldWidget(
                         currentValue: task.details,
-                        maxLines: 3,
+                        maxLines: 5,
                         task: task,
                         label: 'Description',
                         onChanged: (value) {
@@ -94,44 +109,17 @@ class TaskDetailedView extends StatelessWidget {
                       task: task,
                     ),
                     EffortWidget(task: task),
-                    if (task.category != null) ChooseCategoryWidget(task: task),
-                    PhotoAndNameWidget(
-                        id: task.createdBy,
-                        text: 'Created by:',
-                        dateTime: task.dateCreated),
+                    ChooseCategoryWidget(task: task),
                     AssignATask(
                       task: task,
                     ),
                     DisplayCommentsWidget(task: task),
-                    Row(
-                      children: [
-                        if (task.category != null)
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Save'),
-                          ),
-                        if (task.category == null)
-                          ChooseCategoryWidget(
-                            task: task,
-                            showButton: true,
-                          ),
-                        const Spacer(),
-                        if (task.taskStatus == TaskStatus.accepted)
-                          CompleteTaskWidget(task: task),
-                        if (task.taskStatus == TaskStatus.completed)
-                          KudosWidget(
-                            task: task,
-                          )
-                      ],
-                    ),
                   ],
-                );
-              },
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

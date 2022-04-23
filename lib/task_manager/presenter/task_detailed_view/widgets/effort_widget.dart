@@ -1,4 +1,5 @@
 import 'package:careshare/task_manager/models/task_effort.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/effort_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,7 +39,7 @@ class EffortWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(2.0),
                       child: Column(
                         children: [
-                          effortIcon(e.value),
+                          EffortIcon(effort: e.value),
                           const SizedBox(height: 4),
                           Text(
                             e.definition,
@@ -51,28 +52,4 @@ class EffortWidget extends StatelessWidget {
               .toList()),
     );
   }
-}
-
-Widget effortIcon(int effort) {
-  List<Widget> widgetList = [];
-  for (int i = 0; i < 6; i++) {
-    widgetList.add(
-      Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 1,
-            color: Colors.blue,
-          ),
-          color: i < effort ? Colors.blue : null,
-        ),
-        width: 5,
-        height: 5 * (i + 1),
-      ),
-    );
-  }
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.end,
-    children: widgetList,
-  );
 }
