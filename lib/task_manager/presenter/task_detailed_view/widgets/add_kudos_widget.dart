@@ -1,8 +1,8 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
-import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,16 +25,28 @@ class KudosWidget extends StatelessWidget {
       return Container();
     }
     Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
-    _onTap() {
-      BlocProvider.of<TaskCubit>(context).editTask(
-        task: task,
-        newValue: Kudos(
-          id: profile.id!,
-          dateTime: DateTime.now(),
-        ),
-        taskField: TaskField.kudos,
-      );
-      BlocProvider.of<ProfileCubit>(context).addKudos(task.completedBy!);
+    _onTap() async {
+      HttpsCallable callable =
+          FirebaseFunctions.instance.httpsCallable('kudos');
+      print("profile name: " + profile.name);
+      final resp = await callable.call(<String, dynamic>{
+        'task_id': task.id,
+        'task_title': task.title,
+        'kudos_giver_id': profile.id!,
+        'kudos_giver_name': profile.name,
+        'date_time': DateTime.now().toString()
+      });
+      print("result: ${resp.data}");
+
+      // BlocProvider.of<TaskCubit>(context).editTask(
+      //   task: task,
+      //   newValue: Kudos(
+      //     id: profile.id!,
+      //     dateTime: DateTime.now(),
+      //   ),
+      //   taskField: TaskField.kudos,
+      // );
+      // BlocProvider.of<ProfileCubit>(context).addKudos(task.completedBy!);
     }
 
     Kudos? kudos =

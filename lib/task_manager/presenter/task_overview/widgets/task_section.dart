@@ -34,7 +34,7 @@ class TaskSection extends StatelessWidget {
             tag: title,
             child: Container(
               width: double.infinity,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).primaryColor.withOpacity(0.8),
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 title + ' >',
