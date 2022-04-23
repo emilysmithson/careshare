@@ -27,7 +27,7 @@ class KudosWidget extends StatelessWidget {
     Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
     _onTap() async {
       HttpsCallable callable =
-          FirebaseFunctions.instance.httpsCallable('kudos');
+          FirebaseFunctions.instance.httpsCallable('giveKudos');
       print("profile name: " + profile.name);
       final resp = await callable.call(<String, dynamic>{
         'task_id': task.id,

@@ -2,7 +2,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
 admin.initializeApp();
-exports.kudos = functions.https.onCall(async (data) => {
+exports.giveKudos = functions.https.onCall(async (data) => {
 
   // Adds a record of the kudos to the task
   const taskId = data["task_id"];
