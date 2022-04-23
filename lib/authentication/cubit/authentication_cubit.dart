@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:careshare/notifications/initialise_notifications.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +29,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       await profileCubit.fetchProfiles();
       await taskCubit.fetchTasks();
       await categoriesCubit.fetchCategories();
-
+      await initialiseNotifications(user.uid);
       emit(AuthenticationLoaded(user));
     }
   }

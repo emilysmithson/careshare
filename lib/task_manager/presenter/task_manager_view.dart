@@ -24,18 +24,6 @@ class _TaskManagerViewState extends State<TaskManagerView> {
     return PageScaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            // HttpsCallable callable =
-            //     FirebaseFunctions.instance.httpsCallable('writeMessage');
-            // final resp = await callable.call(<String, dynamic>{
-            //   'text': 'A message sent from a client device',
-            // });
-            // print("result: ${resp.data}");
-            // HttpsCallable callable =
-            //     FirebaseFunctions.instance.httpsCallable('kudos');
-            // await callable.call(<String, dynamic>{
-            //   'user_name': 'Emily',
-            //   'user_id': 1,
-            // });
             AddTaskBottomSheet().call(context);
           },
           child: const Icon(Icons.add)),
