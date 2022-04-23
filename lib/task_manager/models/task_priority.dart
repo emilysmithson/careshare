@@ -22,7 +22,7 @@ class TaskPriority extends Equatable {
     color: Colors.orange,
   );
   static const TaskPriority medium =
-      TaskPriority(level: 'Medium', value: 3, color: Colors.orangeAccent);
+      TaskPriority(level: 'Medium', value: 3, color: Colors.amber);
   static const TaskPriority low = TaskPriority(
     level: 'Low',
     value: 2,
@@ -34,11 +34,11 @@ class TaskPriority extends Equatable {
     color: Colors.green,
   );
   static final List<TaskPriority> priorityList = [
-    highest,
-    high,
-    medium,
-    low,
     lowest,
+    low,
+    medium,
+    high,
+    highest,
   ];
 
   @override

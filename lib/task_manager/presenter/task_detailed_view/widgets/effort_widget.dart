@@ -1,3 +1,5 @@
+import 'package:careshare/task_manager/models/task_effort.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/effort_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,48 +12,44 @@ class EffortWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Text('Effort: ${task.taskEffort.definition}'),
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (_) => BlocProvider.value(
-                  value: BlocProvider.of<TaskCubit>(context),
-                  child: BlocBuilder<TaskCubit, TaskState>(
-                    builder: (context, state) {
-                      return AlertDialog(
-                        title: Text('Effort: \n${task.taskEffort.definition}'),
-                        content: SizedBox(
-                          height: 40,
-                          child: Slider(
-                            label: task.taskEffort.definition,
-                            value: task.taskEffort.value.toDouble(),
-                            min: 1,
-                            activeColor: Colors.grey,
-                            inactiveColor: Colors.grey,
-                            max: 6,
-                            divisions: 5,
-                            onChanged: (value) {
-                              BlocProvider.of<TaskCubit>(context).editTask(
-                                task: task,
-                                newValue: value,
-                                taskField: TaskField.taskEffort,
-                              );
-                            },
-                          ),
-                        ),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Ok'))
-                        ],
+    return InputDecorator(
+      decoration: const InputDecoration(
+        label: Text('Effort'),
+      ),
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: TaskEffort.taskSizeList
+              .map((e) => Expanded(
+                      child: GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<TaskCubit>(context).editTask(
+                        task: task,
+                        newValue: e.value,
+                        taskField: TaskField.taskEffort,
                       );
                     },
-                  ),
-                ));
-      },
+                    child: Container(
+                      decoration: task.taskEffort == e
+                          ? BoxDecoration(
+                              border: Border.all(),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(2)),
+                            )
+                          : null,
+                      padding: const EdgeInsets.all(2.0),
+                      child: Column(
+                        children: [
+                          EffortIcon(effort: e.value),
+                          const SizedBox(height: 4),
+                          Text(
+                            e.definition,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )))
+              .toList()),
     );
   }
 }

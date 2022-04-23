@@ -1,11 +1,12 @@
 import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/task_manager/presenter/task_category_view/cubit/task_category_view_cubit.dart';
-import 'package:careshare/task_manager/presenter/task_overview/widgets/task_summary.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/effort_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../category_manager/cubit/category_cubit.dart';
 import '../../models/task.dart';
+import '../task_detailed_view/task_detailed_view.dart';
 
 class TaskCategoryView extends StatelessWidget {
   final String title;
@@ -84,12 +85,33 @@ class TaskCategoryView extends StatelessWidget {
             body: ListView(
               children: state.careTaskList
                   .map(
-                    (task) => SizedBox(
-                      width: 160,
-                      height: 160,
-                      child: TaskSummary(
-                        task: task,
-                        isInListView: true,
+                    (task) => GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          TaskDetailedView.routeName,
+                          arguments: task,
+                        );
+                      },
+                      child: Card(
+                        child: ListTile(
+                          title: Text(task.title),
+                          subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Category: ${task.category?.name}'),
+                              ]),
+                          trailing: EffortIcon(
+                            effort: task.taskEffort.value,
+                          ),
+                          leading: Container(
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              color: task.taskPriority.color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   )

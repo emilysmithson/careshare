@@ -1,4 +1,8 @@
 PODS:
+  - cloud_functions (3.2.13):
+    - Firebase/Functions (= 8.14.0)
+    - firebase_core
+    - Flutter
   - Firebase/Analytics (8.14.0):
     - Firebase/Core
   - Firebase/Auth (8.14.0):
@@ -12,6 +16,9 @@ PODS:
   - Firebase/Database (8.14.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 8.14.0)
+  - Firebase/Functions (8.14.0):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (~> 8.14.0)
   - Firebase/Messaging (8.14.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.14.0)
@@ -81,6 +88,9 @@ PODS:
   - FirebaseFirestore/AutodetectLeveldb (8.11.0):
     - FirebaseFirestore/Base
   - FirebaseFirestore/Base (8.11.0)
+  - FirebaseFunctions (8.14.0):
+    - FirebaseCore (~> 8.0)
+    - GTMSessionFetcher/Core (~> 1.5)
   - FirebaseInstallations (8.14.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
@@ -156,6 +166,7 @@ PODS:
   - PromisesObjC (2.0.0)
 
 DEPENDENCIES:
+  - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -175,6 +186,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseDatabase
+    - FirebaseFunctions
     - FirebaseInstallations
     - FirebaseMessaging
     - FirebaseStorage
@@ -187,6 +199,8 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
+  cloud_functions:
+    :path: ".symlinks/plugins/cloud_functions/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -215,6 +229,7 @@ CHECKOUT OPTIONS:
     :tag: 8.11.0
 
 SPEC CHECKSUMS:
+  cloud_functions: 77e1e8b01a3341f3ab7a66d8df1a93156bedae44
   Firebase: 7e8fe528c161b9271d365217a74c16aaf834578e
   firebase_analytics: 3d3cbbe452befde99014d7f6fd281bbb4e6f96da
   firebase_auth: 363370737d33bad09a838cd109f7589bc48533cd
@@ -228,6 +243,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: fd0c8490f34287229c1d6c103d3a55f81ec85712
   FirebaseDatabase: 8bfbe7bb8d355f9727507bcf4a2116cb3aabdc5e
   FirebaseFirestore: 82db65a3eab6bb52e4e3d65d5e346ea96704bbbc
+  FirebaseFunctions: 72a8e24d3bcba2782f18602b14533b1525ff297c
   FirebaseInstallations: 7d1d967a307c12f1aadd76844fc321cef699b1ce
   FirebaseMessaging: 5ebc42d281567658a2cb72b9ef3506e4a1a1a6e4
   FirebaseStorage: 32ab036ce11eb7e94c279a238a65efa24f81593d

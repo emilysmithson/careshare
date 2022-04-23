@@ -20,9 +20,12 @@ class PhotoAndNameWidget extends StatelessWidget {
       children: [
         ProfilePhotoWidget(id: id),
         const SizedBox(width: 16),
-        Text("$text ${BlocProvider.of<ProfileCubit>(context).getName(id)}"
-            "${dateTime != null ? ' on ' : ''}"
-            "${dateTime != null ? DateFormat('E d MMM yyyy').add_jm().format(dateTime!) : ''}"),
+        Expanded(
+          child: Text(
+              "$text ${BlocProvider.of<ProfileCubit>(context).getName(id)}"
+              "${dateTime != null ? '\non ' : ''}"
+              "${dateTime != null ? DateFormat('E d MMM yyyy').add_jm().format(dateTime!) : ''}"),
+        ),
       ],
     );
   }

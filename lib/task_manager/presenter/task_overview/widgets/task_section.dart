@@ -7,15 +7,13 @@ import 'package:flutter/material.dart';
 import 'add_task_bottom_sheet.dart';
 
 class TaskSection extends StatelessWidget {
-  final Color color;
   final String title;
   final List<CareTask> careTaskList;
-  const TaskSection(
-      {Key? key,
-      required this.title,
-      required this.careTaskList,
-      required this.color})
-      : super(key: key);
+  const TaskSection({
+    Key? key,
+    required this.title,
+    required this.careTaskList,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +34,14 @@ class TaskSection extends StatelessWidget {
             tag: title,
             child: Container(
               width: double.infinity,
-              color: color,
+              color: Theme.of(context).primaryColor,
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 title + ' >',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: Colors.white),
               ),
             ),
           ),
@@ -48,7 +49,7 @@ class TaskSection extends StatelessWidget {
         SizedBox(
           height: 130,
           child: Container(
-            color: color.withOpacity(0.5),
+            color: Theme.of(context).primaryColor.withOpacity(0.3),
             child: careTaskList.isEmpty
                 ? Container(
                     width: double.infinity,
