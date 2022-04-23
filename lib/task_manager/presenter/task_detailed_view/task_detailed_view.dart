@@ -95,7 +95,6 @@ class TaskDetailedView extends StatelessWidget {
                     ),
                     EffortWidget(task: task),
                     if (task.category != null) ChooseCategoryWidget(task: task),
-                    EffortWidget(task: task),
                     PhotoAndNameWidget(
                         id: task.createdBy,
                         text: 'Created by:',
