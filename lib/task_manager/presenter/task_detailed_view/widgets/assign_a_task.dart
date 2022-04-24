@@ -1,12 +1,15 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter/material.dart';
+
 
 class AssignATask extends StatefulWidget {
   final CareTask task;
@@ -27,9 +30,25 @@ class _AssignATaskState extends State<AssignATask> {
         .profileList
         .map(
           (profile) => GestureDetector(
-            onTap: () {
+            onTap: () async {
+
+              Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+
               BlocProvider.of<TaskCubit>(context)
                   .assignTask(widget.task, profile.id);
+
+              HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('assignTask');
+              // print("profile name: " + profile.name);
+              final resp = await callable.call(<String, dynamic>{
+                'task_id': widget.task.id,
+                'task_title': widget.task.title,
+                'assigner_id': myProfile.id,
+                'assigner_name': myProfile.name,
+                'assignee_id': profile.id!,
+                'assignee_name': profile.name,
+                'date_time': DateTime.now().toString()
+              });
+
             },
             child: BlocBuilder<TaskCubit, TaskState>(
               builder: (context, state) {
