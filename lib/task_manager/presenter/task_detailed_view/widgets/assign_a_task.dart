@@ -34,21 +34,24 @@ class _AssignATaskState extends State<AssignATask> {
 
               Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
-              BlocProvider.of<TaskCubit>(context)
-                  .assignTask(widget.task, profile.id);
+              // if the task isn't assigned to me, send a message to the assignee...
+              if (myProfile.id != profile.id) {
+                BlocProvider.of<TaskCubit>(context)
+                    .assignTask(widget.task, profile.id);
 
-              HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('assignTask');
-              // print("profile name: " + profile.name);
-              final resp = await callable.call(<String, dynamic>{
-                'task_id': widget.task.id,
-                'task_title': widget.task.title,
-                'assigner_id': myProfile.id,
-                'assigner_name': myProfile.name,
-                'assignee_id': profile.id!,
-                'assignee_name': profile.name,
-                'date_time': DateTime.now().toString()
-              });
-
+                HttpsCallable callable =
+                    FirebaseFunctions.instance.httpsCallable('assignTask');
+                // print("profile name: " + profile.name);
+                final resp = await callable.call(<String, dynamic>{
+                  'task_id': widget.task.id,
+                  'task_title': widget.task.title,
+                  'assigner_id': myProfile.id,
+                  'assigner_name': myProfile.name,
+                  'assignee_id': profile.id!,
+                  'assignee_name': profile.name,
+                  'date_time': DateTime.now().toString()
+                });
+              }
             },
             child: BlocBuilder<TaskCubit, TaskState>(
               builder: (context, state) {
