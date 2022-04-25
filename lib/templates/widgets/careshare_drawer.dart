@@ -27,7 +27,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             title: Text(
               'Careshare Menu',
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
               ),
@@ -40,7 +40,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
           // ListTile(
           //   tileColor: Colors.lightBlueAccent,
           //   title: Text('New Task',
-          //     style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
+          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w800,color: Colors.white,),
           //   ),
           //   trailing: Icon(Icons.add_box_outlined, size: 30, color: Colors.white,),
           //   onTap: () {
@@ -58,7 +58,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
           // ListTile(
           //   tileColor: Colors.lightBlueAccent,
           //   title: Text('All Profiles',
-          //     style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
+          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w800,color: Colors.white,),
           //   ),
           //   trailing: Icon(Icons.person_outline, size: 30, color: Colors.white,),
           //   onTap: () {
@@ -76,7 +76,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
           // ListTile(
           //   tileColor: Colors.lightBlueAccent,
           //   title: Text('New Profile',
-          //     style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
+          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w800,color: Colors.white,),
           //   ),
           //   trailing: Icon(Icons.add_box_outlined, size: 30, color: Colors.white,),
           //   onTap: () {
@@ -94,7 +94,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
           // ListTile(
           //   tileColor: Colors.lightBlueAccent,
           //   title: Text('All Caregroups',
-          //     style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
+          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w800,color: Colors.white,),
           //   ),
           //   trailing: Icon(Icons.people_alt, size: 30, color: Colors.white,),
           //   onTap: () {
@@ -112,7 +112,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
           // ListTile(
           //   tileColor: Colors.lightBlueAccent,
           //   title: Text('New Caregroup',
-          //     style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white,),
+          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w800,color: Colors.white,),
           //   ),
           //   trailing: Icon(Icons.add_box_outlined, size: 30, color: Colors.white,),
           //   onTap: () {
@@ -132,7 +132,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             title: const Text(
               'Home',
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
               ),
@@ -157,7 +157,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             title: const Text(
               'My Profile',
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
               ),
@@ -182,7 +182,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             title: const Text(
               'Task Manager',
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
               ),
@@ -207,7 +207,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             title: const Text(
               'Profile Manager',
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
               ),
@@ -232,7 +232,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             title: const Text(
               'Signout',
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
               ),

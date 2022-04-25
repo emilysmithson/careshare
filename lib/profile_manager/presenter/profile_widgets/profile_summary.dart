@@ -26,8 +26,8 @@ class ProfileSummary extends StatelessWidget {
         );
       },
       child: Container(
-        width: 190,
-        height: 250,
+        width: 250,
+        height: 200,
         padding: const EdgeInsets.all(8.0),
         child: Card(
           child: Padding(
@@ -45,9 +45,8 @@ class ProfileSummary extends StatelessWidget {
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
                       ),
-                      Text('First name: ${profile.firstName}'),
-                      Text('Last name: ${profile.lastName}'),
-                      Text('e-mail: ${profile.email}'),
+                      Text('${profile.firstName} ${profile.lastName}'),
+                      Text('${profile.email}'),
                     ],
                   );
                 }

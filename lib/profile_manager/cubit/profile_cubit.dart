@@ -87,6 +87,7 @@ class ProfileCubit extends Cubit<ProfileState> {
           myProfile = profileList.firstWhere((element) =>
               element.id == FirebaseAuth.instance.currentUser!.uid);
 
+          profileList.sort((a,b)=>a.name.compareTo(b.name));
           emit(ProfileLoaded(profileList: profileList));
         }
       });

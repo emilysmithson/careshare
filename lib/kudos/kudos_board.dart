@@ -8,7 +8,8 @@ class KudosBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    profileList.sort(
+    List<Profile> _profileList = profileList.toList();
+    _profileList.sort(
       (a, b) => b.kudos.compareTo(a.kudos),
     );
     return Padding(
@@ -18,7 +19,7 @@ class KudosBoard extends StatelessWidget {
         child: Wrap(
           spacing: 8,
           alignment: WrapAlignment.spaceAround,
-          children: profileList
+          children: _profileList
               .map((Profile profile) => KudosBoardWidget(profile: profile))
               .toList(),
         ),
