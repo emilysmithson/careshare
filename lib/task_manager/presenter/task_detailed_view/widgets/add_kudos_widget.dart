@@ -24,6 +24,7 @@ class KudosWidget extends StatelessWidget {
     if (task.taskStatus != TaskStatus.completed) {
       return Container();
     }
+
     Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
     _onTap() async {
       HttpsCallable callable =

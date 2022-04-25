@@ -52,7 +52,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
               categoryList.add(CareCategory.fromJson(value));
             },
           );
-
+          categoryList.sort((a,b) => a.name.compareTo(b.name));
           emit(CategoriesLoaded(categoryList));
         }
       });

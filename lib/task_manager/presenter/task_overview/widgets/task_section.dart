@@ -57,7 +57,7 @@ class TaskSection extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
-                        width: 160,
+                        width: 140,
                         child: Card(
                           child: Center(
                             child: IconButton(
