@@ -12,17 +12,12 @@ class KudosBoard extends StatelessWidget {
     _profileList.sort(
       (a, b) => b.kudos.compareTo(a.kudos),
     );
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: SizedBox(
-        width: double.infinity,
-        child: Wrap(
-          spacing: 8,
-          alignment: WrapAlignment.spaceAround,
-          children: _profileList
-              .map((Profile profile) => KudosBoardWidget(profile: profile))
-              .toList(),
-        ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: _profileList
+            .map((Profile profile) => KudosBoardWidget(profile: profile))
+            .toList(),
       ),
     );
   }

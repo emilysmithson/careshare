@@ -10,17 +10,20 @@ class KudosBoardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tooltip(
       message: profile.name,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ProfilePhotoWidget(id: profile.id!),
-          const SizedBox(width: 2),
-          const Icon(Icons.star, size: 10),
-          const SizedBox(width: 2),
-          Text(
-            profile.kudos.toString(),
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ProfilePhotoWidget(id: profile.id!),
+            const SizedBox(width: 2),
+            const Icon(Icons.star, size: 10),
+            const SizedBox(width: 2),
+            Text(
+              profile.kudos.toString(),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -34,10 +34,10 @@ class _AssignATaskState extends State<AssignATask> {
 
               Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
-              BlocProvider.of<TaskCubit>(context).assignTask(widget.task, profile.id);
-
               // if the task isn't assigned to me, send a message to the assignee...
               if (myProfile.id != profile.id) {
+                BlocProvider.of<TaskCubit>(context)
+                    .assignTask(widget.task, profile.id);
 
                 HttpsCallable callable =
                     FirebaseFunctions.instance.httpsCallable('assignTask');
