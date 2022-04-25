@@ -26,7 +26,8 @@ class KudosWidget extends StatelessWidget {
     }
     Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
     _onTap() async {
-      HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('giveKudos');
+      HttpsCallable callable =
+          FirebaseFunctions.instance.httpsCallable('giveKudos');
       // print("profile name: " + profile.name);
       final resp = await callable.call(<String, dynamic>{
         'task_id': task.id,
@@ -35,7 +36,6 @@ class KudosWidget extends StatelessWidget {
         'kudos_giver_name': profile.name,
         'date_time': DateTime.now().toString()
       });
-
 
       // print("result: ${resp.data}");
 
@@ -66,10 +66,9 @@ class KudosWidget extends StatelessWidget {
       // );
     }
 
-    return ElevatedButton.icon(
+    return ElevatedButton(
       onPressed: _onTap,
-      icon: const Icon(Icons.star),
-      label: const Text('Give Kudos'),
+      child: const Text('Give Kudos'),
     );
   }
 }

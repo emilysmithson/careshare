@@ -34,13 +34,14 @@ class DisplayCommentsWidget extends StatelessWidget {
                                     color: Colors.green[100],
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                        Expanded(child: Text(
+                                      Text(
                                           '${comment.commment} ${comment.createdByDisplayName} on ${DateFormat('E d MMM yyyy').add_jm().format(comment.dateCreated)}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .caption)),
+                                              .caption),
                                     ],
                                   )),
                             ),
