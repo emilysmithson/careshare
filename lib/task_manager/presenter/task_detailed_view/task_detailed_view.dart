@@ -15,6 +15,7 @@ import 'widgets/display_comments_widget.dart';
 import 'widgets/effort_widget.dart';
 import 'widgets/priority_widget.dart';
 import 'widgets/task_input_field_widget.dart';
+import 'widgets/type_widget.dart';
 
 class TaskDetailedView extends StatelessWidget {
   static const String routeName = "/task-detailed-view";
@@ -106,6 +107,9 @@ class TaskDetailedView extends StatelessWidget {
                           );
                         }),
                     PriorityWidget(
+                      task: task,
+                    ),
+                    TypeWidget(
                       task: task,
                     ),
                     EffortWidget(task: task),

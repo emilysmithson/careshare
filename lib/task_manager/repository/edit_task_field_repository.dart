@@ -1,6 +1,7 @@
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_priority.dart';
 import 'package:careshare/task_manager/models/task_effort.dart';
+import 'package:careshare/task_manager/models/task_type.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
@@ -33,6 +34,13 @@ class EditTaskFieldRepository {
         field = 'task_effort';
         value = newValue;
         break;
+      case TaskField.taskType:
+        newTask.taskType = TaskType.taskTypeList
+            .firstWhere((element) => element.value == newValue.truncate());
+        field = 'task_type';
+        value = newValue;
+        break;
+
       case TaskField.taskPriority:
         newTask.taskPriority = TaskPriority.priorityList
             .firstWhere((element) => element.value == newValue.truncate());

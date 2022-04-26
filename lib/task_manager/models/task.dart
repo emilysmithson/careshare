@@ -5,6 +5,7 @@ import 'package:careshare/task_manager/models/comment.dart';
 import '../../category_manager/domain/models/category.dart';
 import 'kudos.dart';
 import 'task_effort.dart';
+import 'task_type.dart';
 import 'task_priority.dart';
 import 'task_status.dart';
 
@@ -13,6 +14,7 @@ class CareTask {
 
   TaskPriority taskPriority;
   TaskEffort taskEffort;
+  TaskType taskType;
   String? details;
   CareCategory? category;
   final String id;
@@ -39,6 +41,7 @@ class CareTask {
     this.acceptedOnDate,
     required this.createdBy,
     this.taskEffort = TaskEffort.medium,
+    this.taskType = TaskType.any,
     this.taskStatus = TaskStatus.created,
     required this.dateCreated,
     this.taskPriority = TaskPriority.medium,
@@ -57,6 +60,7 @@ class CareTask {
       'category': category?.toJson(),
       'created_by': createdBy,
       'task_effort': taskEffort.value,
+      'task_type': taskType.value,
       'task_status': taskStatus.status,
       'date_created': dateCreated.toString(),
       'priority': taskPriority.value,
@@ -80,6 +84,10 @@ class CareTask {
     }
     final taskSize = TaskEffort.taskSizeList
         .firstWhere((element) => element.value == value['task_effort']);
+
+    final taskType = TaskType.taskTypeList
+        .firstWhere((element) => element.value == value['task_type']);
+
     final taskStatus = TaskStatus.taskStatusList
         .firstWhere((element) => element.status == value['task_status']);
 
@@ -120,6 +128,7 @@ class CareTask {
         details: details,
         category: category,
         taskEffort: taskSize,
+        taskType: taskType,
         taskStatus: taskStatus,
         taskPriority: priority,
         createdBy: createdBy,
@@ -141,6 +150,7 @@ class CareTask {
         other.title == title &&
         other.taskPriority == taskPriority &&
         other.taskEffort == taskEffort &&
+        other.taskType == taskType &&
         other.details == details &&
         other.category == category &&
         other.id == id &&
@@ -161,6 +171,7 @@ class CareTask {
     return title.hashCode ^
         taskPriority.hashCode ^
         taskEffort.hashCode ^
+        taskType.hashCode ^
         details.hashCode ^
         category.hashCode ^
         id.hashCode ^
@@ -181,6 +192,7 @@ enum TaskField {
   title,
   taskPriority,
   taskEffort,
+  taskType,
   details,
   category,
   taskStatus,
