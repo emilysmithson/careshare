@@ -13,15 +13,20 @@ class DisplayCommentsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return InputDecorator(
+      decoration: const InputDecoration(
+        label: Text("Comments"),
+      ),
       child: BlocBuilder<TaskCubit, TaskState>(
         builder: (context, state) {
+          task.comments?.sort(
+            (a, b) => a.dateCreated.compareTo(b.dateCreated),
+          );
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Comments'),
                 if (task.comments != null)
                   Column(
                     children: task.comments!.map((comment) {
