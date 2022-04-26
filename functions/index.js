@@ -74,6 +74,25 @@ exports.assignTask = functions.https.onCall(async (data) => {
 
 });
 
+// completeTask is called when a user completes a task in the UI
+exports.completeTask = functions.https.onCall(async (data) => {
+
+    // Send a message to everyone
+    admin.messaging().sendToTopic("task_completed", {
+    notification:
+      {
+        title: data["completer_name"] + " has completed a task: " + data["task_title"],
+        body: data["completer_name"] + " has completed a task: " + data["task_title"] + " at " + data["date_time"] ,
+        clickAction: "FLUTTER_NOTIFICATION_CLICK",
+      },
+    data: {
+      "task_id": data["task_id"],
+    },
+  });
+  return `Successfully completed: ${data["task_id"]}`;
+
+});
+
 // notifyUsers - a generic update to all users
 exports.notifyUsers = functions.database.ref("tasks/{task}")
     .onCreate(( snapshot, _) => {
@@ -83,6 +102,7 @@ exports.notifyUsers = functions.database.ref("tasks/{task}")
       // const createdBy = snapshotVal.createdBy;
       console.debug(title1);
       console.debug(snapshotVal);
+
       // Grab the current value     of what was written to the Realtime Database.
       admin.messaging().sendToTopic("task", {
         notification:
