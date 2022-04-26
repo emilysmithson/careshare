@@ -47,19 +47,19 @@ class CreateTaskWidget extends StatelessWidget {
                               'Created: ',
                               style: Theme.of(context).textTheme.subtitle1,
                             ),
-                            SizedBox(
-                              height: 120,
-                              child: CupertinoDatePicker(
-                                onDateTimeChanged: (DateTime dateTime) {
-                                  dateTime = dateTime;
-                                },
-                              ),
-                            ),
+                            // SizedBox(
+                            //   height: 120,
+                            //   child: CupertinoDatePicker(
+                            //     onDateTimeChanged: (DateTime dateTime) {
+                            //       dateTime = dateTime;
+                            //     },
+                            //   ),
+                            // ),
                             Text(
                               'Created by: ',
                               style: Theme.of(context).textTheme.subtitle1,
                             ),
-                            PhotoAndNameWidget(id: task.acceptedBy!),
+                            //PhotoAndNameWidget(id: task.acceptedBy!),
                             SizedBox(
                               width: double.infinity,
                               child: Align(
@@ -70,8 +70,6 @@ class CreateTaskWidget extends StatelessWidget {
                                     BlocProvider.of<TaskCubit>(context)
                                         .createTask(
                                       task: task,
-                                      id: task.acceptedBy!,
-                                      dateTime: dateTime,
                                     );
 
                                     Navigator.pop(context);
