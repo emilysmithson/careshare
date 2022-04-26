@@ -27,8 +27,11 @@ Future initialiseNotifications(String userId) async {
       alert: true, badge: true, sound: true);
 
   messaging.subscribeToTopic('task');
+  messaging.subscribeToTopic('task_completed');
   messaging.subscribeToTopic(userId);
-  print("kudos/$userId");
+
+  // print("kudos/$userId");
+
 
   FirebaseMessaging.onMessageOpenedApp.listen((message) {
     print('onMessageOpenedApp');

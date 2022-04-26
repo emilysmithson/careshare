@@ -106,6 +106,8 @@ class TaskCubit extends Cubit<TaskState> {
       taskField: TaskField.taskStatus,
       newValue: TaskStatus.completed,
     );
+
+
   }
 
   assignTask(

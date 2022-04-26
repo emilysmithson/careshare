@@ -125,32 +125,32 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
           //   },
           // ),
           //
-          const Divider(),
+          // const Divider(),
 
-          ListTile(
-            tileColor: Colors.lightBlueAccent,
-            title: const Text(
-              'Home',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w800,
-                color: Colors.white,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.home,
-              size: 30,
-              color: Colors.white,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(
-                context,
-                HomePage.routeName,
-              );
-            },
-          ),
-          const Divider(),
+          // ListTile(
+          //   tileColor: Colors.lightBlueAccent,
+          //   title: const Text(
+          //     'Home',
+          //     style: TextStyle(
+          //       fontSize: 16.0,
+          //       fontWeight: FontWeight.w800,
+          //       color: Colors.white,
+          //     ),
+          //   ),
+          //   trailing: const Icon(
+          //     Icons.home,
+          //     size: 30,
+          //     color: Colors.white,
+          //   ),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //     Navigator.pushNamed(
+          //       context,
+          //         TaskManagerView.routeName,
+          //     );
+          //   },
+          // ),
+          // const Divider(),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
