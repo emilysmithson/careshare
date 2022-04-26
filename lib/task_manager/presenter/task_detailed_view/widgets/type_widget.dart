@@ -32,7 +32,7 @@ class TypeWidget extends StatelessWidget {
                     },
                     child: Container(
                       padding: const EdgeInsets.all(4),
-                      decoration: task.taskType == e
+                      decoration: task.taskType.value == e.value
                           ? BoxDecoration(
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(),
