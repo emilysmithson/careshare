@@ -19,7 +19,7 @@ class AddTaskBottomSheet {
       }
       final taskCubit = BlocProvider.of<TaskCubit>(context);
       final CareTask? task =
-          await taskCubit.createTask(textEditingController.text);
+          await taskCubit.draftTask(textEditingController.text);
       if (task == null) {
         Navigator.pop(context);
       } else {

@@ -36,9 +36,9 @@ class TaskSummary extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: BlocBuilder<TaskCubit, TaskState>(
               builder: (context, state) {
-                String photoId = task.acceptedBy ?? task.createdBy;
+                String photoId = task.acceptedBy ?? task.createdBy!;
                 if (photoId == '') {
-                  photoId = task.createdBy;
+                  photoId = task.createdBy!;
                 }
 
                 return Row(

@@ -3,6 +3,27 @@ const admin = require("firebase-admin");
 
 admin.initializeApp();
 
+
+// createTask is called when a user creates a task in the UI
+exports.createTask = functions.https.onCall(async (data) => {
+
+    // Send a message to everyone
+    admin.messaging().sendToTopic("task_created", {
+    notification:
+      {
+        title: data["creater_name"] + " has created a task: " + data["task_title"],
+        body: data["creater_name"] + " has created a task: " + data["task_title"] + " at " + data["date_time"] ,
+        clickAction: "FLUTTER_NOTIFICATION_CLICK",
+      },
+    data: {
+      "task_id": data["task_id"],
+    },
+  });
+  return `Successfully completed: ${data["task_id"]}`;
+
+});
+
+
 // giveKudos is called when a user clicks the kudos button in the UI
 exports.giveKudos = functions.https.onCall(async (data) => {
 // exports.giveKudos = functions.pubsub.topic("kudos").onPublish((message) => {

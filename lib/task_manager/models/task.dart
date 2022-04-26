@@ -19,8 +19,8 @@ class CareTask {
   CareCategory? category;
   final String id;
 
-  final String createdBy;
-  final DateTime dateCreated;
+  String? createdBy;
+  DateTime? dateCreated;
 
   TaskStatus taskStatus;
   String? acceptedBy;
@@ -42,7 +42,7 @@ class CareTask {
     required this.createdBy,
     this.taskEffort = TaskEffort.medium,
     this.taskType = TaskType.any,
-    this.taskStatus = TaskStatus.created,
+    this.taskStatus = TaskStatus.draft,
     required this.dateCreated,
     this.taskPriority = TaskPriority.medium,
     this.acceptedBy,
@@ -196,6 +196,8 @@ enum TaskField {
   details,
   category,
   taskStatus,
+  dateCreated,
+  createdBy,
   acceptedBy,
   completedBy,
   taskCompleteDate,

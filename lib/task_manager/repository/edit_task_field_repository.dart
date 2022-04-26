@@ -57,6 +57,11 @@ class EditTaskFieldRepository {
         field = 'task_status';
         value = newValue.status;
         break;
+      case TaskField.createdBy:
+        newTask.createdBy = newValue;
+        field = 'created_by';
+        value = newValue;
+        break;
       case TaskField.acceptedBy:
         newTask.acceptedBy = newValue;
         field = 'accepted_by';
@@ -76,6 +81,11 @@ class EditTaskFieldRepository {
         newTask.acceptedOnDate = newValue;
         field = 'accepted_on_date';
 
+        value = newValue.toString();
+        break;
+      case TaskField.dateCreated:
+        newTask.dateCreated = newValue;
+        field = 'date_created';
         value = newValue.toString();
         break;
       case TaskField.comment:

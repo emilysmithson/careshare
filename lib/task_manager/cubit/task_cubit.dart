@@ -46,7 +46,7 @@ class TaskCubit extends Cubit<TaskState> {
             },
           );
           careTaskList.sort(
-            (a, b) => b.dateCreated.compareTo(a.dateCreated),
+            (a, b) => b.dateCreated!.compareTo(a.dateCreated!),
           );
 
           emit(
@@ -61,7 +61,7 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
-  Future<CareTask?> createTask(String title) async {
+  Future<CareTask?> draftTask(String title) async {
     CareTask? task;
     try {
       task = await createATaskRepository(title);
@@ -77,6 +77,29 @@ class TaskCubit extends Cubit<TaskState> {
     return null;
   }
 
+  createTask(
+      {required CareTask task,
+        required String id,
+        required DateTime dateTime}) {
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.createdBy,
+      newValue: id,
+    );
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.dateCreated,
+      newValue: dateTime,
+    );
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.taskStatus,
+      newValue: TaskStatus.created,
+    );
+
+
+  }
+
   editTask(
       {required CareTask task,
       required TaskField taskField,
@@ -86,6 +109,8 @@ class TaskCubit extends Cubit<TaskState> {
     editTaskFieldRepository(
         task: task, taskField: taskField, newValue: newValue);
   }
+
+
 
   completeTask(
       {required CareTask task,
