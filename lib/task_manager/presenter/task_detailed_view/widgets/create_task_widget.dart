@@ -16,95 +16,48 @@ class CreateTaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime dateTime = DateTime.now();
-    return ElevatedButton(
-      onPressed: () {},
-      child: GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (_) => BlocProvider.value(
-              value: BlocProvider.of<TaskCubit>(context),
-              child: BlocProvider.value(
-                value: BlocProvider.of<ProfileCubit>(context),
-                child: BlocBuilder<TaskCubit, TaskState>(
-                  builder: (context, state) {
-                    return Dialog(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Wrap(
-                          runSpacing: 16,
-                          children: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: Center(
-                                child: Text(
-                                  'Mark as Create',
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              'Created: ',
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            // SizedBox(
-                            //   height: 120,
-                            //   child: CupertinoDatePicker(
-                            //     onDateTimeChanged: (DateTime dateTime) {
-                            //       dateTime = dateTime;
-                            //     },
-                            //   ),
-                            // ),
-                            Text(
-                              'Created by: ',
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            //PhotoAndNameWidget(id: task.acceptedBy!),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: ElevatedButton(
-                                  onPressed: ()  async {
+    return
+      Row(
+        children: [
+          ElevatedButton(
+            onPressed: ()  {
+              BlocProvider.of<TaskCubit>(context)
+                  .removeTask(task.id);
 
-                                    BlocProvider.of<TaskCubit>(context)
-                                        .createTask(
-                                      task: task,
-                                    );
+              Navigator.pop(context);
 
-                                    Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
 
-                                    Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+          ),
+          SizedBox(width:20),
+          ElevatedButton(
+            onPressed: () async {
+              BlocProvider.of<TaskCubit>(context)
+                  .createTask(
+                task: task,
+              );
 
-                                    // Send a message to tell the world the task is created
-                                      HttpsCallable callable =
-                                      FirebaseFunctions.instance.httpsCallable('createTask');
-                                      final resp = await callable.call(<String, dynamic>{
-                                        'task_id': task.id,
-                                        'task_title': task.title,
-                                        'creater_id': myProfile.id,
-                                        'creater_name': myProfile.name,
-                                        'date_time': DateTime.now().toString()
-                                      });
+              Navigator.pop(context);
 
+              Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
-                                  },
-                                  child: const Text('Ok'),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          );
-        },
-        child: const Text('Create task'),
-      ),
-    );
+              // Send a message to tell the world the task is created
+              HttpsCallable callable =
+              FirebaseFunctions.instance.httpsCallable('createTask');
+              final resp = await callable.call(<String, dynamic>{
+                'task_id': task.id,
+                'task_title': task.title,
+                'creater_id': myProfile.id,
+                'creater_name': myProfile.name,
+                'date_time': DateTime.now().toString()
+              });
+
+            },
+            child: const Text('Create task'),
+
+          ),
+        ],
+      );
   }
 }
