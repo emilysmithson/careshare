@@ -4,6 +4,7 @@ import 'package:careshare/profile_manager/presenter/profile_widgets/profile_phot
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,8 +37,8 @@ class _AssignATaskState extends State<AssignATask> {
 
               BlocProvider.of<TaskCubit>(context).assignTask(widget.task, profile.id);
 
-              // if the task isn't assigned to me, send a message to the assignee...
-              if (myProfile.id != profile.id) {
+              // if  the task isn't in draft and the task isn't assigned to me, send a message to the assignee...
+              if (widget.task.taskStatus != TaskStatus.draft && myProfile.id != profile.id) {
 
                 HttpsCallable callable =
                     FirebaseFunctions.instance.httpsCallable('assignTask');
