@@ -1,4 +1,7 @@
+import 'package:careshare/category_manager/cubit/category_cubit.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
+import 'package:careshare/task_manager/models/task.dart';
 
 import 'package:careshare/task_manager/presenter/task_overview/tasks_overview.dart';
 import 'package:careshare/templates/page_scaffold.dart';
@@ -6,6 +9,7 @@ import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'task_detailed_view/task_detailed_view.dart';
 import 'task_overview/widgets/add_task_bottom_sheet.dart';
 
 class TaskManagerView extends StatefulWidget {
@@ -24,7 +28,27 @@ class _TaskManagerViewState extends State<TaskManagerView> {
     return PageScaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            AddTaskBottomSheet().call(context);
+            // AddTaskBottomSheet().call(context);
+
+            final taskCubit = BlocProvider.of<TaskCubit>(context);
+            final CareTask? task = await taskCubit.draftTask('New Task');
+            if (task != null) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider.value(
+                      value: BlocProvider.of<TaskCubit>(context),
+                      child: BlocProvider.value(
+                        value: BlocProvider.of<ProfileCubit>(context),
+                        child: BlocProvider.value(
+                          value: BlocProvider.of<CategoriesCubit>(context),
+                          child: TaskDetailedView(
+                            task: task,
+                          ),
+                        ),
+                      )),
+                ),
+              );
+            }
           },
           child: const Icon(Icons.add)),
       body: BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {

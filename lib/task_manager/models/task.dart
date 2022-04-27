@@ -10,28 +10,25 @@ import 'task_priority.dart';
 import 'task_status.dart';
 
 class CareTask {
-  String title;
 
-  TaskPriority taskPriority;
-  TaskEffort taskEffort;
-  TaskType taskType;
-  String? details;
-  CareCategory? category;
-  final String id;
-
-  String? createdBy;
-  DateTime? dateCreated;
-
-  TaskStatus taskStatus;
   String? acceptedBy;
   DateTime? acceptedOnDate;
-
-  DateTime? taskAcceptedForDate;
-  String? completedBy;
-
-  DateTime? taskCompletedDate;
+  CareCategory? category;
   List<Comment>? comments = [];
+  String? completedBy;
+  String? createdBy;
+  DateTime? dateCreated;
+  String? details;
+  final String id;
   List<Kudos>? kudos = [];
+  DateTime? taskAcceptedForDate;
+  DateTime? taskCompletedDate;
+  TaskEffort taskEffort;
+  TaskPriority taskPriority;
+  TaskStatus taskStatus;
+  TaskType taskType;
+  String title;
+
 
   CareTask({
     required this.title,

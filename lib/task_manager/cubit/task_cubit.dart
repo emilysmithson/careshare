@@ -78,19 +78,7 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   createTask(
-      {required CareTask task,
-        required String id,
-        required DateTime dateTime}) {
-    editTaskFieldRepository(
-      task: task,
-      taskField: TaskField.createdBy,
-      newValue: id,
-    );
-    editTaskFieldRepository(
-      task: task,
-      taskField: TaskField.dateCreated,
-      newValue: dateTime,
-    );
+      {required CareTask task}) {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskStatus,

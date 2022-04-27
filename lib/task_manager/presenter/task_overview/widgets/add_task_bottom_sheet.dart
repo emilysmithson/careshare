@@ -13,7 +13,7 @@ class AddTaskBottomSheet {
     BuildContext context,
   ) {
     TextEditingController textEditingController = TextEditingController();
-    onSubmit() async {
+      onSubmit() async {
       if (textEditingController.text.isEmpty) {
         return;
       }
