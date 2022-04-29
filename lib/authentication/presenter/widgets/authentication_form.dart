@@ -57,6 +57,7 @@ class AuthenticationForm extends StatelessWidget {
     if (initialNameValue != null) {
       nameController.text = initialNameValue;
     }
+
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: SingleChildScrollView(
@@ -102,7 +103,8 @@ class AuthenticationForm extends StatelessWidget {
                         return 'Please enter your Email address';
                       }
                       bool emailValid = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")
+                              // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(value);
                       if (!emailValid) {
                         return 'Please enter a valid email address.';
@@ -225,6 +227,8 @@ class AuthenticationForm extends StatelessWidget {
                       },
                       child: const Text('Forgotten Password?'),
                     ),
+                  SizedBox(height: 150),
+                  Text("CareShare version: 1.0.3+3")
                 ],
               ),
             ),

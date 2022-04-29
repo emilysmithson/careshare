@@ -5,6 +5,7 @@ admin.initializeApp();
 
 
 // createTask is called when a user creates a task in the UI
+// ____________________________________________________________________________________________________________________________________
 exports.createTask = functions.https.onCall(async (data) => {
 
     // Send a message to everyone
@@ -25,6 +26,7 @@ exports.createTask = functions.https.onCall(async (data) => {
 
 
 // giveKudos is called when a user clicks the kudos button in the UI
+// ____________________________________________________________________________________________________________________________________
 exports.giveKudos = functions.https.onCall(async (data) => {
 // exports.giveKudos = functions.pubsub.topic("kudos").onPublish((message) => {
 // payload:
@@ -77,6 +79,7 @@ exports.giveKudos = functions.https.onCall(async (data) => {
 
 
 // assignTask is called when a user assigns a task in the UI
+// ____________________________________________________________________________________________________________________________________
 exports.assignTask = functions.https.onCall(async (data) => {
 
     // Send the task assignee a message
@@ -96,6 +99,7 @@ exports.assignTask = functions.https.onCall(async (data) => {
 });
 
 // completeTask is called when a user completes a task in the UI
+// ____________________________________________________________________________________________________________________________________
 exports.completeTask = functions.https.onCall(async (data) => {
 
     // Send a message to everyone
