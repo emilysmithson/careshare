@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/notifications/initialise_notifications.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:equatable/equatable.dart';
@@ -16,6 +17,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   checkAuthentication({
     required ProfileCubit profileCubit,
+    required CaregroupCubit caregroupCubit,
     required TaskCubit taskCubit,
     required CategoriesCubit categoriesCubit,
   }) async {
@@ -27,6 +29,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       emit(const AuthenticationLogin());
     } else {
       await profileCubit.fetchProfiles();
+      await caregroupCubit.fetchCaregroups();
       await taskCubit.fetchTasks();
       await categoriesCubit.fetchCategories();
       await initialiseNotifications(user.uid);

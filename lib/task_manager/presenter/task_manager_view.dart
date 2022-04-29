@@ -31,7 +31,7 @@ class _TaskManagerViewState extends State<TaskManagerView> {
             // AddTaskBottomSheet().call(context);
 
             final taskCubit = BlocProvider.of<TaskCubit>(context);
-            final CareTask? task = await taskCubit.draftTask('New Task');
+            final CareTask? task = await taskCubit.draftTask('');
             if (task != null) {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -51,6 +51,7 @@ class _TaskManagerViewState extends State<TaskManagerView> {
             }
           },
           child: const Icon(Icons.add)),
+
       body: BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
         if (state is TaskLoading) {
           return const Center(

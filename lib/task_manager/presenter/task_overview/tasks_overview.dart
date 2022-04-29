@@ -18,6 +18,23 @@ class TasksOverview extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
+        Hero(
+        tag: 'Caregroup',
+        child: Container(
+          width: double.infinity,
+          color: Theme.of(context).primaryColor.withOpacity(0.5),
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Caregroup: Nuccia Nurture',
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                ?.copyWith(color: Colors.white),
+          ),
+        ),
+      ),
+
           KudosBoard(
             profileList: BlocProvider.of<ProfileCubit>(context).profileList,
           ),
