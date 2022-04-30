@@ -143,6 +143,8 @@ class ProfileCubit extends Cubit<ProfileState> {
         newValue: newKudos, profile: profile, profileField: ProfileField.kudos);
   }
 
+  // fetches a list of all the ids of people in your caregroup apart from yourself
+  // so that you can notify everyone of something but not recieve the notification yourself.
   List<String> fetchListIdFromCaregroup() {
     final List<String> profileIdList = [];
     for (final Profile profile in profileList) {
