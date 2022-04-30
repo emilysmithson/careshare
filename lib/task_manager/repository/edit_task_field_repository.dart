@@ -23,6 +23,11 @@ class EditTaskFieldRepository {
         field = 'title';
         value = newValue;
         break;
+      case TaskField.caregroup:
+        newTask.caregroup = newValue;
+        field = 'caregroup';
+        value = newValue;
+        break;
       case TaskField.details:
         newTask.details = newValue;
         field = 'details';

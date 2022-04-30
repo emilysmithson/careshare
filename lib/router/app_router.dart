@@ -1,5 +1,11 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
+import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_overview.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_summary.dart';
+import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
+import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/notifications/presenter/notifications_page.dart';
@@ -25,6 +31,9 @@ class AppRouter {
   final _profileCubit = ProfileCubit(
     editProfileFieldRepository: EditProfileFieldRepository(),
   );
+  final _caregroupCubit = CaregroupCubit(
+    editCaregroupFieldRepository: EditCaregroupFieldRepository(),
+  );
   final _taskCubit = TaskCubit(
     createATaskRepository: CreateATask(),
     editTaskFieldRepository: EditTaskFieldRepository(),
@@ -40,10 +49,13 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _profileCubit,
             child: BlocProvider.value(
-              value: _taskCubit,
+              value: _caregroupCubit,
               child: BlocProvider.value(
-                value: _categoriesCubit,
-                child: const AuthenticationPage(),
+                value: _taskCubit,
+                child: BlocProvider.value(
+                  value: _categoriesCubit,
+                  child: const AuthenticationPage(),
+                ),
               ),
             ),
           ),
@@ -136,6 +148,29 @@ class AppRouter {
             ),
           ),
         );
+
+      case CaregroupSummary.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _caregroupCubit,
+            child: CaregroupSummary(caregroup: routeSettings.arguments as Caregroup),
+          ),
+        );
+      case CaregroupsManager.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _caregroupCubit,
+            child: const CaregroupsManager(),
+          ),
+        );
+      case EditCaregroup.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _caregroupCubit,
+            child: EditCaregroup(caregroup: routeSettings.arguments as Caregroup),
+          ),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(

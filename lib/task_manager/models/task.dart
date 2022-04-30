@@ -28,6 +28,7 @@ class CareTask {
   TaskStatus taskStatus;
   TaskType taskType;
   String title;
+  String caregroup;
 
 
   CareTask({
@@ -48,6 +49,7 @@ class CareTask {
     this.taskCompletedDate,
     this.comments,
     this.kudos,
+    required this.caregroup,
   });
 
   Map<String, dynamic> toJson() {
@@ -68,11 +70,13 @@ class CareTask {
       'completed_date': taskCompletedDate.toString(),
       'comments': comments?.map((comment) => comment.toJson()).toList(),
       'kudos': kudos?.map((kudos) => kudos.toJson()).toList(),
+      'caregroup': '-Ms4vguCCloDVf3mhEhN',
     };
   }
 
   factory CareTask.fromJson(dynamic key, dynamic value) {
     final title = value['title'] ?? '';
+    final caregroup = value['caregroup'] ?? '';
 
     final details = value['details'] ?? '';
     CareCategory? category;
@@ -122,6 +126,7 @@ class CareTask {
     return CareTask(
         id: key,
         title: title,
+        caregroup: caregroup,
         details: details,
         category: category,
         taskEffort: taskSize,
@@ -145,6 +150,7 @@ class CareTask {
 
     return other is CareTask &&
         other.title == title &&
+        other.caregroup == caregroup &&
         other.taskPriority == taskPriority &&
         other.taskEffort == taskEffort &&
         other.taskType == taskType &&
@@ -166,6 +172,7 @@ class CareTask {
   @override
   int get hashCode {
     return title.hashCode ^
+        caregroup.hashCode ^
         taskPriority.hashCode ^
         taskEffort.hashCode ^
         taskType.hashCode ^
@@ -187,6 +194,7 @@ class CareTask {
 
 enum TaskField {
   title,
+  caregroup,
   taskPriority,
   taskEffort,
   taskType,
