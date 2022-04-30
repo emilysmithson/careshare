@@ -2,6 +2,7 @@ import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/home_page/home_page.dart';
+import 'package:careshare/notifications/presenter/notifications_page.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_overview.dart';
@@ -125,15 +126,24 @@ class AppRouter {
             child: EditProfile(profile: routeSettings.arguments as Profile),
           ),
         );
-
+      case NotificationsPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _profileCubit,
+            child: BlocProvider.value(
+              value: _taskCubit,
+              child: const NotificationsPage(),
+            ),
+          ),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _authenticationCubit,
+            value: _profileCubit,
             child: BlocProvider.value(
-              value: _profileCubit,
+              value: _taskCubit,
               child: BlocProvider.value(
-                value: _taskCubit,
+                value: _categoriesCubit,
                 child: const AuthenticationPage(),
               ),
             ),

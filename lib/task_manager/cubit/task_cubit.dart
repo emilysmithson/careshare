@@ -39,6 +39,7 @@ class TaskCubit extends Cubit<TaskState> {
         } else {
           Map<dynamic, dynamic> returnedList =
               event.snapshot.value as Map<dynamic, dynamic>;
+
           careTaskList.clear();
           returnedList.forEach(
             (key, value) {
@@ -77,15 +78,12 @@ class TaskCubit extends Cubit<TaskState> {
     return null;
   }
 
-  createTask(
-      {required CareTask task}) {
+  createTask({required CareTask task}) {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskStatus,
       newValue: TaskStatus.created,
     );
-
-
   }
 
   editTask(
@@ -97,8 +95,6 @@ class TaskCubit extends Cubit<TaskState> {
     editTaskFieldRepository(
         task: task, taskField: taskField, newValue: newValue);
   }
-
-
 
   completeTask(
       {required CareTask task,
@@ -119,8 +115,6 @@ class TaskCubit extends Cubit<TaskState> {
       taskField: TaskField.taskStatus,
       newValue: TaskStatus.completed,
     );
-
-
   }
 
   assignTask(
@@ -170,5 +164,9 @@ class TaskCubit extends Cubit<TaskState> {
         careTaskList: careTaskList,
       ),
     );
+  }
+
+  CareTask? fetchTaskFromID(String id) {
+    return careTaskList.firstWhere((element) => element.id == id);
   }
 }

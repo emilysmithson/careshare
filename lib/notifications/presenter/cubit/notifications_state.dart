@@ -7,26 +7,19 @@ abstract class NotificationsState extends Equatable {
   List<Object> get props => [];
 }
 
-class NotificationsInitial extends NotificationsState {
-  final int numberOfNewNotifications = 4;
-  final List<CareshareNotification> notificationsList = [
-    CareshareNotification(
-        title: 'Hello',
-        routeName: 'test',
-        subtitle: 'test',
-        dateTime: DateTime.now(),
-        userId: 'jyYsR5YLplXfH0ENNaklnAz39Ho1',
-        isRead: true,
-        arguments: {})
-  ];
+class NotificationsInitial extends NotificationsState {}
+
+class NotificationsError extends NotificationsState {
+  final String errorMessage;
+
+  const NotificationsError(this.errorMessage);
 }
 
 class NotificationsLoaded extends NotificationsState {
-  final int numberOfNewNotifications;
   final List<CareshareNotification> notificationsList;
-
-  const NotificationsLoaded(
-    this.numberOfNewNotifications,
-    this.notificationsList,
-  );
+  final int numberOfNewNotifications;
+  const NotificationsLoaded({
+    required this.notificationsList,
+    required this.numberOfNewNotifications,
+  });
 }

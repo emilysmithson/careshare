@@ -87,7 +87,7 @@ class ProfileCubit extends Cubit<ProfileState> {
           myProfile = profileList.firstWhere((element) =>
               element.id == FirebaseAuth.instance.currentUser!.uid);
 
-          profileList.sort((a,b)=>a.name.compareTo(b.name));
+          profileList.sort((a, b) => a.name.compareTo(b.name));
           emit(ProfileLoaded(profileList: profileList));
         }
       });
@@ -141,5 +141,17 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     editProfile(
         newValue: newKudos, profile: profile, profileField: ProfileField.kudos);
+  }
+
+  List<String> fetchListIdFromCaregroup() {
+    final List<String> profileIdList = [];
+    for (final Profile profile in profileList) {
+      if (profile != myProfile) {
+        if (profile.id != null) {
+          profileIdList.add(profile.id!);
+        }
+      }
+    }
+    return profileIdList;
   }
 }

@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../category_manager/cubit/category_cubit.dart';
+import '../../notifications/presenter/cubit/notifications_cubit.dart';
 import '../../task_manager/cubit/task_cubit.dart';
 
 part 'authentication_state.dart';
@@ -18,6 +19,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required ProfileCubit profileCubit,
     required TaskCubit taskCubit,
     required CategoriesCubit categoriesCubit,
+    required NotificationsCubit notificationsCubit,
   }) async {
     emit(AuthenticationLoading());
 
@@ -30,6 +32,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       await taskCubit.fetchTasks();
       await categoriesCubit.fetchCategories();
       await initialiseNotifications(user.uid);
+      await notificationsCubit.fetchNotifications();
       emit(AuthenticationLoaded(user));
     }
   }

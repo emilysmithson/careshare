@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
+import 'package:careshare/notifications/presenter/cubit/notifications_cubit.dart';
 import 'package:careshare/router/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -35,18 +36,21 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthenticationCubit(),
-      child: MaterialApp(
-        scrollBehavior: const MaterialScrollBehavior().copyWith(
-          dragDevices: {
-            PointerDeviceKind.mouse,
-            PointerDeviceKind.touch,
-            PointerDeviceKind.stylus,
-            PointerDeviceKind.unknown
-          },
+      child: BlocProvider(
+        create: (context) => NotificationsCubit(),
+        child: MaterialApp(
+          scrollBehavior: const MaterialScrollBehavior().copyWith(
+            dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+              PointerDeviceKind.stylus,
+              PointerDeviceKind.unknown
+            },
+          ),
+          navigatorKey: navigatorKey,
+          theme: CustomTheme.themeData,
+          onGenerateRoute: _appRouter.onGenerateRoute,
         ),
-        navigatorKey: navigatorKey,
-        theme: CustomTheme.themeData,
-        onGenerateRoute: _appRouter.onGenerateRoute,
       ),
     );
   }

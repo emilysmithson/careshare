@@ -1,4 +1,5 @@
 import 'package:careshare/notifications/presenter/cubit/notifications_cubit.dart';
+import 'package:careshare/notifications/presenter/notifications_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,18 +8,21 @@ class BellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NotificationsCubit(),
-      child: BlocBuilder<NotificationsCubit, NotificationsState>(
+    return BlocBuilder<NotificationsCubit, NotificationsState>(
         builder: (context, state) {
-          if (state is NotificationsInitial) {
-            return Stack(
+      if (state is NotificationsLoaded) {
+        return InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, NotificationsPage.routeName);
+          },
+          child: SizedBox(
+            width: 50,
+            height: 50,
+            child: Stack(
+              clipBehavior: Clip.none,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.notifications),
-                  onPressed: () {},
-                ),
-                if (state.numberOfNewNotifications != 0)
+                const Center(child: Icon(Icons.notifications)),
+                if (state.numberOfNewNotifications > 0)
                   Positioned(
                     right: 8,
                     top: 8,
@@ -39,13 +43,13 @@ class BellWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
               ],
-            );
-          }
-          return Container();
-        },
-      ),
-    );
+            ),
+          ),
+        );
+      }
+      return Container();
+    });
   }
 }

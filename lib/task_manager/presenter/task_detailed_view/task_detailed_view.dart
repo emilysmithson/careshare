@@ -42,10 +42,8 @@ class TaskDetailedView extends StatelessWidget {
             floatingActionButton: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-
                 if (task.taskStatus == TaskStatus.draft)
                   CreateTaskWidget(task: task),
-
                 if (task.taskStatus == TaskStatus.accepted)
                   CompleteTaskWidget(task: task),
                 if (task.taskStatus == TaskStatus.completed)

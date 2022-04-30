@@ -20,7 +20,7 @@ class NotificationLineItem extends StatelessWidget {
         );
       },
       leading: ProfilePhotoWidget(
-        id: notification.userId,
+        id: notification.senderId,
         size: 30,
       ),
       title: Text(notification.title),

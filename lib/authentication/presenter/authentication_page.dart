@@ -1,6 +1,7 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/widgets/authentication_form.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
+import 'package:careshare/notifications/presenter/cubit/notifications_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';
@@ -18,6 +19,7 @@ class AuthenticationPage extends StatelessWidget {
       profileCubit: BlocProvider.of<ProfileCubit>(context),
       taskCubit: BlocProvider.of<TaskCubit>(context),
       categoriesCubit: BlocProvider.of<CategoriesCubit>(context),
+      notificationsCubit: BlocProvider.of<NotificationsCubit>(context),
     );
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {

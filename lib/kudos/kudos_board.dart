@@ -19,9 +19,9 @@ class KudosBoard extends StatelessWidget {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: _profileList
-                .map((Profile profile) => KudosBoardWidget(profile: profile))
-                .toList(),
+            children: _profileList.map((Profile profile) {
+              return KudosBoardWidget(profile: profile);
+            }).toList(),
           ),
         );
       },

@@ -1,7 +1,5 @@
-import 'package:careshare/category_manager/cubit/category_cubit.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
-import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 
 import 'package:careshare/task_manager/presenter/task_overview/tasks_overview.dart';
 import 'package:careshare/templates/page_scaffold.dart';
@@ -9,8 +7,9 @@ import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'task_detailed_view/task_detailed_view.dart';
-import 'task_overview/widgets/add_task_bottom_sheet.dart';
+import '../../category_manager/cubit/category_cubit.dart';
+import '../../profile_manager/cubit/profile_cubit.dart';
+import '../models/task.dart';
 
 class TaskManagerView extends StatefulWidget {
   static const String routeName = "/task-manager";
