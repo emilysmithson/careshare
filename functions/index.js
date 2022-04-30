@@ -83,7 +83,7 @@ exports.giveKudos = functions.https.onCall(async (data) => {
       },
     data: {
       "created_by": snapshotVal["created_by"],
-      "date_created": snapshotVal["date_created"],
+      "created_date": snapshotVal["created_date"],
     },
   });
   return `Successfully received: ${taskId}`;
@@ -149,7 +149,7 @@ exports.completeTask = functions.https.onCall(async (data) => {
 //          },
 //        data: {
 //          "created_by": snapshotVal["created_by"],
-//          "date_created": snapshotVal["date_created"],
+//          "created_date": snapshotVal["created_date"],
 //        },
 //      });
 //      return;

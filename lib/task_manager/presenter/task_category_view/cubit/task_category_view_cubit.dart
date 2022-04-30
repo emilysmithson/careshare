@@ -40,7 +40,7 @@ class TaskCategoryViewCubit extends Cubit<TaskCategoryViewState> {
     );
     if (value == 'Date created') {
       careTaskList.sort(
-        (a, b) => a.dateCreated!.compareTo(b.dateCreated!),
+        (a, b) => a.taskCreatedDate!.compareTo(b.taskCreatedDate!),
       );
     }
     if (value == 'Priority') {

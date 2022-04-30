@@ -11,7 +11,7 @@ class CreateATask {
       caregroup: '-Ms4vguCCloDVf3mhEhN',
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       createdBy: FirebaseAuth.instance.currentUser!.uid,
-      dateCreated: DateTime.now(),
+      taskCreatedDate: DateTime.now(),
     );
     DatabaseReference reference = FirebaseDatabase.instance.ref('tasks');
 

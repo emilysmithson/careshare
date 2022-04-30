@@ -94,7 +94,7 @@ class TaskDetailedView extends StatelessWidget {
                     PhotoAndNameWidget(
                       id: task.createdBy!,
                       text: 'Created by:',
-                      dateTime: task.dateCreated,
+                      dateTime: task.taskCreatedDate,
                     ),
                     TaskInputFieldWidget(
                         currentValue: task.details,

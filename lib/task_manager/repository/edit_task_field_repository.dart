@@ -67,11 +67,35 @@ class EditTaskFieldRepository {
         field = 'created_by';
         value = newValue;
         break;
+
+      case TaskField.assignedTo:
+        newTask.assignedTo = newValue;
+        field = 'assigned_to';
+        value = newValue;
+        break;
+      case TaskField.assignedBy:
+        newTask.assignedBy = newValue;
+        field = 'assigned_by';
+        value = newValue;
+        break;
+      case TaskField.assignedByDate:
+        newTask.assignedByDate = newValue;
+        field = 'assigned_by_date';
+        value = newValue.toString();
+        break;
+
       case TaskField.acceptedBy:
         newTask.acceptedBy = newValue;
         field = 'accepted_by';
         value = newValue;
         break;
+
+      case TaskField.taskAcceptedForDate:
+        newTask.taskAcceptedForDate = newValue;
+        field = 'accepted_for_date';
+        value = newValue.toString();
+        break;
+
       case TaskField.completedBy:
         newTask.completedBy = newValue;
         field = 'completed_by';
@@ -88,9 +112,9 @@ class EditTaskFieldRepository {
 
         value = newValue.toString();
         break;
-      case TaskField.dateCreated:
-        newTask.dateCreated = newValue;
-        field = 'date_created';
+      case TaskField.taskCreatedDate:
+        newTask.taskCreatedDate = newValue;
+        field = 'created_date';
         value = newValue.toString();
         break;
       case TaskField.comment:

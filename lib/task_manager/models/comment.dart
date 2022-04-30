@@ -2,7 +2,7 @@ class Comment {
   final String commment;
   final String createdBy;
   final String createdByDisplayName;
-  final DateTime dateCreated;
+  final DateTime commentCreatedDate;
   final String id;
 
   @override
@@ -10,7 +10,7 @@ class Comment {
     return '''
       comment: $commment
       created by: $createdByDisplayName
-      date created: $dateCreated
+      date created: $commentCreatedDate
     ''';
   }
 
@@ -19,7 +19,7 @@ class Comment {
     required this.id,
     required this.createdBy,
     required this.createdByDisplayName,
-    required this.dateCreated,
+    required this.commentCreatedDate,
   });
 
   Map<String, dynamic> toJson() {
@@ -27,7 +27,7 @@ class Comment {
       'commment': commment,
       'created_by': createdBy,
       'created_by_display_name': createdByDisplayName,
-      'date_created': dateCreated.toString(),
+      'created_date': commentCreatedDate.toString(),
       'id': id,
     };
   }
@@ -37,7 +37,7 @@ class Comment {
       commment: value['commment'] ?? '',
       createdBy: value['created_by'] ?? '',
       createdByDisplayName: value['created_by_display_name'] ?? '',
-      dateCreated: DateTime.parse(value['date_created']),
+      commentCreatedDate: DateTime.parse(value['created_date']),
       id: value['id'],
     );
 

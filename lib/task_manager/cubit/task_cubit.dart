@@ -47,7 +47,7 @@ class TaskCubit extends Cubit<TaskState> {
             },
           );
           careTaskList.sort(
-            (a, b) => b.dateCreated!.compareTo(a.dateCreated!),
+            (a, b) => b.taskCreatedDate!.compareTo(a.taskCreatedDate!),
           );
 
           emit(

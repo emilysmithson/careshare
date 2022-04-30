@@ -11,74 +11,109 @@ import 'task_status.dart';
 
 class CareTask {
 
-  String? acceptedBy;
-  DateTime? acceptedOnDate;
-  CareCategory? category;
-  List<Comment>? comments = [];
-  String? completedBy;
-  String? createdBy;
-  DateTime? dateCreated;
-  String? details;
   final String id;
-  List<Kudos>? kudos = [];
-  DateTime? taskAcceptedForDate;
-  DateTime? taskCompletedDate;
+  String caregroup;
+  TaskStatus taskStatus;
+
+  String title;
+  String? details;
+
+  CareCategory? category;
   TaskEffort taskEffort;
   TaskPriority taskPriority;
-  TaskStatus taskStatus;
   TaskType taskType;
-  String title;
-  String caregroup;
+
+  String? createdBy;
+  DateTime? taskCreatedDate;
+
+  String? assignedTo;
+  String? assignedBy;
+  DateTime? assignedByDate;
+
+  String? acceptedBy;
+  DateTime? acceptedOnDate;
+  DateTime? taskAcceptedForDate;
+
+  String? completedBy;
+  DateTime? taskCompletedDate;
+
+
+  List<Comment>? comments = [];
+  List<Kudos>? kudos = [];
 
 
   CareTask({
+    required this.id,
+    required this.caregroup,
+    this.taskStatus = TaskStatus.draft,
+
     required this.title,
     this.details,
+
     this.category,
-    required this.id,
-    this.acceptedOnDate,
-    required this.createdBy,
     this.taskEffort = TaskEffort.medium,
-    this.taskType = TaskType.any,
-    this.taskStatus = TaskStatus.draft,
-    required this.dateCreated,
     this.taskPriority = TaskPriority.medium,
+    this.taskType = TaskType.any,
+
+    required this.createdBy,
+    required this.taskCreatedDate,
+
+    this.assignedTo,
+    this.assignedBy,
+    this.assignedByDate,
+
     this.acceptedBy,
+    this.acceptedOnDate,
     this.taskAcceptedForDate,
+
     this.completedBy,
     this.taskCompletedDate,
+
     this.comments,
     this.kudos,
-    required this.caregroup,
   });
 
   Map<String, dynamic> toJson() {
     return {
+      'caregroup': '-Ms4vguCCloDVf3mhEhN',
+      'task_status': taskStatus.status,
+
       'title': title,
       'details': details,
+
       'category': category?.toJson(),
-      'created_by': createdBy,
       'task_effort': taskEffort.value,
-      'task_type': taskType.value,
-      'task_status': taskStatus.status,
-      'date_created': dateCreated.toString(),
       'priority': taskPriority.value,
+      'task_type': taskType.value,
+
+      'created_by': createdBy,
+      'created_date': taskCreatedDate.toString(),
+
+      'assigned_to': assignedTo,
+      'assigned_by': assignedBy,
+      'assigned_by_date': assignedByDate.toString(),
+
       'accepted_by': acceptedBy,
       'accepted_on_date': acceptedOnDate.toString(),
       'accepted_for_date': taskAcceptedForDate.toString(),
+
       'completed_by': completedBy,
       'completed_date': taskCompletedDate.toString(),
+
       'comments': comments?.map((comment) => comment.toJson()).toList(),
       'kudos': kudos?.map((kudos) => kudos.toJson()).toList(),
-      'caregroup': '-Ms4vguCCloDVf3mhEhN',
     };
   }
 
   factory CareTask.fromJson(dynamic key, dynamic value) {
-    final title = value['title'] ?? '';
-    final caregroup = value['caregroup'] ?? '';
 
+    final caregroup = value['caregroup'] ?? '';
+    final taskStatus = TaskStatus.taskStatusList
+        .firstWhere((element) => element.status == value['task_status']);
+
+    final title = value['title'] ?? '';
     final details = value['details'] ?? '';
+
     CareCategory? category;
     if (value['category'] != null) {
       category = CareCategory.fromJson(value['category']);
@@ -89,15 +124,20 @@ class CareTask {
     final taskType = TaskType.taskTypeList
         .firstWhere((element) => element.value == value['task_type']);
 
-    final taskStatus = TaskStatus.taskStatusList
-        .firstWhere((element) => element.status == value['task_status']);
 
     final priority = TaskPriority.priorityList
         .firstWhere((element) => value['priority'] == element.value);
 
     final createdBy = value['created_by'] ?? '';
+    final taskCreatedDate = DateTime.parse(value['created_date']);
 
-    final dateCreated = DateTime.parse(value['date_created']);
+    final assignedTo = value['assigned_to'] ?? '';
+    final assignedBy = value['assigned_By'] ?? '';
+    final DateTime? assignedByDate = (value['assigned_by_date'] != null)
+    ? DateTime.tryParse(value['assigned_by_date'])
+        : null;
+
+
     final DateTime? acceptedOnDate = (value['accepted_on_date'] != null)
         ? DateTime.tryParse(value['accepted_on_date'])
         : null;
@@ -134,7 +174,12 @@ class CareTask {
         taskStatus: taskStatus,
         taskPriority: priority,
         createdBy: createdBy,
-        dateCreated: dateCreated,
+        taskCreatedDate: taskCreatedDate,
+
+        assignedTo: assignedTo,
+        assignedBy: assignedBy,
+        assignedByDate: assignedByDate,
+
         taskAcceptedForDate: taskAcceptedForDate,
         acceptedBy: acceptedBy,
         acceptedOnDate: acceptedOnDate,
@@ -158,7 +203,12 @@ class CareTask {
         other.category == category &&
         other.id == id &&
         other.createdBy == createdBy &&
-        other.dateCreated == dateCreated &&
+        other.taskCreatedDate == taskCreatedDate &&
+
+        other.assignedTo == assignedTo &&
+        other.assignedBy == assignedBy &&
+        other.assignedByDate == assignedByDate &&
+
         other.taskStatus == taskStatus &&
         other.acceptedBy == acceptedBy &&
         other.acceptedOnDate == acceptedOnDate &&
@@ -180,7 +230,11 @@ class CareTask {
         category.hashCode ^
         id.hashCode ^
         createdBy.hashCode ^
-        dateCreated.hashCode ^
+        taskCreatedDate.hashCode ^
+        assignedTo.hashCode ^
+        assignedBy.hashCode ^
+        assignedByDate.hashCode ^
+
         taskStatus.hashCode ^
         acceptedBy.hashCode ^
         acceptedOnDate.hashCode ^
@@ -193,20 +247,32 @@ class CareTask {
 }
 
 enum TaskField {
-  title,
   caregroup,
-  taskPriority,
-  taskEffort,
-  taskType,
-  details,
-  category,
   taskStatus,
-  dateCreated,
+
+  title,
+  details,
+
+  category,
+  taskEffort,
+  taskPriority,
+  taskType,
+
   createdBy,
+  taskCreatedDate,
+
+  assignedTo,
+  assignedBy,
+  assignedByDate,
+
   acceptedBy,
+
+  acceptedOnDate,
+  taskAcceptedForDate,
+
   completedBy,
   taskCompleteDate,
-  acceptedOnDate,
+
   comment,
   kudos,
 }

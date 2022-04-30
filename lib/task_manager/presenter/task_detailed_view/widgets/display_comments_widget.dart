@@ -20,7 +20,7 @@ class DisplayCommentsWidget extends StatelessWidget {
       child: BlocBuilder<TaskCubit, TaskState>(
         builder: (context, state) {
           task.comments?.sort(
-            (a, b) => a.dateCreated.compareTo(b.dateCreated),
+            (a, b) => a.commentCreatedDate.compareTo(b.commentCreatedDate),
           );
           return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -56,7 +56,7 @@ class DisplayCommentsWidget extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${comment.createdByDisplayName} on ${DateFormat('E d MMM yyyy').add_jm().format(comment.dateCreated)}',
+                                    '${comment.createdByDisplayName} on ${DateFormat('E d MMM yyyy').add_jm().format(comment.commentCreatedDate)}',
                                     style: Theme.of(context).textTheme.caption,
                                   ),
                                   Text(comment.commment),

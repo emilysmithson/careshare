@@ -1,8 +1,4 @@
 {
-  "functions": {
-    "predeploy": [],
-    "source": "functions"
-  },
   "hosting": {
     "public": "build/web",
     "ignore": [
@@ -16,5 +12,8 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "functions": {
+    "source": "functions"
   }
 }
