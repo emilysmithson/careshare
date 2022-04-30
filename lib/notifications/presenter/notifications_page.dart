@@ -68,7 +68,9 @@ class NotificationsPage extends StatelessWidget {
                                   final task = BlocProvider.of<TaskCubit>(
                                           context)
                                       .fetchTaskFromID(notification.arguments);
+
                                   if (task == null) {
+                                    Navigator.pop(context);
                                     return;
                                   }
                                   Navigator.pushNamed(

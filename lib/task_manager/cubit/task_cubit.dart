@@ -8,7 +8,7 @@ import 'package:careshare/task_manager/repository/remove_a_task.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
-
+import 'package:collection/collection.dart';
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
@@ -167,6 +167,6 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   CareTask? fetchTaskFromID(String id) {
-    return careTaskList.firstWhere((element) => element.id == id);
+    return careTaskList.firstWhereOrNull((element) => element.id == id);
   }
 }

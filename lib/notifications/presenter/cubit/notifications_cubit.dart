@@ -68,7 +68,9 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
       HttpsCallable callable =
           FirebaseFunctions.instance.httpsCallable('notifyUsers');
-      callable.call(notification.toJson());
+      callable.call(
+        notification.toJson(),
+      );
     }
   }
 
