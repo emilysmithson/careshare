@@ -30,6 +30,7 @@ class KudosWidget extends StatelessWidget {
     }
 
     Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
+
     _onTap() async {
       final String id = DateTime.now().millisecondsSinceEpoch.toString();
       final DateTime dateTime = DateTime.now();
@@ -66,7 +67,11 @@ class KudosWidget extends StatelessWidget {
             task.kudos?.firstWhereOrNull((element) => element.id == profile.id);
 
         if (kudos != null) {
-          return Container();
+          // I've already given kudos, so don't show the button
+          return ElevatedButton(
+            onPressed: (){},
+            child: Text('* ${task.kudos!.length.toString()}'),
+          );
         }
         return ElevatedButton(
           onPressed: _onTap,

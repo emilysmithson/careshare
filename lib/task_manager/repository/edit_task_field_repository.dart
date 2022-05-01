@@ -78,8 +78,8 @@ class EditTaskFieldRepository {
         field = 'assigned_by';
         value = newValue;
         break;
-      case TaskField.assignedByDate:
-        newTask.assignedByDate = newValue;
+      case TaskField.assignedDate:
+        newTask.assignedDate = newValue;
         field = 'assigned_by_date';
         value = newValue.toString();
         break;

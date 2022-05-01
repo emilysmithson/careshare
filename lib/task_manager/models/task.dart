@@ -28,7 +28,7 @@ class CareTask {
 
   String? assignedTo;
   String? assignedBy;
-  DateTime? assignedByDate;
+  DateTime? assignedDate;
 
   String? acceptedBy;
   DateTime? acceptedOnDate;
@@ -60,7 +60,7 @@ class CareTask {
 
     this.assignedTo,
     this.assignedBy,
-    this.assignedByDate,
+    this.assignedDate,
 
     this.acceptedBy,
     this.acceptedOnDate,
@@ -91,7 +91,7 @@ class CareTask {
 
       'assigned_to': assignedTo,
       'assigned_by': assignedBy,
-      'assigned_by_date': assignedByDate.toString(),
+      'assigned_by_date': assignedDate.toString(),
 
       'accepted_by': acceptedBy,
       'accepted_on_date': acceptedOnDate.toString(),
@@ -133,7 +133,7 @@ class CareTask {
 
     final assignedTo = value['assigned_to'] ?? '';
     final assignedBy = value['assigned_By'] ?? '';
-    final DateTime? assignedByDate = (value['assigned_by_date'] != null)
+    final DateTime? assignedDate = (value['assigned_by_date'] != null)
     ? DateTime.tryParse(value['assigned_by_date'])
         : null;
 
@@ -178,7 +178,7 @@ class CareTask {
 
         assignedTo: assignedTo,
         assignedBy: assignedBy,
-        assignedByDate: assignedByDate,
+        assignedDate: assignedDate,
 
         taskAcceptedForDate: taskAcceptedForDate,
         acceptedBy: acceptedBy,
@@ -207,7 +207,7 @@ class CareTask {
 
         other.assignedTo == assignedTo &&
         other.assignedBy == assignedBy &&
-        other.assignedByDate == assignedByDate &&
+        other.assignedDate == assignedDate &&
 
         other.taskStatus == taskStatus &&
         other.acceptedBy == acceptedBy &&
@@ -233,7 +233,7 @@ class CareTask {
         taskCreatedDate.hashCode ^
         assignedTo.hashCode ^
         assignedBy.hashCode ^
-        assignedByDate.hashCode ^
+        assignedDate.hashCode ^
 
         taskStatus.hashCode ^
         acceptedBy.hashCode ^
@@ -263,7 +263,7 @@ enum TaskField {
 
   assignedTo,
   assignedBy,
-  assignedByDate,
+  assignedDate,
 
   acceptedBy,
 

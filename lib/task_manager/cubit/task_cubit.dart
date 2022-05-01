@@ -124,12 +124,12 @@ class TaskCubit extends Cubit<TaskState> {
     editTask(
       newValue: id,
       task: task,
-      taskField: TaskField.acceptedBy,
+      taskField: TaskField.assignedTo,
     );
     editTask(
       newValue: id == null ? null : DateTime.now(),
       task: task,
-      taskField: TaskField.acceptedOnDate,
+      taskField: TaskField.assignedDate,
     );
     editTask(
       newValue: id == null ? TaskStatus.created : TaskStatus.accepted,

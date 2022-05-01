@@ -12,18 +12,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 
-class AssignATask extends StatefulWidget {
+class TaskWorkflowAssignWidget extends StatefulWidget {
   final CareTask task;
   final bool showButton;
 
-  const AssignATask({Key? key, required this.task, this.showButton = false})
+  const TaskWorkflowAssignWidget({Key? key, required this.task, this.showButton = false})
       : super(key: key);
 
   @override
-  _AssignATaskState createState() => _AssignATaskState();
+  _TaskWorkflowAssignWidgetState createState() => _TaskWorkflowAssignWidgetState();
 }
 
-class _AssignATaskState extends State<AssignATask> {
+class _TaskWorkflowAssignWidgetState extends State<TaskWorkflowAssignWidget> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];

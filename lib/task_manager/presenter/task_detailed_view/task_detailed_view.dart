@@ -1,7 +1,7 @@
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/create_task_widget.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/task-workflow-create.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/presentation/photo_and_name_widget.dart';
 import '../../models/task_status.dart';
 import 'widgets/add_kudos_widget.dart';
-import 'widgets/assign_a_task.dart';
+import 'widgets/task-workflow-assign.dart';
 import 'widgets/choose_category_widget.dart';
-import 'widgets/complete_task_widget.dart';
+import 'widgets/task-workflow-complete.dart';
 import 'widgets/display_comments_widget.dart';
 import 'widgets/effort_widget.dart';
 import 'widgets/priority_widget.dart';
@@ -43,13 +43,11 @@ class TaskDetailedView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 if (task.taskStatus == TaskStatus.draft)
-                  CreateTaskWidget(task: task),
+                  TaskWorkflowCreateWidget(task: task),
                 if (task.taskStatus == TaskStatus.accepted)
-                  CompleteTaskWidget(task: task),
+                  TaskWorkflowCompleteWidget(task: task),
                 if (task.taskStatus == TaskStatus.completed)
-                  KudosWidget(
-                    task: task,
-                  )
+                  KudosWidget(task: task),
               ],
             ),
             appBar: AppBar(
@@ -117,7 +115,7 @@ class TaskDetailedView extends StatelessWidget {
                     ),
                     EffortWidget(task: task),
                     ChooseCategoryWidget(task: task),
-                    AssignATask(
+                    TaskWorkflowAssignWidget(
                       task: task,
                     ),
                     DisplayCommentsWidget(task: task),

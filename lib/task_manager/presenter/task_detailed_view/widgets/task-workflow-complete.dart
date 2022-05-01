@@ -9,9 +9,9 @@ import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
-class CompleteTaskWidget extends StatelessWidget {
+class TaskWorkflowCompleteWidget extends StatelessWidget {
   final CareTask task;
-  const CompleteTaskWidget({Key? key, required this.task}) : super(key: key);
+  const TaskWorkflowCompleteWidget({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

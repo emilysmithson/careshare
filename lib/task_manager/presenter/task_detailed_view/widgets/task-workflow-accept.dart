@@ -10,18 +10,18 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/photo_and_name_widget.dart';
 
-class AcceptATask extends StatefulWidget {
+class TaskWorkflowAcceptWidget extends StatefulWidget {
   final CareTask task;
   final bool showButton;
 
-  const AcceptATask({Key? key, required this.task, this.showButton = false})
+  const TaskWorkflowAcceptWidget({Key? key, required this.task, this.showButton = false})
       : super(key: key);
 
   @override
-  _AcceptATaskState createState() => _AcceptATaskState();
+  _TaskWorkflowAcceptWidgetState createState() => _TaskWorkflowAcceptWidgetState();
 }
 
-class _AcceptATaskState extends State<AcceptATask> {
+class _TaskWorkflowAcceptWidgetState extends State<TaskWorkflowAcceptWidget> {
   @override
   Widget build(BuildContext context) {
     final Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
