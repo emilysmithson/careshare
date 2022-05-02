@@ -119,17 +119,18 @@ class EditTaskFieldRepository {
         break;
       case TaskField.comment:
         newTask.comments?.add(newValue);
-
         field = 'comments/${newValue.id}';
         value = newValue.toJson();
         break;
       case TaskField.kudos:
         newTask.kudos?.add(newValue);
-
         field = 'kudos/${newValue.id}';
-
         value = newValue.toJson();
-
+        break;
+      case TaskField.taskHistory:
+        newTask.taskHistory?.add(newValue);
+        field = 'history/${DateTime.now().millisecondsSinceEpoch.toString()}';
+        value = newValue.toJson();
         break;
     }
 

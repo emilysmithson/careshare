@@ -1,20 +1,14 @@
+import 'package:careshare/core/presentation/photo_and_name_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
-
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/task-workflow-create.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../core/presentation/photo_and_name_widget.dart';
-import '../../models/task_status.dart';
-import 'widgets/add_kudos_widget.dart';
-import 'widgets/task-workflow-assign.dart';
+import 'widgets/assign_a_task.dart';
 import 'widgets/choose_category_widget.dart';
-import 'widgets/task-workflow-complete.dart';
 import 'widgets/display_comments_widget.dart';
 import 'widgets/effort_widget.dart';
 import 'widgets/priority_widget.dart';
+import 'widgets/task_workflow_widget.dart';
 import 'widgets/task_input_field_widget.dart';
 import 'widgets/type_widget.dart';
 
@@ -42,12 +36,19 @@ class TaskDetailedView extends StatelessWidget {
             floatingActionButton: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                if (task.taskStatus == TaskStatus.draft)
-                  TaskWorkflowCreateWidget(task: task),
-                if (task.taskStatus == TaskStatus.accepted)
-                  TaskWorkflowCompleteWidget(task: task),
-                if (task.taskStatus == TaskStatus.completed)
-                  KudosWidget(task: task),
+
+                // if (task.taskStatus == TaskStatus.draft)
+                //   TaskWorkflowDraftWidget(task: task),
+                // // if (task.taskStatus == TaskStatus.created)
+                // //   TaskWorkflowCreatedWidget(task: task),
+                //
+                // if (task.taskStatus == TaskStatus.assigned)
+                //   AssignATask(task: task),
+                // if (task.taskStatus == TaskStatus.accepted)
+                //   TaskWorkflowAcceptedWidget(task: task),
+                // if (task.taskStatus == TaskStatus.completed)
+                //   KudosWidget(task: task),
+                TaskWorkflowWidget(task: task),
               ],
             ),
             appBar: AppBar(
@@ -115,7 +116,7 @@ class TaskDetailedView extends StatelessWidget {
                     ),
                     EffortWidget(task: task),
                     ChooseCategoryWidget(task: task),
-                    TaskWorkflowAssignWidget(
+                    AssignATask(
                       task: task,
                     ),
                     DisplayCommentsWidget(task: task),

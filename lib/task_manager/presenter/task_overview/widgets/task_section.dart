@@ -1,8 +1,13 @@
+import 'package:careshare/category_manager/cubit/category_cubit.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_category_view/task_category_view.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 import 'package:careshare/task_manager/presenter/task_overview/widgets/task_summary.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'add_task_bottom_sheet.dart';
 
@@ -50,8 +55,7 @@ class TaskSection extends StatelessWidget {
           height: 130,
           child: Container(
             color: Theme.of(context).primaryColor.withOpacity(0.3),
-            child: careTaskList.isEmpty
-                ? Container(
+            child: careTaskList.isEmpty ? Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(2),
                     child: Align(
@@ -61,8 +65,27 @@ class TaskSection extends StatelessWidget {
                         child: Card(
                           child: Center(
                             child: IconButton(
-                              onPressed: () {
-                                AddTaskBottomSheet().call(context);
+                              onPressed: () async {
+                                // AddTaskBottomSheet().call(context);
+                                final taskCubit = BlocProvider.of<TaskCubit>(context);
+                                final CareTask? task = await taskCubit.draftTask('');
+                                if (task != null) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => BlocProvider.value(
+                                          value: BlocProvider.of<TaskCubit>(context),
+                                          child: BlocProvider.value(
+                                            value: BlocProvider.of<ProfileCubit>(context),
+                                            child: BlocProvider.value(
+                                              value: BlocProvider.of<CategoriesCubit>(context),
+                                              child: TaskDetailedView(
+                                                task: task,
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                  );
+                                }
                               },
                               icon: const Icon(Icons.add),
                             ),

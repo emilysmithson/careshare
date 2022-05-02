@@ -23,6 +23,7 @@ class AddCommentWidget extends StatelessWidget {
       }
       Navigator.pop(context);
       Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
+
       BlocProvider.of<TaskCubit>(context).editTask(
         task: task,
         newValue: Comment(

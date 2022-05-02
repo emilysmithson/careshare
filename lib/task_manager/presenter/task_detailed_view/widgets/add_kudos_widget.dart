@@ -31,35 +31,6 @@ class KudosWidget extends StatelessWidget {
 
     Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
-    _onTap() async {
-      final String id = DateTime.now().millisecondsSinceEpoch.toString();
-      final DateTime dateTime = DateTime.now();
-      final kudosNotification = CareshareNotification(
-          id: id,
-          title:
-              "${BlocProvider.of<ProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
-          routeName: "/task-detailed-view",
-          subtitle:
-              'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
-          dateTime: dateTime,
-          senderId: FirebaseAuth.instance.currentUser!.uid,
-          isRead: false,
-          arguments: task.id);
-
-      BlocProvider.of<NotificationsCubit>(context).sendNotifcations(
-        notification: kudosNotification,
-        recipients: [task.acceptedBy!],
-      );
-      BlocProvider.of<TaskCubit>(context).editTask(
-        task: task,
-        newValue: Kudos(
-          id: profile.id!,
-          dateTime: DateTime.now(),
-        ),
-        taskField: TaskField.kudos,
-      );
-      BlocProvider.of<ProfileCubit>(context).addKudos(task.completedBy!);
-    }
 
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
@@ -74,7 +45,35 @@ class KudosWidget extends StatelessWidget {
           );
         }
         return ElevatedButton(
-          onPressed: _onTap,
+          onPressed: () async {
+            final String id = DateTime.now().millisecondsSinceEpoch.toString();
+            final DateTime dateTime = DateTime.now();
+            final kudosNotification = CareshareNotification(
+                id: id,
+                title:
+                "${BlocProvider.of<ProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
+                routeName: "/task-detailed-view",
+                subtitle:
+                'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                dateTime: dateTime,
+                senderId: FirebaseAuth.instance.currentUser!.uid,
+                isRead: false,
+                arguments: task.id);
+
+            BlocProvider.of<NotificationsCubit>(context).sendNotifcations(
+              notification: kudosNotification,
+              recipients: [task.acceptedBy!],
+            );
+            BlocProvider.of<TaskCubit>(context).editTask(
+              task: task,
+              newValue: Kudos(
+                id: profile.id!,
+                dateTime: DateTime.now(),
+              ),
+              taskField: TaskField.kudos,
+            );
+            BlocProvider.of<ProfileCubit>(context).addKudos(task.completedBy!);
+          },
           child: const Text('Give Kudos'),
         );
       },

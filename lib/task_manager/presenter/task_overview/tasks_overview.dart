@@ -51,9 +51,8 @@ class TasksOverview extends StatelessWidget {
             careTaskList: careTaskList
                 .where(
                   (element) =>
-                      element.taskStatus == TaskStatus.accepted &&
-                      element.acceptedBy ==
-                          BlocProvider.of<ProfileCubit>(context).myProfile.id,
+                      (element.taskStatus == TaskStatus.assigned || element.taskStatus == TaskStatus.accepted ) &&
+                      element.assignedTo == BlocProvider.of<ProfileCubit>(context).myProfile.id
                 )
                 .toList(),
           ),
@@ -68,8 +67,8 @@ class TasksOverview extends StatelessWidget {
             careTaskList: careTaskList
                 .where(
                   (element) =>
-                      element.taskStatus == TaskStatus.accepted &&
-                      element.acceptedBy !=
+                      (element.taskStatus == TaskStatus.assigned || element.taskStatus == TaskStatus.accepted ) &&
+                      element.assignedTo !=
                           BlocProvider.of<ProfileCubit>(context).myProfile.id,
                 )
                 .toList(),

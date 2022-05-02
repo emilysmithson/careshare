@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_history.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
 import 'package:careshare/task_manager/repository/edit_task_field_repository.dart';
@@ -66,6 +67,7 @@ class TaskCubit extends Cubit<TaskState> {
     CareTask? task;
     try {
       task = await createATaskRepository(title);
+
       return task;
     } catch (e) {
       emit(TaskError(e.toString()));
@@ -78,13 +80,84 @@ class TaskCubit extends Cubit<TaskState> {
     return null;
   }
 
-  createTask({required CareTask task}) {
+  // Create Task
+  // Update the task status to Created, unless the task is already assigned
+  // in which case set the status to Assigned
+  createTask({
+    required CareTask task,
+    required String id
+  }) {
+    if (task.assignedTo == null || task.assignedTo == '' ) {
+      editTaskFieldRepository(
+        task: task,
+        taskField: TaskField.taskStatus,
+        newValue: TaskStatus.created,
+      );
+      editTaskFieldRepository(
+        task: task,
+        taskField: TaskField.taskHistory,
+        newValue: TaskHistory(
+            id: id, taskStatus: TaskStatus.created, dateTime: DateTime.now()),
+      );
+    }
+    else {
+      editTaskFieldRepository(
+        task: task,
+        taskField: TaskField.taskStatus,
+        newValue: TaskStatus.assigned,
+      );
+      editTaskFieldRepository(
+        task: task,
+        taskField: TaskField.taskHistory,
+        newValue: TaskHistory(
+            id: id, taskStatus: TaskStatus.assigned, dateTime: DateTime.now()),
+      );
+    }
+  }
+
+  acceptTask({
+    required CareTask task,
+    required String id
+  }) {
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.taskStatus,
+      newValue: TaskStatus.accepted,
+    );
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.taskHistory,
+      newValue: TaskHistory(
+          id: id,
+          taskStatus: TaskStatus.accepted,
+          dateTime: DateTime.now()),
+    );
+  }
+
+  rejectTask({
+    required CareTask task,
+    required String id
+  }) {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskStatus,
       newValue: TaskStatus.created,
     );
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.assignedTo,
+      newValue: '',
+    );
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.taskHistory,
+      newValue: TaskHistory(
+          id: id,
+          taskStatus: TaskStatus.created,
+          dateTime: DateTime.now()),
+    );
   }
+
 
   editTask(
       {required CareTask task,
@@ -115,27 +188,43 @@ class TaskCubit extends Cubit<TaskState> {
       taskField: TaskField.taskStatus,
       newValue: TaskStatus.completed,
     );
+    editTaskFieldRepository(
+      task: task,
+      taskField: TaskField.taskHistory,
+      newValue: TaskHistory(
+          id: id, taskStatus: TaskStatus.assigned, dateTime: DateTime.now()),
+    );
   }
 
-  assignTask(
-    CareTask task,
-    String? id,
-  ) {
-    editTask(
-      newValue: id,
+
+  assignTask({
+    required CareTask task,
+    required String assignedToId,
+    required String assignedById
+  }) {
+   editTask(
+      newValue: assignedToId,
       task: task,
       taskField: TaskField.assignedTo,
     );
     editTask(
-      newValue: id == null ? null : DateTime.now(),
+      newValue: assignedToId == null ? null : DateTime.now(),
       task: task,
       taskField: TaskField.assignedDate,
     );
-    editTask(
-      newValue: id == null ? TaskStatus.created : TaskStatus.accepted,
-      task: task,
-      taskField: TaskField.taskStatus,
-    );
+    if (task.taskStatus != TaskStatus.draft) {
+      editTask(
+        newValue: assignedToId == null ? TaskStatus.created : TaskStatus.assigned,
+        task: task,
+        taskField: TaskField.taskStatus,
+      );
+      editTaskFieldRepository(
+        task: task,
+        taskField: TaskField.taskHistory,
+        newValue: TaskHistory(
+            id: assignedById, taskStatus: TaskStatus.assigned, dateTime: DateTime.now()),
+      );
+    }
   }
 
   removeTask(String id) {

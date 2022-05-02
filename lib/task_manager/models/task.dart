@@ -1,13 +1,13 @@
-import 'package:flutter/foundation.dart';
 
+import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/task_manager/models/comment.dart';
-
-import '../../category_manager/domain/models/category.dart';
-import 'kudos.dart';
-import 'task_effort.dart';
-import 'task_type.dart';
-import 'task_priority.dart';
-import 'task_status.dart';
+import 'package:careshare/task_manager/models/kudos.dart';
+import 'package:careshare/task_manager/models/task_effort.dart';
+import 'package:careshare/task_manager/models/task_history.dart';
+import 'package:careshare/task_manager/models/task_priority.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
+import 'package:careshare/task_manager/models/task_type.dart';
+import 'package:flutter/foundation.dart';
 
 class CareTask {
 
@@ -40,7 +40,7 @@ class CareTask {
 
   List<Comment>? comments = [];
   List<Kudos>? kudos = [];
-
+  List<TaskHistory>? taskHistory = [];
 
   CareTask({
     required this.id,
@@ -71,6 +71,7 @@ class CareTask {
 
     this.comments,
     this.kudos,
+    this.taskHistory,
   });
 
   Map<String, dynamic> toJson() {
@@ -102,6 +103,8 @@ class CareTask {
 
       'comments': comments?.map((comment) => comment.toJson()).toList(),
       'kudos': kudos?.map((kudos) => kudos.toJson()).toList(),
+      'history': taskHistory?.map((taskHistory) => taskHistory.toJson()).toList(),
+
     };
   }
 
@@ -163,6 +166,14 @@ class CareTask {
       });
     }
 
+    final List<TaskHistory> taskHistory = [];
+
+    if (value['history'] != null) {
+      value['history'].forEach((k, v) {
+        taskHistory.add(TaskHistory.fromJson(v));
+      });
+    }
+
     return CareTask(
         id: key,
         title: title,
@@ -186,7 +197,9 @@ class CareTask {
         taskCompletedDate: taskCompletedDate,
         completedBy: completedBy,
         comments: comments,
-        kudos: kudos);
+        kudos: kudos,
+        taskHistory: taskHistory,
+    );
   }
 
   @override
@@ -216,7 +229,9 @@ class CareTask {
         other.completedBy == completedBy &&
         other.taskCompletedDate == taskCompletedDate &&
         listEquals(other.comments, comments) &&
-        listEquals(other.kudos, kudos);
+        listEquals(other.kudos, kudos) &&
+        listEquals(other.taskHistory, taskHistory)
+    ;
   }
 
   @override
@@ -242,7 +257,9 @@ class CareTask {
         completedBy.hashCode ^
         taskCompletedDate.hashCode ^
         comments.hashCode ^
-        kudos.hashCode;
+        kudos.hashCode ^
+        taskHistory.hashCode
+    ;
   }
 }
 
@@ -275,4 +292,5 @@ enum TaskField {
 
   comment,
   kudos,
+  taskHistory,
 }

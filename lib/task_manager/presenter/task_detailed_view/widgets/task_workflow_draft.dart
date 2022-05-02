@@ -9,9 +9,9 @@ import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
-class TaskWorkflowCreateWidget extends StatelessWidget {
+class TaskWorkflowDraftWidget extends StatelessWidget {
   final CareTask task;
-  const TaskWorkflowCreateWidget({Key? key, required this.task}) : super(key: key);
+  const TaskWorkflowDraftWidget({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +33,14 @@ class TaskWorkflowCreateWidget extends StatelessWidget {
           SizedBox(width:20),
           ElevatedButton(
             onPressed: () async {
-              BlocProvider.of<TaskCubit>(context)
-                  .createTask(
+              Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+
+              BlocProvider.of<TaskCubit>(context).createTask(
                 task: task,
+                id: myProfile.id!
               );
 
               Navigator.pop(context);
-
-              Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
               // Send a message to tell the world the task is created
               HttpsCallable callable =

@@ -9,13 +9,14 @@ import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
-class TaskWorkflowCompleteWidget extends StatelessWidget {
+class TaskWorkflowAcceptedWidget extends StatelessWidget {
   final CareTask task;
-  const TaskWorkflowCompleteWidget({Key? key, required this.task}) : super(key: key);
+  const TaskWorkflowAcceptedWidget({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     DateTime dateTime = DateTime.now();
+
     return ElevatedButton(
       onPressed: () {},
       child: GestureDetector(
