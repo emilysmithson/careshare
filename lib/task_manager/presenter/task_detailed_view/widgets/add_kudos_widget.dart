@@ -62,7 +62,7 @@ class KudosWidget extends StatelessWidget {
 
             BlocProvider.of<NotificationsCubit>(context).sendNotifcations(
               notification: kudosNotification,
-              recipients: [task.acceptedBy!],
+              recipients: [task.assignedTo!],
             );
             BlocProvider.of<TaskCubit>(context).editTask(
               task: task,

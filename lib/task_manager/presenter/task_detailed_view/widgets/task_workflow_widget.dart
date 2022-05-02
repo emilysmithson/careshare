@@ -333,7 +333,7 @@ class TaskWorkflowWidget extends StatelessWidget {
 
                   BlocProvider.of<NotificationsCubit>(context).sendNotifcations(
                     notification: kudosNotification,
-                    recipients: [task.acceptedBy!],
+                    recipients: [task.assignedTo!],
                   );
 
                   // Add a kudos record to the profile/kudos
