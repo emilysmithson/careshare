@@ -228,7 +228,7 @@ class AuthenticationForm extends StatelessWidget {
                       child: const Text('Forgotten Password?'),
                     ),
                   SizedBox(height: 150),
-                  Text("CareShare version: 1.0.6+6")
+                  Text("CareShare version: 1.0.7+7")
                 ],
               ),
             ),
