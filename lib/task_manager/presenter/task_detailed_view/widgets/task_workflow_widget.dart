@@ -312,7 +312,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                 // I've already given kudos, so don't show the button
                 return ElevatedButton(
                   onPressed: (){},
-                  child: Text('* ${task.kudos!.length.toString()}'),
+                  child: Text('* ${(task.kudos!.length*task.taskEffort.value).toString()}'),
                 );
               }
               return ElevatedButton(
