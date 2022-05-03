@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CaregroupsManager extends StatelessWidget {
-  static const String routeName = "/caregroup-manager";
+  static const String routeName = "/caregroups-manager";
   const CaregroupsManager({
     Key? key,
   }) : super(key: key);
@@ -21,9 +21,9 @@ class CaregroupsManager extends StatelessWidget {
                 children: state.caregroupList
                     .map(
                       (caregroup) => CaregroupSummary(
-                        caregroup: caregroup,
-                      ),
-                    )
+                    caregroup: caregroup,
+                  ),
+                )
                     .toList(),
               ),
             ),

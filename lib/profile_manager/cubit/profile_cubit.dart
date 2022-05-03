@@ -29,6 +29,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     String? lastName,
     required String email,
     required String id,
+    // required List<String> careeInCaregroups,
+    // required List<String> carerInCaregroups,
+
   }) async {
     emit(const ProfileLoading());
     final ref = FirebaseStorage.instance
@@ -47,6 +50,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       email: email,
       kudos: 0,
       photo: url,
+      // careeInCaregroups: careeInCaregroups,
+      // carerInCaregroups: carerInCaregroups,
+
     );
     try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('profiles');

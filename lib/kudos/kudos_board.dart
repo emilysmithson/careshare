@@ -18,8 +18,10 @@ class KudosBoard extends StatelessWidget {
       builder: (context, state) {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: _profileList.map((Profile profile) {
+          child:
+          Row(
+            children:
+            _profileList.map((Profile profile) {
               return KudosBoardWidget(profile: profile);
             }).toList(),
           ),

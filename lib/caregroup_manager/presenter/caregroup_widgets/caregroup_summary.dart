@@ -2,6 +2,7 @@ import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_photo_widget.dart';
+import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,7 @@ class CaregroupSummary extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          EditCaregroup.routeName,
+          TaskManagerView.routeName,
           arguments: caregroup,
         );
       },

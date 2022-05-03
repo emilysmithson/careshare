@@ -1,3 +1,4 @@
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 
@@ -13,8 +14,10 @@ import '../models/task.dart';
 
 class TaskManagerView extends StatefulWidget {
   static const String routeName = "/task-manager";
+  final Caregroup caregroup;
   const TaskManagerView({
     Key? key,
+    required this.caregroup,
   }) : super(key: key);
 
   @override
@@ -22,6 +25,7 @@ class TaskManagerView extends StatefulWidget {
 }
 
 class _TaskManagerViewState extends State<TaskManagerView> {
+
   @override
   Widget build(BuildContext context) {
     return PageScaffold(
@@ -29,6 +33,7 @@ class _TaskManagerViewState extends State<TaskManagerView> {
           onPressed: () async {
             // AddTaskBottomSheet().call(context);
 
+            // Create a draft task and pass it to the edit screen
             final taskCubit = BlocProvider.of<TaskCubit>(context);
             final CareTask? task = await taskCubit.draftTask('');
             if (task != null) {
@@ -65,7 +70,7 @@ class _TaskManagerViewState extends State<TaskManagerView> {
             );
           }
 
-          return TasksOverview(careTaskList: state.careTaskList);
+          return TasksOverview(careTaskList: state.careTaskList, caregroup: widget.caregroup);
         }
 
         return const Center(

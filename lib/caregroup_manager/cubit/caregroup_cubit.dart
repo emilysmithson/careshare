@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:equatable/equatable.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
 
@@ -14,13 +15,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 part 'caregroup_state.dart';
 
 class CaregroupCubit extends Cubit<CaregroupState> {
+  final CreateACaregroup createACaregroupRepository;
   final EditCaregroupFieldRepository editCaregroupFieldRepository;
   final List<Caregroup> caregroupList = [];
   late Caregroup myCaregroup;
 
   CaregroupCubit({
+    required this.createACaregroupRepository,
     required this.editCaregroupFieldRepository,
   }) : super(CaregroupInitial());
+
+  Future<Caregroup?> draftCaregroup(String title) async {
+    Caregroup? caregroup;
+    try {
+      caregroup = await createACaregroupRepository(title);
+
+      return caregroup;
+    } catch (e) {
+      emit(CaregroupError(e.toString()));
+    }
+    if (Caregroup == null) {
+      emit(
+        const CaregroupError('Something went wrong, Caregroup is null'),
+      );
+    }
+    return null;
+  }
 
   createCaregroup({
     required File photo,

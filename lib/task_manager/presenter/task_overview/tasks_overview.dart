@@ -1,3 +1,4 @@
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/kudos/kudos_board.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
@@ -8,9 +9,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widgets/task_section.dart';
 
+
+
+
 class TasksOverview extends StatelessWidget {
   final List<CareTask> careTaskList;
-  const TasksOverview({Key? key, required this.careTaskList}) : super(key: key);
+  final Caregroup caregroup;
+
+  const TasksOverview({
+    Key? key,
+    required this.caregroup,
+    required this.careTaskList
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +36,7 @@ class TasksOverview extends StatelessWidget {
           color: Theme.of(context).primaryColor.withOpacity(0.5),
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Caregroup: Nuccia Nurture',
+            'Caregroup: ${caregroup.name}',
             style: Theme.of(context)
                 .textTheme
                 .headline6

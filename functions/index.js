@@ -61,7 +61,7 @@ exports.giveKudos = functions.https.onCall(async (data) => {
     "date_time": data["date_time"],
   });
   // Gives the completer kudos
-  const userId = snapshotVal["accepted_by"];
+  const userId = snapshotVal["assigned_to"];
   await admin.database().ref("profiles/"+userId+"/kudos").
       set(
           admin.database.

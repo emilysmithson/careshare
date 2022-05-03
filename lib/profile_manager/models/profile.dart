@@ -8,6 +8,9 @@ class Profile {
 
   int kudos;
 
+  // List<String> careeInCaregroups;
+  // List<String> carerInCaregroups;
+
   Profile({
     required this.id,
     required this.name,
@@ -16,6 +19,8 @@ class Profile {
     required this.email,
     required this.photo,
     required this.kudos,
+    // required this.careeInCaregroups,
+    // required this.carerInCaregroups,
   });
 
   factory Profile.fromJson(dynamic json) {
@@ -27,6 +32,8 @@ class Profile {
       email: json['email'] ?? "",
       photo: json['photo'] ?? "",
       kudos: json['kudos'] ?? 0,
+      // careeInCaregroups: json['caree_in_caregroups'] ?? [],
+      // carerInCaregroups: json['carer_in_caregroups'] ?? [],
     );
   }
 

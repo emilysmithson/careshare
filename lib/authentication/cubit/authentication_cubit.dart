@@ -87,6 +87,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         email: email,
         name: name,
         photo: photo,
+        // careeInCaregroups: [],
+        // carerInCaregroups: [],
       );
       await profileCubit.fetchProfiles();
       await taskCubit.fetchTasks();

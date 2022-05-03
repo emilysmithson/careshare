@@ -1,12 +1,19 @@
+
+
 class Caregroup {
   final String id;
   String name;
-  String photo;
+  String? photo;
+  List<String>? carees = [];
+  List<String>? members = [];
+
 
   Caregroup({
     required this.id,
     required this.name,
-    required this.photo,
+    this.photo,
+    this.carees,
+    this.members,
   });
 
   factory Caregroup.fromJson(dynamic key, dynamic value) {
@@ -21,7 +28,8 @@ class Caregroup {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'photo': photo
+      'photo': photo,
+
     };
   }
 
