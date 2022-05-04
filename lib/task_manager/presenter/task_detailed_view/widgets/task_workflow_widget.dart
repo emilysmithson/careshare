@@ -1,4 +1,3 @@
-import 'package:careshare/core/presentation/photo_and_name_widget.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/task_manager/models/kudos.dart';
@@ -179,6 +178,14 @@ class TaskWorkflowWidget extends StatelessWidget {
                   dateTime: DateTime.now()
                 );
 
+                // Update the completed count in the task completer's profile
+                BlocProvider.of<ProfileCubit>(context).completeTask(
+                    profile: myProfile,
+                    caregroupId: task.caregroup,
+                    effort: task.taskEffort.value
+                );
+
+
                 Navigator.pop(context);
 
                 // Send a message to tell the world the task is complete
@@ -336,7 +343,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                     recipients: [task.assignedTo!],
                   );
 
-                  // Add a kudos record to the profile/kudos
+                  // Add a kudos record to the task/kudos
                   BlocProvider.of<TaskCubit>(context).editTask(
                     task: task,
                     newValue: Kudos(
@@ -346,7 +353,14 @@ class TaskWorkflowWidget extends StatelessWidget {
                     taskField: TaskField.kudos,
                   );
 
-                  BlocProvider.of<ProfileCubit>(context).addKudos(task.completedBy!);
+                  // Update the kudos in the task completer's profile
+                  Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+
+                  BlocProvider.of<ProfileCubit>(context).giveKudos(
+                      profile: myProfile,
+                      caregroupId: task.caregroup,
+                      kudos: task.taskEffort.value
+                  );
                 },
                 child: const Text('Give Kudos'),
               );

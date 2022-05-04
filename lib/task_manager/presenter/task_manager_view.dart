@@ -35,7 +35,7 @@ class _TaskManagerViewState extends State<TaskManagerView> {
 
             // Create a draft task and pass it to the edit screen
             final taskCubit = BlocProvider.of<TaskCubit>(context);
-            final CareTask? task = await taskCubit.draftTask('');
+            final CareTask? task = await taskCubit.draftTask('', widget.caregroup.id);
             if (task != null) {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -64,13 +64,19 @@ class _TaskManagerViewState extends State<TaskManagerView> {
         }
 
         if (state is TaskLoaded) {
-          if (state.careTaskList.isEmpty) {
-            return const Center(
-              child: Text('no tasks'),
-            );
-          }
+          // if (state.careTaskList.isEmpty) {
+          //   return const Center(
+          //     child: Text('no tasks'),
+          //   );
+          // }
 
-          return TasksOverview(careTaskList: state.careTaskList, caregroup: widget.caregroup);
+          Iterable<CareTask> filteredTaskList = state.careTaskList
+              .where((element) => element.caregroup == widget.caregroup.id);
+
+          return TasksOverview(
+              careTaskList: filteredTaskList.toList(),
+              caregroup: widget.caregroup
+          );
         }
 
         return const Center(

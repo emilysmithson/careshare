@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 
 import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:careshare/profile_manager/repository/complete_task.dart';
+import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:equatable/equatable.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 
@@ -15,11 +17,15 @@ part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final EditProfileFieldRepository editProfileFieldRepository;
+  final GiveKudos giveKudos;
+  final CompleteTask completeTask;
   final List<Profile> profileList = [];
   late Profile myProfile;
 
   ProfileCubit({
     required this.editProfileFieldRepository,
+    required this.giveKudos,
+    required this.completeTask,
   }) : super(ProfileInitial());
 
   createProfile({
@@ -50,9 +56,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       email: email,
       kudos: 0,
       photo: url,
-      // careeInCaregroups: careeInCaregroups,
-      // carerInCaregroups: carerInCaregroups,
-
+      carerInCaregroups: []
     );
     try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('profiles');

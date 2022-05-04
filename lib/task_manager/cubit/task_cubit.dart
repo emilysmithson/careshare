@@ -63,10 +63,10 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
-  Future<CareTask?> draftTask(String title) async {
+  Future<CareTask?> draftTask(String title, String caregroupId) async {
     CareTask? task;
     try {
-      task = await createATaskRepository(title);
+      task = await createATaskRepository(title, caregroupId);
 
       return task;
     } catch (e) {

@@ -1,3 +1,4 @@
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
@@ -9,14 +10,15 @@ import 'package:careshare/task_manager/presenter/task_overview/widgets/task_summ
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'xxx_add_task_bottom_sheet.dart';
 
 class TaskSection extends StatelessWidget {
   final String title;
+  final Caregroup caregroup;
   final List<CareTask> careTaskList;
   const TaskSection({
     Key? key,
     required this.title,
+    required this.caregroup,
     required this.careTaskList,
   }) : super(key: key);
 
@@ -68,7 +70,7 @@ class TaskSection extends StatelessWidget {
                               onPressed: () async {
                                 // AddTaskBottomSheet().call(context);
                                 final taskCubit = BlocProvider.of<TaskCubit>(context);
-                                final CareTask? task = await taskCubit.draftTask('');
+                                final CareTask? task = await taskCubit.draftTask('', caregroup.id);
                                 if (task != null) {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(

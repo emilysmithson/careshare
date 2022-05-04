@@ -1,3 +1,4 @@
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/kudos/kudos_board_widget.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
@@ -6,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class KudosBoard extends StatelessWidget {
   final List<Profile> profileList;
-  const KudosBoard({Key? key, required this.profileList}) : super(key: key);
+  final Caregroup caregroup;
+  const KudosBoard({Key? key, required this.profileList, required this.caregroup}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class KudosBoard extends StatelessWidget {
           Row(
             children:
             _profileList.map((Profile profile) {
-              return KudosBoardWidget(profile: profile);
+              return KudosBoardWidget(profile: profile, caregroup: caregroup);
             }).toList(),
           ),
         );

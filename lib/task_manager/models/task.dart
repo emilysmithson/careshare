@@ -76,7 +76,7 @@ class CareTask {
 
   Map<String, dynamic> toJson() {
     return {
-      'caregroup': '-Ms4vguCCloDVf3mhEhN',
+      'caregroup': caregroup,
       'task_status': taskStatus.status,
 
       'title': title,
@@ -151,6 +151,7 @@ class CareTask {
         ? DateTime.tryParse(value['completed_date'])
         : null;
     final completedBy = value['completed_by'] ?? '';
+
     final List<Comment> comments = [];
 
     if (value['comments'] != null) {
@@ -158,6 +159,7 @@ class CareTask {
         comments.add(Comment.fromJson(v));
       });
     }
+
     final List<Kudos> kudos = [];
 
     if (value['kudos'] != null) {

@@ -1,3 +1,5 @@
+import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
+
 class Profile {
   String name;
   String firstName;
@@ -8,8 +10,7 @@ class Profile {
 
   int kudos;
 
-  // List<String> careeInCaregroups;
-  // List<String> carerInCaregroups;
+  List<RoleInCaregroup>? carerInCaregroups = [];
 
   Profile({
     required this.id,
@@ -19,11 +20,20 @@ class Profile {
     required this.email,
     required this.photo,
     required this.kudos,
-    // required this.careeInCaregroups,
-    // required this.carerInCaregroups,
+    required this.carerInCaregroups,
+
   });
 
   factory Profile.fromJson(dynamic json) {
+
+    final List<RoleInCaregroup> carerInCaregroups = [];
+
+    if (json['carer_in'] != null) {
+      json['carer_in'].forEach((k, v) {
+        carerInCaregroups.add(RoleInCaregroup.fromJson(v));
+      });
+    }
+
     return Profile(
       id: json['id'],
       name: json['name'] ?? "",
@@ -32,8 +42,7 @@ class Profile {
       email: json['email'] ?? "",
       photo: json['photo'] ?? "",
       kudos: json['kudos'] ?? 0,
-      // careeInCaregroups: json['caree_in_caregroups'] ?? [],
-      // carerInCaregroups: json['carer_in_caregroups'] ?? [],
+      carerInCaregroups: carerInCaregroups,
     );
   }
 
@@ -45,7 +54,9 @@ class Profile {
       'last_name': lastName,
       'email': email,
       'kudos': kudos,
-      'photo': photo
+      'photo': photo,
+      'carer_in': carerInCaregroups?.map((carerInCaregroups) => carerInCaregroups.toJson()).toList(),
+
     };
   }
 
@@ -58,6 +69,7 @@ class Profile {
     lastName: $lastName,
     email: $email,
     kudos: $kudos,
+    carer_in: $carerInCaregroups,
     ''';
   }
 }

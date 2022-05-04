@@ -10,7 +10,6 @@ import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repo
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 part 'caregroup_state.dart';
 

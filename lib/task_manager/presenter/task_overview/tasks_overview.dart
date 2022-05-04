@@ -46,10 +46,14 @@ class TasksOverview extends StatelessWidget {
       ),
 
           KudosBoard(
-            profileList: BlocProvider.of<ProfileCubit>(context).profileList,
+            profileList: BlocProvider.of<ProfileCubit>(context).profileList
+                .where((profile) => profile.carerInCaregroups!
+                .where((element) => element.caregroupId==caregroup.id).isNotEmpty).toList(),
+            caregroup: caregroup,
           ),
           TaskSection(
             title: 'New Tasks',
+            caregroup: caregroup,
             careTaskList: careTaskList
                 .where(
                   (element) => element.taskStatus == TaskStatus.created,
@@ -58,6 +62,7 @@ class TasksOverview extends StatelessWidget {
           ),
           TaskSection(
             title: 'My Tasks',
+            caregroup: caregroup,
             careTaskList: careTaskList
                 .where(
                   (element) =>
@@ -68,12 +73,14 @@ class TasksOverview extends StatelessWidget {
           ),
           TaskSection(
             title: 'Completed Tasks',
+            caregroup: caregroup,
             careTaskList: careTaskList
                 .where((element) => element.taskStatus == TaskStatus.completed)
                 .toList(),
           ),
           TaskSection(
             title: "Other People's Tasks",
+            caregroup: caregroup,
             careTaskList: careTaskList
                 .where(
                   (element) =>

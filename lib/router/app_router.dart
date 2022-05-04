@@ -4,7 +4,7 @@ import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_manager_view.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_overview.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_summary.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_summary.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
@@ -15,7 +15,9 @@ import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_overview.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
+import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
+import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/presenter/task_category_view/task_category_view.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
@@ -32,6 +34,8 @@ import '../task_manager/models/task.dart';
 class AppRouter {
   final _profileCubit = ProfileCubit(
     editProfileFieldRepository: EditProfileFieldRepository(),
+    giveKudos: GiveKudos(),
+    completeTask: CompleteTask(),
   );
   final _caregroupCubit = CaregroupCubit(
     createACaregroupRepository: CreateACaregroup(),
@@ -177,8 +181,11 @@ class AppRouter {
       case CaregroupsManager.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _caregroupCubit,
-            child: const CaregroupsManager(),
+            value: _profileCubit,
+            child: BlocProvider.value(
+              value: _caregroupCubit,
+              child: const CaregroupsManager(),
+            ),
           ),
         );
 

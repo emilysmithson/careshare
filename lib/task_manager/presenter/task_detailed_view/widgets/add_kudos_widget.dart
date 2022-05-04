@@ -64,6 +64,7 @@ class KudosWidget extends StatelessWidget {
               notification: kudosNotification,
               recipients: [task.assignedTo!],
             );
+
             BlocProvider.of<TaskCubit>(context).editTask(
               task: task,
               newValue: Kudos(
@@ -72,7 +73,16 @@ class KudosWidget extends StatelessWidget {
               ),
               taskField: TaskField.kudos,
             );
-            BlocProvider.of<ProfileCubit>(context).addKudos(task.completedBy!);
+
+            // Update the kudos in the task completer's profile
+            Profile taskCompletedBy = BlocProvider.of<ProfileCubit>(context).profileList
+                .firstWhere((element) => element.id == task.assignedTo);
+
+            BlocProvider.of<ProfileCubit>(context).giveKudos(
+              profile: taskCompletedBy,
+              caregroupId: task.caregroup,
+              kudos: task.taskEffort.value
+            );
           },
           child: const Text('Give Kudos'),
         );

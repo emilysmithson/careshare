@@ -1,5 +1,5 @@
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_summary.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_summary.dart';
 import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,11 +19,7 @@ class CaregroupsManager extends StatelessWidget {
             body: SingleChildScrollView(
               child: Wrap(
                 children: state.caregroupList
-                    .map(
-                      (caregroup) => CaregroupSummary(
-                    caregroup: caregroup,
-                  ),
-                )
+                    .map((caregroup) => CaregroupSummary(caregroup: caregroup,),)
                     .toList(),
               ),
             ),

@@ -28,7 +28,7 @@ class _AssignATaskState extends State<AssignATask> {
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
     widgetList.addAll(BlocProvider.of<ProfileCubit>(context)
-        .profileList
+        .profileList.where((element) => element.carerInCaregroups!.indexWhere((element) => element.caregroupId==widget.task.caregroup) != -1)
         .map(
           (profile) => GestureDetector(
             onTap: () async {

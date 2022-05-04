@@ -5,10 +5,10 @@ import '../models/task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CreateATask {
-  Future<CareTask> call(String taskName) async {
+  Future<CareTask> call(String taskName, String caregroupId) async {
     final task = CareTask(
       title: taskName,
-      caregroup: '-Ms4vguCCloDVf3mhEhN',
+      caregroup: caregroupId,
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       createdBy: FirebaseAuth.instance.currentUser!.uid,
       taskCreatedDate: DateTime.now(),
