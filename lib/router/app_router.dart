@@ -3,9 +3,10 @@ import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_manager_view.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_overview.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_summary.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
@@ -13,8 +14,9 @@ import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/notifications/presenter/notifications_page.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
-import 'package:careshare/profile_manager/presenter/profile_overview.dart';
+import 'package:careshare/profile_manager/presenter/profile_manager.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
+import 'package:careshare/profile_manager/presenter/view_profile.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
@@ -145,6 +147,34 @@ class AppRouter {
             child: EditProfile(profile: routeSettings.arguments as Profile),
           ),
         );
+
+      case ViewProfile.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _profileCubit,
+              child: BlocProvider.value(
+                value: _caregroupCubit,
+                  child: ViewProfile(
+                      caregroup: (routeSettings.arguments
+                      as Map<String, dynamic>)['caregroup']
+                      as  Caregroup,
+                      profile: (routeSettings.arguments
+                      as Map<String, dynamic>)['profile'] as Profile
+
+                ),
+            ),
+          )
+        );
+
+      case ViewCaregroup.routeName:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: _caregroupCubit,
+                child: ViewCaregroup(caregroup: routeSettings.arguments as Caregroup),
+            )
+        );
+
+
       case NotificationsPage.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
@@ -156,27 +186,30 @@ class AppRouter {
           ),
         );
 
-      case CaregroupSummary.routeName:
+      case CaregroupPicker.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _caregroupCubit,
-            child: CaregroupSummary(caregroup: routeSettings.arguments as Caregroup),
-          ),
-        );
-
-      case CaregroupManagerView.routeName:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _profileCubit,
+            value: _profileCubit ,
             child: BlocProvider.value(
-              value: _taskCubit,
-              child: BlocProvider.value(
-                value: _caregroupCubit,
-                child: const CaregroupManagerView(),
-              ),
+              value: _caregroupCubit,
+              child: CaregroupPicker(caregroup: routeSettings.arguments as Caregroup),
             ),
           ),
         );
+
+      // case CaregroupManagerView.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider.value(
+      //       value: _profileCubit,
+      //       child: BlocProvider.value(
+      //         value: _taskCubit,
+      //         child: BlocProvider.value(
+      //           value: _caregroupCubit,
+      //           child: const CaregroupManagerView(),
+      //         ),
+      //       ),
+      //     ),
+      //   );
 
       case CaregroupsManager.routeName:
         return MaterialPageRoute(

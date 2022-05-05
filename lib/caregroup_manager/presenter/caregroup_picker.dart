@@ -8,27 +8,26 @@ import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CaregroupSummary extends StatelessWidget {
-  static const String routeName = "/caregroup-summary";
+class CaregroupPicker extends StatelessWidget {
+  static const String routeName = "/caregroup-picker";
   final Caregroup caregroup;
 
-  const CaregroupSummary({
+  const CaregroupPicker({
     Key? key,
     required this.caregroup,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+
+    // you shouldn't be able to see this page if you aren't a memeber of the caregroup
     int indexWhere = myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId==caregroup.id);
     if (indexWhere == -1) return Scaffold();
 
     return GestureDetector(
       onTap: () {
-
-        // update the saved tasks with the tasks for this caregroup
-
-
 
         // navigate to the Task Manager
         Navigator.pushNamed(

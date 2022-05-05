@@ -7,6 +7,7 @@ class Profile {
   String email;
   final String? id;
   String photo;
+  DateTime createdDate;
 
   int kudos;
 
@@ -19,6 +20,7 @@ class Profile {
     required this.lastName,
     required this.email,
     required this.photo,
+    required this.createdDate,
     required this.kudos,
     required this.carerInCaregroups,
 
@@ -33,6 +35,7 @@ class Profile {
         carerInCaregroups.add(RoleInCaregroup.fromJson(v));
       });
     }
+    final createdDate = DateTime.parse(json['created_date']);
 
     return Profile(
       id: json['id'],
@@ -42,6 +45,8 @@ class Profile {
       email: json['email'] ?? "",
       photo: json['photo'] ?? "",
       kudos: json['kudos'] ?? 0,
+      createdDate: createdDate,
+
       carerInCaregroups: carerInCaregroups,
     );
   }
@@ -55,8 +60,8 @@ class Profile {
       'email': email,
       'kudos': kudos,
       'photo': photo,
+      'created_date': createdDate.toString(),
       'carer_in': carerInCaregroups?.map((carerInCaregroups) => carerInCaregroups.toJson()).toList(),
-
     };
   }
 
@@ -69,6 +74,7 @@ class Profile {
     lastName: $lastName,
     email: $email,
     kudos: $kudos,
+    createdDate: $createdDate,
     carer_in: $carerInCaregroups,
     ''';
   }

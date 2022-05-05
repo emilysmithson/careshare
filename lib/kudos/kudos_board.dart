@@ -14,7 +14,8 @@ class KudosBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Profile> _profileList = profileList.toList();
     _profileList.sort(
-      (a, b) => b.kudos.compareTo(a.kudos),
+          (a, b) => b.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).kudosValue.compareTo(a.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).kudosValue),
+          // (a, b) => b.kudos.compareTo(a.kudos),
     );
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {

@@ -18,6 +18,11 @@ class EditCaregroupFieldRepository {
         field = 'name';
         value = newValue;
         break;
+      case CaregroupField.createdDate:
+        newCaregroup.createdDate = newValue;
+        field = 'created_date';
+        value = newValue;
+        break;
       case CaregroupField.photo:
         final ref = FirebaseStorage.instance
             .ref()

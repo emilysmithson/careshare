@@ -46,7 +46,7 @@ class EditProfile extends StatelessWidget {
                   ),
                   const SizedBox(height: spacing),
                   ProfileInputFieldWidget(
-                    label: 'Name',
+                    label: 'Username',
                     maxLines: 1,
                     currentValue: profile.name,
                     profile: profile,

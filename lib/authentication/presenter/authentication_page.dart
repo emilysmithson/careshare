@@ -1,7 +1,7 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/widgets/authentication_form.dart';
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_overview.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/notifications/presenter/cubit/notifications_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';

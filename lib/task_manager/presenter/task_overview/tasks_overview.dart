@@ -1,4 +1,6 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
 import 'package:careshare/kudos/kudos_board.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
@@ -29,21 +31,30 @@ class TasksOverview extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-        Hero(
-        tag: 'Caregroup',
-        child: Container(
-          width: double.infinity,
-          color: Theme.of(context).primaryColor.withOpacity(0.5),
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Caregroup: ${caregroup.name}',
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                ?.copyWith(color: Colors.white),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              ViewCaregroup.routeName,
+              arguments: caregroup,
+            );
+          },
+          child: Hero(
+          tag: 'Caregroup',
+          child: Container(
+            width: double.infinity,
+            color: Theme.of(context).primaryColor.withOpacity(0.5),
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Caregroup: ${caregroup.name}',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  ?.copyWith(color: Colors.white),
+            ),
           ),
-        ),
       ),
+        ),
 
           KudosBoard(
             profileList: BlocProvider.of<ProfileCubit>(context).profileList

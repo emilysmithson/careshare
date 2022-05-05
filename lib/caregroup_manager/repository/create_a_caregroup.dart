@@ -7,6 +7,7 @@ class CreateACaregroup {
     final caregroup = Caregroup(
       name: name,
       id: DateTime.now().millisecondsSinceEpoch.toString(),
+      createdDate: DateTime.now(),
     );
     DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
 

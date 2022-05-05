@@ -56,6 +56,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       email: email,
       kudos: 0,
       photo: url,
+      createdDate: DateTime.now(),
       carerInCaregroups: []
     );
     try {

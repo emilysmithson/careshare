@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewCaregroup extends StatelessWidget {
   final Caregroup caregroup;
+  static const routeName = '/view-caregroup';
 
   const ViewCaregroup({
     Key? key,
@@ -25,12 +26,21 @@ class ViewCaregroup extends StatelessWidget {
             builder: (context, state) {
               return Column(
                 children: [
+                  Container(
+                    height: 120,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      image: DecorationImage(
+                          image: NetworkImage(caregroup.photo!), fit: BoxFit.cover),
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   Row(
                     children: [
                       const Expanded(
                         flex: 4,
-                        child: Text('Name',
+                        child: Text('Caregroup',
                             style: TextStyle(fontWeight: FontWeight.normal)),
                       ),
                       Expanded(
@@ -41,6 +51,24 @@ class ViewCaregroup extends StatelessWidget {
                       )
                     ],
                   ),
+
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      const Expanded(
+                        flex: 4,
+                        child: Text('Created',
+                            style: TextStyle(fontWeight: FontWeight.normal)),
+                      ),
+                      Expanded(
+                        flex: 6,
+                        child: Text(caregroup.createdDate.toString(),
+                            style:
+                            const TextStyle(fontWeight: FontWeight.bold)),
+                      )
+                    ],
+                  ),
+
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -49,8 +77,7 @@ class ViewCaregroup extends StatelessWidget {
                             Navigator.pushReplacementNamed(
                                 context, EditCaregroup.routeName,
                                 arguments:
-                                    BlocProvider.of<CaregroupCubit>(context)
-                                        .myCaregroup);
+                                    caregroup);
                           },
                           child: const Text('Edit')),
                     ],
