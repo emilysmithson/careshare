@@ -30,6 +30,7 @@ class ProfilesManager extends StatelessWidget {
             ),
           );
         }
+        print('show circular progress indicator C3');
         return const Center(child: CircularProgressIndicator());
       },
     );

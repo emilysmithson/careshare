@@ -25,7 +25,6 @@ class TaskManagerView extends StatefulWidget {
 }
 
 class _TaskManagerViewState extends State<TaskManagerView> {
-
   @override
   Widget build(BuildContext context) {
     return PageScaffold(
@@ -35,7 +34,8 @@ class _TaskManagerViewState extends State<TaskManagerView> {
 
             // Create a draft task and pass it to the edit screen
             final taskCubit = BlocProvider.of<TaskCubit>(context);
-            final CareTask? task = await taskCubit.draftTask('', widget.caregroup.id);
+            final CareTask? task =
+                await taskCubit.draftTask('', widget.caregroup.id);
             if (task != null) {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -55,9 +55,10 @@ class _TaskManagerViewState extends State<TaskManagerView> {
             }
           },
           child: const Icon(Icons.add)),
-
       body: BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
         if (state is TaskLoading) {
+          print('show circular progress indicator C4');
+
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -75,8 +76,7 @@ class _TaskManagerViewState extends State<TaskManagerView> {
 
           return TasksOverview(
               careTaskList: filteredTaskList.toList(),
-              caregroup: widget.caregroup
-          );
+              caregroup: widget.caregroup);
         }
 
         return const Center(

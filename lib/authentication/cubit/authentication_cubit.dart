@@ -5,6 +5,7 @@ import 'package:careshare/notifications/initialise_notifications.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../category_manager/cubit/category_cubit.dart';
@@ -17,11 +18,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationInitial());
 
   checkAuthentication({
-    required ProfileCubit profileCubit,
-    required CaregroupCubit caregroupCubit,
-    required TaskCubit taskCubit,
-    required CategoriesCubit categoriesCubit,
-    required NotificationsCubit notificationsCubit,
+    required BuildContext context,
   }) async {
     emit(AuthenticationLoading());
 
@@ -30,23 +27,32 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     if (user == null) {
       emit(const AuthenticationLogin());
     } else {
-      await profileCubit.fetchProfiles();
-      await caregroupCubit.fetchCaregroups();
-      await taskCubit.fetchTasks();
-      await categoriesCubit.fetchCategories();
-      await initialiseNotifications(user.uid);
-      await notificationsCubit.fetchNotifications();
+      await initialise(
+        context: context,
+        userId: user.uid,
+      );
       emit(AuthenticationLoaded(user));
     }
+  }
+
+  initialise({
+    required BuildContext context,
+    required String userId,
+  }) async {
+    await BlocProvider.of<ProfileCubit>(context).fetchProfiles();
+    await BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
+    await BlocProvider.of<TaskCubit>(context).fetchTasks();
+    await BlocProvider.of<CategoriesCubit>(context).fetchCategories();
+    await BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
+    await initialiseNotifications(userId);
+    await BlocProvider.of<NotificationsCubit>(context).fetchNotifications();
   }
 
   register({
     required String name,
     required String email,
     required String password,
-    required ProfileCubit profileCubit,
-    required TaskCubit taskCubit,
-    required CategoriesCubit categoriesCubit,
+    required BuildContext context,
     required File photo,
   }) async {
     try {
@@ -82,7 +88,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     if (user == null) {
       emit(const AuthenticationRegister());
     } else {
-      await profileCubit.createProfile(
+      await BlocProvider.of<ProfileCubit>(context).createProfile(
         id: FirebaseAuth.instance.currentUser!.uid,
         email: email,
         name: name,
@@ -90,21 +96,19 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         // careeInCaregroups: [],
         // carerInCaregroups: [],
       );
-      await profileCubit.fetchProfiles();
-      await taskCubit.fetchTasks();
-      await categoriesCubit.fetchCategories();
-
+      await initialise(
+        context: context,
+        userId: user.uid,
+      );
       emit(AuthenticationLoaded(user));
     }
   }
 
   login({
-    required ProfileCubit profileCubit,
+    required BuildContext context,
     required String email,
     required String password,
     required String name,
-    required TaskCubit taskCubit,
-    required CategoriesCubit categoriesCubit,
   }) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -132,9 +136,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     if (user == null) {
       emit(const AuthenticationRegister());
     } else {
-      await profileCubit.fetchProfiles();
-      await taskCubit.fetchTasks();
-      await categoriesCubit.fetchCategories();
+      await initialise(
+        context: context,
+        userId: user.uid,
+      );
 
       emit(AuthenticationLoaded(user));
     }

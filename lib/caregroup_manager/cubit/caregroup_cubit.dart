@@ -77,6 +77,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
   }
 
   Future fetchCaregroups() async {
+    print('fetching caaregroups');
     try {
       emit(const CaregroupLoading());
       DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
@@ -100,7 +101,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
             },
           );
 
-          caregroupList.sort((a,b)=>a.name.compareTo(b.name));
+          caregroupList.sort((a, b) => a.name.compareTo(b.name));
           emit(CaregroupLoaded(caregroupList: caregroupList));
         }
       });
@@ -144,7 +145,8 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     emit(const CaregroupLoading());
 
     editCaregroupFieldRepository(
-        caregroup: caregroup, caregroupField: caregroupField, newValue: newValue);
+        caregroup: caregroup,
+        caregroupField: caregroupField,
+        newValue: newValue);
   }
-
 }
