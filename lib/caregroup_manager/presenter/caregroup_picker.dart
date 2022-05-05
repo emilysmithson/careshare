@@ -15,58 +15,75 @@ class CaregroupPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
     return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
         if (state is CaregroupLoaded) {
+          final careGroupList = state.caregroupList
+              .where((caregroup) =>
+                  myProfile.carerInCaregroups!.indexWhere(
+                      (element) => element.caregroupId == caregroup.id) !=
+                  -1)
+              .toList();
+
+          if (careGroupList.length == 1) {
+            WidgetsBinding.instance?.addPostFrameCallback(
+              (_) => Navigator.pushNamed(
+                context,
+                TaskManagerView.routeName,
+                arguments: careGroupList[0],
+              ),
+            );
+            return Container();
+          }
           return PageScaffold(
             body: SingleChildScrollView(
               child: Wrap(
-                children: state.caregroupList.where((caregroup) =>  myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId==caregroup.id) != -1)
-                    .map(
-                      (caregroup) => GestureDetector(
-                        onTap: () {
-
-                          // navigate to the Task Manager
-                          Navigator.pushNamed(
-                            context,
-                            TaskManagerView.routeName,
-                            arguments: caregroup,
-                          );
-                        },
-                        child: Container(
-                          width: 250,
-                          height: 200,
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: BlocBuilder<CaregroupCubit, CaregroupState>(
-                                builder: (context, state) {
-                                  if (state is CaregroupLoaded) {
-                                    return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        CaregroupPhotoWidget(id: caregroup.id, size: 80),
-                                        const SizedBox(height: 8),
-                                        Center(
-                                          child: Text(caregroup.name,
-                                              style:
-                                              const TextStyle(fontWeight: FontWeight.bold)),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  return Container();
-                                },
+                children: careGroupList
+                    .map((caregroup) => GestureDetector(
+                          onTap: () {
+                            // navigate to the Task Manager
+                            Navigator.pushNamed(
+                              context,
+                              TaskManagerView.routeName,
+                              arguments: caregroup,
+                            );
+                          },
+                          child: Container(
+                            width: 250,
+                            height: 200,
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child:
+                                    BlocBuilder<CaregroupCubit, CaregroupState>(
+                                  builder: (context, state) {
+                                    if (state is CaregroupLoaded) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CaregroupPhotoWidget(
+                                              id: caregroup.id, size: 80),
+                                          const SizedBox(height: 8),
+                                          Center(
+                                            child: Text(caregroup.name,
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    return Container();
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    )
+                        ))
                     .toList(),
               ),
             ),

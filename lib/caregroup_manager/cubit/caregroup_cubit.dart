@@ -77,7 +77,6 @@ class CaregroupCubit extends Cubit<CaregroupState> {
   }
 
   Future fetchCaregroups() async {
-    print('fetching caaregroups');
     try {
       emit(const CaregroupLoading());
       DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
