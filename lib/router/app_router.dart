@@ -187,9 +187,9 @@ class AppRouter {
       case CaregroupPicker.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _profileCubit ,
+            value: _caregroupCubit,
             child: BlocProvider.value(
-              value: _caregroupCubit,
+              value: _profileCubit ,
               child: CaregroupPicker(),
             ),
           ),

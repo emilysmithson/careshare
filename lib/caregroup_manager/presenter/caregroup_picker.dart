@@ -15,11 +15,12 @@ class CaregroupPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
     return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
         if (state is CaregroupLoaded) {
+          Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+
           final careGroupList = state.caregroupList
               .where((caregroup) =>
                   myProfile.carerInCaregroups!.indexWhere(
