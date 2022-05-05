@@ -31,7 +31,6 @@ class KudosWidget extends StatelessWidget {
 
     Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
-
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
         Kudos? kudos =
@@ -39,9 +38,14 @@ class KudosWidget extends StatelessWidget {
 
         if (kudos != null) {
           // I've already given kudos, so don't show the button
-          return ElevatedButton(
-            onPressed: (){},
-            child: Text('* ${(task.kudos!.length*task.taskEffort.value).toString()}'),
+          return Container(
+            decoration:
+                BoxDecoration(color: Colors.green[50], shape: BoxShape.circle),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                  '* ${(task.kudos!.length * task.taskEffort.value).toString()}'),
+            ),
           );
         }
         return ElevatedButton(
@@ -51,10 +55,10 @@ class KudosWidget extends StatelessWidget {
             final kudosNotification = CareshareNotification(
                 id: id,
                 title:
-                "${BlocProvider.of<ProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
+                    "${BlocProvider.of<ProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
                 routeName: "/task-detailed-view",
                 subtitle:
-                'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                    'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
                 dateTime: dateTime,
                 senderId: FirebaseAuth.instance.currentUser!.uid,
                 isRead: false,
@@ -75,14 +79,14 @@ class KudosWidget extends StatelessWidget {
             );
 
             // Update the kudos in the task completer's profile
-            Profile taskCompletedBy = BlocProvider.of<ProfileCubit>(context).profileList
+            Profile taskCompletedBy = BlocProvider.of<ProfileCubit>(context)
+                .profileList
                 .firstWhere((element) => element.id == task.assignedTo);
 
             BlocProvider.of<ProfileCubit>(context).giveKudos(
-              profile: taskCompletedBy,
-              caregroupId: task.caregroup,
-              kudos: task.taskEffort.value
-            );
+                profile: taskCompletedBy,
+                caregroupId: task.caregroup,
+                kudos: task.taskEffort.value);
           },
           child: const Text('Give Kudos'),
         );

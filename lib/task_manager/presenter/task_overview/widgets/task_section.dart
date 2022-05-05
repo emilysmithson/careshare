@@ -10,7 +10,6 @@ import 'package:careshare/task_manager/presenter/task_overview/widgets/task_summ
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class TaskSection extends StatelessWidget {
   final String title;
   final Caregroup caregroup;
@@ -54,10 +53,11 @@ class TaskSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 130,
+          height: 160,
           child: Container(
             color: Theme.of(context).primaryColor.withOpacity(0.3),
-            child: careTaskList.isEmpty ? Container(
+            child: careTaskList.isEmpty
+                ? Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(2),
                     child: Align(
@@ -69,17 +69,23 @@ class TaskSection extends StatelessWidget {
                             child: IconButton(
                               onPressed: () async {
                                 // AddTaskBottomSheet().call(context);
-                                final taskCubit = BlocProvider.of<TaskCubit>(context);
-                                final CareTask? task = await taskCubit.draftTask('', caregroup.id);
+                                final taskCubit =
+                                    BlocProvider.of<TaskCubit>(context);
+                                final CareTask? task =
+                                    await taskCubit.draftTask('', caregroup.id);
                                 if (task != null) {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (_) => BlocProvider.value(
-                                          value: BlocProvider.of<TaskCubit>(context),
+                                          value: BlocProvider.of<TaskCubit>(
+                                              context),
                                           child: BlocProvider.value(
-                                            value: BlocProvider.of<ProfileCubit>(context),
+                                            value:
+                                                BlocProvider.of<ProfileCubit>(
+                                                    context),
                                             child: BlocProvider.value(
-                                              value: BlocProvider.of<CategoriesCubit>(context),
+                                              value: BlocProvider.of<
+                                                  CategoriesCubit>(context),
                                               child: TaskDetailedView(
                                                 task: task,
                                               ),
