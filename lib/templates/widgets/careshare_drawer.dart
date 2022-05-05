@@ -244,10 +244,10 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onTap: () {
-              Navigator.pushNamed(
-                context,
-                CaregroupsManager.routeName,
-              );
+              // Navigator.pushNamed(
+              //   context,
+              //   CaregroupsManager.routeName,
+              // );
             },
           ),
 

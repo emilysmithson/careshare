@@ -211,16 +211,16 @@ class AppRouter {
       //     ),
       //   );
 
-      case CaregroupsManager.routeName:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _profileCubit,
-            child: BlocProvider.value(
-              value: _caregroupCubit,
-              child: const CaregroupsManager(),
-            ),
-          ),
-        );
+      // case CaregroupsManager.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider.value(
+      //       value: _profileCubit,
+      //       child: BlocProvider.value(
+      //         value: _caregroupCubit,
+      //         child: const CaregroupsManager(),
+      //       ),
+      //     ),
+      //   );
 
       case EditCaregroup.routeName:
         return MaterialPageRoute(
