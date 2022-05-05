@@ -19,12 +19,17 @@ class CaregroupsManager extends StatelessWidget {
             body: SingleChildScrollView(
               child: Wrap(
                 children: state.caregroupList
-                    .map((caregroup) => CaregroupSummary(caregroup: caregroup,),)
+                    .map(
+                      (caregroup) => CaregroupSummary(
+                        caregroup: caregroup,
+                      ),
+                    )
                     .toList(),
               ),
             ),
           );
         }
+
         return const Center(child: CircularProgressIndicator());
       },
     );

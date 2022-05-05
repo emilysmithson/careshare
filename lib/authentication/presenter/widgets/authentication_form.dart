@@ -1,14 +1,10 @@
 import 'dart:io';
 
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/widgets/upload_profile_photo.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../category_manager/cubit/category_cubit.dart';
-import '../../../task_manager/cubit/task_cubit.dart';
 
 class AuthenticationForm extends StatelessWidget {
   final AuthenticationState state;
@@ -103,8 +99,8 @@ class AuthenticationForm extends StatelessWidget {
                         return 'Please enter your Email address';
                       }
                       bool emailValid = RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")
-                              // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")
+                          // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(value);
                       if (!emailValid) {
                         return 'Please enter a valid email address.';
@@ -158,11 +154,7 @@ class AuthenticationForm extends StatelessWidget {
                         switch (state.runtimeType) {
                           case AuthenticationRegister:
                             authenticationCubit.register(
-                                profileCubit:
-                                    BlocProvider.of<ProfileCubit>(context),
-                                taskCubit: BlocProvider.of<TaskCubit>(context),
-                                categoriesCubit:
-                                    BlocProvider.of<CategoriesCubit>(context),
+                                context: context,
                                 email: emailController.text,
                                 password: passwordController.text,
                                 name: nameController.text,
@@ -170,11 +162,7 @@ class AuthenticationForm extends StatelessWidget {
                             break;
                           case AuthenticationLogin:
                             authenticationCubit.login(
-                              profileCubit:
-                                  BlocProvider.of<ProfileCubit>(context),
-                              taskCubit: BlocProvider.of<TaskCubit>(context),
-                              categoriesCubit:
-                                  BlocProvider.of<CategoriesCubit>(context),
+                              context: context,
                               email: emailController.text,
                               password: passwordController.text,
                               name: nameController.text,
@@ -227,8 +215,8 @@ class AuthenticationForm extends StatelessWidget {
                       },
                       child: const Text('Forgotten Password?'),
                     ),
-                  SizedBox(height: 150),
-                  Text("CareShare version: 1.0.8+8")
+                  const SizedBox(height: 150),
+                  const Text("CareShare version: 1.0.8+8")
                 ],
               ),
             ),

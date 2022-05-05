@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../profile_manager/cubit/profile_cubit.dart';
 
-
 class CaregroupManagerView extends StatefulWidget {
   static const String routeName = "/caregroup-manager";
   const CaregroupManagerView({
@@ -20,35 +19,35 @@ class CaregroupManagerView extends StatefulWidget {
 }
 
 class _CaregroupManagerViewState extends State<CaregroupManagerView> {
-
   @override
   Widget build(BuildContext context) {
     return PageScaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-
             // Create a draft caregroup and pass it to the edit screen
             final caregroupCubit = BlocProvider.of<CaregroupCubit>(context);
-            final Caregroup? caregroup = await caregroupCubit.draftCaregroup('');
+            final Caregroup? caregroup =
+                await caregroupCubit.draftCaregroup('');
             if (caregroup != null) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => BlocProvider.value(
-                      value: BlocProvider.of<CaregroupCubit>(context),
-                      child: BlocProvider.value(
-                        value: BlocProvider.of<ProfileCubit>(context),
-                          child: ViewCaregroup(
-                            caregroup: caregroup,
+                    builder: (_) => BlocProvider.value(
+                          value: BlocProvider.of<CaregroupCubit>(context),
+                          child: BlocProvider.value(
+                            value: BlocProvider.of<ProfileCubit>(context),
+                            child: ViewCaregroup(
+                              caregroup: caregroup,
+                            ),
                           ),
-                        ),
-                      )),
+                        )),
               );
             }
           },
           child: const Icon(Icons.add)),
-
-      body: BlocBuilder<CaregroupCubit, CaregroupState>(builder: (context, state) {
+      body: BlocBuilder<CaregroupCubit, CaregroupState>(
+          builder: (context, state) {
         if (state is CaregroupLoading) {
+          print('show circular progress indicator C1');
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -61,9 +60,8 @@ class _CaregroupManagerViewState extends State<CaregroupManagerView> {
             );
           }
 
-
           // return CaregroupsOverview(caregroupList: state.caregroupList, caregroup: widget.caregroup,);
-          return CaregroupsManager();
+          return const CaregroupsManager();
         }
 
         return const Center(
