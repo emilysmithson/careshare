@@ -1,10 +1,7 @@
-import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GiveKudos {
   Future<Profile> call({

@@ -1,6 +1,6 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/widgets/authentication_form.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,14 +22,14 @@ class AuthenticationPage extends StatelessWidget {
         }
         if (state is AuthenticationRegister ||
             state is AuthenticationLogin ||
-            state is AuthenticationResetPassword) {
+                state is AuthenticationResetPassword) {
           return AuthenticationForm(state: state);
-        }
+          }
 
-        if (state is AuthenticationLoaded) {
-          WidgetsBinding.instance?.addPostFrameCallback(
-            (_) => Navigator.pushReplacementNamed(
-                context, CaregroupsManager.routeName),
+              if (state is AuthenticationLoaded) {
+            WidgetsBinding.instance?.addPostFrameCallback(
+                  (_) => Navigator.pushReplacementNamed(
+                  context, CaregroupPicker.routeName),
           );
 
           // if (BlocProvider.of<CaregroupCubit>(context).caregroupList.length > 1) {

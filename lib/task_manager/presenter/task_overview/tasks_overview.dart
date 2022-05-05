@@ -1,5 +1,4 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
 import 'package:careshare/kudos/kudos_board.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';

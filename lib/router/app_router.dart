@@ -2,8 +2,6 @@ import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_manager_view.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
@@ -186,13 +184,13 @@ class AppRouter {
           ),
         );
 
-      case CaregroupsManager.routeName:
+      case CaregroupPicker.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _profileCubit ,
             child: BlocProvider.value(
               value: _caregroupCubit,
-              child: CaregroupsManager(),
+              child: CaregroupPicker(),
             ),
           ),
         );

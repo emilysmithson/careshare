@@ -58,7 +58,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   }) {
     for (final String recipient in recipients) {
       DatabaseReference reference = FirebaseDatabase.instance
-          .ref('profiles/${recipient}/notifications');
+          .ref('profiles/$recipient/notifications');
 
       reference.child(notification.id).set(
             notification.toJson(),

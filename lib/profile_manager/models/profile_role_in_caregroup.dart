@@ -1,5 +1,3 @@
-import 'package:careshare/task_manager/models/task_status.dart';
-
 import 'profile_role.dart';
 
 class RoleInCaregroup {
