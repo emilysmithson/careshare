@@ -18,13 +18,16 @@ class ViewCaregroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // const double spacing = 16;
-    return PageScaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: BlocBuilder<CaregroupCubit, CaregroupState>(
-            builder: (context, state) {
-              return Column(
+    return BlocBuilder<CaregroupCubit, CaregroupState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Caregroup Details'),
+              actions: [],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 children: [
                   Container(
                     height: 120,
@@ -32,7 +35,8 @@ class ViewCaregroup extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       image: DecorationImage(
-                          image: NetworkImage(caregroup.photo!), fit: BoxFit.cover),
+                          image: NetworkImage(caregroup.photo!),
+                          fit: BoxFit.cover),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -47,7 +51,7 @@ class ViewCaregroup extends StatelessWidget {
                         flex: 6,
                         child: Text(caregroup.name,
                             style:
-                                const TextStyle(fontWeight: FontWeight.bold)),
+                            const TextStyle(fontWeight: FontWeight.bold)),
                       )
                     ],
                   ),
@@ -77,85 +81,16 @@ class ViewCaregroup extends StatelessWidget {
                             Navigator.pushReplacementNamed(
                                 context, EditCaregroup.routeName,
                                 arguments:
-                                    caregroup);
+                                caregroup);
                           },
                           child: const Text('Edit')),
                     ],
                   ),
                 ],
-              );
-
-              //   Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Text(caregroup.name,
-              //         style: const TextStyle(fontWeight: FontWeight.bold)),
-              //
-              //     const SizedBox(height: spacing),
-              //     CaregroupInputFieldWidget(
-              //       label: 'First Name',
-              //       maxLines: 1,
-              //       currentValue: caregroup.firstName,
-              //       caregroup: caregroup,
-              //       onChanged: (value) {
-              //         BlocProvider.of<CaregroupCubit>(context)
-              //             .editCaregroupFieldRepository(
-              //           caregroupField: CaregroupField.firstName,
-              //           caregroup: caregroup,
-              //           newValue: value,
-              //         );
-              //       },
-              //     ),
-              //     const SizedBox(height: spacing),
-              //     CaregroupInputFieldWidget(
-              //       label: 'Last Name',
-              //       maxLines: 1,
-              //       currentValue: caregroup.lastName,
-              //       caregroup: caregroup,
-              //       onChanged: (value) {
-              //         BlocProvider.of<CaregroupCubit>(context)
-              //             .editCaregroupFieldRepository(
-              //           caregroupField: CaregroupField.lastName,
-              //           caregroup: caregroup,
-              //           newValue: value,
-              //         );
-              //       },
-              //     ),
-              //
-              //     const SizedBox(height: spacing),
-              //     CaregroupInputFieldWidget(
-              //       label: 'Email',
-              //       maxLines: 1,
-              //       currentValue: caregroup.email,
-              //       caregroup: caregroup,
-              //       onChanged: (value) {
-              //         BlocProvider.of<CaregroupCubit>(context)
-              //             .editCaregroupFieldRepository(
-              //           caregroupField: CaregroupField.email,
-              //           caregroup: caregroup,
-              //           newValue: value,
-              //         );
-              //       },
-              //
-              //     ),
-              //
-              //
-              //     const SizedBox(height: spacing),
-              //     Row(
-              //       children: [
-              //         ElevatedButton(
-              //             onPressed: () {
-              //               Navigator.pop(context);
-              //             },
-              //             child: const Text('Save')),
-              //       ],
-              //     ),
-              //   ],
-              // );
-            },
-          ),
-        ),
-      ),
+              ),
+            ),
+          );
+        }
     );
   }
 }

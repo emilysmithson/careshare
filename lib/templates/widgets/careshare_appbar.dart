@@ -1,3 +1,4 @@
+import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';
@@ -21,7 +22,7 @@ class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
         icon: Image.asset('images/CareShareLogo50.jpg'),
         onPressed: () {
           Navigator.of(context).pushNamed(
-              TaskManagerView.routeName
+              CaregroupPicker.routeName
           );
         },
       ),

@@ -26,13 +26,16 @@ class ViewProfile extends StatelessWidget {
     RoleInCaregroup roleInCaregroup = profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id);
 
     // const double spacing = 16;
-    return PageScaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: BlocBuilder<ProfileCubit, ProfileState>(
-            builder: (context, state) {
-              return Column(
+    return BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('User Details'),
+              actions: [],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 children: [
                   Container(
                     height: 120,
@@ -246,79 +249,10 @@ class ViewProfile extends StatelessWidget {
                     ],
                   ),
                 ],
-              );
-
-              //   Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Text(profile.name,
-              //         style: const TextStyle(fontWeight: FontWeight.bold)),
-              //
-              //     const SizedBox(height: spacing),
-              //     ProfileInputFieldWidget(
-              //       label: 'First Name',
-              //       maxLines: 1,
-              //       currentValue: profile.firstName,
-              //       profile: profile,
-              //       onChanged: (value) {
-              //         BlocProvider.of<ProfileCubit>(context)
-              //             .editProfileFieldRepository(
-              //           profileField: ProfileField.firstName,
-              //           profile: profile,
-              //           newValue: value,
-              //         );
-              //       },
-              //     ),
-              //     const SizedBox(height: spacing),
-              //     ProfileInputFieldWidget(
-              //       label: 'Last Name',
-              //       maxLines: 1,
-              //       currentValue: profile.lastName,
-              //       profile: profile,
-              //       onChanged: (value) {
-              //         BlocProvider.of<ProfileCubit>(context)
-              //             .editProfileFieldRepository(
-              //           profileField: ProfileField.lastName,
-              //           profile: profile,
-              //           newValue: value,
-              //         );
-              //       },
-              //     ),
-              //
-              //     const SizedBox(height: spacing),
-              //     ProfileInputFieldWidget(
-              //       label: 'Email',
-              //       maxLines: 1,
-              //       currentValue: profile.email,
-              //       profile: profile,
-              //       onChanged: (value) {
-              //         BlocProvider.of<ProfileCubit>(context)
-              //             .editProfileFieldRepository(
-              //           profileField: ProfileField.email,
-              //           profile: profile,
-              //           newValue: value,
-              //         );
-              //       },
-              //
-              //     ),
-              //
-              //
-              //     const SizedBox(height: spacing),
-              //     Row(
-              //       children: [
-              //         ElevatedButton(
-              //             onPressed: () {
-              //               Navigator.pop(context);
-              //             },
-              //             child: const Text('Save')),
-              //       ],
-              //     ),
-              //   ],
-              // );
-            },
-          ),
-        ),
-      ),
+              ),
+            ),
+          );
+        },
     );
   }
 }
