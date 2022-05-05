@@ -1,6 +1,7 @@
 // import 'package:careshare/caregroup_manager/models/caregroup.dart';
 // import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 // import 'package:careshare/caregroup_manager/presenter/caregroup_overview.dart';
+// import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
 // import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
 // import 'package:careshare/templates/page_scaffold.dart';
 //
@@ -61,7 +62,7 @@
 //           }
 //
 //           // return CaregroupsOverview(caregroupList: state.caregroupList, caregroup: widget.caregroup,);
-//           return const CaregroupsManager();
+//           return const CaregroupPicker();
 //         }
 //
 //         return const Center(
