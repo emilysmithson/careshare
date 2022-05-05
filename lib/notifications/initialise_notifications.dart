@@ -1,5 +1,6 @@
 import 'package:careshare/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 Future initialiseNotifications(String userId) async {
@@ -25,13 +26,13 @@ Future initialiseNotifications(String userId) async {
 
   messaging.setForegroundNotificationPresentationOptions(
       alert: true, badge: true, sound: true);
-
-  messaging.subscribeToTopic('task');
-  messaging.subscribeToTopic('task_completed');
-  messaging.subscribeToTopic(userId);
+  if (!kIsWeb) {
+    messaging.subscribeToTopic('task');
+    messaging.subscribeToTopic('task_completed');
+    messaging.subscribeToTopic(userId);
+  }
 
   // print("kudos/$userId");
-
 
   FirebaseMessaging.onMessageOpenedApp.listen((message) {
     print('onMessageOpenedApp');
