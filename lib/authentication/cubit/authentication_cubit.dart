@@ -44,7 +44,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     await BlocProvider.of<TaskCubit>(context).fetchTasks();
     await BlocProvider.of<CategoriesCubit>(context).fetchCategories();
     await BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
-    await initialiseNotifications(userId);
+    await initialiseNotifications(userId, context);
     await BlocProvider.of<NotificationsCubit>(context).fetchNotifications();
   }
 
