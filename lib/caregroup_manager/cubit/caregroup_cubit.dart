@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/models/caregroup_type.dart';
 import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:equatable/equatable.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
@@ -44,9 +45,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
   createCaregroup({
     required File photo,
     required String name,
-    String? firstName,
-    String? lastName,
-    required String email,
+    required CaregroupType type,
     required String id,
   }) async {
     emit(const CaregroupLoading());
@@ -61,6 +60,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     Caregroup caregroup = Caregroup(
       id: id,
       name: name,
+      type: type,
       photo: url,
       createdDate: DateTime.now(),
     );

@@ -46,6 +46,7 @@ class ViewCaregroup extends StatelessWidget {
                             fit: BoxFit.cover),
                       ),
                     ),
+
                     const SizedBox(height: 16),
                     Row(
                       children: [
@@ -57,6 +58,23 @@ class ViewCaregroup extends StatelessWidget {
                         Expanded(
                           flex: 6,
                           child: Text(caregroup.name,
+                              style:
+                              const TextStyle(fontWeight: FontWeight.bold)),
+                        )
+                      ],
+                    ),
+
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        const Expanded(
+                          flex: 4,
+                          child: Text('Type',
+                              style: TextStyle(fontWeight: FontWeight.normal)),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(caregroup.type.type,
                               style:
                               const TextStyle(fontWeight: FontWeight.bold)),
                         )
