@@ -109,6 +109,17 @@ class ViewCaregroup extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                                TableCell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text('Status',style: const TextStyle(fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
 
                               ]),
                           for (Profile profile in profileList) TableRow(
@@ -131,6 +142,17 @@ class ViewCaregroup extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
                                         Text('${profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).role.role}'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text('${profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).status.status}'),
                                       ],
                                     ),
                                   ),

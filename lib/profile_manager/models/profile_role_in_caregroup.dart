@@ -1,9 +1,12 @@
+import 'package:careshare/profile_manager/models/profile_role_in_caregroup_status.dart';
+
 import 'profile_role.dart';
 
 class RoleInCaregroup {
   final String? id;
   final String caregroupId;
   ProfileRole role;
+  ProfileRoleInCaregroupStatus status;
   int completedCount;
   int completedValue;
   int kudosCount;
@@ -13,6 +16,7 @@ class RoleInCaregroup {
     required this.id,
     required this.caregroupId,
     required this.role,
+    required this.status,
     required this.completedCount,
     required this.completedValue,
     required this.kudosCount,
@@ -24,6 +28,7 @@ class RoleInCaregroup {
       'id': id,
       'caregroup_id': caregroupId,
       'role': role.role,
+      'satus': status.status,
       'completed_count': completedCount,
       'completed_value': completedValue,
       'kudos_count': kudosCount,
@@ -38,6 +43,8 @@ class RoleInCaregroup {
       caregroupId: json['caregroup_id'],
       role:  ProfileRole.profileRoleList
           .firstWhere((element) => element.role == json['role']),
+      status:  ProfileRoleInCaregroupStatus.ProfileRoleInCaregroupStatusList
+          .firstWhere((element) => element.status == json['status']),
       completedCount: json['completed_count'] ?? 0,
       completedValue: json['completed_value'] ?? 0,
       kudosCount: json['kudos_count'] ?? 0,
@@ -53,6 +60,7 @@ class RoleInCaregroup {
       id: $id,
       caregroupId: $caregroupId
       role: $role
+      status: $status
       completedCount: $completedCount
       completedValue: $completedValue
       kudosCount: $kudosCount
@@ -68,6 +76,7 @@ class RoleInCaregroup {
     return other is RoleInCaregroup
         && other.caregroupId == caregroupId
         && other.role == role
+        && other.status == status
         && other.completedCount == completedCount
         && other.completedValue == completedValue
         && other.kudosCount == kudosCount
@@ -80,6 +89,7 @@ class RoleInCaregroup {
   int get hashCode =>
       caregroupId.hashCode ^
       role.hashCode ^
+      status.hashCode ^
       completedCount.hashCode ^
       completedValue.hashCode ^
       kudosCount.hashCode ^
