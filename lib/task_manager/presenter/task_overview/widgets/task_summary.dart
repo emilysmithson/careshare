@@ -47,6 +47,7 @@ class TaskSummary extends StatelessWidget {
                     return SizedBox(
                       height: double.infinity,
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (isInListView)

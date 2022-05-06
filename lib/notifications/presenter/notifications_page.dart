@@ -22,6 +22,31 @@ class NotificationsPage extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Notifications Page'),
             ),
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FloatingActionButton.extended(
+                    key: const Key('Delete'),
+                    onPressed: () {
+                      BlocProvider.of<NotificationsCubit>(context)
+                          .deleteAllNotifications();
+                    },
+                    label: const Text('Delete all'),
+                  ),
+                  const SizedBox(width: 8),
+                  FloatingActionButton.extended(
+                    key: const Key('Mark as read'),
+                    onPressed: () {
+                      BlocProvider.of<NotificationsCubit>(context)
+                          .markAllAsRead();
+                    },
+                    label: const Text('Mark all as read'),
+                  ),
+                ],
+              ),
+            ),
             body: Column(
               children: [
                 ListTile(

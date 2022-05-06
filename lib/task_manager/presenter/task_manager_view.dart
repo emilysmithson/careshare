@@ -57,8 +57,6 @@ class _TaskManagerViewState extends State<TaskManagerView> {
           child: const Icon(Icons.add)),
       body: BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
         if (state is TaskLoading) {
-          print('show circular progress indicator C4');
-
           return const Center(
             child: CircularProgressIndicator(),
           );
