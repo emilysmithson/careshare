@@ -29,10 +29,9 @@ class KudosWidget extends StatelessWidget {
       return Container();
     }
 
-    Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
-
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
+        Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
         Kudos? kudos =
             task.kudos?.firstWhereOrNull((element) => element.id == profile.id);
 

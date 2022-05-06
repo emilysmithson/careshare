@@ -10,19 +10,38 @@ import 'package:careshare/task_manager/presenter/task_overview/widgets/task_summ
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../profile_manager/models/profile.dart';
+import 'package:collection/collection.dart';
+
 class TaskSection extends StatelessWidget {
   final String title;
   final Caregroup caregroup;
   final List<CareTask> careTaskList;
+  final bool isCompletedTasks;
   const TaskSection({
     Key? key,
     required this.title,
     required this.caregroup,
     required this.careTaskList,
+    this.isCompletedTasks = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (isCompletedTasks) {
+      Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
+      careTaskList.sort(
+        ((a, b) {
+          if (a.kudos
+                  ?.firstWhereOrNull((element) => element.id == profile.id) ==
+              null) {
+            return -1;
+          } else {
+            return 1;
+          }
+        }),
+      );
+    }
     return Column(
       children: [
         GestureDetector(
@@ -41,7 +60,7 @@ class TaskSection extends StatelessWidget {
             child: Container(
               width: double.infinity,
               color: Theme.of(context).primaryColor.withOpacity(0.8),
-              padding: const EdgeInsets.fromLTRB(8,4,8,4),
+              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
               child: Row(
                 children: [
                   Text(
@@ -52,10 +71,8 @@ class TaskSection extends StatelessWidget {
                         ?.copyWith(color: Colors.white),
                   ),
                   const SizedBox(width: 10),
-                  const Icon(
-                      Icons.play_circle_fill_outlined, size: 25, color: Colors.white
-                  ),
-
+                  const Icon(Icons.play_circle_fill_outlined,
+                      size: 25, color: Colors.white),
                 ],
               ),
             ),
@@ -113,14 +130,12 @@ class TaskSection extends StatelessWidget {
                   )
                 : ListView(
                     scrollDirection: Axis.horizontal,
-                    children: careTaskList
-                        .map(
-                          (task) => TaskSummary(
-                            task: task,
-                            isInListView: false,
-                          ),
-                        )
-                        .toList(),
+                    children: careTaskList.map((task) {
+                      return TaskSummary(
+                        task: task,
+                        isInListView: false,
+                      );
+                    }).toList(),
                   ),
           ),
         ),
