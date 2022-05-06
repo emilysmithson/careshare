@@ -167,8 +167,11 @@ class AppRouter {
       case ViewCaregroup.routeName:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-                value: _caregroupCubit,
-                child: ViewCaregroup(caregroup: routeSettings.arguments as Caregroup),
+                value: _profileCubit,
+                child: BlocProvider.value(
+                  value: _caregroupCubit,
+                  child: ViewCaregroup(caregroup: routeSettings.arguments as Caregroup),
+              )
             )
         );
 

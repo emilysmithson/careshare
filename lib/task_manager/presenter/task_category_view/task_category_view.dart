@@ -39,7 +39,7 @@ class TaskCategoryView extends StatelessWidget {
               actions: [
                 PopupMenuButton<String>(
                     tooltip: 'Filter',
-                    icon: const Icon(Icons.filter_alt_outlined),
+                    icon: const Icon(Icons.filter_alt),
                     onSelected: (String id) {
                       BlocProvider.of<TaskCategoryViewCubit>(context)
                           .filterBy(id);

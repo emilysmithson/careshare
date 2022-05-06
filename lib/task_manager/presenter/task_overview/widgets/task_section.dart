@@ -41,13 +41,22 @@ class TaskSection extends StatelessWidget {
             child: Container(
               width: double.infinity,
               color: Theme.of(context).primaryColor.withOpacity(0.8),
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                title + ' >',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6
-                    ?.copyWith(color: Colors.white),
+              padding: const EdgeInsets.fromLTRB(8,4,8,4),
+              child: Row(
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        ?.copyWith(color: Colors.white),
+                  ),
+                  const SizedBox(width: 10),
+                  const Icon(
+                      Icons.play_circle_fill_outlined, size: 25, color: Colors.white
+                  ),
+
+                ],
               ),
             ),
           ),

@@ -44,12 +44,20 @@ class TasksOverview extends StatelessWidget {
             width: double.infinity,
             color: Theme.of(context).primaryColor.withOpacity(0.5),
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Caregroup: ${caregroup.name}',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  ?.copyWith(color: Colors.white),
+            child: Row(
+              children: [
+                Text(
+                  'Caregroup: ${caregroup.name}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      ?.copyWith(color: Colors.white),
+                ),
+                const SizedBox(width: 10),
+                const Icon(
+                    Icons.play_circle_fill_outlined, size: 25, color: Colors.white
+                ),
+              ],
             ),
           ),
       ),
