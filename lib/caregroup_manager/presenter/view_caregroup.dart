@@ -1,5 +1,6 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
+import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
@@ -28,6 +29,16 @@ class ViewCaregroup extends StatelessWidget {
 
 
             return Scaffold(
+
+              floatingActionButton: FloatingActionButton(
+                  onPressed: () async {
+                    InviteUserToCaregroup().call(context);
+
+
+                  },
+                  child: const Icon(Icons.add)),
+
+
               appBar: AppBar(
                 title: const Text('Caregroup Details'),
                 actions: [],
@@ -181,19 +192,19 @@ class ViewCaregroup extends StatelessWidget {
                     ),
 
 
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(
-                                  context, EditCaregroup.routeName,
-                                  arguments:
-                                  caregroup);
-                            },
-                            child: const Text('Edit')),
-                      ],
-                    ),
+                    // const SizedBox(height: 16),
+                    // Row(
+                    //   children: [
+                    //     ElevatedButton(
+                    //         onPressed: () {
+                    //           Navigator.pushReplacementNamed(
+                    //               context, EditCaregroup.routeName,
+                    //               arguments:
+                    //               caregroup);
+                    //         },
+                    //         child: const Text('Edit')),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
