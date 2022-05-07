@@ -4,11 +4,14 @@ import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
+import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/home_page/home_page.dart';
+import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
+import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
 import 'package:careshare/notifications/presenter/notifications_page.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
@@ -41,6 +44,9 @@ class AppRouter {
     createACaregroupRepository: CreateACaregroup(),
     editCaregroupFieldRepository: EditCaregroupFieldRepository(),
   );
+  final _invitationCubit = InvitationCubit(
+    editInvitationFieldRepository: EditInvitationFieldRepository(),
+  );
   final _taskCubit = TaskCubit(
     createATaskRepository: CreateATask(),
     editTaskFieldRepository: EditTaskFieldRepository(),
@@ -60,8 +66,11 @@ class AppRouter {
               child: BlocProvider.value(
                 value: _taskCubit,
                 child: BlocProvider.value(
+                  value: _invitationCubit,
+                  child: BlocProvider.value(
                   value: _categoriesCubit,
                   child: const AuthenticationPage(),
+                  ),
                 ),
               ),
             ),
@@ -106,7 +115,22 @@ class AppRouter {
             ),
           ),
         );
-      case TaskCategoryView.routeName:
+      case InviteUserToCaregroup.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _profileCubit,
+            child: BlocProvider.value(
+              value: _caregroupCubit,
+              child: BlocProvider.value(
+                value: _invitationCubit,
+                child:
+                InviteUserToCaregroup(caregroup: routeSettings.arguments as Caregroup),
+              ),
+            ),
+          ),
+        );
+
+        case TaskCategoryView.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _profileCubit,
@@ -169,9 +193,12 @@ class AppRouter {
             builder: (_) => BlocProvider.value(
                 value: _profileCubit,
                 child: BlocProvider.value(
-                  value: _caregroupCubit,
-                  child: ViewCaregroup(caregroup: routeSettings.arguments as Caregroup),
-              )
+                    value: _invitationCubit,
+                    child: BlocProvider.value(
+                      value: _caregroupCubit,
+                      child: ViewCaregroup(caregroup: routeSettings.arguments as Caregroup),
+                  )
+                )
             )
         );
 

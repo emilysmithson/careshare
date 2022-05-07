@@ -52,7 +52,7 @@ class AddTaskBottomSheet {
               child: Column(
                 children: [
                   Text(
-                    'Create a new Task',
+                    'Invite someone to the caregroup',
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   const SizedBox(height: 24),

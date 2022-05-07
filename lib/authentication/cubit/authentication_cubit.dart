@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
+import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/notifications/initialise_notifications.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:equatable/equatable.dart';
@@ -44,6 +45,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     await BlocProvider.of<TaskCubit>(context).fetchTasks();
     await BlocProvider.of<CategoriesCubit>(context).fetchCategories();
     await BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
+    await BlocProvider.of<InvitationCubit>(context).fetchInvitations();
     await initialiseNotifications(userId);
     await BlocProvider.of<NotificationsCubit>(context).fetchNotifications();
   }

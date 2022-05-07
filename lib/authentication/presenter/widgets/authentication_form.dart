@@ -92,7 +92,7 @@ class AuthenticationForm extends StatelessWidget {
                   TextFormField(
                     controller: emailController,
                     decoration: const InputDecoration(
-                      label: Text('E-mail Address'),
+                      label: Text('Email'),
                     ),
                     validator: (value) {
                       if (value == null) {
