@@ -5,6 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import '../../../caregroup_manager/models/caregroup.dart';
+
 part 'notifications_state.dart';
 
 class NotificationsCubit extends Cubit<NotificationsState> {
@@ -57,8 +59,8 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     required List<String> recipients,
   }) {
     for (final String recipient in recipients) {
-      DatabaseReference reference = FirebaseDatabase.instance
-          .ref('profiles/$recipient/notifications');
+      DatabaseReference reference =
+          FirebaseDatabase.instance.ref('profiles/$recipient/notifications');
 
       reference.child(notification.id).set(
             notification.toJson(),
@@ -67,9 +69,30 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       HttpsCallable callable =
           FirebaseFunctions.instance.httpsCallable('notifyUsers');
       callable.call(
-        notification.toJson(),
+        {
+          'id': notification.id,
+          'title': notification.title,
+          'route': notification.routeName,
+          'subtitle': notification.subtitle,
+          'sender_id': notification.senderId,
+          'date_time': notification.dateTime.toString(),
+          'arguments': notification.arguments,
+        },
       );
     }
+  }
+
+  notifyEveryoneInMyCareGroupApartFromMe(
+      {required CareshareNotification notification,
+      required Caregroup caregroup,
+      required String userId}) {
+    List<String> recipients = [];
+    for (final String caree in caregroup.carees!) {
+      if (caree != userId) {
+        recipients.add(caree);
+      }
+    }
+    sendNotifcations(notification: notification, recipients: recipients);
   }
 
   markAsRead(String notificationID) async {
@@ -81,6 +104,12 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       reference.set(true);
     } catch (error) {
       emit(NotificationsError(error.toString()));
+    }
+  }
+
+  markAllAsRead() {
+    for (CareshareNotification notification in notificationsList) {
+      markAsRead(notification.id);
     }
   }
 
@@ -97,6 +126,12 @@ class NotificationsCubit extends Cubit<NotificationsState> {
           numberOfNewNotifications: numberOfUnreadNotifications()));
     } catch (error) {
       emit(NotificationsError(error.toString()));
+    }
+  }
+
+  deleteAllNotifications() {
+    for (final CareshareNotification notification in notificationsList) {
+      deleteNotification(notification.id);
     }
   }
 

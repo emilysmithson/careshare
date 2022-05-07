@@ -96,12 +96,17 @@ class AppRouter {
               value: _taskCubit,
               child: BlocProvider.value(
                 value: _categoriesCubit,
-                child: TaskManagerView(caregroup: routeSettings.arguments as Caregroup),
+                child: TaskManagerView(
+                    caregroup: routeSettings.arguments as Caregroup),
               ),
             ),
           ),
         );
       case TaskDetailedView.routeName:
+        CareTask? task;
+        if (routeSettings.arguments.runtimeType == String) {
+          task = _taskCubit.fetchTaskFromID(routeSettings.arguments as String);
+        }
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _profileCubit,
@@ -109,8 +114,8 @@ class AppRouter {
               value: _taskCubit,
               child: BlocProvider.value(
                 value: _categoriesCubit,
-                child:
-                    TaskDetailedView(task: routeSettings.arguments as CareTask),
+                child: TaskDetailedView(
+                    task: task ?? routeSettings.arguments as CareTask),
               ),
             ),
           ),
@@ -172,21 +177,17 @@ class AppRouter {
 
       case ViewProfile.routeName:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _profileCubit,
-              child: BlocProvider.value(
-                value: _caregroupCubit,
-                  child: ViewProfile(
-                      caregroup: (routeSettings.arguments
-                      as Map<String, dynamic>)['caregroup']
-                      as  Caregroup,
-                      profile: (routeSettings.arguments
-                      as Map<String, dynamic>)['profile'] as Profile
-
-                ),
-            ),
-          )
-        );
+            builder: (_) => BlocProvider.value(
+                  value: _profileCubit,
+                  child: BlocProvider.value(
+                    value: _caregroupCubit,
+                    child: ViewProfile(
+                        caregroup: (routeSettings.arguments
+                            as Map<String, dynamic>)['caregroup'] as Caregroup,
+                        profile: (routeSettings.arguments
+                            as Map<String, dynamic>)['profile'] as Profile),
+                  ),
+                ));
 
       case ViewCaregroup.routeName:
         return MaterialPageRoute(
@@ -219,8 +220,8 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
             child: BlocProvider.value(
-              value: _profileCubit ,
-              child: CaregroupPicker(),
+              value: _profileCubit,
+              child: const CaregroupPicker(),
             ),
           ),
         );
@@ -254,7 +255,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
-            child: EditCaregroup(caregroup: routeSettings.arguments as Caregroup),
+            child:
+                EditCaregroup(caregroup: routeSettings.arguments as Caregroup),
           ),
         );
 
