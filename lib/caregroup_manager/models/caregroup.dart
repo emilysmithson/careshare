@@ -5,6 +5,7 @@ import 'package:careshare/caregroup_manager/models/caregroup_type.dart';
 class Caregroup {
   final String id;
   String name;
+  String details;
   CaregroupType type;
   String? photo;
   DateTime createdDate;
@@ -15,6 +16,7 @@ class Caregroup {
   Caregroup({
     required this.id,
     required this.name,
+    required this.details,
     required  this.type,
     this.photo,
     required this.createdDate,
@@ -27,6 +29,7 @@ class Caregroup {
     return Caregroup(
       id: key,
       name: value['name'] ?? "",
+      details: value['details'] ?? "",
       type:  CaregroupType.caregroupTypeList
           .firstWhere((element) => element.type == value['type']),
       photo: value['photo'] ?? "",
@@ -38,7 +41,8 @@ class Caregroup {
     return {
       'id': id,
       'name': name,
-      'satus': type.type,
+      'details': details,
+      'status': type.type,
       'photo': photo,
       'created_date': createdDate.toString(),
     };
@@ -49,6 +53,7 @@ class Caregroup {
     return '''
     id: $id,
     name: $name,
+    details: $details,
     type: $type
     createdDate: $createdDate,
     ''';
@@ -61,6 +66,7 @@ class Caregroup {
     return other is Caregroup
         && other.id == id
         && other.name == name
+        && other.details == details
         && other.type == type
         && other.createdDate == createdDate
     ;
@@ -72,6 +78,7 @@ class Caregroup {
   int get hashCode =>
       id.hashCode ^
       name.hashCode ^
+      details.hashCode ^
       type.hashCode ^
       createdDate.hashCode
   ;
@@ -81,6 +88,7 @@ class Caregroup {
 
 enum CaregroupField {
   name,
+  details,
   photo,
   createdDate,
 }

@@ -18,6 +18,11 @@ class EditCaregroupFieldRepository {
         field = 'name';
         value = newValue;
         break;
+      case CaregroupField.details:
+        newCaregroup.name = newValue;
+        field = 'details';
+        value = newValue;
+        break;
       case CaregroupField.createdDate:
         newCaregroup.createdDate = newValue;
         field = 'created_date';

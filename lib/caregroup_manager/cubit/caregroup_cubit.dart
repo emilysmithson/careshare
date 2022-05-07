@@ -45,6 +45,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
   createCaregroup({
     required File photo,
     required String name,
+    required String details,
     required CaregroupType type,
     required String id,
   }) async {
@@ -60,6 +61,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     Caregroup caregroup = Caregroup(
       id: id,
       name: name,
+      details: details,
       type: type,
       photo: url,
       createdDate: DateTime.now(),

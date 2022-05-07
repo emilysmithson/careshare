@@ -1,3 +1,5 @@
+import 'package:careshare/invitation_manager/models/invitation_status.dart';
+
 class Invitation {
   final String id;
   String caregroupId;
@@ -5,6 +7,8 @@ class Invitation {
   String? message;
   String invitedById;
   DateTime invitedDate;
+  InvitationStatus status;
+
 
   Invitation({
     required this.id,
@@ -13,10 +17,14 @@ class Invitation {
     this.message,
     required this.invitedById,
     required this.invitedDate,
+    required this.status,
   });
 
   factory Invitation.fromJson(dynamic json) {
     final invitedDate = DateTime.parse(json['invited_date']);
+
+    final invitationStatus = InvitationStatus.invitationStatusList
+        .firstWhere((element) => element.status == json['status']);
 
     return Invitation(
       id: json['id'],
@@ -25,6 +33,7 @@ class Invitation {
       message: json['message'] ?? "",
       invitedById: json['invited_by_id'],
       invitedDate: invitedDate,
+      status: invitationStatus,
     );
   }
 
@@ -36,6 +45,7 @@ class Invitation {
       'message': message,
       'invited_by_id': invitedById,
       'invited_date': invitedDate.toString(),
+      'status': status.status,
     };
   }
 
@@ -48,6 +58,7 @@ class Invitation {
     message: $message,
     invitedById: $invitedById,
     invitedDate: $invitedDate,
+    status: $status
     ''';
   }
 }
@@ -58,4 +69,5 @@ enum InvitationField {
   message,
   invitedById,
   invitedDate,
+  status,
 }

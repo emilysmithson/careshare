@@ -1,7 +1,5 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
-import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';

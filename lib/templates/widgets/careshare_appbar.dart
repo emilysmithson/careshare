@@ -1,8 +1,5 @@
 import 'package:careshare/caregroup_manager/presenter/caregroup_picker.dart';
-import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
-import 'package:careshare/task_manager/presenter/task_manager_view.dart';
-import 'package:careshare/task_manager/presenter/task_overview/tasks_overview.dart';
 import 'package:flutter/material.dart';
 
 class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {

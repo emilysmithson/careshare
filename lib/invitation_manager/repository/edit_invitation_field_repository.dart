@@ -1,7 +1,5 @@
 import 'package:careshare/invitation_manager/models/invitation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class EditInvitationFieldRepository {
   Future<Invitation> call(
@@ -16,6 +14,11 @@ class EditInvitationFieldRepository {
       case InvitationField.caregroupId:
         newInvitation.caregroupId = newValue;
         field = 'caregroupId';
+        value = newValue;
+        break;
+      case InvitationField.status:
+        newInvitation.status = newValue;
+        field = 'status';
         value = newValue;
         break;
       case InvitationField.email:

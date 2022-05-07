@@ -17,11 +17,11 @@ Future initialiseNotifications(String userId, BuildContext context) async {
   );
 
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    print('User granted permission');
+    // print('User granted permission');
   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    print('User granted provisional permission');
+    // print('User granted provisional permission');
   } else {
-    print('User declined or has not accepted permission');
+    // print('User declined or has not accepted permission');
   }
 
   messaging.setForegroundNotificationPresentationOptions(
@@ -36,9 +36,9 @@ Future initialiseNotifications(String userId, BuildContext context) async {
 
   FirebaseMessaging.onMessageOpenedApp.listen((message) {
     final route = message.data['route'];
-    print(route);
+    // print(route);
     final arguments = message.data['arguments'];
-    print(arguments);
+    // print(arguments);
     if (route != null) {
       Navigator.pushNamed(navigatorKey.currentContext!, route,
           arguments: arguments);
@@ -46,7 +46,7 @@ Future initialiseNotifications(String userId, BuildContext context) async {
   });
 
   FirebaseMessaging.onBackgroundMessage((message) async {
-    print('onBackgroundMessage');
+    // print('onBackgroundMessage');
     onMessage(message);
   });
 

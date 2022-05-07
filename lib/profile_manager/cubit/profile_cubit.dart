@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 
 import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:careshare/profile_manager/repository/add_carer_in_caregroup.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:equatable/equatable.dart';
@@ -18,6 +19,7 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   final EditProfileFieldRepository editProfileFieldRepository;
   final GiveKudos giveKudos;
+  final AddCarerInCaregroup addCarerInCaregroup;
   final CompleteTask completeTask;
   final List<Profile> profileList = [];
   late Profile myProfile;
@@ -25,7 +27,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit({
     required this.editProfileFieldRepository,
     required this.giveKudos,
+    required this.addCarerInCaregroup,
     required this.completeTask,
+
   }) : super(ProfileInitial());
 
   createProfile({
@@ -68,7 +72,11 @@ class ProfileCubit extends Cubit<ProfileState> {
         print(error);
       }
     }
-    emit(ProfileLoaded(profileList: profileList));
+
+    myProfile = profileList.firstWhere((element) =>
+        element.id == FirebaseAuth.instance.currentUser!.uid);
+
+    emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
   }
 
   Future fetchProfiles() async {
@@ -95,11 +103,12 @@ class ProfileCubit extends Cubit<ProfileState> {
             },
           );
 
-          myProfile = profileList.firstWhere((element) =>
-              element.id == FirebaseAuth.instance.currentUser!.uid);
-
           profileList.sort((a, b) => a.name.compareTo(b.name));
-          emit(ProfileLoaded(profileList: profileList));
+
+          myProfile = profileList.firstWhere((element) =>
+          element.id == FirebaseAuth.instance.currentUser!.uid);
+
+          emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
         }
       });
     } catch (error) {
@@ -152,7 +161,11 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     editProfile(
         newValue: newKudos, profile: profile, profileField: ProfileField.kudos);
+
+    emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
+
   }
+
 
   // fetches a list of all the ids of people in your caregroup apart from yourself
   // so that you can notify everyone of something but not recieve the notification yourself.

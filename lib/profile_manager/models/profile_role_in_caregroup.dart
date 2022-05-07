@@ -28,7 +28,7 @@ class RoleInCaregroup {
       'id': id,
       'caregroup_id': caregroupId,
       'role': role.role,
-      'satus': status.status,
+      'status': status.status,
       'completed_count': completedCount,
       'completed_value': completedValue,
       'kudos_count': kudosCount,
@@ -37,7 +37,9 @@ class RoleInCaregroup {
   }
 
   factory RoleInCaregroup.fromJson(dynamic json) {
-
+    // print("caregroupId: ${json['caregroup_id']}");
+    // print("json['status']: ${json['status']}");
+    // print('########################');
     RoleInCaregroup newRoleInCaregroup = RoleInCaregroup(
       id: json['id'],
       caregroupId: json['caregroup_id'],

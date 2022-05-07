@@ -1,7 +1,5 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
-import 'package:careshare/invitation_manager/models/invitation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,13 +35,14 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
   @override
   Widget build(BuildContext context) {
 
-    Invitation invitation = Invitation(
-        caregroupId: widget.caregroup.id,
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        email: '',
-        invitedById: FirebaseAuth.instance.currentUser!.uid,
-        invitedDate: DateTime.now()
-    );
+    // Invitation invitation = Invitation(
+    //     caregroupId: widget.caregroup.id,
+    //     id: DateTime.now().millisecondsSinceEpoch.toString(),
+    //     email: '',
+    //     invitedById: FirebaseAuth.instance.currentUser!.uid,
+    //     invitedDate: DateTime.now(),
+    //     status: InvitationStatus.invited,
+    // );
 
     return GestureDetector(
       onTap: () {

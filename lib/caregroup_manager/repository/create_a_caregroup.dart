@@ -7,6 +7,7 @@ class CreateACaregroup {
   Future<Caregroup> call(String name) async {
     final caregroup = Caregroup(
       name: name,
+      details: "",
       type: CaregroupType.open,
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       createdDate: DateTime.now(),

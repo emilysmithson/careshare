@@ -18,6 +18,7 @@ import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
 import 'package:careshare/profile_manager/presenter/view_profile.dart';
+import 'package:careshare/profile_manager/repository/add_carer_in_caregroup.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
@@ -36,6 +37,7 @@ import '../task_manager/models/task.dart';
 
 class AppRouter {
   final _profileCubit = ProfileCubit(
+    addCarerInCaregroup: AddCarerInCaregroup(),
     editProfileFieldRepository: EditProfileFieldRepository(),
     giveKudos: GiveKudos(),
     completeTask: CompleteTask(),
@@ -220,8 +222,11 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
             child: BlocProvider.value(
-              value: _profileCubit,
-              child: const CaregroupPicker(),
+              value: _invitationCubit,
+              child: BlocProvider.value(
+                value: _profileCubit,
+                child: const CaregroupPicker(),
+              ),
             ),
           ),
         );

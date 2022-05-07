@@ -1,5 +1,4 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
@@ -131,7 +130,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('Member',style: const TextStyle(fontWeight: FontWeight.bold)),
+                                        const Text('Member',style: TextStyle(fontWeight: FontWeight.bold)),
                                       ],
                                     ),
                                   ),
@@ -142,7 +141,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('Role',style: const TextStyle(fontWeight: FontWeight.bold)),
+                                        const Text('Role',style: TextStyle(fontWeight: FontWeight.bold)),
                                       ],
                                     ),
                                   ),
@@ -153,7 +152,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('Status',style: const TextStyle(fontWeight: FontWeight.bold)),
+                                        const Text('Status',style: TextStyle(fontWeight: FontWeight.bold)),
                                       ],
                                     ),
                                   ),
@@ -179,7 +178,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('${profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).role.role}'),
+                                        Text(profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).role.role),
                                       ],
                                     ),
                                   ),
@@ -190,7 +189,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('${profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).status.status}'),
+                                        Text(profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).status.status),
                                       ],
                                     ),
                                   ),
@@ -213,7 +212,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('Email',style: const TextStyle(fontWeight: FontWeight.bold)),
+                                        const Text('Email',style: TextStyle(fontWeight: FontWeight.bold)),
                                       ],
                                     ),
                                   ),
@@ -224,7 +223,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('Invited By',style: const TextStyle(fontWeight: FontWeight.bold)),
+                                        const Text('Invited By',style: TextStyle(fontWeight: FontWeight.bold)),
                                       ],
                                     ),
                                   ),
@@ -235,7 +234,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('Invited Date',style: const TextStyle(fontWeight: FontWeight.bold)),
+                                        const Text('Invited Date',style: TextStyle(fontWeight: FontWeight.bold)),
                                       ],
                                     ),
                                   ),
@@ -262,7 +261,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('${profileList.firstWhere((element) => element.id==invitation.invitedById).name}'),
+                                        Text(profileList.firstWhere((element) => element.id==invitation.invitedById).name),
                                       ],
                                     ),
                                   ),

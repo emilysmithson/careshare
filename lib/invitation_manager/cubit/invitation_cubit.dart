@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 
 import 'package:careshare/invitation_manager/models/invitation.dart';
+import 'package:careshare/invitation_manager/models/invitation_status.dart';
 import 'package:equatable/equatable.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
 
@@ -15,7 +14,6 @@ part 'invitation_state.dart';
 class InvitationCubit extends Cubit<InvitationState> {
   final EditInvitationFieldRepository editInvitationFieldRepository;
   final List<Invitation> invitationList = [];
-  late Invitation myInvitation;
 
   InvitationCubit({
     required this.editInvitationFieldRepository,
@@ -39,6 +37,7 @@ class InvitationCubit extends Cubit<InvitationState> {
       message: message,
       invitedById: FirebaseAuth.instance.currentUser!.uid,
       invitedDate: DateTime.now(),
+      status: InvitationStatus.invited,
     );
     try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('invitations');
@@ -75,9 +74,6 @@ class InvitationCubit extends Cubit<InvitationState> {
               invitationList.add(invitation);
             },
           );
-
-          myInvitation = invitationList.firstWhere((element) =>
-              element.id == FirebaseAuth.instance.currentUser!.uid);
 
           invitationList.sort((a, b) => a.email.compareTo(b.email));
           emit(InvitationLoaded(invitationList: invitationList));

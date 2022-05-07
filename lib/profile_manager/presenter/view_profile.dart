@@ -3,7 +3,6 @@ import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
-import 'package:careshare/templates/page_scaffold.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -202,7 +202,7 @@ class TaskWorkflowWidget extends StatelessWidget {
               child: const Text('Mark Complete'),
             ),
           if (task.assignedTo == profile.id && task.taskStatus == TaskStatus.accepted)
-            SizedBox(width:20),
+            const SizedBox(width:20),
 
 
 
@@ -366,7 +366,7 @@ class TaskWorkflowWidget extends StatelessWidget {
             },
           ),
           if (task.taskStatus == TaskStatus.completed)
-            SizedBox(width:20),
+            const SizedBox(width:20),
 
         ],
       );
