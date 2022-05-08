@@ -35,8 +35,13 @@ class CaregroupPicker extends StatelessWidget {
                   -1)
               .toList();
 
+          // invitationList is all my invitations to goups I'm not already part of, and where the status is 'invited'
           Iterable<Invitation> invitationList = BlocProvider.of<InvitationCubit>(context).invitationList
-              .where((invitation) => invitation.status==InvitationStatus.invited && invitation.email == myProfile.email);
+              .where((invitation) =>
+                  invitation.email == myProfile.email &&
+                  invitation.status == InvitationStatus.invited &&
+                  myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId) == -1
+          );
 
 
           // If I am only in one caregroup, and I have no open invitations go straight to the TaskManagerView for that caregroup
@@ -143,79 +148,68 @@ class CaregroupPicker extends StatelessWidget {
                         height: 160,
                         padding: const EdgeInsets.all(8.0),
                         child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child:
-                            BlocBuilder<CaregroupCubit, CaregroupState>(
-                              builder: (context, state) {
-                                if (invitationList.isNotEmpty) {
-                                  return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          CaregroupPhotoWidget(id: invitation.caregroupId, size: 80),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  CaregroupPhotoWidget(id: invitation.caregroupId, size: 80),
 
-                                          const SizedBox(width: 16),
+                                  const SizedBox(width: 16),
 
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              const Text('You have been invited to join caregroup:',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                    FontWeight.normal),
-                                              ),
-                                              Text(allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId).name,
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                    FontWeight.bold),
-                                              ),
-                                              ElevatedButton(onPressed: (){
-
-                                                // Add the caregroup to my profile
-                                                // double check that I'm not already in it
-                                                // print("#############################################");
-                                                // print(myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId));
-                                                if (myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId) == -1){
-                                                  BlocProvider.of<ProfileCubit>(context).addCarerInCaregroup(
-                                                    profile: myProfile,
-                                                    caregroupId: invitation.caregroupId,
-                                                  );
-                                                }
-
-                                                // update the status of the invitation
-                                                BlocProvider.of<InvitationCubit>(context)
-                                                    .editInvitationFieldRepository(
-                                                  invitationField: InvitationField.status,
-                                                  invitation: invitation,
-                                                  newValue: InvitationStatus.accepted,
-                                                );
-
-                                                // Navigate to the caregroup
-                                                Navigator.pushNamed(
-                                                  context,
-                                                  TaskManagerView.routeName,
-                                                  arguments: allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId),
-                                                );
-
-                                              }, child: const Text('Accept')),
-
-
-                                            ],
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text('You have been invited to join caregroup:',
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.normal),
                                         ),
-                                          )
-                                        ],
-                                      ),
+                                        Text(allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId).name,
+                                          style: const TextStyle(
+                                              fontWeight:
+                                              FontWeight.bold),
+                                        ),
+                                        ElevatedButton(onPressed: (){
+
+                                          // Add the caregroup to my profile
+                                          // double check that I'm not already in it
+                                          // print("#############################################");
+                                          // print(myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId));
+                                          if (myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId) == -1){
+                                            BlocProvider.of<ProfileCubit>(context).addCarerInCaregroup(
+                                              profile: myProfile,
+                                              caregroupId: invitation.caregroupId,
+                                            );
+                                          }
+
+                                          // update the status of the invitation
+                                          BlocProvider.of<InvitationCubit>(context)
+                                              .editInvitationFieldRepository(
+                                            invitationField: InvitationField.status,
+                                            invitation: invitation,
+                                            newValue: InvitationStatus.accepted,
+                                          );
+
+                                          // Navigate to the caregroup
+                                          Navigator.pushNamed(
+                                            context,
+                                            TaskManagerView.routeName,
+                                            arguments: allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId),
+                                          );
+
+                                        }, child: const Text('Accept')),
 
 
-                                    ],
-                                  );
-                                }
-                                return Container();
-                              },
-                            ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+
+
+                            ],
                           ),
                         ),
                       ),
