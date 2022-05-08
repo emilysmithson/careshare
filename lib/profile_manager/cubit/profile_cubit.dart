@@ -61,7 +61,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       kudos: 0,
       photo: url,
       createdDate: DateTime.now(),
-      carerInCaregroups: []
+      carerInCaregroups: [],
+        tandcsAccepted: false,
     );
     try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('profiles');

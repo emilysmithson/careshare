@@ -38,6 +38,11 @@ class EditProfileFieldRepository {
         field = 'kudos';
         value = newValue;
         break;
+      case ProfileField.tandcsAccepted:
+        newProfile.tandcsAccepted = newValue;
+        field = 'tandcs_accepted';
+        value = newValue;
+        break;
       case ProfileField.photo:
         final ref = FirebaseStorage.instance
             .ref()

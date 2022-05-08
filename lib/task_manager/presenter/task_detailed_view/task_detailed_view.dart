@@ -54,17 +54,17 @@ class TaskDetailedView extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Task Details'),
               actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                  ),
-                  onPressed: () {
-                    final taskCubit = BlocProvider.of<TaskCubit>(context);
-
-                    taskCubit.removeTask(task.id);
-                    Navigator.pop(context);
-                  },
-                ),
+                // IconButton(
+                //   icon: const Icon(
+                //     Icons.delete,
+                //   ),
+                //   onPressed: () {
+                //     final taskCubit = BlocProvider.of<TaskCubit>(context);
+                //
+                //     taskCubit.removeTask(task.id);
+                //     Navigator.pop(context);
+                //   },
+                // ),
               ],
             ),
             body: Padding(

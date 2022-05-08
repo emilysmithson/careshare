@@ -8,9 +8,8 @@ class Profile {
   final String? id;
   String photo;
   DateTime createdDate;
-
   int kudos;
-
+  bool tandcsAccepted;
   List<RoleInCaregroup>? carerInCaregroups = [];
 
   Profile({
@@ -22,8 +21,8 @@ class Profile {
     required this.photo,
     required this.createdDate,
     required this.kudos,
+    required this.tandcsAccepted,
     required this.carerInCaregroups,
-
   });
 
   factory Profile.fromJson(dynamic json) {
@@ -46,7 +45,7 @@ class Profile {
       photo: json['photo'] ?? "",
       kudos: json['kudos'] ?? 0,
       createdDate: createdDate,
-
+      tandcsAccepted: json['tandcs_accepted'] ?? false,
       carerInCaregroups: carerInCaregroups,
     );
   }
@@ -61,6 +60,7 @@ class Profile {
       'kudos': kudos,
       'photo': photo,
       'created_date': createdDate.toString(),
+      'tandcs_accepted': tandcsAccepted,
       'carer_in': carerInCaregroups?.map((carerInCaregroups) => carerInCaregroups.toJson()).toList(),
     };
   }
@@ -75,6 +75,7 @@ class Profile {
     email: $email,
     kudos: $kudos,
     createdDate: $createdDate,
+    tandcsAccepted: $tandcsAccepted,
     carer_in: $carerInCaregroups,
     ''';
   }
@@ -87,4 +88,5 @@ enum ProfileField {
   email,
   kudos,
   photo,
+  tandcsAccepted,
 }

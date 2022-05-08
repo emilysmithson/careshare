@@ -1,22 +1,28 @@
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_photo_widget.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/invitation_manager/models/invitation_status.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/task_manager/presenter/task_manager_view.dart';
 import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CaregroupPicker extends StatelessWidget {
+class CaregroupPicker extends StatefulWidget {
   static const String routeName = "/caregroup-picker";
   const CaregroupPicker({
     Key? key,
   }) : super(key: key);
 
   @override
+  _CaregroupPickerState createState() => _CaregroupPickerState();
+}
+
+class _CaregroupPickerState extends State<CaregroupPicker> {
+
+@override
   Widget build(BuildContext context) {
 
     return BlocBuilder<ProfileCubit, ProfileState>(
@@ -25,6 +31,69 @@ class CaregroupPicker extends StatelessWidget {
 
 
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+
+          // if i haven't accepted the Terms & Conditions, navigate to the T&C page
+          if (myProfile.tandcsAccepted == false) {
+
+            return PageScaffold(
+                body: Column(
+                    children: [
+                      Hero(
+                        tag: 'Caregroup',
+                        child: Container(
+                          width: double.infinity,
+                          color: Theme.of(context).primaryColor.withOpacity(0.5),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Careshare Terms and Conditions',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(color: Colors.white),
+                              ),
+                              const SizedBox(width: 10),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text('Please accept the Terms and Conditions',
+                                style:
+                            const TextStyle(fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 10),
+                            Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. '),
+                            const SizedBox(height: 10),
+                            Text('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?'),
+                          ],
+                        ),
+                      ),
+                      ElevatedButton(
+                          onPressed: (){
+                            // Set the accepted to true
+                            BlocProvider.of<ProfileCubit>(context)
+                                .editProfileFieldRepository(
+                              profileField: ProfileField.tandcsAccepted,
+                              profile: myProfile,
+                              newValue: true,
+                            );
+                            setState(() {
+
+                            });
+
+                          },
+                          child: Text('Accept')
+                      ),
+                  ]
+              ),
+            );
+          }
 
           final allCaregroups = BlocProvider.of<CaregroupCubit>(context).caregroupList;
 
