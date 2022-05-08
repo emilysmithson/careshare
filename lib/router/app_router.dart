@@ -1,3 +1,4 @@
+import 'package:careshare/about_page/about_page.dart';
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
@@ -87,6 +88,14 @@ class AppRouter {
               value: _authenticationCubit,
               child: const HomePage(),
             ),
+          ),
+        );
+
+      case AboutPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _profileCubit,
+            child: const AboutPage(),
           ),
         );
 

@@ -1,3 +1,4 @@
+import 'package:careshare/about_page/about_page.dart';
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
@@ -298,8 +299,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               Navigator.pop(context);
               Navigator.pushNamed(
                 context,
-                EditProfile.routeName,
-                arguments: BlocProvider.of<ProfileCubit>(context).myProfile,
+                AboutPage.routeName,
               );
             },
           ),
