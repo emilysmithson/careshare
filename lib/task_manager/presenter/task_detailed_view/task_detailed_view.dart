@@ -111,9 +111,28 @@ class TaskDetailedView extends StatelessWidget {
                     PriorityWidget(
                       task: task,
                     ),
-                    TypeWidget(
-                      task: task,
+
+                    Row(
+                      children: [
+                        Text('Can be done remotely'),
+                        Checkbox(
+                            value: task.canBeRemote,
+                            onChanged: (bool? value) {
+                              BlocProvider.of<TaskCubit>(context)
+                                  .editTaskFieldRepository(
+                                task: task,
+                                newValue: value,
+                                taskField: TaskField.canBeRemote,
+                              );
+                            }
+
+                        ),
+                      ],
                     ),
+
+                    // TypeWidget(
+                    //   task: task,
+                    // ),
                     EffortWidget(task: task),
                     ChooseCategoryWidget(task: task),
                     AssignATask(
