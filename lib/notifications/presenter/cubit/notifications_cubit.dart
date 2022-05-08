@@ -75,6 +75,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
           'route': notification.routeName,
           'subtitle': notification.subtitle,
           'sender_id': notification.senderId,
+          'recipient_id': recipient,
           'date_time': notification.dateTime.toString(),
           'arguments': notification.arguments,
         },

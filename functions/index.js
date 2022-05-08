@@ -27,7 +27,7 @@ exports.notifyUsers = functions.https.onCall(async (data) =>{
   console.log(data);
   console.log(data.sender_id);
   // Send the task completer a message
-  admin.messaging().sendToTopic(data.sender_id, {
+  admin.messaging().sendToTopic(data.recipient_id, {
     notification:
         {
           title: data.title,
