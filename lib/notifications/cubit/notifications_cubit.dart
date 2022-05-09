@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/notifications/domain/careshare_notification.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:equatable/equatable.dart';
