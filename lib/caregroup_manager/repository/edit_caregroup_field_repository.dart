@@ -23,9 +23,24 @@ class EditCaregroupFieldRepository {
         field = 'details';
         value = newValue;
         break;
+      case CaregroupField.status:
+        newCaregroup.status = newValue;
+        field = 'status';
+        value = newValue.status;
+        break;
+      case CaregroupField.type:
+        newCaregroup.type = newValue;
+        field = 'type';
+        value = newValue.type;
+        break;
       case CaregroupField.createdDate:
         newCaregroup.createdDate = newValue;
         field = 'created_date';
+        value = newValue;
+        break;
+      case CaregroupField.createdBy:
+        newCaregroup.createdBy = newValue;
+        field = 'created_by';
         value = newValue;
         break;
       case CaregroupField.photo:

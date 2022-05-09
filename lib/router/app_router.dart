@@ -3,14 +3,15 @@ import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/home_page/caregroup_picker.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
+import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
+import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
-import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
 import 'package:careshare/notifications/presenter/notifications_page.dart';
@@ -46,6 +47,7 @@ class AppRouter {
   final _caregroupCubit = CaregroupCubit(
     createACaregroupRepository: CreateACaregroup(),
     editCaregroupFieldRepository: EditCaregroupFieldRepository(),
+    removeACaregroupRepository: RemoveACaregroup(),
   );
   final _invitationCubit = InvitationCubit(
     editInvitationFieldRepository: EditInvitationFieldRepository(),
@@ -83,10 +85,13 @@ class AppRouter {
       case HomePage.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _profileCubit,
+            value: _caregroupCubit,
             child: BlocProvider.value(
-              value: _authenticationCubit,
-              child: const HomePage(),
+              value: _invitationCubit,
+              child: BlocProvider.value(
+                value: _profileCubit,
+                child: const HomePage(),
+              ),
             ),
           ),
         );
@@ -96,6 +101,18 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _profileCubit,
             child: const AboutPage(),
+          ),
+        );
+
+
+      case CaregroupManager.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _caregroupCubit,
+            child: BlocProvider.value(
+                value: _profileCubit,
+                child: const CaregroupManager(),
+            ),
           ),
         );
 
@@ -227,44 +244,8 @@ class AppRouter {
         );
 
 
-      case CaregroupPicker.routeName:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _caregroupCubit,
-            child: BlocProvider.value(
-              value: _invitationCubit,
-              child: BlocProvider.value(
-                value: _profileCubit,
-                child: const CaregroupPicker(),
-              ),
-            ),
-          ),
-        );
 
-      // case CaregroupManagerView.routeName:
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider.value(
-      //       value: _profileCubit,
-      //       child: BlocProvider.value(
-      //         value: _taskCubit,
-      //         child: BlocProvider.value(
-      //           value: _caregroupCubit,
-      //           child: const CaregroupManagerView(),
-      //         ),
-      //       ),
-      //     ),
-      //   );
 
-      // case CaregroupsManager.routeName:
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider.value(
-      //       value: _profileCubit,
-      //       child: BlocProvider.value(
-      //         value: _caregroupCubit,
-      //         child: const CaregroupsManager(),
-      //       ),
-      //     ),
-      //   );
 
       case EditCaregroup.routeName:
         return MaterialPageRoute(

@@ -3,10 +3,13 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/models/caregroup_status.dart';
 import 'package:careshare/caregroup_manager/models/caregroup_type.dart';
 import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
+import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
 import 'package:equatable/equatable.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -16,12 +19,15 @@ part 'caregroup_state.dart';
 
 class CaregroupCubit extends Cubit<CaregroupState> {
   final CreateACaregroup createACaregroupRepository;
+  final RemoveACaregroup removeACaregroupRepository;
   final EditCaregroupFieldRepository editCaregroupFieldRepository;
   final List<Caregroup> caregroupList = [];
+  final List<String> carerIds = [];
   late Caregroup myCaregroup;
 
   CaregroupCubit({
     required this.createACaregroupRepository,
+    required this.removeACaregroupRepository,
     required this.editCaregroupFieldRepository,
   }) : super(CaregroupInitial());
 
@@ -34,18 +40,15 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     } catch (e) {
       emit(CaregroupError(e.toString()));
     }
-    if (Caregroup == null) {
-      emit(
-        const CaregroupError('Something went wrong, Caregroup is null'),
-      );
-    }
     return null;
   }
+
 
   createCaregroup({
     required File photo,
     required String name,
     required String details,
+    required CaregroupStatus status,
     required CaregroupType type,
     required String id,
   }) async {
@@ -62,9 +65,11 @@ class CaregroupCubit extends Cubit<CaregroupState> {
       id: id,
       name: name,
       details: details,
+      status: status,
       type: type,
       photo: url,
       createdDate: DateTime.now(),
+      createdBy: FirebaseAuth.instance.currentUser!.uid,
     );
     try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
@@ -76,6 +81,18 @@ class CaregroupCubit extends Cubit<CaregroupState> {
       }
     }
     emit(CaregroupLoaded(caregroupList: caregroupList));
+  }
+
+  removeCaregroup(String id) {
+    emit(const CaregroupLoading());
+    removeACaregroupRepository(id);
+    caregroupList.removeWhere((element) => element.id == id);
+
+    emit(
+      CaregroupLoaded(
+        caregroupList: caregroupList,
+      ),
+    );
   }
 
   Future fetchCaregroups() async {

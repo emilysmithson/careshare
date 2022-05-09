@@ -1,4 +1,4 @@
-import 'package:careshare/home_page/caregroup_picker.dart';
+import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
         icon: Image.asset('images/CareShareLogo50.jpg'),
         onPressed: () {
           Navigator.of(context).pushNamed(
-              CaregroupPicker.routeName
+              HomePage.routeName
           );
         },
       ),

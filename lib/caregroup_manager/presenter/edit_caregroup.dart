@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/models/caregroup_status.dart';
 
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_input_field_widget.dart';
+import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +25,50 @@ class EditCaregroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double spacing = 16;
+
+    print(caregroup.status.status);
     return Scaffold(
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+
+          if (caregroup.status == CaregroupStatus.draft) ElevatedButton(
+              onPressed: () {
+                BlocProvider.of<CaregroupCubit>(context)
+                    .removeCaregroup(caregroup.id);
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel')),
+          if (caregroup.status == CaregroupStatus.draft)  const SizedBox(width: spacing),
+
+          if (caregroup.status == CaregroupStatus.draft) ElevatedButton(
+              onPressed: () {
+                BlocProvider.of<CaregroupCubit>(context)
+                    .editCaregroupFieldRepository(
+                  caregroupField: CaregroupField.status,
+                  caregroup: caregroup,
+                  newValue: CaregroupStatus.active,
+                );
+
+                // add me as a carer in the caregroup
+                BlocProvider.of<ProfileCubit>(context).addCarerInCaregroup(
+                  caregroupId: caregroup.id,
+                  profile: BlocProvider.of<ProfileCubit>(context).myProfile
+                );
+
+                Navigator.pop(context);
+              },
+              child: const Text('Create')),
+          if (caregroup.status == CaregroupStatus.draft)  const SizedBox(width: spacing),
+
+          if (caregroup.status != CaregroupStatus.draft) ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Save')),
+        ],
+      ),
+
       appBar: AppBar(
         title: const Text('Caregroup Details'),
       ),
@@ -61,15 +107,22 @@ class EditCaregroup extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: spacing),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Save')),
-                    ],
+                  CaregroupInputFieldWidget(
+                    label: 'Details',
+                    maxLines: 6,
+                    currentValue: caregroup.details,
+                    caregroup: caregroup,
+                    onChanged: (value) {
+                      BlocProvider.of<CaregroupCubit>(context)
+                          .editCaregroupFieldRepository(
+                        caregroupField: CaregroupField.details,
+                        caregroup: caregroup,
+                        newValue: value,
+                      );
+                    },
                   ),
+                  const SizedBox(height: spacing),
+
                 ],
               );
             },

@@ -4,6 +4,8 @@ import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:careshare/profile_manager/presenter/edit_profile.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +33,13 @@ class ViewCaregroup extends StatelessWidget {
                 .where((invitation) => invitation.caregroupId == caregroup.id);
 
             return Scaffold(
+              appBar: AppBar(
+                title: const Text('Caregroup Details'),
+                actions: [],
+              ),
+
+
+
 
               floatingActionButton: FloatingActionButton(
                   onPressed: () async {
@@ -45,10 +54,8 @@ class ViewCaregroup extends StatelessWidget {
                   child: const Icon(Icons.add)),
 
 
-              appBar: AppBar(
-                title: const Text('Caregroup Details'),
-                actions: [],
-              ),
+
+
               body: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -120,13 +127,18 @@ class ViewCaregroup extends StatelessWidget {
                     Table(
                         // border: TableBorder.all(
                         //     width: 4.0, color: Colors.white),
-
+                        columnWidths: {
+                          0: FlexColumnWidth(4),
+                          1: FlexColumnWidth(3),
+                          2: FlexColumnWidth(2),
+                          3: FlexColumnWidth(1),
+                        },
                         children: [
                           TableRow(
                               children: [
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
@@ -137,7 +149,7 @@ class ViewCaregroup extends StatelessWidget {
                                 ),
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
@@ -148,7 +160,7 @@ class ViewCaregroup extends StatelessWidget {
                                 ),
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
@@ -157,13 +169,17 @@ class ViewCaregroup extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                                TableCell(
+                                  child: SizedBox(width: 10),
+                                ),
 
                               ]),
                           for (Profile profile in profileList) TableRow(
                               children: [
                                 TableCell(
+                                  verticalAlignment: TableCellVerticalAlignment.middle,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
@@ -173,6 +189,7 @@ class ViewCaregroup extends StatelessWidget {
                                   ),
                                 ),
                                 TableCell(
+                                  verticalAlignment: TableCellVerticalAlignment.middle,
                                   child: Padding(
                                     padding: const EdgeInsets.all(2.0),
                                     child: Row(
@@ -184,6 +201,7 @@ class ViewCaregroup extends StatelessWidget {
                                   ),
                                 ),
                                 TableCell(
+                                  verticalAlignment: TableCellVerticalAlignment.middle,
                                   child: Padding(
                                     padding: const EdgeInsets.all(2.0),
                                     child: Row(
@@ -192,6 +210,48 @@ class ViewCaregroup extends StatelessWidget {
                                         Text(profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).status.status),
                                       ],
                                     ),
+                                  ),
+                                ),
+                                TableCell(
+                                  verticalAlignment: TableCellVerticalAlignment.middle,
+                                  child: PopupMenuButton(
+                                    child: Container(
+                                      height: 36,
+                                      width: 48,
+                                      alignment: Alignment.centerRight,
+                                      child: Icon(
+                                        Icons.more_vert,
+                                      ),
+
+                                    ),
+                                    onSelected: (value) {
+                                      switch(value) {
+                                        case "View Profile": {
+                                          Navigator.pushNamed(
+                                            context,
+                                            EditProfile.routeName,
+                                            arguments: profile,
+                                          );
+                                        }
+                                        break;
+
+                                      }
+
+                                    },
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                        child: Text("View Profile"),
+                                        value: "View Profile",
+                                      ),
+                                      PopupMenuItem(
+                                        child: Text("Block"),
+                                        value: 2,
+                                      ),
+                                      PopupMenuItem(
+                                        child: Text("Remove"),
+                                        value: 2,
+                                      )
+                                    ],
                                   ),
                                 ),
 
@@ -203,12 +263,19 @@ class ViewCaregroup extends StatelessWidget {
 
                     // Invitations
                     Table(
+                        columnWidths: {
+                          0: FlexColumnWidth(3),
+                          1: FlexColumnWidth(2),
+                          2: FlexColumnWidth(2),
+                          3: FlexColumnWidth(1),
+                        },
+
                         children: [
                           TableRow(
                               children: [
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
@@ -219,7 +286,7 @@ class ViewCaregroup extends StatelessWidget {
                                 ),
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
@@ -230,7 +297,7 @@ class ViewCaregroup extends StatelessWidget {
                                 ),
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
@@ -239,6 +306,9 @@ class ViewCaregroup extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                                TableCell(
+                                  child: (SizedBox(width:1)),
+                                ),
 
 
                               ]),
@@ -246,11 +316,11 @@ class ViewCaregroup extends StatelessWidget {
                               children: [
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(invitation.email),
+                                        Expanded(child: Text(invitation.email, overflow: TextOverflow.fade,)),
                                       ],
                                     ),
                                   ),
@@ -272,9 +342,38 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(invitation.invitedDate.toString()),
+                                        Expanded(child: Text(invitation.invitedDate.toString())),
                                       ],
                                     ),
+                                  ),
+                                ),
+                                TableCell(
+                                  verticalAlignment: TableCellVerticalAlignment.middle,
+                                  child: PopupMenuButton(
+                                    child: Container(
+                                      height: 36,
+                                      width: 48,
+                                      alignment: Alignment.centerRight,
+                                      child: Icon(
+                                        Icons.more_vert,
+                                      ),
+
+                                    ),
+                                    onSelected: (value) {},
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                        child: Text("View Profile"),
+                                        value: 1,
+                                      ),
+                                      PopupMenuItem(
+                                        child: Text("Block"),
+                                        value: 2,
+                                      ),
+                                      PopupMenuItem(
+                                        child: Text("Remove"),
+                                        value: 2,
+                                      )
+                                    ],
                                   ),
                                 ),
 

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
-import 'package:careshare/notifications/presenter/cubit/notifications_cubit.dart';
+import 'package:careshare/notifications/cubit/notifications_cubit.dart';
 import 'package:careshare/router/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 

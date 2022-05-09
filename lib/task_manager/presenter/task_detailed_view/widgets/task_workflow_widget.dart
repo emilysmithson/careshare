@@ -10,7 +10,7 @@ import '../../../models/task.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:careshare/notifications/domain/careshare_notification.dart';
-import 'package:careshare/notifications/presenter/cubit/notifications_cubit.dart';
+import 'package:careshare/notifications/cubit/notifications_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:firebase_auth/firebase_auth.dart';

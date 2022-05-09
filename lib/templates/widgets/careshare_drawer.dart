@@ -1,6 +1,7 @@
 import 'package:careshare/about_page/about_page.dart';
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
@@ -243,10 +244,10 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onTap: () {
-              // Navigator.pushNamed(
-              //   context,
-              //   CaregroupsManager.routeName,
-              // );
+              Navigator.pushNamed(
+                context,
+                CaregroupManager.routeName,
+              );
             },
           ),
 
