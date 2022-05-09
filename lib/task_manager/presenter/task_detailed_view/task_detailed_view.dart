@@ -36,35 +36,23 @@ class TaskDetailedView extends StatelessWidget {
             floatingActionButton: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-
-                // if (task.taskStatus == TaskStatus.draft)
-                //   TaskWorkflowDraftWidget(task: task),
-                // // if (task.taskStatus == TaskStatus.created)
-                // //   TaskWorkflowCreatedWidget(task: task),
-                //
-                // if (task.taskStatus == TaskStatus.assigned)
-                //   AssignATask(task: task),
-                // if (task.taskStatus == TaskStatus.accepted)
-                //   TaskWorkflowAcceptedWidget(task: task),
-                // if (task.taskStatus == TaskStatus.completed)
-                //   KudosWidget(task: task),
                 TaskWorkflowWidget(task: task),
               ],
             ),
             appBar: AppBar(
               title: const Text('Task Details'),
               actions: [
-                // IconButton(
-                //   icon: const Icon(
-                //     Icons.delete,
-                //   ),
-                //   onPressed: () {
-                //     final taskCubit = BlocProvider.of<TaskCubit>(context);
-                //
-                //     taskCubit.removeTask(task.id);
-                //     Navigator.pop(context);
-                //   },
-                // ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                  ),
+                  onPressed: () {
+                    final taskCubit = BlocProvider.of<TaskCubit>(context);
+
+                    taskCubit.removeTask(task.id);
+                    Navigator.pop(context);
+                  },
+                ),
               ],
             ),
             body: Padding(
