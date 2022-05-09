@@ -27,7 +27,8 @@ import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/presenter/task_category_view/task_category_view.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
-import 'package:careshare/task_manager/presenter/task_manager_view.dart';
+import 'package:careshare/task_manager/presenter/task_manager/task_manager_view.dart';
+import 'package:careshare/task_manager/presenter/task_search/task_search.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
 import 'package:careshare/task_manager/repository/edit_task_field_repository.dart';
 import 'package:careshare/task_manager/repository/remove_a_task.dart';
@@ -130,6 +131,24 @@ class AppRouter {
             ),
           ),
         );
+
+
+      case TaskSearch.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _profileCubit,
+            child: BlocProvider.value(
+              value: _taskCubit,
+              child: BlocProvider.value(
+                value: _categoriesCubit,
+                child: TaskSearch(
+                    caregroupId: routeSettings.arguments as String),
+              ),
+            ),
+          ),
+        );
+
+
       case TaskDetailedView.routeName:
         CareTask? task;
         if (routeSettings.arguments.runtimeType == String) {

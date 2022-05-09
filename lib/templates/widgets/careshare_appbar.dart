@@ -1,15 +1,22 @@
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
+import 'package:careshare/task_manager/presenter/task_search/task_search.dart';
 import 'package:flutter/material.dart';
 
 class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
-
   final String title;
+  final String searchScope;
+  final String searchType;
 
-  CareshareAppBar(this.title, {Key? key})
-      : preferredSize = const Size.fromHeight(50.0),
+  CareshareAppBar(
+      this.title,
+      this.searchScope,
+      this.searchType,
+      {Key? key}) :
+        preferredSize = const Size.fromHeight(50.0),
         super(key: key);
 
   @override
@@ -25,7 +32,30 @@ class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(title), const BellWidget()],
+        children: [
+          Text(title),
+          const BellWidget(),
+          if (searchType != "" ) InkWell(
+            onTap: () {
+              if (searchType == "Tasks") {
+                Navigator.pushNamed(context,
+                    TaskSearch.routeName,
+                    arguments: searchScope);
+              }
+            },
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Center(child: Icon(Icons.search)),
+
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

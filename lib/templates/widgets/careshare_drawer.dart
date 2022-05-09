@@ -5,7 +5,7 @@ import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
-import 'package:careshare/task_manager/presenter/task_manager_view.dart';
+import 'package:careshare/task_manager/presenter/task_manager/task_manager_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -178,30 +178,30 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             },
           ),
           const Divider(),
-          ListTile(
-            tileColor: Colors.lightBlueAccent,
-            title: const Text(
-              'Task Manager',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.task,
-              size: 30,
-              color: Colors.white,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                TaskManagerView.routeName,
-              );
-            },
-          ),
-
-          const Divider(),
+          // ListTile(
+          //   tileColor: Colors.lightBlueAccent,
+          //   title: const Text(
+          //     'Task Manager',
+          //     style: TextStyle(
+          //       fontSize: 16.0,
+          //       fontWeight: FontWeight.w500,
+          //       color: Colors.white,
+          //     ),
+          //   ),
+          //   trailing: const Icon(
+          //     Icons.task,
+          //     size: 30,
+          //     color: Colors.white,
+          //   ),
+          //   onTap: () {
+          //     Navigator.pushNamed(
+          //       context,
+          //       TaskManagerView.routeName,
+          //     );
+          //   },
+          // ),
+          //
+          // const Divider(),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,

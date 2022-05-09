@@ -32,19 +32,6 @@ class AuthenticationPage extends StatelessWidget {
                   context, HomePage.routeName),
           );
 
-          // if (BlocProvider.of<CaregroupCubit>(context).caregroupList.length > 1) {
-          //
-          //   WidgetsBinding.instance?.addPostFrameCallback(
-          //     (_) => Navigator.pushReplacementNamed(
-          //         context, CaregroupsManager.routeName),
-          //   );
-          // }
-          // else {
-          //   WidgetsBinding.instance?.addPostFrameCallback(
-          //         (_) => Navigator.pushReplacementNamed(
-          //         context, TaskManagerView.routeName),
-          //   );
-          // }
           return const Scaffold();
         }
 

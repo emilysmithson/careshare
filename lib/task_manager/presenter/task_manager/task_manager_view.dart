@@ -8,9 +8,9 @@ import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../category_manager/cubit/category_cubit.dart';
-import '../../profile_manager/cubit/profile_cubit.dart';
-import '../models/task.dart';
+import '../../../category_manager/cubit/category_cubit.dart';
+import '../../../profile_manager/cubit/profile_cubit.dart';
+import '../../models/task.dart';
 
 class TaskManagerView extends StatefulWidget {
   static const String routeName = "/task-manager";
@@ -28,6 +28,8 @@ class _TaskManagerViewState extends State<TaskManagerView> {
   @override
   Widget build(BuildContext context) {
     return PageScaffold(
+      searchScope: widget.caregroup.id,
+      searchType: "Tasks",
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
             // AddTaskBottomSheet().call(context);
