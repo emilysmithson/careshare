@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../category_manager/cubit/category_cubit.dart';
-import '../../notifications/presenter/cubit/notifications_cubit.dart';
+import '../../notifications/cubit/notifications_cubit.dart';
 import '../../task_manager/cubit/task_cubit.dart';
 
 part 'authentication_state.dart';
