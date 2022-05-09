@@ -1,5 +1,5 @@
 import 'package:careshare/notifications/domain/careshare_notification.dart';
-import 'package:careshare/notifications/presenter/cubit/notifications_cubit.dart';
+import 'package:careshare/notifications/cubit/notifications_cubit.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 
