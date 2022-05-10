@@ -111,9 +111,10 @@ class _TaskSearchState extends State<TaskSearch> {
                       onSelected: (String id) {
                         categoryId = id;
 
+                        print("categoryId: $categoryId");
                         _careTaskList = state.careTaskList
                             .where((task) => task.taskStatus != TaskStatus.draft && task.caregroup == widget.caregroupId
-                            && task.category != null &&  task.category!.id == categoryId
+                            && categoryId == "" || task.category != null &&  task.category!.id == categoryId
                             && (task.title.toUpperCase().indexOf(_controller.text.toUpperCase())!=-1
                                 || task.details!.toUpperCase().indexOf(_controller.text.toUpperCase())!=-1
                             )
@@ -133,7 +134,7 @@ class _TaskSearchState extends State<TaskSearch> {
                             .toList();
                         widgetList.add(
                           const PopupMenuItem<String>(
-                            value: 'l',
+                            value: '',
                             child: Text('Show all'),
                           ),
                         );
