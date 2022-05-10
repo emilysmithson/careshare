@@ -25,9 +25,12 @@ class TaskSearch extends StatefulWidget {
 
 class _TaskSearchState extends State<TaskSearch> {
   TextEditingController _controller = TextEditingController();
+  Iterable<CareCategory> _categoryList = [];
 
   Iterable<CareTask> _careTaskList = [];
   bool firstTimeThrough = true;
+
+
   String categoryId = "";
 
   @override
@@ -40,6 +43,7 @@ class _TaskSearchState extends State<TaskSearch> {
   Widget build(BuildContext context) {
 
 
+
     return BlocBuilder<TaskCubit, TaskState>(
         builder: (context, state) {
           if (state is TaskLoaded) {
@@ -48,6 +52,14 @@ class _TaskSearchState extends State<TaskSearch> {
               _careTaskList = state.careTaskList
                   .where((task) => task.taskStatus != TaskStatus.draft && task.caregroup == widget.caregroupId
               ).take(10);
+              // print("state.careTaskList length: ${state.careTaskList.length}");
+              // print("_careTaskList length: ${_careTaskList.length}");
+
+              _categoryList = BlocProvider.of<CategoriesCubit>(context).categoryList
+                  // .where((category) => state.careTaskList.firstWhere((task) => task.category != null && task.category!.id == category.id) != -1)
+              ;
+              // print("_categoryList length: ${_categoryList.length}");
+
               firstTimeThrough= false;
             }
 
@@ -56,7 +68,7 @@ class _TaskSearchState extends State<TaskSearch> {
                 title: TextField(
                   autofocus: true,
 
-                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
                   controller: _controller,
                   maxLines: 1,
                   decoration: InputDecoration(
@@ -84,7 +96,7 @@ class _TaskSearchState extends State<TaskSearch> {
                   onChanged: (text) {
                     _careTaskList = state.careTaskList
                         .where((task) => task.taskStatus != TaskStatus.draft && task.caregroup == widget.caregroupId
-                        && task.category != null &&  task.category!.id == categoryId
+                        && (categoryId == "" || task.category != null &&  task.category!.id == categoryId)
                         && (task.title.toUpperCase().indexOf(_controller.text.toUpperCase())!=-1
                             || task.details!.toUpperCase().indexOf(_controller.text.toUpperCase())!=-1
                         )
@@ -110,8 +122,7 @@ class _TaskSearchState extends State<TaskSearch> {
                       },
                       itemBuilder: (BuildContext context) {
                         List<PopupMenuItem<String>> widgetList =
-                        BlocProvider.of<CategoriesCubit>(context)
-                            .categoryList
+                          _categoryList
                             .map(
                               (CareCategory category) =>
                               PopupMenuItem<String>(
@@ -122,7 +133,7 @@ class _TaskSearchState extends State<TaskSearch> {
                             .toList();
                         widgetList.add(
                           const PopupMenuItem<String>(
-                            value: 'Show all',
+                            value: 'l',
                             child: Text('Show all'),
                           ),
                         );

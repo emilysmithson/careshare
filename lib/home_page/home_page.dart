@@ -29,10 +29,10 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         if (state is ProfileLoaded) {
 
-
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
           // if i haven't accepted the Terms & Conditions, navigate to the T&C page
+          print("Accepted T&Cs: ${myProfile.tandcsAccepted}");
           if (myProfile.tandcsAccepted == false) {
 
             return PageScaffold(
@@ -95,6 +95,7 @@ class _HomePageState extends State<HomePage> {
           }
 
           final allCaregroups = BlocProvider.of<CaregroupCubit>(context).caregroupList;
+          print("allCaregroups count: ${allCaregroups.length}");
 
           final myCareGroupList = allCaregroups
               .where((caregroup) =>
@@ -102,6 +103,7 @@ class _HomePageState extends State<HomePage> {
                       (element) => element.caregroupId == caregroup.id) !=
                   -1)
               .toList();
+          print("myCareGroupList count: ${myCareGroupList.length}");
 
           // invitationList is all my invitations to goups I'm not already part of, and where the status is 'invited'
           Iterable<Invitation> invitationList = BlocProvider.of<InvitationCubit>(context).invitationList
@@ -110,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                   invitation.status == InvitationStatus.invited &&
                   myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId) == -1
           );
-
+          print("invitationList count: ${invitationList.length}");
 
           // If I am only in one caregroup, and I have no open invitations go straight to the TaskManagerView for that caregroup
 
