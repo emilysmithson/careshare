@@ -82,7 +82,8 @@ class TaskCategoryView extends StatelessWidget {
                 ),
               ],
             ),
-            body: ListView(
+            body:
+            ListView(
               children: state.careTaskList
                   .map(
                     (task) => GestureDetector(
