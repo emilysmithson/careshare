@@ -1,4 +1,6 @@
+
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_photo_widget.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
@@ -29,10 +31,10 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         if (state is ProfileLoaded) {
 
+
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
           // if i haven't accepted the Terms & Conditions, navigate to the T&C page
-          print("Accepted T&Cs: ${myProfile.tandcsAccepted}");
           if (myProfile.tandcsAccepted == false) {
 
             return PageScaffold(
@@ -93,35 +95,35 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           }
+          var allCaregroups = BlocProvider.of<CaregroupCubit>(context).caregroupList;
 
-          final allCaregroups = BlocProvider.of<CaregroupCubit>(context).caregroupList;
-          print("allCaregroups count: ${allCaregroups.length}");
-
-          final myCareGroupList = allCaregroups
+          List<Caregroup> myCaregroups =
+          allCaregroups
               .where((caregroup) =>
                   myProfile.carerInCaregroups!.indexWhere(
                       (element) => element.caregroupId == caregroup.id) !=
-                  -1)
-              .toList();
-          print("myCareGroupList count: ${myCareGroupList.length}");
+                  -1).toList();
 
-          // invitationList is all my invitations to goups I'm not already part of, and where the status is 'invited'
-          Iterable<Invitation> invitationList = BlocProvider.of<InvitationCubit>(context).invitationList
+          List<Invitation> myInvitationList = BlocProvider.of<InvitationCubit>(context).invitationList
               .where((invitation) =>
-                  invitation.email == myProfile.email &&
-                  invitation.status == InvitationStatus.invited &&
-                  myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId) == -1
+                  invitation.email == myProfile.email //&&
+          ).toList();
+
+          var  otherCaregroups = allCaregroups
+              .where((caregroup) =>
+                myCaregroups.indexWhere((myCaregroup) =>  caregroup.id == myCaregroup.id) == -1 &&
+                myInvitationList.indexWhere((invitation) => caregroup.id == invitation.caregroupId) == -1
           );
-          print("invitationList count: ${invitationList.length}");
+
 
           // If I am only in one caregroup, and I have no open invitations go straight to the TaskManagerView for that caregroup
 
-          if (myCareGroupList.length == 1 && invitationList.isEmpty) {
+          if (myCaregroups.length == 1 && myInvitationList.isEmpty) {
             WidgetsBinding.instance?.addPostFrameCallback(
                   (_) => Navigator.pushNamed(
                 context,
                 TaskManagerView.routeName,
-                arguments: myCareGroupList[0],
+                arguments: myCaregroups.first,
               ),
             );
             return Container();
@@ -131,161 +133,214 @@ class _HomePageState extends State<HomePage> {
           return PageScaffold(
             body: Column(
               children: [
-                SingleChildScrollView(
-                  child: Wrap(
-                    children: myCareGroupList
-                        .map((caregroup) => GestureDetector(
-                              onTap: () {
-                                // navigate to the Task Manager
-                                Navigator.pushNamed(
-                                  context,
-                                  TaskManagerView.routeName,
-                                  arguments: caregroup,
-                                );
-                              },
-                              child: Container(
-                                width: 300,
-                                height: 160,
-                                padding: const EdgeInsets.all(8.0),
-                                child: Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child:
-                                      BlocBuilder<CaregroupCubit, CaregroupState>(
-                                      builder: (context, state) {
-                                        if (state is CaregroupLoaded) {
-                                          return Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  CaregroupPhotoWidget(id: caregroup.id, size: 80),
-
-                                                  const SizedBox(width: 16),
-
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-
-                                                        const SizedBox(height: 8),
-
-                                                        Text(caregroup.name,
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight.bold)),
-
-
-                                                        Text(caregroup.details,
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                FontWeight.normal)),
-
-                                                        ElevatedButton(onPressed: (){
-                                                          Navigator.pushNamed(
-                                                            context,
-                                                            TaskManagerView.routeName,
-                                                            arguments: caregroup,
-                                                          );
-                                                        }, child: const Text('View')),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          );
-                                        }
-                                        return Container();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ))
-                        .toList(),
+                Hero(
+                  tag: 'Caregroup',
+                  child: Container(
+                    width: double.infinity,
+                    color: Theme.of(context).primaryColor.withOpacity(0.5),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          'My Caregroups',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-
-
-                SingleChildScrollView(
-                  child: Wrap(
-                    children: invitationList
-                        .map((invitation) => GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 300,
-                        height: 160,
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  CaregroupPhotoWidget(id: invitation.caregroupId, size: 80),
-
-                                  const SizedBox(width: 16),
-
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text('You have been invited to join caregroup:',
-                                          style: TextStyle(
-                                              fontWeight:
-                                              FontWeight.normal),
-                                        ),
-                                        Text(allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId).name,
-                                          style: const TextStyle(
-                                              fontWeight:
-                                              FontWeight.bold),
-                                        ),
-                                        ElevatedButton(onPressed: (){
-
-                                          // Add the caregroup to my profile
-                                          // double check that I'm not already in it
-                                          // print("#############################################");
-                                          // print(myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId));
-                                          if (myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId) == -1){
-                                            BlocProvider.of<ProfileCubit>(context).addCarerInCaregroup(
-                                              profile: myProfile,
-                                              caregroupId: invitation.caregroupId,
-                                            );
-                                          }
-
-                                          // update the status of the invitation
-                                          BlocProvider.of<InvitationCubit>(context)
-                                              .editInvitationFieldRepository(
-                                            invitationField: InvitationField.status,
-                                            invitation: invitation,
-                                            newValue: InvitationStatus.accepted,
-                                          );
-
-                                          // Navigate to the caregroup
-                                          Navigator.pushNamed(
-                                            context,
-                                            TaskManagerView.routeName,
-                                            arguments: allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId),
-                                          );
-
-                                        }, child: const Text('Accept')),
-
-
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-
-
-                            ],
-                          ),
-                        ),
+                Wrap(
+                  children: myCaregroups
+                      .map((caregroup) => GestureDetector(
+                          onTap: () {
+                            // navigate to the Task Manager
+                            Navigator.pushNamed(
+                              context,
+                              TaskManagerView.routeName,
+                              arguments: caregroup,
+                            );
+                          },
+                    child: Card(child: ListTile(
+                      leading: Container(
+                        width: 50,
+                        height: 50,
+                        child: CaregroupPhotoWidget(id: caregroup.id, size: 50),
                       ),
-                    ))
-                        .toList(),
+                      title: Text(caregroup.name),
+                      subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(caregroup.details),
+                          ]),
+                      trailing: ElevatedButton(
+                          onPressed: (){
+
+                            // Add the caregroup to my profile
+                            // double check that I'm not already in it
+                            // print("#############################################");
+                            // print(myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId));
+                            if (myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == caregroup.id) == -1){
+                              BlocProvider.of<ProfileCubit>(context).addCarerInCaregroup(
+                                profile: myProfile,
+                                caregroupId: caregroup.id,
+                              );
+                            }
+
+                            // update the status of all invitations to this caregroup
+                            // BlocProvider.of<InvitationCubit>(context)
+                            //     .editInvitationFieldRepository(
+                            //   invitationField: InvitationField.status,
+                            //   invitation: invitation,
+                            //   newValue: InvitationStatus.accepted,
+                            // );
+
+                            // Navigate to the caregroup
+                            Navigator.pushNamed(
+                              context,
+                              TaskManagerView.routeName,
+                              arguments: allCaregroups.firstWhere((caregroup) => caregroup.id==caregroup.id),
+                            );
+                          },
+                          child: Text('View')
+
+                      ),
+                    ),
+                    ),
+                          ))
+                      .toList(),
+                ),
+                SizedBox(height: 5,),
+                Hero(
+                  tag: 'Invitations',
+                  child: Container(
+                    width: double.infinity,
+                    color: Theme.of(context).primaryColor.withOpacity(0.5),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          'My Invitations',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
+                ),
+                Wrap(
+                  children: myInvitationList
+                      .map((invitation) => GestureDetector(
+                    onTap: () {},
+                    child: Card(child: ListTile(
+                      leading: Container(
+                        width: 50,
+                        height: 50,
+                        child: CaregroupPhotoWidget(id: invitation.caregroupId, size: 50),
+                      ),
+                      title: Text(allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId).name),
+                      subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId).details),
+                          ]),
+                      trailing: ElevatedButton(
+                          onPressed: (){
+
+
+                            // Add the caregroup to my profile
+                            // double check that I'm not already in it
+                            // print("#############################################");
+                            // print(myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId));
+                            if (myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId) == -1){
+                              BlocProvider.of<ProfileCubit>(context).addCarerInCaregroup(
+                                profile: myProfile,
+                                caregroupId: invitation.caregroupId,
+                              );
+                            }
+
+                            // update the status of the invitation
+                            BlocProvider.of<InvitationCubit>(context)
+                                .editInvitationFieldRepository(
+                              invitationField: InvitationField.status,
+                              invitation: invitation,
+                              newValue: InvitationStatus.accepted,
+                            );
+
+                            // Navigate to the caregroup
+                            Navigator.pushNamed(
+                              context,
+                              TaskManagerView.routeName,
+                              arguments: allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId),
+                            );
+                          },
+                          child: Text('Accept Invitation')
+
+                      ),
+                    ),
+                    ),
+                  ))
+                      .toList(),
+                ),
+                SizedBox(height: 5,),
+
+                Hero(
+                  tag: 'Other Caregroups',
+                  child: Container(
+                    width: double.infinity,
+                    color: Theme.of(context).primaryColor.withOpacity(0.5),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Other Caregroups',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Wrap(
+                  children: otherCaregroups
+                      .map((caregroup) => GestureDetector(
+                    onTap: () {
+                      // navigate to the Task Manager
+                      Navigator.pushNamed(
+                        context,
+                        TaskManagerView.routeName,
+                        arguments: caregroup,
+                      );
+                    },
+                    child: Card(child: ListTile(
+                      leading: Container(
+                        width: 50,
+                        height: 50,
+                        child: CaregroupPhotoWidget(id: caregroup.id, size: 50),
+                      ),
+                      title: Text(caregroup.name),
+                      subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(caregroup.details),
+                          ]),
+                      trailing: ElevatedButton(
+                          onPressed: (){
+
+                          },
+                          child: Text('Request Access')
+
+                      ),
+                    ),
+                    ),
+                  ))
+                      .toList(),
                 ),
 
 
