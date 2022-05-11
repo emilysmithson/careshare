@@ -50,9 +50,9 @@ class EditCaregroup extends StatelessWidget {
                 );
 
                 // add me as a carer in the caregroup
-                BlocProvider.of<ProfileCubit>(context).addCarerInCaregroup(
+                BlocProvider.of<ProfileCubit>(context).addCarerInCaregroupToProfile(
                   caregroupId: caregroup.id,
-                  profile: BlocProvider.of<ProfileCubit>(context).myProfile
+                  profileId: BlocProvider.of<ProfileCubit>(context).myProfile.id!
                 );
 
                 Navigator.pop(context);

@@ -1,5 +1,4 @@
-
-
+import 'package:careshare/caregroup_manager/models/caregroup_carer.dart';
 import 'package:careshare/caregroup_manager/models/caregroup_status.dart';
 import 'package:careshare/caregroup_manager/models/caregroup_type.dart';
 
@@ -12,6 +11,8 @@ class Caregroup {
   String? photo;
   DateTime createdDate;
   String? createdBy;
+  List<CarerInCaregroup>? carers = [];
+
 
 
   Caregroup({

@@ -4,6 +4,7 @@ import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
+import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
@@ -20,7 +21,7 @@ import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
 import 'package:careshare/profile_manager/presenter/view_profile.dart';
-import 'package:careshare/profile_manager/repository/add_carer_in_caregroup.dart';
+import 'package:careshare/profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
@@ -40,7 +41,7 @@ import '../task_manager/models/task.dart';
 
 class AppRouter {
   final _profileCubit = ProfileCubit(
-    addCarerInCaregroup: AddCarerInCaregroup(),
+    addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
     editProfileFieldRepository: EditProfileFieldRepository(),
     giveKudos: GiveKudos(),
     completeTask: CompleteTask(),
@@ -49,6 +50,7 @@ class AppRouter {
     createACaregroupRepository: CreateACaregroup(),
     editCaregroupFieldRepository: EditCaregroupFieldRepository(),
     removeACaregroupRepository: RemoveACaregroup(),
+    addCarerInCaregroupToCaregroup: AddCarerInCaregroupToCaregroup(),
   );
   final _invitationCubit = InvitationCubit(
     editInvitationFieldRepository: EditInvitationFieldRepository(),

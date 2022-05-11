@@ -4,14 +4,14 @@ import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart'
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup_status.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class AddCarerInCaregroup {
+class AddCarerInCaregroupToProfile {
   Future<RoleInCaregroup> call({
-    required Profile profile,
+    required String profileId,
     required String caregroupId,
   }) async {
 
     final roleInCaregroup = RoleInCaregroup(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: caregroupId,
       caregroupId: caregroupId,
       role: ProfileRole.member,
       status: ProfileRoleInCaregroupStatus.accepted,
@@ -20,7 +20,7 @@ class AddCarerInCaregroup {
       kudosCount: 0,
       kudosValue: 0,
     );
-    DatabaseReference reference = FirebaseDatabase.instance.ref('profiles/${profile.id}/carer_in');
+    DatabaseReference reference = FirebaseDatabase.instance.ref('profiles/$profileId/carer_in');
 
     reference.child(roleInCaregroup.id!).set(roleInCaregroup.toJson());
 

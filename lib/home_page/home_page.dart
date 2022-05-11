@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                             });
 
                           },
-                          child: Text('Accept')
+                          child: Text('Accept Terms & Conditions')
                       ),
                   ]
               ),
@@ -191,8 +191,8 @@ class _HomePageState extends State<HomePage> {
                             // print("#############################################");
                             // print(myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId));
                             if (myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == caregroup.id) == -1){
-                              BlocProvider.of<ProfileCubit>(context).addCarerInCaregroup(
-                                profile: myProfile,
+                              BlocProvider.of<ProfileCubit>(context).addCarerInCaregroupToProfile(
+                                profileId: myProfile.id!,
                                 caregroupId: caregroup.id,
                               );
                             }
@@ -276,14 +276,23 @@ class _HomePageState extends State<HomePage> {
 
                             // Add the caregroup to my profile
                             // double check that I'm not already in it
-                            // print("#############################################");
-                            // print(myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId));
-                            if (myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId) == -1){
-                              BlocProvider.of<ProfileCubit>(context).addCarerInCaregroup(
-                                profile: myProfile,
+                            if (allCaregroups.firstWhere((caregroup) => caregroup.id==invitation.caregroupId).carers!
+                                .indexWhere((carer) => carer.profileId == myProfile.id) == -1) {
+                              BlocProvider.of<CaregroupCubit>(context).addCarerInCaregroupToCaregroup(
+                                profileId: myProfile.id!,
                                 caregroupId: invitation.caregroupId,
                               );
                             }
+
+                            // Add my profile to the caregroup
+                            // double check that I'm not already in it
+                            if (myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId) == -1){
+                              BlocProvider.of<ProfileCubit>(context).addCarerInCaregroupToProfile(
+                                profileId: myProfile.id!,
+                                caregroupId: invitation.caregroupId,
+                              );
+                            }
+
 
                             // update the status of the invitation
                             BlocProvider.of<InvitationCubit>(context)

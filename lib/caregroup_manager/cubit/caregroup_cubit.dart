@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/models/caregroup_status.dart';
 import 'package:careshare/caregroup_manager/models/caregroup_type.dart';
+import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
 import 'package:equatable/equatable.dart';
@@ -20,6 +21,8 @@ part 'caregroup_state.dart';
 class CaregroupCubit extends Cubit<CaregroupState> {
   final CreateACaregroup createACaregroupRepository;
   final RemoveACaregroup removeACaregroupRepository;
+  final AddCarerInCaregroupToCaregroup addCarerInCaregroupToCaregroup;
+
   final EditCaregroupFieldRepository editCaregroupFieldRepository;
   final List<Caregroup> caregroupList = [];
   final List<String> carerIds = [];
@@ -29,6 +32,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     required this.createACaregroupRepository,
     required this.removeACaregroupRepository,
     required this.editCaregroupFieldRepository,
+    required this.addCarerInCaregroupToCaregroup,
   }) : super(CaregroupInitial());
 
   Future<Caregroup?> draftCaregroup(String title) async {
