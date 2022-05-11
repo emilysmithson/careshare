@@ -1,5 +1,6 @@
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/category_manager/domain/models/category.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
@@ -161,6 +162,11 @@ class _TaskSearchState extends State<TaskSearch> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Category: ${task.category?.name}'),
+                              if (task.taskStatus == TaskStatus.draft) Text('Status: ${task.taskStatus.status}'),
+                              if (task.taskStatus == TaskStatus.assigned) Text('Status: ${task.taskStatus.status} to ${BlocProvider.of<ProfileCubit>(context).profileList.firstWhere((profile) => profile.id==task.assignedTo).name}'),
+                              if (task.taskStatus == TaskStatus.accepted) Text('Status: ${task.taskStatus.status} by ${BlocProvider.of<ProfileCubit>(context).profileList.firstWhere((profile) => profile.id==task.assignedTo).name}'),
+                              if (task.taskStatus == TaskStatus.completed) Text('Status: ${task.taskStatus.status} by ${BlocProvider.of<ProfileCubit>(context).profileList.firstWhere((profile) => profile.id==task.assignedTo).name}'),
+                              if (task.taskStatus == TaskStatus.archived) Text('Status: ${task.taskStatus.status}'),
                             ]),
                         trailing: EffortIcon(
                           effort: task.taskEffort.value,
