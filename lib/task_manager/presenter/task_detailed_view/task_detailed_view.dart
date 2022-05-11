@@ -10,7 +10,6 @@ import 'widgets/effort_widget.dart';
 import 'widgets/priority_widget.dart';
 import 'widgets/task_workflow_widget.dart';
 import 'widgets/task_input_field_widget.dart';
-import 'widgets/type_widget.dart';
 
 class TaskDetailedView extends StatelessWidget {
   static const String routeName = "/task-detailed-view";
@@ -102,7 +101,7 @@ class TaskDetailedView extends StatelessWidget {
 
                     Row(
                       children: [
-                        Text('Can be done remotely'),
+                        const Text('Can be done remotely'),
                         Checkbox(
                             value: task.canBeRemote,
                             onChanged: (bool? value) {
@@ -112,9 +111,7 @@ class TaskDetailedView extends StatelessWidget {
                                 newValue: value,
                                 taskField: TaskField.canBeRemote,
                               );
-                            }
-
-                        ),
+                            }),
                       ],
                     ),
 

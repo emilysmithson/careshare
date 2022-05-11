@@ -24,14 +24,13 @@ class AuthenticationPage extends StatelessWidget {
         }
         if (state is AuthenticationRegister ||
             state is AuthenticationLogin ||
-                state is AuthenticationResetPassword) {
+            state is AuthenticationResetPassword) {
           return AuthenticationForm(state: state);
-          }
+        }
 
-              if (state is AuthenticationLoaded) {
-            WidgetsBinding.instance?.addPostFrameCallback(
-                  (_) => Navigator.pushReplacementNamed(
-                  context, HomePage.routeName),
+        if (state is AuthenticationLoaded) {
+          WidgetsBinding.instance.addPostFrameCallback(
+            (_) => Navigator.pushReplacementNamed(context, HomePage.routeName),
           );
 
           return const Scaffold();

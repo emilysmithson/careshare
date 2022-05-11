@@ -13,21 +13,19 @@ class Caregroup {
   String? createdBy;
   List<CarerInCaregroup>? carers = [];
 
-
-
   Caregroup({
     required this.id,
     required this.name,
     required this.details,
     required this.status,
-    required  this.type,
+    required this.type,
     this.photo,
     required this.createdDate,
     required this.createdBy,
   });
 
   factory Caregroup.fromJson(dynamic key, dynamic value) {
-    final status = CaregroupStatus.CaregroupStatusList
+    final status = CaregroupStatus.caregroupStatusList
         .firstWhere((element) => element.status == value['status']);
 
     return Caregroup(
@@ -35,12 +33,11 @@ class Caregroup {
       name: value['name'] ?? "",
       details: value['details'] ?? "",
       status: status,
-      type:  CaregroupType.caregroupTypeList
+      type: CaregroupType.caregroupTypeList
           .firstWhere((element) => element.type == value['type']),
       photo: value['photo'] ?? "",
       createdDate: DateTime.parse(value['created_date']),
       createdBy: value['created_by'] ?? '',
-
     );
   }
 
@@ -54,7 +51,6 @@ class Caregroup {
       'photo': photo,
       'created_date': createdDate.toString(),
       'created_by': createdBy,
-
     };
   }
 
@@ -75,18 +71,15 @@ class Caregroup {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Caregroup
-        && other.id == id
-        && other.name == name
-        && other.details == details
-        && other.status == status
-        && other.type == type
-        && other.photo == photo
-        && other.createdDate == createdDate
-        && other.createdBy == createdBy
-    ;
-
-
+    return other is Caregroup &&
+        other.id == id &&
+        other.name == name &&
+        other.details == details &&
+        other.status == status &&
+        other.type == type &&
+        other.photo == photo &&
+        other.createdDate == createdDate &&
+        other.createdBy == createdBy;
   }
 
   @override
@@ -98,12 +91,8 @@ class Caregroup {
       type.hashCode ^
       photo.hashCode ^
       createdDate.hashCode ^
-      createdBy.hashCode
-
-  ;
+      createdBy.hashCode;
 }
-
-
 
 enum CaregroupField {
   name,

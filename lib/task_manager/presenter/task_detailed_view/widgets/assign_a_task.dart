@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter/material.dart';
 
-
 class AssignATask extends StatefulWidget {
   final CareTask task;
   final bool showButton;
@@ -28,48 +27,38 @@ class _AssignATaskState extends State<AssignATask> {
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
     widgetList.addAll(BlocProvider.of<ProfileCubit>(context)
-        .profileList.where((element) => element.carerInCaregroups!.indexWhere((element) => element.caregroupId==widget.task.caregroup) != -1)
+        .profileList
+        .where((element) =>
+            element.carerInCaregroups!.indexWhere(
+                (element) => element.caregroupId == widget.task.caregroup) !=
+            -1)
         .map(
           (profile) => GestureDetector(
             onTap: () async {
-
               // only allow tasks in the following statuses to be assigned:
               // draft, created, assigned
-              if (widget.task.taskStatus == TaskStatus.draft
-              || widget.task.taskStatus == TaskStatus.created
-              || widget.task.taskStatus == TaskStatus.assigned
-              ) {
+              if (widget.task.taskStatus == TaskStatus.draft ||
+                  widget.task.taskStatus == TaskStatus.created ||
+                  widget.task.taskStatus == TaskStatus.assigned) {
+                Profile myProfile =
+                    BlocProvider.of<ProfileCubit>(context).myProfile;
 
-                Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
-
-                BlocProvider.of<TaskCubit>(context).assignTask(task: widget.task, assignedToId: profile.id!, assignedById: myProfile.id!);
+                BlocProvider.of<TaskCubit>(context).assignTask(
+                    task: widget.task,
+                    assignedToId: profile.id!,
+                    assignedById: myProfile.id!);
 
                 // if  the task isn't in draft and the task isn't assigned to me, send a message to the assignee...
-print('myProfile.id: ${myProfile.id}');
-print('profile.id: ${profile.id}');
 
                 if (widget.task.taskStatus != TaskStatus.draft &&
                     myProfile.id != profile.id) {
-                  HttpsCallable callable =
                   FirebaseFunctions.instance.httpsCallable('assignTask');
-                  // print("profile name: " + profile.name);
-                  final resp = await callable.call(<String, dynamic>{
-                    'task_id': widget.task.id,
-                    'task_title': widget.task.title,
-                    'assigner_id': myProfile.id,
-                    'assigner_name': myProfile.name,
-                    'assignee_id': profile.id!,
-                    'assignee_name': profile.name,
-                    'date_time': DateTime.now().toString()
-                  });
                 }
               }
-
             },
             child: BlocBuilder<TaskCubit, TaskState>(
               builder: (context, state) {
                 return Container(
-
                   padding: const EdgeInsets.all(8),
                   width: 80,
                   decoration: profile.id == widget.task.assignedTo
@@ -80,12 +69,14 @@ print('profile.id: ${profile.id}');
                         )
                       : null,
                   child: Column(
-
                     children: [
                       ProfilePhotoWidget(
                         id: profile.id!,
                       ),
-                      Text(profile.name, textAlign: TextAlign.center,)
+                      Text(
+                        profile.name,
+                        textAlign: TextAlign.center,
+                      )
                     ],
                   ),
                 );
@@ -98,7 +89,8 @@ print('profile.id: ${profile.id}');
       widgetList.add(GestureDetector(
         onTap: () {
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
-          BlocProvider.of<TaskCubit>(context).assignTask(task: widget.task, assignedToId: '', assignedById: myProfile.id!);
+          BlocProvider.of<TaskCubit>(context).assignTask(
+              task: widget.task, assignedToId: '', assignedById: myProfile.id!);
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),

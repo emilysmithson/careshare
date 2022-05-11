@@ -8,7 +8,7 @@ class CaregroupCarerStatus {
   static const CaregroupCarerStatus inactive = CaregroupCarerStatus('inactive');
   static const CaregroupCarerStatus archived = CaregroupCarerStatus('archived');
 
-  static List<CaregroupCarerStatus> CaregroupCarerStatusList = [
+  static List<CaregroupCarerStatus> caregroupCarerStatusList = [
     draft,
     active,
     inactive,

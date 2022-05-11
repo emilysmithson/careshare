@@ -1,7 +1,5 @@
 import 'package:careshare/caregroup_manager/models/caregroup_carer_status.dart';
 import 'package:careshare/profile_manager/models/profile_role.dart';
-import 'package:careshare/profile_manager/models/profile_role_in_caregroup_status.dart';
-
 
 class CarerInCaregroup {
   final String? id;
@@ -32,11 +30,10 @@ class CarerInCaregroup {
     CarerInCaregroup newCarerInCaregroup = CarerInCaregroup(
       id: json['id'],
       profileId: json['profile_id'],
-      role:  ProfileRole.profileRoleList
+      role: ProfileRole.profileRoleList
           .firstWhere((element) => element.role == json['role']),
-      status:  CaregroupCarerStatus.CaregroupCarerStatusList
+      status: CaregroupCarerStatus.caregroupCarerStatusList
           .firstWhere((element) => element.status == json['status']),
-      
     );
 
     return newCarerInCaregroup;
@@ -50,27 +47,19 @@ class CarerInCaregroup {
       role: $role
       status: $status
       
-      '''
-    ;
+      ''';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is CarerInCaregroup
-        && other.profileId == profileId
-        && other.role == role
-        && other.status == status
-        
-    ;
-
+    return other is CarerInCaregroup &&
+        other.profileId == profileId &&
+        other.role == role &&
+        other.status == status;
   }
 
   @override
-  int get hashCode =>
-      profileId.hashCode ^
-      role.hashCode ^
-      status.hashCode
-  ;
+  int get hashCode => profileId.hashCode ^ role.hashCode ^ status.hashCode;
 }

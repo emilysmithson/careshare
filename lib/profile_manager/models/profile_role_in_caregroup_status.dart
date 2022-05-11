@@ -3,11 +3,14 @@ class ProfileRoleInCaregroupStatus {
 
   const ProfileRoleInCaregroupStatus(this.status);
 
-  static const ProfileRoleInCaregroupStatus invited = ProfileRoleInCaregroupStatus('invited');
-  static const ProfileRoleInCaregroupStatus accepted = ProfileRoleInCaregroupStatus('accepted');
-  static const ProfileRoleInCaregroupStatus declined = ProfileRoleInCaregroupStatus('declined');
+  static const ProfileRoleInCaregroupStatus invited =
+      ProfileRoleInCaregroupStatus('invited');
+  static const ProfileRoleInCaregroupStatus accepted =
+      ProfileRoleInCaregroupStatus('accepted');
+  static const ProfileRoleInCaregroupStatus declined =
+      ProfileRoleInCaregroupStatus('declined');
 
-  static List<ProfileRoleInCaregroupStatus> ProfileRoleInCaregroupStatusList = [
+  static List<ProfileRoleInCaregroupStatus> profileRoleInCaregroupStatusList = [
     invited,
     accepted,
     declined,

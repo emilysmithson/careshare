@@ -34,7 +34,6 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
 
   @override
   Widget build(BuildContext context) {
-
     // Invitation invitation = Invitation(
     //     caregroupId: widget.caregroup.id,
     //     id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -53,109 +52,98 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
       },
       child: BlocBuilder<InvitationCubit, InvitationState>(
         builder: (context, state) {
-
           return Scaffold(
-              appBar: AppBar(
+            appBar: AppBar(
               title: const Text('Invite person to Caregroup'),
-              actions: [
-              ],
+              actions: const [],
             ),
             body: Form(
               key: _formKey,
               child: Column(
-              children: <Widget>[
-
-
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-
-                      const SizedBox(height: 10),
-                      Text('Invite someome to joing the ${widget.caregroup.name} caregroup by providing their email address and adding an optional message.'),
-
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        controller: widget.emailController,
-                        decoration: const InputDecoration(
-                          label: Text('Email '),
-                        ),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please enter your Email address';
-                          }
-                          bool emailValid = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")
-                          // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              .hasMatch(value);
-                          if (!emailValid) {
-                            return 'Please enter a valid email address.';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: widget.messageController,
-                        decoration: const InputDecoration(
-                          label: Text('Message '),
-                        ),
-                        validator: (value) {
-                          return null;
-                        },
-                        maxLines: 10,
-                        keyboardType: TextInputType.multiline,
-                      ),
-
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Cancel'),
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        Text(
+                            'Invite someome to joing the ${widget.caregroup.name} caregroup by providing their email address and adding an optional message.'),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: widget.emailController,
+                          decoration: const InputDecoration(
+                            label: Text('Email '),
                           ),
-
-                          ElevatedButton(
-                            onPressed: () {
-                              // Validate returns true if the form is valid, or false otherwise.
-                              if (_formKey.currentState!.validate()) {
-
-                                BlocProvider.of<InvitationCubit>(context).sendInvitation(
-                                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                                  email: widget.emailController.text,
-                                  caregroupId: widget.caregroup.id,
-                                  message: widget.messageController.text,
-                                );
-      
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please enter your Email address';
+                            }
+                            bool emailValid = RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")
+                                // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value);
+                            if (!emailValid) {
+                              return 'Please enter a valid email address.';
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: widget.messageController,
+                          decoration: const InputDecoration(
+                            label: Text('Message '),
+                          ),
+                          validator: (value) {
+                            return null;
+                          },
+                          maxLines: 10,
+                          keyboardType: TextInputType.multiline,
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
                                 Navigator.pop(context);
-                                
-                              }
-                            },
-                            child: const Text('Send Invitation'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
+                              },
+                              child: const Text('Cancel'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                // Validate returns true if the form is valid, or false otherwise.
+                                if (_formKey.currentState!.validate()) {
+                                  BlocProvider.of<InvitationCubit>(context)
+                                      .sendInvitation(
+                                    id: DateTime.now()
+                                        .millisecondsSinceEpoch
+                                        .toString(),
+                                    email: widget.emailController.text,
+                                    caregroupId: widget.caregroup.id,
+                                    message: widget.messageController.text,
+                                  );
 
-          ],
-        ),
-             ),
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: const Text('Send Invitation'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           );
-
         },
       ),
     );
   }
 }
-
 
 //
 //

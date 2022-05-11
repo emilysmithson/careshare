@@ -33,7 +33,7 @@ class RoleInCaregroup {
       'completed_value': completedValue,
       'kudos_count': kudosCount,
       'kudos_value': kudosValue,
-   };
+    };
   }
 
   factory RoleInCaregroup.fromJson(dynamic json) {
@@ -43,9 +43,9 @@ class RoleInCaregroup {
     RoleInCaregroup newRoleInCaregroup = RoleInCaregroup(
       id: json['id'],
       caregroupId: json['caregroup_id'],
-      role:  ProfileRole.profileRoleList
+      role: ProfileRole.profileRoleList
           .firstWhere((element) => element.role == json['role']),
-      status:  ProfileRoleInCaregroupStatus.ProfileRoleInCaregroupStatusList
+      status: ProfileRoleInCaregroupStatus.profileRoleInCaregroupStatusList
           .firstWhere((element) => element.status == json['status']),
       completedCount: json['completed_count'] ?? 0,
       completedValue: json['completed_value'] ?? 0,
@@ -67,24 +67,21 @@ class RoleInCaregroup {
       completedValue: $completedValue
       kudosCount: $kudosCount
       kudosValue: $kudosValue
-      '''
-    ;
+      ''';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is RoleInCaregroup
-        && other.caregroupId == caregroupId
-        && other.role == role
-        && other.status == status
-        && other.completedCount == completedCount
-        && other.completedValue == completedValue
-        && other.kudosCount == kudosCount
-        && other.kudosValue == kudosValue
-    ;
-
+    return other is RoleInCaregroup &&
+        other.caregroupId == caregroupId &&
+        other.role == role &&
+        other.status == status &&
+        other.completedCount == completedCount &&
+        other.completedValue == completedValue &&
+        other.kudosCount == kudosCount &&
+        other.kudosValue == kudosValue;
   }
 
   @override
@@ -95,6 +92,5 @@ class RoleInCaregroup {
       completedCount.hashCode ^
       completedValue.hashCode ^
       kudosCount.hashCode ^
-      kudosValue.hashCode
-  ;
+      kudosValue.hashCode;
 }

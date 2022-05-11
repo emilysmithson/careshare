@@ -1,5 +1,4 @@
 import 'package:careshare/about_page/about_page.dart';
-import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
@@ -61,7 +60,6 @@ class AppRouter {
     removeATaskRepository: RemoveATask(),
   );
   final _categoriesCubit = CategoriesCubit();
-  final _authenticationCubit = AuthenticationCubit();
 
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -76,8 +74,8 @@ class AppRouter {
                 child: BlocProvider.value(
                   value: _invitationCubit,
                   child: BlocProvider.value(
-                  value: _categoriesCubit,
-                  child: const AuthenticationPage(),
+                    value: _categoriesCubit,
+                    child: const AuthenticationPage(),
                   ),
                 ),
               ),
@@ -107,14 +105,13 @@ class AppRouter {
           ),
         );
 
-
       case CaregroupManager.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
             child: BlocProvider.value(
-                value: _profileCubit,
-                child: const CaregroupManager(),
+              value: _profileCubit,
+              child: const CaregroupManager(),
             ),
           ),
         );
@@ -134,7 +131,6 @@ class AppRouter {
           ),
         );
 
-
       case TaskSearch.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
@@ -143,13 +139,12 @@ class AppRouter {
               value: _taskCubit,
               child: BlocProvider.value(
                 value: _categoriesCubit,
-                child: TaskSearch(
-                    caregroupId: routeSettings.arguments as String),
+                child:
+                    TaskSearch(caregroupId: routeSettings.arguments as String),
               ),
             ),
           ),
         );
-
 
       case TaskDetailedView.routeName:
         CareTask? task;
@@ -177,14 +172,14 @@ class AppRouter {
               value: _caregroupCubit,
               child: BlocProvider.value(
                 value: _invitationCubit,
-                child:
-                InviteUserToCaregroup(caregroup: routeSettings.arguments as Caregroup),
+                child: InviteUserToCaregroup(
+                    caregroup: routeSettings.arguments as Caregroup),
               ),
             ),
           ),
         );
 
-        case TaskCategoryView.routeName:
+      case TaskCategoryView.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _profileCubit,
@@ -246,12 +241,9 @@ class AppRouter {
                     value: _invitationCubit,
                     child: BlocProvider.value(
                       value: _caregroupCubit,
-                      child: ViewCaregroup(caregroup: routeSettings.arguments as Caregroup),
-                  )
-                )
-            )
-        );
-
+                      child: ViewCaregroup(
+                          caregroup: routeSettings.arguments as Caregroup),
+                    ))));
 
       case NotificationsPage.routeName:
         return MaterialPageRoute(
@@ -263,10 +255,6 @@ class AppRouter {
             ),
           ),
         );
-
-
-
-
 
       case EditCaregroup.routeName:
         return MaterialPageRoute(

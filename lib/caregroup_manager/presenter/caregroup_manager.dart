@@ -1,6 +1,5 @@
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/caregroup_manager/models/caregroup_type.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_photo_widget.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
@@ -21,18 +20,15 @@ class CaregroupManager extends StatefulWidget {
 }
 
 class _CaregroupManagerState extends State<CaregroupManager> {
-
-@override
+  @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         if (state is ProfileLoaded) {
-
-
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
 
-          final allCaregroups = BlocProvider.of<CaregroupCubit>(context).caregroupList;
+          final allCaregroups =
+              BlocProvider.of<CaregroupCubit>(context).caregroupList;
 
           final myCareGroupList = allCaregroups
               .where((caregroup) =>
@@ -41,32 +37,28 @@ class _CaregroupManagerState extends State<CaregroupManager> {
                   -1)
               .toList();
 
-
           return PageScaffold(
             floatingActionButton: FloatingActionButton(
                 onPressed: () async {
-
                   // Create a draft caregroup and pass it to the edit screen
-                  final caregroupCubit = BlocProvider.of<CaregroupCubit>(context);
+                  final caregroupCubit =
+                      BlocProvider.of<CaregroupCubit>(context);
                   final Caregroup? caregroup =
-                  await caregroupCubit.draftCaregroup('');
+                      await caregroupCubit.draftCaregroup('');
                   if (caregroup != null) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: (_) => BlocProvider.value(
-                            value: BlocProvider.of<CaregroupCubit>(context),
-                            child: BlocProvider.value(
-                              value: BlocProvider.of<ProfileCubit>(context),
-                              child: EditCaregroup(
-                                caregroup: caregroup,
-                              ),
-                            ),
-                          )
-                      ),
+                                value: BlocProvider.of<CaregroupCubit>(context),
+                                child: BlocProvider.value(
+                                  value: BlocProvider.of<ProfileCubit>(context),
+                                  child: EditCaregroup(
+                                    caregroup: caregroup,
+                                  ),
+                                ),
+                              )),
                     );
-
                   }
-
                 },
                 child: const Icon(Icons.add)),
             body: Column(
@@ -90,64 +82,72 @@ class _CaregroupManagerState extends State<CaregroupManager> {
                                 child: Card(
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child:
-                                      BlocBuilder<CaregroupCubit, CaregroupState>(
+                                    child: BlocBuilder<CaregroupCubit,
+                                        CaregroupState>(
                                       builder: (context, state) {
                                         if (state is CaregroupLoaded) {
                                           return Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Row(
                                                 children: [
-                                                  CaregroupPhotoWidget(id: caregroup.id, size: 80),
-
+                                                  CaregroupPhotoWidget(
+                                                      id: caregroup.id,
+                                                      size: 80),
                                                   const SizedBox(width: 16),
-
                                                   Expanded(
                                                     child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
-
-                                                        const SizedBox(height: 8),
-
+                                                        const SizedBox(
+                                                            height: 8),
                                                         Text(caregroup.name,
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight.bold)),
-
-
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
                                                         Text(caregroup.details,
                                                             style: const TextStyle(
                                                                 fontWeight:
-                                                                FontWeight.normal)),
-
+                                                                    FontWeight
+                                                                        .normal)),
                                                         Row(
                                                           children: [
                                                             ElevatedButton(
-                                                                onPressed: (){
-                                                                  Navigator.pushNamed(
+                                                                onPressed: () {
+                                                                  Navigator
+                                                                      .pushNamed(
                                                                     context,
-                                                                    TaskManagerView.routeName,
-                                                                    arguments: caregroup,
+                                                                    TaskManagerView
+                                                                        .routeName,
+                                                                    arguments:
+                                                                        caregroup,
                                                                   );
                                                                 },
-                                                                child: const Text('View')
-                                                            ),
-                                                            const SizedBox(width: 8),
+                                                                child:
+                                                                    const Text(
+                                                                        'View')),
+                                                            const SizedBox(
+                                                                width: 8),
                                                             ElevatedButton(
-                                                                onPressed: (){
-                                                                  Navigator.pushNamed(
+                                                                onPressed: () {
+                                                                  Navigator
+                                                                      .pushNamed(
                                                                     context,
-                                                                    EditCaregroup.routeName,
-                                                                    arguments: caregroup,
+                                                                    EditCaregroup
+                                                                        .routeName,
+                                                                    arguments:
+                                                                        caregroup,
                                                                   );
                                                                 },
-                                                                child: const Text('Edit')
-                                                            ),
+                                                                child:
+                                                                    const Text(
+                                                                        'Edit')),
                                                           ],
                                                         ),
-
-
                                                       ],
                                                     ),
                                                   ),
@@ -166,9 +166,6 @@ class _CaregroupManagerState extends State<CaregroupManager> {
                         .toList(),
                   ),
                 ),
-
-
-
               ],
             ),
           );

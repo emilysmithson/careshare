@@ -83,11 +83,8 @@ class TaskCubit extends Cubit<TaskState> {
   // Create Task
   // Update the task status to Created, unless the task is already assigned
   // in which case set the status to Assigned
-  createTask({
-    required CareTask task,
-    required String id
-  }) {
-    if (task.assignedTo == null || task.assignedTo == '' ) {
+  createTask({required CareTask task, required String id}) {
+    if (task.assignedTo == null || task.assignedTo == '') {
       editTaskFieldRepository(
         task: task,
         taskField: TaskField.taskStatus,
@@ -99,8 +96,7 @@ class TaskCubit extends Cubit<TaskState> {
         newValue: TaskHistory(
             id: id, taskStatus: TaskStatus.created, dateTime: DateTime.now()),
       );
-    }
-    else {
+    } else {
       editTaskFieldRepository(
         task: task,
         taskField: TaskField.taskStatus,
@@ -115,10 +111,7 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
-  acceptTask({
-    required CareTask task,
-    required String id
-  }) {
+  acceptTask({required CareTask task, required String id}) {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskStatus,
@@ -128,16 +121,11 @@ class TaskCubit extends Cubit<TaskState> {
       task: task,
       taskField: TaskField.taskHistory,
       newValue: TaskHistory(
-          id: id,
-          taskStatus: TaskStatus.accepted,
-          dateTime: DateTime.now()),
+          id: id, taskStatus: TaskStatus.accepted, dateTime: DateTime.now()),
     );
   }
 
-  rejectTask({
-    required CareTask task,
-    required String id
-  }) {
+  rejectTask({required CareTask task, required String id}) {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskStatus,
@@ -152,12 +140,9 @@ class TaskCubit extends Cubit<TaskState> {
       task: task,
       taskField: TaskField.taskHistory,
       newValue: TaskHistory(
-          id: id,
-          taskStatus: TaskStatus.created,
-          dateTime: DateTime.now()),
+          id: id, taskStatus: TaskStatus.created, dateTime: DateTime.now()),
     );
   }
-
 
   editTask(
       {required CareTask task,
@@ -196,13 +181,11 @@ class TaskCubit extends Cubit<TaskState> {
     );
   }
 
-
-  assignTask({
-    required CareTask task,
-    required String assignedToId,
-    required String assignedById
-  }) {
-   editTask(
+  assignTask(
+      {required CareTask task,
+      required String? assignedToId,
+      required String assignedById}) {
+    editTask(
       newValue: assignedToId,
       task: task,
       taskField: TaskField.assignedTo,
@@ -214,7 +197,8 @@ class TaskCubit extends Cubit<TaskState> {
     );
     if (task.taskStatus != TaskStatus.draft) {
       editTask(
-        newValue: assignedToId == null ? TaskStatus.created : TaskStatus.assigned,
+        newValue:
+            assignedToId == null ? TaskStatus.created : TaskStatus.assigned,
         task: task,
         taskField: TaskField.taskStatus,
       );
@@ -222,7 +206,9 @@ class TaskCubit extends Cubit<TaskState> {
         task: task,
         taskField: TaskField.taskHistory,
         newValue: TaskHistory(
-            id: assignedById, taskStatus: TaskStatus.assigned, dateTime: DateTime.now()),
+            id: assignedById,
+            taskStatus: TaskStatus.assigned,
+            dateTime: DateTime.now()),
       );
     }
   }

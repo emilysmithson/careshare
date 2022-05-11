@@ -1,4 +1,3 @@
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/models/profile_role.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup_status.dart';
@@ -9,7 +8,6 @@ class AddCarerInCaregroupToProfile {
     required String profileId,
     required String caregroupId,
   }) async {
-
     final roleInCaregroup = RoleInCaregroup(
       id: caregroupId,
       caregroupId: caregroupId,
@@ -20,7 +18,8 @@ class AddCarerInCaregroupToProfile {
       kudosCount: 0,
       kudosValue: 0,
     );
-    DatabaseReference reference = FirebaseDatabase.instance.ref('profiles/$profileId/carer_in');
+    DatabaseReference reference =
+        FirebaseDatabase.instance.ref('profiles/$profileId/carer_in');
 
     reference.child(roleInCaregroup.id!).set(roleInCaregroup.toJson());
 

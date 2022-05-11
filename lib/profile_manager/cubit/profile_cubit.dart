@@ -29,10 +29,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     required this.giveKudos,
     required this.addCarerInCaregroupToProfile,
     required this.completeTask,
-
   }) : super(ProfileInitial());
 
-    createProfile({
+  createProfile({
     required File photo,
     required String name,
     String? firstName,
@@ -41,13 +40,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String id,
     // required List<String> careeInCaregroups,
     // required List<String> carerInCaregroups,
-
   }) async {
-
-      print("ProfileCubit: createProfile: $email");
-
     emit(const ProfileLoading());
-
 
     final ref = FirebaseStorage.instance
         .ref()
@@ -56,7 +50,6 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     await ref.putFile(photo);
     final url = await ref.getDownloadURL();
-      print("url: $url");
 
     Profile profile = Profile(
       id: id,
@@ -73,11 +66,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       showOtherCaregropusOnHomePage: true,
     );
 
-      print("profile: $profile");
-
-      try {
+    try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('profiles');
-      print("reference: $reference");
 
       reference.child(profile.id!).set(profile.toJson());
     } catch (error) {
@@ -86,14 +76,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
     }
 
-    myProfile = profileList.firstWhere((element) =>
-        element.id == FirebaseAuth.instance.currentUser!.uid);
-
-      print("profileList: $profileList");
-      print("myProfile: $myProfile");
-
-
-      emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
+    myProfile = profileList.firstWhere(
+        (element) => element.id == FirebaseAuth.instance.currentUser!.uid);
+    emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
   }
 
   Future fetchProfiles() async {
@@ -123,7 +108,7 @@ class ProfileCubit extends Cubit<ProfileState> {
           profileList.sort((a, b) => a.name.compareTo(b.name));
 
           myProfile = profileList.firstWhere((element) =>
-          element.id == FirebaseAuth.instance.currentUser!.uid);
+              element.id == FirebaseAuth.instance.currentUser!.uid);
 
           emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
         }
@@ -180,9 +165,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         newValue: newKudos, profile: profile, profileField: ProfileField.kudos);
 
     emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
-
   }
-
 
   // fetches a list of all the ids of people in your caregroup apart from yourself
   // so that you can notify everyone of something but not recieve the notification yourself.
