@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ViewCaregroup extends StatelessWidget {
+class ViewCaregroup extends StatefulWidget {
   static const routeName = '/view-caregroup';
   final Caregroup caregroup;
 
@@ -20,6 +20,11 @@ class ViewCaregroup extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ViewCaregroup> createState() => _ViewCaregroupState();
+}
+
+class _ViewCaregroupState extends State<ViewCaregroup> {
+  @override
   Widget build(BuildContext context) {
 
     return BlocBuilder<ProfileCubit, ProfileState>(
@@ -27,10 +32,10 @@ class ViewCaregroup extends StatelessWidget {
           if (state is ProfileLoaded) {
 
             final profileList = state.profileList
-                .where((profile) => profile.carerInCaregroups!.indexWhere((element) => element.caregroupId==caregroup.id)!= -1);
+                .where((profile) => profile.carerInCaregroups!.indexWhere((element) => element.caregroupId==widget.caregroup.id)!= -1);
 
             final invitationList = BlocProvider.of<InvitationCubit>(context).invitationList
-                .where((invitation) => invitation.caregroupId == caregroup.id);
+                .where((invitation) => invitation.caregroupId == widget.caregroup.id);
 
             return Scaffold(
               appBar: AppBar(
@@ -47,9 +52,10 @@ class ViewCaregroup extends StatelessWidget {
 
                     Navigator.of(context).pushNamed(
                         InviteUserToCaregroup.routeName,
-                        arguments: caregroup
+                        arguments: widget.caregroup
                     );
 
+                    setState(() {});
                   },
                   child: const Icon(Icons.add)),
 
@@ -66,7 +72,7 @@ class ViewCaregroup extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
-                            image: NetworkImage(caregroup.photo!),
+                            image: NetworkImage(widget.caregroup.photo!),
                             fit: BoxFit.cover),
                       ),
                     ),
@@ -81,7 +87,7 @@ class ViewCaregroup extends StatelessWidget {
                         ),
                         Expanded(
                           flex: 6,
-                          child: Text(caregroup.name,
+                          child: Text(widget.caregroup.name,
                               style:
                               const TextStyle(fontWeight: FontWeight.bold)),
                         )
@@ -98,7 +104,7 @@ class ViewCaregroup extends StatelessWidget {
                         ),
                         Expanded(
                           flex: 6,
-                          child: Text(caregroup.type.type,
+                          child: Text(widget.caregroup.type.type,
                               style:
                               const TextStyle(fontWeight: FontWeight.bold)),
                         )
@@ -115,7 +121,7 @@ class ViewCaregroup extends StatelessWidget {
                         ),
                         Expanded(
                           flex: 6,
-                          child: Text(caregroup.createdDate.toString(),
+                          child: Text(widget.caregroup.createdDate.toString(),
                               style: const TextStyle(fontWeight: FontWeight.bold)),
                         )
                       ],
@@ -195,7 +201,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).role.role),
+                                        Text(profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==widget.caregroup.id).role.role),
                                       ],
                                     ),
                                   ),
@@ -207,7 +213,7 @@ class ViewCaregroup extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).status.status),
+                                        Text(profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==widget.caregroup.id).status.status),
                                       ],
                                     ),
                                   ),

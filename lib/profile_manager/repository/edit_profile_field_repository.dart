@@ -43,6 +43,16 @@ class EditProfileFieldRepository {
         field = 'tandcs_accepted';
         value = newValue;
         break;
+      case ProfileField.showInvitationsOnHomePage:
+        newProfile.showInvitationsOnHomePage = newValue;
+        field = 'show_invitations_on_homepage';
+        value = newValue;
+        break;
+      case ProfileField.showOtherCaregropusOnHomePage:
+        newProfile.showOtherCaregropusOnHomePage = newValue;
+        field = 'show_other_caregroups_on_homepage';
+        value = newValue;
+        break;
       case ProfileField.photo:
         final ref = FirebaseStorage.instance
             .ref()

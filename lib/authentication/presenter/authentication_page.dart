@@ -15,6 +15,8 @@ class AuthenticationPage extends StatelessWidget {
         .checkAuthentication(context: context);
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
+        // print("AuthenticationPage state: $state");
+
         if (state is AuthenticationLoading) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),

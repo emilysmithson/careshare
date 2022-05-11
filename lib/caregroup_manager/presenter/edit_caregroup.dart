@@ -5,7 +5,6 @@ import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/models/caregroup_status.dart';
 
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_input_field_widget.dart';
-import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class EditCaregroup extends StatelessWidget {
   Widget build(BuildContext context) {
     const double spacing = 16;
 
-    print(caregroup.status.status);
+    // print(caregroup.status.status);
     return Scaffold(
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,

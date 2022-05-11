@@ -27,16 +27,16 @@ class _HomePageState extends State<HomePage> {
 @override
   Widget build(BuildContext context) {
 
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
-        if (state is ProfileLoaded) {
-
+        if (state is CaregroupLoaded) {
 
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+          bool _showInvitationsOnHomePage = myProfile.showInvitationsOnHomePage;
+          bool _showOtherCaregropusOnHomePage = myProfile.showOtherCaregropusOnHomePage;
 
           // if i haven't accepted the Terms & Conditions, navigate to the T&C page
           if (myProfile.tandcsAccepted == false) {
-
             return PageScaffold(
                 body: Column(
                     children: [
@@ -97,28 +97,34 @@ class _HomePageState extends State<HomePage> {
           }
           var allCaregroups = BlocProvider.of<CaregroupCubit>(context).caregroupList;
 
-          List<Caregroup> myCaregroups =
-          allCaregroups
+          // My Caregroups
+          List<Caregroup> myCaregroups = allCaregroups
               .where((caregroup) =>
                   myProfile.carerInCaregroups!.indexWhere(
                       (element) => element.caregroupId == caregroup.id) !=
                   -1).toList();
 
+          // My Invitations
           List<Invitation> myInvitationList = BlocProvider.of<InvitationCubit>(context).invitationList
               .where((invitation) =>
                   invitation.email == myProfile.email //&&
           ).toList();
 
-          var  otherCaregroups = allCaregroups
-              .where((caregroup) =>
-                myCaregroups.indexWhere((myCaregroup) =>  caregroup.id == myCaregroup.id) == -1 &&
+          // Other Caregropus
+          List<Caregroup>  otherCaregroups = [];
+          if (_showOtherCaregropusOnHomePage){
+            otherCaregroups = allCaregroups
+                .where((caregroup) =>
+            myCaregroups.indexWhere((myCaregroup) =>  caregroup.id == myCaregroup.id) == -1 &&
                 myInvitationList.indexWhere((invitation) => caregroup.id == invitation.caregroupId) == -1
-          );
+            ).toList();
+
+          }
 
 
           // If I am only in one caregroup, and I have no open invitations go straight to the TaskManagerView for that caregroup
 
-          if (myCaregroups.length == 1 && myInvitationList.isEmpty) {
+          if (myCaregroups.length == 1 && (_showInvitationsOnHomePage == false || myInvitationList.isEmpty) && (_showOtherCaregropusOnHomePage == false || otherCaregroups.isEmpty)) {
             WidgetsBinding.instance?.addPostFrameCallback(
                   (_) => Navigator.pushNamed(
                 context,
@@ -133,8 +139,9 @@ class _HomePageState extends State<HomePage> {
           return PageScaffold(
             body: Column(
               children: [
+// My Caregroups
                 Hero(
-                  tag: 'Caregroup',
+                  tag: 'My Caregroups',
                   child: Container(
                     width: double.infinity,
                     color: Theme.of(context).primaryColor.withOpacity(0.5),
@@ -212,9 +219,10 @@ class _HomePageState extends State<HomePage> {
                           ))
                       .toList(),
                 ),
-                SizedBox(height: 5,),
-                Hero(
-                  tag: 'Invitations',
+// Invitations
+                if (_showInvitationsOnHomePage) SizedBox(height: 5,),
+                if (_showInvitationsOnHomePage) Hero(
+                  tag: 'My Invitations',
                   child: Container(
                     width: double.infinity,
                     color: Theme.of(context).primaryColor.withOpacity(0.5),
@@ -228,11 +236,24 @@ class _HomePageState extends State<HomePage> {
                               .headline6
                               ?.copyWith(color: Colors.white),
                         ),
+                        SizedBox(
+                          width: 50,
+                          height: 10,
+                          child: Switch(
+                            value: _showInvitationsOnHomePage,
+                            onChanged: (value){
+                              setState(() {
+                                _showInvitationsOnHomePage == false;
+                              });
+                            },
+                            activeColor: Colors.white,
+                          ),
+                        )
                       ],
                     ),
                   ),
                 ),
-                Wrap(
+                if (_showInvitationsOnHomePage) Wrap(
                   children: myInvitationList
                       .map((invitation) => GestureDetector(
                     onTap: () {},
@@ -286,9 +307,9 @@ class _HomePageState extends State<HomePage> {
                   ))
                       .toList(),
                 ),
-                SizedBox(height: 5,),
-
-                Hero(
+// Other Caregropus
+                if (_showOtherCaregropusOnHomePage) SizedBox(height: 5,),
+                if (_showOtherCaregropusOnHomePage) Hero(
                   tag: 'Other Caregroups',
                   child: Container(
                     width: double.infinity,
@@ -303,11 +324,24 @@ class _HomePageState extends State<HomePage> {
                               .headline6
                               ?.copyWith(color: Colors.white),
                         ),
+                        SizedBox(
+                          width: 50,
+                          height: 10,
+                          child: Switch(
+                            value: _showInvitationsOnHomePage,
+                            onChanged: (value){
+                              setState(() {
+                                _showInvitationsOnHomePage == false;
+                              });
+                            },
+                            activeColor: Colors.white,
+                          ),
+                        )
                       ],
                     ),
                   ),
                 ),
-                Wrap(
+                if (_showOtherCaregropusOnHomePage) Wrap(
                   children: otherCaregroups
                       .map((caregroup) => GestureDetector(
                     onTap: () {

@@ -41,14 +41,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String userId,
   }) async {
     await BlocProvider.of<ProfileCubit>(context).fetchProfiles();
-    await BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
     await BlocProvider.of<TaskCubit>(context).fetchTasks();
     await BlocProvider.of<CategoriesCubit>(context).fetchCategories();
-    await BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
     await BlocProvider.of<InvitationCubit>(context).fetchInvitations();
-
     await initialiseNotifications(userId, context);
     await BlocProvider.of<NotificationsCubit>(context).fetchNotifications();
+    await BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
   }
 
   register({
@@ -87,10 +85,19 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
 
     final User? user = FirebaseAuth.instance.currentUser;
-
+print("AuthenticationCubit user: $user");
     if (user == null) {
       emit(const AuthenticationRegister());
-    } else {
+    }
+
+    else {
+
+print("await BlocProvider.of<ProfileCubit>(context).createProfile");
+print("FirebaseAuth.instance.currentUser!.uid: ${FirebaseAuth.instance.currentUser!.uid}");
+print("email: $email");
+print("name: $name");
+print("photo: $photo");
+
       await BlocProvider.of<ProfileCubit>(context).createProfile(
         id: FirebaseAuth.instance.currentUser!.uid,
         email: email,

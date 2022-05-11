@@ -32,7 +32,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   }) : super(ProfileInitial());
 
-  createProfile({
+    createProfile({
     required File photo,
     required String name,
     String? firstName,
@@ -43,7 +43,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     // required List<String> carerInCaregroups,
 
   }) async {
+
+      print("ProfileCubit: createProfile: $email");
+
     emit(const ProfileLoading());
+
+
     final ref = FirebaseStorage.instance
         .ref()
         .child('profile_photos')
@@ -51,6 +56,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     await ref.putFile(photo);
     final url = await ref.getDownloadURL();
+      print("url: $url");
 
     Profile profile = Profile(
       id: id,
@@ -62,10 +68,16 @@ class ProfileCubit extends Cubit<ProfileState> {
       photo: url,
       createdDate: DateTime.now(),
       carerInCaregroups: [],
-        tandcsAccepted: false,
+      tandcsAccepted: false,
+      showInvitationsOnHomePage: true,
+      showOtherCaregropusOnHomePage: true,
     );
-    try {
+
+      print("profile: $profile");
+
+      try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('profiles');
+      print("reference: $reference");
 
       reference.child(profile.id!).set(profile.toJson());
     } catch (error) {
@@ -77,7 +89,11 @@ class ProfileCubit extends Cubit<ProfileState> {
     myProfile = profileList.firstWhere((element) =>
         element.id == FirebaseAuth.instance.currentUser!.uid);
 
-    emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
+      print("profileList: $profileList");
+      print("myProfile: $myProfile");
+
+
+      emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
   }
 
   Future fetchProfiles() async {

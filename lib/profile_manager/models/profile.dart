@@ -10,6 +10,8 @@ class Profile {
   DateTime createdDate;
   int kudos;
   bool tandcsAccepted;
+  bool showInvitationsOnHomePage;
+  bool showOtherCaregropusOnHomePage;
   List<RoleInCaregroup>? carerInCaregroups = [];
 
   Profile({
@@ -22,6 +24,8 @@ class Profile {
     required this.createdDate,
     required this.kudos,
     required this.tandcsAccepted,
+    required this.showInvitationsOnHomePage,
+    required this.showOtherCaregropusOnHomePage,
     required this.carerInCaregroups,
   });
 
@@ -46,6 +50,8 @@ class Profile {
       kudos: json['kudos'] ?? 0,
       createdDate: createdDate,
       tandcsAccepted: json['tandcs_accepted'] ?? false,
+      showInvitationsOnHomePage: json['show_invitations_on_homepage'] ?? false,
+      showOtherCaregropusOnHomePage: json['show_other_caregroups_on_homepage'] ?? false,
       carerInCaregroups: carerInCaregroups,
     );
   }
@@ -61,6 +67,8 @@ class Profile {
       'photo': photo,
       'created_date': createdDate.toString(),
       'tandcs_accepted': tandcsAccepted,
+      'show_invitations_on_homepage': showInvitationsOnHomePage,
+      'show_other_caregroups_on_homepage': showOtherCaregropusOnHomePage,
       'carer_in': carerInCaregroups?.map((carerInCaregroups) => carerInCaregroups.toJson()).toList(),
     };
   }
@@ -76,6 +84,8 @@ class Profile {
     kudos: $kudos,
     createdDate: $createdDate,
     tandcsAccepted: $tandcsAccepted,
+    showInvitationsOnHomePage: $showInvitationsOnHomePage,
+    showOtherCaregropusOnHomePage: $showOtherCaregropusOnHomePage,
     carer_in: $carerInCaregroups,
     ''';
   }
@@ -89,4 +99,6 @@ enum ProfileField {
   kudos,
   photo,
   tandcsAccepted,
+  showInvitationsOnHomePage,
+  showOtherCaregropusOnHomePage,
 }

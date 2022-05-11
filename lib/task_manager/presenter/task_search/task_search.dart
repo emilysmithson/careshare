@@ -1,11 +1,9 @@
-import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
-import 'package:careshare/task_manager/presenter/task_overview/widgets/task_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +22,7 @@ class TaskSearch extends StatefulWidget {
 }
 
 class _TaskSearchState extends State<TaskSearch> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   Iterable<CareCategory> _categoryList = [];
 
   Iterable<CareTask> _careTaskList = [];
@@ -68,13 +66,13 @@ class _TaskSearchState extends State<TaskSearch> {
                 title: TextField(
                   autofocus: true,
 
-                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
                   controller: _controller,
                   maxLines: 1,
                   decoration: InputDecoration(
                     hintText: "Search Tasks",
-                    hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
-                    border: OutlineInputBorder(),
+                    hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+                    border: const OutlineInputBorder(),
                     fillColor: Colors.white, filled: true,
 
                     suffixIcon: IconButton(
@@ -89,7 +87,7 @@ class _TaskSearchState extends State<TaskSearch> {
                         // ).take(10);
                         // setState(() {});
                       },
-                      icon: Icon(Icons.search),
+                      icon: const Icon(Icons.search),
                     ),
 
                   ),
@@ -97,8 +95,8 @@ class _TaskSearchState extends State<TaskSearch> {
                     _careTaskList = state.careTaskList
                         .where((task) => task.taskStatus != TaskStatus.draft && task.caregroup == widget.caregroupId
                         && (categoryId == "" || task.category != null &&  task.category!.id == categoryId)
-                        && (task.title.toUpperCase().indexOf(_controller.text.toUpperCase())!=-1
-                            || task.details!.toUpperCase().indexOf(_controller.text.toUpperCase())!=-1
+                        && (task.title.toUpperCase().contains(_controller.text.toUpperCase())
+                            || task.details!.toUpperCase().contains(_controller.text.toUpperCase())
                         )
                     ).take(10);
                     setState(() {});
@@ -111,12 +109,12 @@ class _TaskSearchState extends State<TaskSearch> {
                       onSelected: (String id) {
                         categoryId = id;
 
-                        print("categoryId: $categoryId");
+                        // print("categoryId: $categoryId");
                         _careTaskList = state.careTaskList
                             .where((task) => task.taskStatus != TaskStatus.draft && task.caregroup == widget.caregroupId
                             && categoryId == "" || task.category != null &&  task.category!.id == categoryId
-                            && (task.title.toUpperCase().indexOf(_controller.text.toUpperCase())!=-1
-                                || task.details!.toUpperCase().indexOf(_controller.text.toUpperCase())!=-1
+                            && (task.title.toUpperCase().contains(_controller.text.toUpperCase())
+                                || task.details!.toUpperCase().contains(_controller.text.toUpperCase())
                             )
                         ).take(10);
                         setState(() {});
@@ -145,7 +143,8 @@ class _TaskSearchState extends State<TaskSearch> {
               ),
 
 
-              body: ListView(
+              body:
+              ListView(
                 children: _careTaskList
                     .map(
                       (task) => GestureDetector(
