@@ -70,9 +70,9 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Caregroup',
+                      child: Text('Caregroup',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -86,9 +86,9 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Type',
+                      child: Text('Type',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -102,9 +102,9 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Created',
+                      child: Text('Created',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -164,8 +164,8 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
                         ),
                       ),
                     ),
-                    TableCell(
-                      child: const SizedBox(width: 10),
+                    const TableCell(
+                      child: SizedBox(width: 10),
                     ),
                   ]),
                   for (Profile profile in profileList)
@@ -305,8 +305,8 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
                         ),
                       ),
                     ),
-                    TableCell(
-                      child: (const SizedBox(width: 1)),
+                    const TableCell(
+                      child: (SizedBox(width: 1)),
                     ),
                   ]),
                   for (Invitation invitation in invitationList)

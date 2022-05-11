@@ -48,9 +48,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Username',
+                      child: Text('Username',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -63,9 +63,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('First Name',
+                      child: Text('First Name',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -78,9 +78,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Last Name',
+                      child: Text('Last Name',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -93,9 +93,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Email',
+                      child: Text('Email',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -108,9 +108,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Created',
+                      child: Text('Created',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -123,9 +123,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Caregroup',
+                      child: Text('Caregroup',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -138,9 +138,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Role',
+                      child: Text('Role',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -153,9 +153,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Tasks Completed',
+                      child: Text('Tasks Completed',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -168,9 +168,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Value Of Tasks Completed',
+                      child: Text('Value Of Tasks Completed',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -183,9 +183,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Kudos Count',
+                      child: Text('Kudos Count',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
@@ -198,9 +198,9 @@ class ViewProfile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 4,
-                      child: const Text('Kudos Value',
+                      child: Text('Kudos Value',
                           style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
                     Expanded(
