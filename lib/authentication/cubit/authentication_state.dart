@@ -11,6 +11,20 @@ class AuthenticationInitial extends AuthenticationState {}
 
 class AuthenticationLoading extends AuthenticationState {}
 
+class AuthenticationRegistered extends AuthenticationState {
+  final String userId;
+  final String emailAddress;
+  final String name;
+  final File photo;
+
+  const AuthenticationRegistered({
+    required this.userId,
+    required this.emailAddress,
+    required this.name,
+    required this.photo,
+  });
+}
+
 class AuthenticationLoaded extends AuthenticationState {
   final User user;
 

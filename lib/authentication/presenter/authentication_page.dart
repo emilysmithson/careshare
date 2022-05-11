@@ -1,6 +1,6 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/widgets/authentication_form.dart';
-import 'package:careshare/home_page/home_page.dart';
+import 'package:careshare/core/presentation/loading_page_template.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,16 +11,11 @@ class AuthenticationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AuthenticationCubit>(context)
-        .checkAuthentication(context: context);
+    BlocProvider.of<AuthenticationCubit>(context).checkAuthentication();
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
-        // print("AuthenticationPage state: $state");
-
         if (state is AuthenticationLoading) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
+          return const LoadingPageTemplate(loadingMessage: 'Authenticating...');
         }
         if (state is AuthenticationRegister ||
             state is AuthenticationLogin ||
@@ -29,11 +24,24 @@ class AuthenticationPage extends StatelessWidget {
         }
 
         if (state is AuthenticationLoaded) {
-          WidgetsBinding.instance.addPostFrameCallback(
-            (_) => Navigator.pushReplacementNamed(context, HomePage.routeName),
-          );
+          return const LoadingPageTemplate(
+              loadingMessage: 'Authenticated Loaded');
+          //   WidgetsBinding.instance.addPostFrameCallback(
+          //     (_) => Navigator.pushReplacementNamed(context, HomePage.routeName),
+          //   );
 
-          return const Scaffold();
+          //   return const Scaffold();
+
+        }
+        if (state is AuthenticationRegistered) {
+          return const LoadingPageTemplate(
+              loadingMessage: 'Authenticated Registered');
+          //   WidgetsBinding.instance.addPostFrameCallback(
+          //     (_) => Navigator.pushReplacementNamed(context, HomePage.routeName),
+          //   );
+
+          //   return const Scaffold();
+
         }
 
         return Scaffold(

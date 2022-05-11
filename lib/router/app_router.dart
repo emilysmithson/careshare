@@ -267,16 +267,7 @@ class AppRouter {
 
       default:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _profileCubit,
-            child: BlocProvider.value(
-              value: _taskCubit,
-              child: BlocProvider.value(
-                value: _categoriesCubit,
-                child: const AuthenticationPage(),
-              ),
-            ),
-          ),
+          builder: (_) => const AuthenticationPage(),
         );
     }
   }
