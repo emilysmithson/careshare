@@ -109,6 +109,7 @@ class _HomePageState extends State<HomePage> {
               .where((invitation) =>
                   invitation.email == myProfile.email //&&
           ).toList();
+          if (myInvitationList.isEmpty) {_showInvitationsOnHomePage = false;}
 
           // Other Caregropus
           List<Caregroup>  otherCaregroups = [];
@@ -118,13 +119,13 @@ class _HomePageState extends State<HomePage> {
             myCaregroups.indexWhere((myCaregroup) =>  caregroup.id == myCaregroup.id) == -1 &&
                 myInvitationList.indexWhere((invitation) => caregroup.id == invitation.caregroupId) == -1
             ).toList();
-
           }
+          if (otherCaregroups.isEmpty) {_showOtherCaregropusOnHomePage = false;}
+
 
 
           // If I am only in one caregroup, and I have no open invitations go straight to the TaskManagerView for that caregroup
-
-          if (myCaregroups.length == 1 && (_showInvitationsOnHomePage == false || myInvitationList.isEmpty) && (_showOtherCaregropusOnHomePage == false || otherCaregroups.isEmpty)) {
+          if (myCaregroups.length == 1 && (_showInvitationsOnHomePage == false) && (_showOtherCaregropusOnHomePage == false)) {
             WidgetsBinding.instance?.addPostFrameCallback(
                   (_) => Navigator.pushNamed(
                 context,
