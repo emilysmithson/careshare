@@ -14,6 +14,8 @@ import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repo
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
+import 'package:careshare/my_profile/cubit/my_profile_cubit.dart';
+import 'package:careshare/my_profile/presenter/fetch_my_profile_page.dart';
 import 'package:careshare/notifications/presenter/notifications_page.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
@@ -59,6 +61,7 @@ class AppRouter {
     editTaskFieldRepository: EditTaskFieldRepository(),
     removeATaskRepository: RemoveATask(),
   );
+  final _myProfileCubit = MyProfileCubit();
   final _categoriesCubit = CategoriesCubit();
 
   Route onGenerateRoute(RouteSettings routeSettings) {
@@ -264,6 +267,29 @@ class AppRouter {
                 EditCaregroup(caregroup: routeSettings.arguments as Caregroup),
           ),
         );
+      case FetchMyProfilePage.routeName:
+        if (routeSettings.arguments.runtimeType == String) {
+          return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: _myProfileCubit,
+              child: FetchMyProfilePage(id: routeSettings.arguments as String),
+            ),
+          );
+        } else {
+          final arguments = routeSettings.arguments as Map<String, dynamic>;
+          return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: _myProfileCubit,
+              child: FetchMyProfilePage(
+                id: arguments['id'],
+                createProfile: true,
+                photo: arguments['photo'],
+                name: arguments['name'],
+                email: arguments['email'],
+              ),
+            ),
+          );
+        }
 
       default:
         return MaterialPageRoute(

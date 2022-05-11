@@ -104,4 +104,8 @@ class AuthenticationResetPassword extends AuthenticationState {
 
 class AuthenicationAwaitingConfirmation extends AuthenticationState {}
 
-class AuthenticationError extends AuthenticationState {}
+class AuthenticationError extends AuthenticationState {
+  final String message;
+
+  const AuthenticationError({required this.message});
+}

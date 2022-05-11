@@ -1,6 +1,8 @@
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/widgets/authentication_form.dart';
+import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
+import 'package:careshare/my_profile/presenter/fetch_my_profile_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,24 +26,33 @@ class AuthenticationPage extends StatelessWidget {
         }
 
         if (state is AuthenticationLoaded) {
-          return const LoadingPageTemplate(
-              loadingMessage: 'Authenticated Loaded');
-          //   WidgetsBinding.instance.addPostFrameCallback(
-          //     (_) => Navigator.pushReplacementNamed(context, HomePage.routeName),
-          //   );
+          WidgetsBinding.instance
+              .addPostFrameCallback((_) => Navigator.pushReplacementNamed(
+                    context,
+                    FetchMyProfilePage.routeName,
+                    arguments: state.user.uid,
+                  ));
 
-          //   return const Scaffold();
-
+          return Container();
         }
         if (state is AuthenticationRegistered) {
-          return const LoadingPageTemplate(
-              loadingMessage: 'Authenticated Registered');
-          //   WidgetsBinding.instance.addPostFrameCallback(
-          //     (_) => Navigator.pushReplacementNamed(context, HomePage.routeName),
-          //   );
+          WidgetsBinding.instance
+              .addPostFrameCallback((_) => Navigator.pushReplacementNamed(
+                    context,
+                    FetchMyProfilePage.routeName,
+                    arguments: {
+                      "id": state.userId,
+                      'createProfile': true,
+                      'photo': state.photo,
+                      'name': state.name,
+                      'email': state.emailAddress
+                    },
+                  ));
 
-          //   return const Scaffold();
-
+          return Container();
+        }
+        if (state is AuthenticationError) {
+          return ErrorPageTemplate(errorMessage: state.message);
         }
 
         return Scaffold(
