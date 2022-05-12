@@ -66,11 +66,11 @@ class TaskCubit extends Cubit<TaskState> {
   fetchTasksForCaregroup({required String caregroupId}) async {
     try {
       emit(const TaskLoading());
-
+      careTaskList.clear();
       final reference = FirebaseDatabase.instance
           .ref('tasks')
           .orderByChild('caregroup')
-          .equalTo("caregroupId");
+          .equalTo(caregroupId);
 
       final response = reference.onValue;
       response.listen((event) {
