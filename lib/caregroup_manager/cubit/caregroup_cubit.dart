@@ -141,7 +141,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
 
   Future fetchMyCaregroups({required Profile profile}) async {
     emit(const CaregroupLoading());
-
+    caregroupList.clear();
     for (final role in profile.carerInCaregroups) {
       try {
         DatabaseReference reference =
