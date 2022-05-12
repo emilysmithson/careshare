@@ -14,8 +14,13 @@ import 'package:flutter/material.dart';
 class AssignATask extends StatefulWidget {
   final CareTask task;
   final bool showButton;
+  final bool locked;
 
-  const AssignATask({Key? key, required this.task, this.showButton = false})
+  const AssignATask({Key? key,
+    required this.task,
+    this.showButton = false,
+    this.locked = false,
+  })
       : super(key: key);
 
   @override
@@ -35,11 +40,8 @@ class _AssignATaskState extends State<AssignATask> {
         .map(
           (profile) => GestureDetector(
             onTap: () async {
-              // only allow tasks in the following statuses to be assigned:
-              // draft, created, assigned
-              if (widget.task.taskStatus == TaskStatus.draft ||
-                  widget.task.taskStatus == TaskStatus.created ||
-                  widget.task.taskStatus == TaskStatus.assigned) {
+
+              if (!widget.locked) {
                 Profile myProfile =
                     BlocProvider.of<ProfileCubit>(context).myProfile;
 

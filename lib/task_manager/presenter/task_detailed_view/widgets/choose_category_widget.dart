@@ -10,10 +10,12 @@ import '../../../models/task.dart';
 class ChooseCategoryWidget extends StatelessWidget {
   final CareTask task;
   final bool showButton;
+  final bool locked;
   const ChooseCategoryWidget({
     Key? key,
     required this.task,
     this.showButton = false,
+    this.locked = false,
   }) : super(key: key);
 
   @override
@@ -26,11 +28,13 @@ class ChooseCategoryWidget extends StatelessWidget {
           .map(
             (CareCategory category) => GestureDetector(
               onTap: () {
-                BlocProvider.of<TaskCubit>(context).editTask(
-                  task: task,
-                  newValue: category,
-                  taskField: TaskField.category,
-                );
+                if (!locked) {
+                  BlocProvider.of<TaskCubit>(context).editTask(
+                    task: task,
+                    newValue: category,
+                    taskField: TaskField.category,
+                  );
+                }
               },
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -47,7 +51,7 @@ class ChooseCategoryWidget extends StatelessWidget {
           .toList(),
     );
 
-    widgetList.add(const AddCategoryWidget());
+    if (!locked) widgetList.add(const AddCategoryWidget());
     return InputDecorator(
       decoration: const InputDecoration(
         label: Text('Category'),

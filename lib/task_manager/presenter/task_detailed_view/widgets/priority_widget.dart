@@ -7,7 +7,11 @@ import '../../../models/task.dart';
 
 class PriorityWidget extends StatelessWidget {
   final CareTask task;
-  const PriorityWidget({Key? key, required this.task}) : super(key: key);
+  final bool locked;
+  const PriorityWidget({Key? key,
+    required this.task,
+    required this.locked,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +28,13 @@ class PriorityWidget extends StatelessWidget {
                 (e) => Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      BlocProvider.of<TaskCubit>(context).editTask(
-                        task: task,
-                        newValue: e.value,
-                        taskField: TaskField.taskPriority,
-                      );
+                      if (!locked) {
+                        BlocProvider.of<TaskCubit>(context).editTask(
+                          task: task,
+                          newValue: e.value,
+                          taskField: TaskField.taskPriority,
+                        );
+                      }
                     },
                     child: Container(
                       padding: const EdgeInsets.all(4),
