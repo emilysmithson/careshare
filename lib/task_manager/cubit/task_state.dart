@@ -17,6 +17,7 @@ class TaskLoading extends TaskState {
 
 class TaskLoaded extends TaskState {
   final List<CareTask> careTaskList;
+  
   const TaskLoaded({
     required this.careTaskList,
   });

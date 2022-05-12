@@ -6,7 +6,8 @@ admin.initializeApp();
 
 // createTask is called when a user creates a task in the UI
 exports.createTask = functions.https.onCall(async (data) => {
-// Send a message to everyone
+
+    // Send a message to everyone
   admin.messaging().sendToTopic("task_created", {
     notification:
       {
@@ -26,8 +27,9 @@ exports.createTask = functions.https.onCall(async (data) => {
 exports.notifyUsers = functions.https.onCall(async (data) =>{
   console.log(data);
   console.log(data.sender_id);
+
   // Send the task completer a message
-  admin.messaging().sendToTopic(data.sender_id, {
+  admin.messaging().sendToTopic(data.recipient_id, {
     notification:
         {
           title: data.title,

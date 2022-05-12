@@ -154,7 +154,6 @@ class AuthenticationForm extends StatelessWidget {
                         switch (state.runtimeType) {
                           case AuthenticationRegister:
                             authenticationCubit.register(
-                                context: context,
                                 email: emailController.text,
                                 password: passwordController.text,
                                 name: nameController.text,
@@ -162,7 +161,6 @@ class AuthenticationForm extends StatelessWidget {
                             break;
                           case AuthenticationLogin:
                             authenticationCubit.login(
-                              context: context,
                               email: emailController.text,
                               password: passwordController.text,
                               name: nameController.text,
@@ -216,7 +214,7 @@ class AuthenticationForm extends StatelessWidget {
                       child: const Text('Forgotten Password?'),
                     ),
                   const SizedBox(height: 150),
-                  const Text("CareShare version: 0.0.11+11")
+                  const Text("CareShare version: 0.0.19+19")
                 ],
               ),
             ),

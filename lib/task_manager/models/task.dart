@@ -22,6 +22,7 @@ class CareTask {
   TaskEffort taskEffort;
   TaskPriority taskPriority;
   TaskType taskType;
+  bool canBeRemote;
 
   String? createdBy;
   DateTime? taskCreatedDate;
@@ -54,6 +55,7 @@ class CareTask {
     this.taskEffort = TaskEffort.medium,
     this.taskPriority = TaskPriority.medium,
     this.taskType = TaskType.any,
+    this.canBeRemote = true,
 
     required this.createdBy,
     required this.taskCreatedDate,
@@ -86,6 +88,7 @@ class CareTask {
       'task_effort': taskEffort.value,
       'priority': taskPriority.value,
       'task_type': taskType.value,
+      'can_be_remote': canBeRemote,
 
       'created_by': createdBy,
       'created_date': taskCreatedDate.toString(),
@@ -127,6 +130,7 @@ class CareTask {
     final taskType = TaskType.taskTypeList
         .firstWhere((element) => element.value == value['task_type']);
 
+    final canBeRemote = (value['can_be_remote'] == "false") ? false : true;
 
     final priority = TaskPriority.priorityList
         .firstWhere((element) => value['priority'] == element.value);
@@ -184,6 +188,7 @@ class CareTask {
         category: category,
         taskEffort: taskSize,
         taskType: taskType,
+        canBeRemote: canBeRemote,
         taskStatus: taskStatus,
         taskPriority: priority,
         createdBy: createdBy,
@@ -214,6 +219,7 @@ class CareTask {
         other.taskPriority == taskPriority &&
         other.taskEffort == taskEffort &&
         other.taskType == taskType &&
+        other.canBeRemote == canBeRemote &&
         other.details == details &&
         other.category == category &&
         other.id == id &&
@@ -243,6 +249,7 @@ class CareTask {
         taskPriority.hashCode ^
         taskEffort.hashCode ^
         taskType.hashCode ^
+        canBeRemote.hashCode ^
         details.hashCode ^
         category.hashCode ^
         id.hashCode ^
@@ -276,6 +283,7 @@ enum TaskField {
   taskEffort,
   taskPriority,
   taskType,
+  canBeRemote,
 
   createdBy,
   taskCreatedDate,

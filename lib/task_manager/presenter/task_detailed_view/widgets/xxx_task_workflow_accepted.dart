@@ -1,17 +1,18 @@
 import 'package:careshare/core/presentation/photo_and_name_widget.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../my_profile/models/profile.dart';
 import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 class TaskWorkflowAcceptedWidget extends StatelessWidget {
   final CareTask task;
-  const TaskWorkflowAcceptedWidget({Key? key, required this.task}) : super(key: key);
+  const TaskWorkflowAcceptedWidget({Key? key, required this.task})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +67,7 @@ class TaskWorkflowAcceptedWidget extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: ElevatedButton(
-                                  onPressed: ()  async {
-
+                                  onPressed: () async {
                                     BlocProvider.of<TaskCubit>(context)
                                         .completeTask(
                                       task: task,
@@ -77,20 +77,21 @@ class TaskWorkflowAcceptedWidget extends StatelessWidget {
 
                                     Navigator.pop(context);
 
-                                    Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+                                    Profile myProfile =
+                                        BlocProvider.of<ProfileCubit>(context)
+                                            .myProfile;
 
                                     // Send a message to tell the world the task is complete
-                                      HttpsCallable callable =
-                                      FirebaseFunctions.instance.httpsCallable('completeTask');
-                                      final resp = await callable.call(<String, dynamic>{
-                                        'task_id': task.id,
-                                        'task_title': task.title,
-                                        'completer_id': myProfile.id,
-                                        'completer_name': myProfile.name,
-                                        'date_time': DateTime.now().toString()
-                                      });
-
-
+                                    HttpsCallable callable = FirebaseFunctions
+                                        .instance
+                                        .httpsCallable('completeTask');
+                                    await callable.call(<String, dynamic>{
+                                      'task_id': task.id,
+                                      'task_title': task.title,
+                                      'completer_id': myProfile.id,
+                                      'completer_name': myProfile.name,
+                                      'date_time': DateTime.now().toString()
+                                    });
                                   },
                                   child: const Text('Ok'),
                                 ),

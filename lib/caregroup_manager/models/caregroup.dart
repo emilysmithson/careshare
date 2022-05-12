@@ -1,39 +1,43 @@
-
-
+import 'package:careshare/caregroup_manager/models/caregroup_carer.dart';
+import 'package:careshare/caregroup_manager/models/caregroup_status.dart';
 import 'package:careshare/caregroup_manager/models/caregroup_type.dart';
 
 class Caregroup {
   final String id;
   String name;
   String details;
+  CaregroupStatus status;
   CaregroupType type;
   String? photo;
   DateTime createdDate;
-  List<String>? carees = [];
-  List<String>? members = [];
-
+  String? createdBy;
+  List<CarerInCaregroup>? carers = [];
 
   Caregroup({
     required this.id,
     required this.name,
     required this.details,
-    required  this.type,
+    required this.status,
+    required this.type,
     this.photo,
     required this.createdDate,
-    this.carees,
-    this.members,
+    required this.createdBy,
   });
 
   factory Caregroup.fromJson(dynamic key, dynamic value) {
+    final status = CaregroupStatus.caregroupStatusList
+        .firstWhere((element) => element.status == value['status']);
 
     return Caregroup(
       id: key,
       name: value['name'] ?? "",
       details: value['details'] ?? "",
-      type:  CaregroupType.caregroupTypeList
+      status: status,
+      type: CaregroupType.caregroupTypeList
           .firstWhere((element) => element.type == value['type']),
       photo: value['photo'] ?? "",
       createdDate: DateTime.parse(value['created_date']),
+      createdBy: value['created_by'] ?? '',
     );
   }
 
@@ -42,9 +46,11 @@ class Caregroup {
       'id': id,
       'name': name,
       'details': details,
-      'status': type.type,
+      'status': status.status,
+      'type': type.type,
       'photo': photo,
       'created_date': createdDate.toString(),
+      'created_by': createdBy,
     };
   }
 
@@ -54,7 +60,9 @@ class Caregroup {
     id: $id,
     name: $name,
     details: $details,
+    status: $status,
     type: $type
+    photo: $photo
     createdDate: $createdDate,
     ''';
   }
@@ -63,15 +71,15 @@ class Caregroup {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Caregroup
-        && other.id == id
-        && other.name == name
-        && other.details == details
-        && other.type == type
-        && other.createdDate == createdDate
-    ;
-
-
+    return other is Caregroup &&
+        other.id == id &&
+        other.name == name &&
+        other.details == details &&
+        other.status == status &&
+        other.type == type &&
+        other.photo == photo &&
+        other.createdDate == createdDate &&
+        other.createdBy == createdBy;
   }
 
   @override
@@ -79,16 +87,19 @@ class Caregroup {
       id.hashCode ^
       name.hashCode ^
       details.hashCode ^
+      status.hashCode ^
       type.hashCode ^
-      createdDate.hashCode
-  ;
+      photo.hashCode ^
+      createdDate.hashCode ^
+      createdBy.hashCode;
 }
-
-
 
 enum CaregroupField {
   name,
   details,
+  status,
+  type,
   photo,
   createdDate,
+  createdBy,
 }

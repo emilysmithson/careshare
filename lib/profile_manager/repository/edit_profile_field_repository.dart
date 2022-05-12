@@ -1,7 +1,8 @@
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
+import '../../my_profile/models/profile.dart';
 
 class EditProfileFieldRepository {
   Future<Profile> call(
@@ -36,6 +37,21 @@ class EditProfileFieldRepository {
       case ProfileField.kudos:
         newProfile.kudos = newValue;
         field = 'kudos';
+        value = newValue;
+        break;
+      case ProfileField.tandcsAccepted:
+        newProfile.tandcsAccepted = newValue;
+        field = 'tandcs_accepted';
+        value = newValue;
+        break;
+      case ProfileField.showInvitationsOnHomePage:
+        newProfile.showInvitationsOnHomePage = newValue;
+        field = 'show_invitations_on_homepage';
+        value = newValue;
+        break;
+      case ProfileField.showOtherCaregropusOnHomePage:
+        newProfile.showOtherCaregropusOnHomePage = newValue;
+        field = 'show_other_caregroups_on_homepage';
         value = newValue;
         break;
       case ProfileField.photo:

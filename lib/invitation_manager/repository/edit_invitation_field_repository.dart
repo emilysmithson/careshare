@@ -1,5 +1,6 @@
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 
 class EditInvitationFieldRepository {
   Future<Invitation> call(
@@ -19,7 +20,7 @@ class EditInvitationFieldRepository {
       case InvitationField.status:
         newInvitation.status = newValue;
         field = 'status';
-        value = newValue;
+        value = newValue.status;
         break;
       case InvitationField.email:
         newInvitation.email = newValue;
@@ -47,7 +48,13 @@ class EditInvitationFieldRepository {
     DatabaseReference reference =
         FirebaseDatabase.instance.ref("invitations/${invitation.id}/$field");
 
-    reference.set(value);
+    try {
+      reference.set(value);
+    } catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+    }
     return newInvitation;
   }
 }

@@ -1,4 +1,4 @@
-import 'package:careshare/notifications/presenter/cubit/notifications_cubit.dart';
+import 'package:careshare/notifications/cubit/notifications_cubit.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

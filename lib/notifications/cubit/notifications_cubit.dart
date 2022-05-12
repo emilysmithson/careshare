@@ -1,11 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/notifications/domain/careshare_notification.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../../../caregroup_manager/models/caregroup.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../my_profile/models/profile.dart';
 
 part 'notifications_state.dart';
 
@@ -14,7 +17,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   List<CareshareNotification> notificationsList = [];
   fetchNotifications() async {
     try {
-      DatabaseReference reference = FirebaseDatabase.instance.ref(
+      final reference = FirebaseDatabase.instance.ref(
         'profiles/${FirebaseAuth.instance.currentUser!.uid}/notifications',
       );
       final response = reference.onValue;
@@ -59,15 +62,14 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     required List<String> recipients,
   }) {
     for (final String recipient in recipients) {
-      DatabaseReference reference =
+      final reference =
           FirebaseDatabase.instance.ref('profiles/$recipient/notifications');
 
       reference.child(notification.id).set(
             notification.toJson(),
           );
 
-      HttpsCallable callable =
-          FirebaseFunctions.instance.httpsCallable('notifyUsers');
+      final callable = FirebaseFunctions.instance.httpsCallable('notifyUsers');
       callable.call(
         {
           'id': notification.id,
@@ -75,6 +77,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
           'route': notification.routeName,
           'subtitle': notification.subtitle,
           'sender_id': notification.senderId,
+          'recipient_id': recipient,
           'date_time': notification.dateTime.toString(),
           'arguments': notification.arguments,
         },
@@ -82,22 +85,32 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     }
   }
 
-  notifyEveryoneInMyCareGroupApartFromMe(
-      {required CareshareNotification notification,
-      required Caregroup caregroup,
-      required String userId}) {
+  notifyEveryoneInMyCareGroupApartFromMe({
+    required CareshareNotification notification,
+    required Caregroup caregroup,
+    required String userId,
+    required List<Profile> profileList,
+  }) {
     List<String> recipients = [];
-    for (final String caree in caregroup.carees!) {
-      if (caree != userId) {
-        recipients.add(caree);
-      }
+
+    final profilesInCaregroupExceptMe = profileList.where((profile) =>
+        profile.id != userId &&
+        profile.carerInCaregroups
+                .indexWhere((element) => element.caregroupId == caregroup.id) !=
+            -1);
+
+    for (final Profile profile in profilesInCaregroupExceptMe) {
+      recipients.add(profile.id);
     }
-    sendNotifcations(notification: notification, recipients: recipients);
+
+    if (recipients.isNotEmpty) {
+      sendNotifcations(notification: notification, recipients: recipients);
+    }
   }
 
   markAsRead(String notificationID) async {
     try {
-      DatabaseReference reference = FirebaseDatabase.instance.ref(
+      final reference = FirebaseDatabase.instance.ref(
         'profiles/${FirebaseAuth.instance.currentUser!.uid}/notifications/$notificationID/is_read',
       );
 
@@ -115,7 +128,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
   deleteNotification(String notificationID) async {
     try {
-      DatabaseReference reference = FirebaseDatabase.instance.ref(
+      final reference = FirebaseDatabase.instance.ref(
         'profiles/${FirebaseAuth.instance.currentUser!.uid}/notifications/$notificationID',
       );
 

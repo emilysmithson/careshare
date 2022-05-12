@@ -11,7 +11,6 @@ import 'widgets/effort_widget.dart';
 import 'widgets/priority_widget.dart';
 import 'widgets/task_workflow_widget.dart';
 import 'widgets/task_input_field_widget.dart';
-import 'widgets/type_widget.dart';
 
 class TaskDetailedView extends StatelessWidget {
   static const String routeName = "/task-detailed-view";
@@ -37,18 +36,6 @@ class TaskDetailedView extends StatelessWidget {
             floatingActionButton: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-
-                // if (task.taskStatus == TaskStatus.draft)
-                //   TaskWorkflowDraftWidget(task: task),
-                // // if (task.taskStatus == TaskStatus.created)
-                // //   TaskWorkflowCreatedWidget(task: task),
-                //
-                // if (task.taskStatus == TaskStatus.assigned)
-                //   AssignATask(task: task),
-                // if (task.taskStatus == TaskStatus.accepted)
-                //   TaskWorkflowAcceptedWidget(task: task),
-                // if (task.taskStatus == TaskStatus.completed)
-                //   KudosWidget(task: task),
                 TaskWorkflowWidget(task: task),
               ],
             ),
@@ -126,9 +113,26 @@ class TaskDetailedView extends StatelessWidget {
                     PriorityWidget(
                       task: task,
                     ),
-                    TypeWidget(
-                      task: task,
+
+                    Row(
+                      children: [
+                        const Text('Can be done remotely'),
+                        Checkbox(
+                            value: task.canBeRemote,
+                            onChanged: (bool? value) {
+                              BlocProvider.of<TaskCubit>(context)
+                                  .editTaskFieldRepository(
+                                task: task,
+                                newValue: value,
+                                taskField: TaskField.canBeRemote,
+                              );
+                            }),
+                      ],
                     ),
+
+                    // TypeWidget(
+                    //   task: task,
+                    // ),
                     EffortWidget(task: task),
                     ChooseCategoryWidget(task: task),
                     AssignATask(

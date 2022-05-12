@@ -3,12 +3,14 @@ import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.d
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ViewCaregroup extends StatelessWidget {
+import '../../my_profile/models/profile.dart';
+
+class ViewCaregroup extends StatefulWidget {
   static const routeName = '/view-caregroup';
   final Caregroup caregroup;
 
@@ -18,290 +20,390 @@ class ViewCaregroup extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ViewCaregroup> createState() => _ViewCaregroupState();
+}
+
+class _ViewCaregroupState extends State<ViewCaregroup> {
+  @override
   Widget build(BuildContext context) {
+    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
+      if (state is ProfileLoaded) {
+        final profileList = state.profileList.where((profile) =>
+            profile.carerInCaregroups.indexWhere(
+                (element) => element.caregroupId == widget.caregroup.id) !=
+            -1);
 
-    return BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          if (state is ProfileLoaded) {
+        final invitationList = BlocProvider.of<InvitationCubit>(context)
+            .invitationList
+            .where(
+                (invitation) => invitation.caregroupId == widget.caregroup.id);
 
-            final profileList = state.profileList
-                .where((profile) => profile.carerInCaregroups!.indexWhere((element) => element.caregroupId==caregroup.id)!= -1);
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Caregroup Details'),
+            actions: const [],
+          ),
+          floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                // InviteUserToCaregroup().call(context);
 
-            final invitationList = BlocProvider.of<InvitationCubit>(context).invitationList
-                .where((invitation) => invitation.caregroupId == caregroup.id);
+                Navigator.of(context).pushNamed(InviteUserToCaregroup.routeName,
+                    arguments: widget.caregroup);
 
-            return Scaffold(
+                setState(() {});
+              },
+              child: const Icon(Icons.add)),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Container(
+                  height: 120,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    image: DecorationImage(
+                        image: NetworkImage(widget.caregroup.photo!),
+                        fit: BoxFit.cover),
+                  ),
+                ),
 
-              floatingActionButton: FloatingActionButton(
-                  onPressed: () async {
-                    // InviteUserToCaregroup().call(context);
-
-                    Navigator.of(context).pushNamed(
-                        InviteUserToCaregroup.routeName,
-                        arguments: caregroup
-                    );
-
-                  },
-                  child: const Icon(Icons.add)),
-
-
-              appBar: AppBar(
-                title: const Text('Caregroup Details'),
-                actions: [],
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+                const SizedBox(height: 16),
+                Row(
                   children: [
-                    Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                            image: NetworkImage(caregroup.photo!),
-                            fit: BoxFit.cover),
-                      ),
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Caregroup',
+                          style: TextStyle(fontWeight: FontWeight.normal)),
                     ),
-
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        const Expanded(
-                          flex: 4,
-                          child: Text('Caregroup',
-                              style: TextStyle(fontWeight: FontWeight.normal)),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Text(caregroup.name,
-                              style:
-                              const TextStyle(fontWeight: FontWeight.bold)),
-                        )
-                      ],
-                    ),
-
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        const Expanded(
-                          flex: 4,
-                          child: Text('Type',
-                              style: TextStyle(fontWeight: FontWeight.normal)),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Text(caregroup.type.type,
-                              style:
-                              const TextStyle(fontWeight: FontWeight.bold)),
-                        )
-                      ],
-                    ),
-
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        const Expanded(
-                          flex: 4,
-                          child: Text('Created',
-                              style: TextStyle(fontWeight: FontWeight.normal)),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Text(caregroup.createdDate.toString(),
-                              style: const TextStyle(fontWeight: FontWeight.bold)),
-                        )
-                      ],
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // Members
-                    Table(
-                        // border: TableBorder.all(
-                        //     width: 4.0, color: Colors.white),
-
-                        children: [
-                          TableRow(
-                              children: [
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        const Text('Member',style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        const Text('Role',style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        const Text('Status',style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-
-                              ]),
-                          for (Profile profile in profileList) TableRow(
-                              children: [
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text('${profile.firstName} ${profile.lastName}'),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).role.role),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(profile.carerInCaregroups!.firstWhere((element) => element.caregroupId==caregroup.id).status.status),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-
-                              ])
-                        ]
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // Invitations
-                    Table(
-                        children: [
-                          TableRow(
-                              children: [
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        const Text('Email',style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        const Text('Invited By',style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        const Text('Invited Date',style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-
-
-                              ]),
-                          for (Invitation invitation in invitationList) TableRow(
-                              children: [
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(invitation.email),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(profileList.firstWhere((element) => element.id==invitation.invitedById).name),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(invitation.invitedDate.toString()),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-
-                              ])
-                        ]
-                    ),
-
-                    // const SizedBox(height: 16),
-                    // Row(
-                    //   children: [
-                    //     ElevatedButton(
-                    //         onPressed: () {
-                    //           Navigator.pushReplacementNamed(
-                    //               context, EditCaregroup.routeName,
-                    //               arguments:
-                    //               caregroup);
-                    //         },
-                    //         child: const Text('Edit')),
-                    //   ],
-                    // ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(widget.caregroup.name,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
                   ],
                 ),
-              ),
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
-        }
-    );
+
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Type',
+                          style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(widget.caregroup.type.type,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Created',
+                          style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(widget.caregroup.createdDate.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                // Members
+                Table(
+                    // border: TableBorder.all(
+                    //     width: 4.0, color: Colors.white),
+                    columnWidths: const {
+                      0: FlexColumnWidth(4),
+                      1: FlexColumnWidth(3),
+                      2: FlexColumnWidth(2),
+                      3: FlexColumnWidth(1),
+                    }, children: [
+                  TableRow(children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const <Widget>[
+                            Text('Member',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const <Widget>[
+                            Text('Role',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const <Widget>[
+                            Text('Status',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const TableCell(
+                      child: SizedBox(width: 10),
+                    ),
+                  ]),
+                  for (Profile profile in profileList)
+                    TableRow(children: [
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text('${profile.firstName} ${profile.lastName}'),
+                            ],
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text(profile.carerInCaregroups
+                                  .firstWhere((element) =>
+                                      element.caregroupId ==
+                                      widget.caregroup.id)
+                                  .role
+                                  .role),
+                            ],
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text(profile.carerInCaregroups
+                                  .firstWhere((element) =>
+                                      element.caregroupId ==
+                                      widget.caregroup.id)
+                                  .status
+                                  .status),
+                            ],
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: PopupMenuButton(
+                          child: Container(
+                            height: 36,
+                            width: 48,
+                            alignment: Alignment.centerRight,
+                            child: const Icon(
+                              Icons.more_vert,
+                            ),
+                          ),
+                          onSelected: (value) {
+                            switch (value) {
+                              case "View Profile":
+                                {
+                                  Navigator.pushNamed(
+                                    context,
+                                    EditProfile.routeName,
+                                    arguments: profile,
+                                  );
+                                }
+                                break;
+                            }
+                          },
+                          itemBuilder: (context) => [
+                            const PopupMenuItem(
+                              child: Text("View Profile"),
+                              value: "View Profile",
+                            ),
+                            const PopupMenuItem(
+                              child: Text("Block"),
+                              value: 2,
+                            ),
+                            const PopupMenuItem(
+                              child: Text("Remove"),
+                              value: 2,
+                            )
+                          ],
+                        ),
+                      ),
+                    ])
+                ]),
+
+                const SizedBox(height: 16),
+
+                // Invitations
+                Table(columnWidths: const {
+                  0: FlexColumnWidth(3),
+                  1: FlexColumnWidth(2),
+                  2: FlexColumnWidth(2),
+                  3: FlexColumnWidth(1),
+                }, children: [
+                  TableRow(children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const <Widget>[
+                            Text('Email',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const <Widget>[
+                            Text('Invited By',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const <Widget>[
+                            Text('Invited Date',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const TableCell(
+                      child: (SizedBox(width: 1)),
+                    ),
+                  ]),
+                  for (Invitation invitation in invitationList)
+                    TableRow(children: [
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                  child: Text(
+                                invitation.email,
+                                overflow: TextOverflow.fade,
+                              )),
+                            ],
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text(profileList
+                                  .firstWhere((element) =>
+                                      element.id == invitation.invitedById)
+                                  .name),
+                            ],
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                  child:
+                                      Text(invitation.invitedDate.toString())),
+                            ],
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: PopupMenuButton(
+                          child: Container(
+                            height: 36,
+                            width: 48,
+                            alignment: Alignment.centerRight,
+                            child: const Icon(
+                              Icons.more_vert,
+                            ),
+                          ),
+                          onSelected: (value) {},
+                          itemBuilder: (context) => [
+                            const PopupMenuItem(
+                              child: Text("View Profile"),
+                              value: 1,
+                            ),
+                            const PopupMenuItem(
+                              child: Text("Block"),
+                              value: 2,
+                            ),
+                            const PopupMenuItem(
+                              child: Text("Remove"),
+                              value: 2,
+                            )
+                          ],
+                        ),
+                      ),
+                    ])
+                ]),
+
+                // const SizedBox(height: 16),
+                // Row(
+                //   children: [
+                //     ElevatedButton(
+                //         onPressed: () {
+                //           Navigator.pushReplacementNamed(
+                //               context, EditCaregroup.routeName,
+                //               arguments:
+                //               caregroup);
+                //         },
+                //         child: const Text('Edit')),
+                //   ],
+                // ),
+              ],
+            ),
+          ),
+        );
+      }
+      return const Center(child: CircularProgressIndicator());
+    });
   }
 }
