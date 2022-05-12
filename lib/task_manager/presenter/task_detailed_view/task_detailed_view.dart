@@ -78,6 +78,7 @@ class TaskDetailedView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 4.0),
                       child: TaskInputFieldWidget(
+                        enabled: !task.taskStatus.locked,
                         label: 'Title',
                         maxLines: 1,
                         currentValue: task.title,
@@ -98,6 +99,7 @@ class TaskDetailedView extends StatelessWidget {
                       dateTime: task.taskCreatedDate,
                     ),
                     TaskInputFieldWidget(
+                        enabled: !task.taskStatus.locked,
                         currentValue: task.details,
                         maxLines: 5,
                         task: task,
@@ -111,6 +113,7 @@ class TaskDetailedView extends StatelessWidget {
                           );
                         }),
                     PriorityWidget(
+                      enabled: !task.taskStatus.locked,
                       task: task,
                     ),
 
@@ -120,12 +123,14 @@ class TaskDetailedView extends StatelessWidget {
                         Checkbox(
                             value: task.canBeRemote,
                             onChanged: (bool? value) {
-                              BlocProvider.of<TaskCubit>(context)
-                                  .editTaskFieldRepository(
-                                task: task,
-                                newValue: value,
-                                taskField: TaskField.canBeRemote,
-                              );
+                              if (!task.taskStatus.locked) {
+                                BlocProvider.of<TaskCubit>(context)
+                                    .editTaskFieldRepository(
+                                  task: task,
+                                  newValue: value,
+                                  taskField: TaskField.canBeRemote,
+                                );
+                              }
                             }),
                       ],
                     ),
@@ -133,9 +138,16 @@ class TaskDetailedView extends StatelessWidget {
                     // TypeWidget(
                     //   task: task,
                     // ),
-                    EffortWidget(task: task),
-                    ChooseCategoryWidget(task: task),
+                    EffortWidget(
+                        enabled: !task.taskStatus.locked,
+                        task: task
+                    ),
+                    ChooseCategoryWidget(
+                        enabled: !task.taskStatus.locked,
+                        task: task
+                    ),
                     AssignATask(
+                      enabled: !task.taskStatus.locked,
                       task: task,
                     ),
                     DisplayCommentsWidget(task: task),

@@ -15,8 +15,13 @@ import '../../../../my_profile/models/profile.dart';
 class AssignATask extends StatefulWidget {
   final CareTask task;
   final bool showButton;
+  final bool enabled;
 
-  const AssignATask({Key? key, required this.task, this.showButton = false})
+  const AssignATask({Key? key,
+    required this.task,
+    this.showButton = false,
+    this.enabled = false,
+  })
       : super(key: key);
 
   @override
@@ -38,9 +43,7 @@ class _AssignATaskState extends State<AssignATask> {
             onTap: () async {
               // only allow tasks in the following statuses to be assigned:
               // draft, created, assigned
-              if (widget.task.taskStatus == TaskStatus.draft ||
-                  widget.task.taskStatus == TaskStatus.created ||
-                  widget.task.taskStatus == TaskStatus.assigned) {
+              if (widget.enabled) {
                 Profile myProfile =
                     BlocProvider.of<ProfileCubit>(context).myProfile;
 
@@ -86,7 +89,7 @@ class _AssignATaskState extends State<AssignATask> {
           ),
         )
         .toList());
-    if (widget.task.acceptedBy != null && widget.task.acceptedBy!.isNotEmpty) {
+    if (widget.enabled) {
       widgetList.add(GestureDetector(
         onTap: () {
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;

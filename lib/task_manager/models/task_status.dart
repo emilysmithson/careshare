@@ -1,14 +1,15 @@
 class TaskStatus {
   final String status;
+  final bool locked;
 
-  const TaskStatus(this.status);
+  const TaskStatus(this.status, this.locked);
 
-  static const TaskStatus draft = TaskStatus('Draft');
-  static const TaskStatus created = TaskStatus('Created');
-  static const TaskStatus assigned = TaskStatus('Assigned');
-  static const TaskStatus accepted = TaskStatus('Accepted');
-  static const TaskStatus completed = TaskStatus('Completed');
-  static const TaskStatus archived = TaskStatus('Archived');
+  static const TaskStatus draft = TaskStatus('Draft', false);
+  static const TaskStatus created = TaskStatus('Created', false);
+  static const TaskStatus assigned = TaskStatus('Assigned', false);
+  static const TaskStatus accepted = TaskStatus('Accepted', false);
+  static const TaskStatus archived = TaskStatus('Archived', true);
+  static const TaskStatus completed = TaskStatus('Completed', true);
 
   static List<TaskStatus> taskStatusList = [
     draft,

@@ -11,6 +11,7 @@ class TaskInputFieldWidget extends StatefulWidget {
   final int maxLines;
   final String label;
   final TextStyle? textStyle;
+  final bool enabled;
   const TaskInputFieldWidget({
     Key? key,
     required this.task,
@@ -19,6 +20,7 @@ class TaskInputFieldWidget extends StatefulWidget {
     required this.onChanged,
     this.textStyle,
     this.maxLines = 1,
+    this.enabled = true,
   }) : super(
           key: key,
         );
@@ -49,6 +51,7 @@ class _TaskInputFieldWidgetState extends State<TaskInputFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      enabled: widget.enabled,
       style: widget.textStyle,
       maxLines: widget.maxLines,
       controller: controller,

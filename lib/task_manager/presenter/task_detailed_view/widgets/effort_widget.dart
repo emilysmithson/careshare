@@ -8,7 +8,12 @@ import '../../../models/task.dart';
 
 class EffortWidget extends StatelessWidget {
   final CareTask task;
-  const EffortWidget({Key? key, required this.task}) : super(key: key);
+  final bool enabled;
+
+  const EffortWidget({Key? key,
+    required this.task,
+    this.enabled = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +27,13 @@ class EffortWidget extends StatelessWidget {
               .map((e) => Expanded(
                       child: GestureDetector(
                     onTap: () {
-                      BlocProvider.of<TaskCubit>(context).editTask(
-                        task: task,
-                        newValue: e.value,
-                        taskField: TaskField.taskEffort,
-                      );
+                      if (enabled) {
+                        BlocProvider.of<TaskCubit>(context).editTask(
+                          task: task,
+                          newValue: e.value,
+                          taskField: TaskField.taskEffort,
+                        );
+                      }
                     },
                     child: Container(
                       decoration: task.taskEffort == e
