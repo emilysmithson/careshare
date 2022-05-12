@@ -1,11 +1,12 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../my_profile/models/profile.dart';
 
 class ViewProfile extends StatelessWidget {
   final Caregroup caregroup;
@@ -21,7 +22,7 @@ class ViewProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
-    RoleInCaregroup roleInCaregroup = profile.carerInCaregroups!
+    RoleInCaregroup roleInCaregroup = profile.carerInCaregroups
         .firstWhere((element) => element.caregroupId == caregroup.id);
 
     // const double spacing = 16;

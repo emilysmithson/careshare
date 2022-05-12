@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:careshare/profile_manager/models/profile.dart';
-
 import 'package:flutter/material.dart';
+
+import '../../../my_profile/models/profile.dart';
 
 class ProfileInputFieldWidget extends StatefulWidget {
   final Profile profile;
@@ -22,7 +22,8 @@ class ProfileInputFieldWidget extends StatefulWidget {
         );
 
   @override
-  State<ProfileInputFieldWidget> createState() => _ProfileInputFieldWidgetState();
+  State<ProfileInputFieldWidget> createState() =>
+      _ProfileInputFieldWidgetState();
 }
 
 class _ProfileInputFieldWidgetState extends State<ProfileInputFieldWidget> {
@@ -56,8 +57,6 @@ class _ProfileInputFieldWidgetState extends State<ProfileInputFieldWidget> {
         });
       },
       decoration: InputDecoration(
-        
-
         label: Text(widget.label),
       ),
     );

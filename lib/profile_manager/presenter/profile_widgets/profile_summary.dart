@@ -1,10 +1,11 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../my_profile/models/profile.dart';
 
 class ProfileSummary extends StatelessWidget {
   static const String routeName = "/profile-summary";
@@ -38,7 +39,7 @@ class ProfileSummary extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ProfilePhotoWidget(id: profile.id!, size: 80),
+                      ProfilePhotoWidget(id: profile.id, size: 80),
                       const SizedBox(height: 8),
                       Center(
                         child: Text(profile.name,

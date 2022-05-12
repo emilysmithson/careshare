@@ -63,6 +63,48 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
+  fetchTasksForCaregroup({required String caregroupId}) async {
+    try {
+      emit(const TaskLoading());
+
+      final reference = FirebaseDatabase.instance
+          .ref('tasks')
+          .orderByChild('caregroup')
+          .equalTo(caregroupId);
+
+      final response = reference.onValue;
+      response.listen((event) {
+        emit(const TaskLoading());
+        if (event.snapshot.value == null) {
+          emit(
+            const TaskError("no task found"),
+          );
+        } else {
+          Map<dynamic, dynamic> returnedList =
+              event.snapshot.value as Map<dynamic, dynamic>;
+
+          careTaskList.clear();
+          returnedList.forEach(
+            (key, value) {
+              careTaskList.add(CareTask.fromJson(key, value));
+            },
+          );
+          careTaskList.sort(
+            (a, b) => b.taskCreatedDate!.compareTo(a.taskCreatedDate!),
+          );
+
+          emit(
+            TaskLoaded(
+              careTaskList: careTaskList,
+            ),
+          );
+        }
+      });
+    } catch (error) {
+      emit(TaskError(error.toString()));
+    }
+  }
+
   Future<CareTask?> draftTask(String title, String caregroupId) async {
     CareTask? task;
     try {

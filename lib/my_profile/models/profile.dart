@@ -12,7 +12,7 @@ class Profile {
   bool tandcsAccepted;
   bool showInvitationsOnHomePage;
   bool showOtherCaregropusOnHomePage;
-  List<RoleInCaregroup>? carerInCaregroups = [];
+  List<RoleInCaregroup> carerInCaregroups = [];
 
   Profile({
     required this.id,
@@ -70,7 +70,7 @@ class Profile {
       'show_invitations_on_homepage': showInvitationsOnHomePage,
       'show_other_caregroups_on_homepage': showOtherCaregropusOnHomePage,
       'carer_in': carerInCaregroups
-          ?.map((carerInCaregroups) => carerInCaregroups.toJson())
+          .map((carerInCaregroups) => carerInCaregroups.toJson())
           .toList(),
     };
   }

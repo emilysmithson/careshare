@@ -16,6 +16,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../my_profile/models/profile.dart';
+
 part 'caregroup_state.dart';
 
 class CaregroupCubit extends Cubit<CaregroupState> {
@@ -26,7 +28,8 @@ class CaregroupCubit extends Cubit<CaregroupState> {
   final EditCaregroupFieldRepository editCaregroupFieldRepository;
   final List<Caregroup> caregroupList = [];
   final List<String> carerIds = [];
-  late Caregroup myCaregroup;
+  final List<Caregroup> myCareGroupList = [];
+  bool isInitialised = false;
 
   CaregroupCubit({
     required this.createACaregroupRepository,
@@ -46,7 +49,6 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     }
     return null;
   }
-
 
   createCaregroup({
     required File photo,
@@ -134,6 +136,38 @@ class CaregroupCubit extends Cubit<CaregroupState> {
         ),
       );
     }
+    isInitialised = true;
+  }
+
+  Future fetchMyCaregroups({required Profile profile}) async {
+    emit(const CaregroupLoading());
+
+    for (final role in profile.carerInCaregroups) {
+      try {
+        DatabaseReference reference =
+            FirebaseDatabase.instance.ref('caregroups/${role.id}');
+        final response = reference.onValue;
+
+        response.listen((event) async {
+          if (event.snapshot.value == null) {
+            emit(const CaregroupError("caregroup is null"));
+            return;
+          } else {
+            final data = event.snapshot.value;
+            final _role = Caregroup.fromJson(role.id, data);
+            myCareGroupList.add(_role);
+          }
+        });
+      } catch (error) {
+        emit(
+          CaregroupError(
+            error.toString(),
+          ),
+        );
+      }
+    }
+    myCareGroupList.sort((a, b) => a.name.compareTo(b.name));
+    emit(CaregroupLoaded(caregroupList: myCareGroupList));
   }
 
   clearList() {

@@ -2,10 +2,11 @@ import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/widgets/authentication_form.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
-import 'package:careshare/my_profile/presenter/fetch_my_profile_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../profile_manager/presenter/fetch_my_profile_page.dart';
 
 class AuthenticationPage extends StatelessWidget {
   static const String routeName = "/";

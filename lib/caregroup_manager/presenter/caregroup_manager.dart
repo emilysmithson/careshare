@@ -2,40 +2,36 @@ import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_photo_widget.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/task_manager/presenter/task_manager/task_manager_view.dart';
+import 'package:careshare/core/presentation/loading_page_template.dart';
+import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
+
 import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CaregroupManager extends StatefulWidget {
+class CaregroupManager extends StatelessWidget {
   static const String routeName = "/caregroup-manager";
   const CaregroupManager({
     Key? key,
   }) : super(key: key);
 
   @override
-  _CaregroupManagerState createState() => _CaregroupManagerState();
-}
-
-class _CaregroupManagerState extends State<CaregroupManager> {
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    if (!BlocProvider.of<CaregroupCubit>(context).isInitialised) {
+      BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
+    }
+    return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
-        if (state is ProfileLoaded) {
-          Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
-
-          final allCaregroups =
-              BlocProvider.of<CaregroupCubit>(context).caregroupList;
-
-          final myCareGroupList = allCaregroups
-              .where((caregroup) =>
-                  myProfile.carerInCaregroups!.indexWhere(
-                      (element) => element.caregroupId == caregroup.id) !=
-                  -1)
-              .toList();
+        if (state is CaregroupLoaded) {
+          // final myCareGroupList = state.caregroupList
+          //     .where((caregroup) =>
+          //         BlocProvider.of<MyProfileCubit>(context)
+          //             .myProfile
+          //             .carerInCaregroups
+          //             .indexWhere(
+          //                 (element) => element.caregroupId == caregroup.id) !=
+          //         -1)
+          //     .toList();
 
           return PageScaffold(
             floatingActionButton: FloatingActionButton(
@@ -50,11 +46,8 @@ class _CaregroupManagerState extends State<CaregroupManager> {
                       MaterialPageRoute(
                           builder: (_) => BlocProvider.value(
                                 value: BlocProvider.of<CaregroupCubit>(context),
-                                child: BlocProvider.value(
-                                  value: BlocProvider.of<ProfileCubit>(context),
-                                  child: EditCaregroup(
-                                    caregroup: caregroup,
-                                  ),
+                                child: EditCaregroup(
+                                  caregroup: caregroup,
                                 ),
                               )),
                     );
@@ -65,13 +58,13 @@ class _CaregroupManagerState extends State<CaregroupManager> {
               children: [
                 SingleChildScrollView(
                   child: Wrap(
-                    children: myCareGroupList
+                    children: state.caregroupList
                         .map((caregroup) => GestureDetector(
                               onTap: () {
                                 // navigate to the Task Manager
                                 Navigator.pushNamed(
                                   context,
-                                  TaskManagerView.routeName,
+                                  FetchTasksPage.routeName,
                                   arguments: caregroup,
                                 );
                               },
@@ -121,7 +114,7 @@ class _CaregroupManagerState extends State<CaregroupManager> {
                                                                   Navigator
                                                                       .pushNamed(
                                                                     context,
-                                                                    TaskManagerView
+                                                                    FetchTasksPage
                                                                         .routeName,
                                                                     arguments:
                                                                         caregroup,
@@ -169,6 +162,10 @@ class _CaregroupManagerState extends State<CaregroupManager> {
               ],
             ),
           );
+        }
+        if (state is CaregroupLoading) {
+          return const LoadingPageTemplate(
+              loadingMessage: "Loading Caregroups");
         }
 
         return const Center(child: CircularProgressIndicator());

@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_input_field_widget.dart';
 import 'package:careshare/widgets/upload_profile_photo.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../models/profile.dart';
 
 class EditProfile extends StatelessWidget {
   static const routeName = '/edit-profile';

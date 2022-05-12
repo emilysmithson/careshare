@@ -1,5 +1,5 @@
+import 'package:careshare/my_profile/models/profile.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/comment.dart';
 import 'package:careshare/task_manager/models/task.dart';
@@ -29,7 +29,7 @@ class AddCommentWidget extends StatelessWidget {
         newValue: Comment(
             id: DateTime.now().millisecondsSinceEpoch.toString(),
             commment: controller.text,
-            createdBy: profile.id!,
+            createdBy: profile.id,
             createdByDisplayName: profile.name,
             commentCreatedDate: DateTime.now()),
         taskField: TaskField.comment,

@@ -1,10 +1,10 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/task_manager/models/kudos.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../my_profile/models/profile.dart';
 import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -66,7 +66,7 @@ class TaskWorkflowWidget extends StatelessWidget {
 
               BlocProvider.of<TaskCubit>(context).createTask(
                 task: task,
-                id: myProfile.id!,
+                id: myProfile.id,
               );
 
               Navigator.pop(context);
@@ -97,7 +97,7 @@ class TaskWorkflowWidget extends StatelessWidget {
 
               BlocProvider.of<TaskCubit>(context).acceptTask(
                 task: task,
-                id: myProfile.id!,
+                id: myProfile.id,
               );
 
               Navigator.pop(context);
@@ -130,7 +130,7 @@ class TaskWorkflowWidget extends StatelessWidget {
 
               BlocProvider.of<TaskCubit>(context).rejectTask(
                 task: task,
-                id: myProfile.id!,
+                id: myProfile.id,
               );
 
               Navigator.pop(context);
@@ -165,7 +165,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                   BlocProvider.of<ProfileCubit>(context).myProfile;
 
               BlocProvider.of<TaskCubit>(context).completeTask(
-                  task: task, id: myProfile.id!, dateTime: DateTime.now());
+                  task: task, id: myProfile.id, dateTime: DateTime.now());
 
               // Update the completed count in the task completer's profile
               BlocProvider.of<ProfileCubit>(context).completeTask(
@@ -332,7 +332,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                   BlocProvider.of<TaskCubit>(context).editTask(
                     task: task,
                     newValue: Kudos(
-                      id: profile.id!,
+                      id: profile.id,
                       dateTime: DateTime.now(),
                     ),
                     taskField: TaskField.kudos,

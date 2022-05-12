@@ -1,5 +1,4 @@
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
@@ -10,6 +9,8 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter/material.dart';
+
+import '../../../../my_profile/models/profile.dart';
 
 class AssignATask extends StatefulWidget {
   final CareTask task;
@@ -29,7 +30,7 @@ class _AssignATaskState extends State<AssignATask> {
     widgetList.addAll(BlocProvider.of<ProfileCubit>(context)
         .profileList
         .where((element) =>
-            element.carerInCaregroups!.indexWhere(
+            element.carerInCaregroups.indexWhere(
                 (element) => element.caregroupId == widget.task.caregroup) !=
             -1)
         .map(
@@ -45,8 +46,8 @@ class _AssignATaskState extends State<AssignATask> {
 
                 BlocProvider.of<TaskCubit>(context).assignTask(
                     task: widget.task,
-                    assignedToId: profile.id!,
-                    assignedById: myProfile.id!);
+                    assignedToId: profile.id,
+                    assignedById: myProfile.id);
 
                 // if  the task isn't in draft and the task isn't assigned to me, send a message to the assignee...
 
@@ -71,7 +72,7 @@ class _AssignATaskState extends State<AssignATask> {
                   child: Column(
                     children: [
                       ProfilePhotoWidget(
-                        id: profile.id!,
+                        id: profile.id,
                       ),
                       Text(
                         profile.name,
@@ -90,7 +91,7 @@ class _AssignATaskState extends State<AssignATask> {
         onTap: () {
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
           BlocProvider.of<TaskCubit>(context).assignTask(
-              task: widget.task, assignedToId: '', assignedById: myProfile.id!);
+              task: widget.task, assignedToId: '', assignedById: myProfile.id);
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),

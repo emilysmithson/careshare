@@ -12,7 +12,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   checkAuthentication() async {
     emit(AuthenticationLoading());
-    FirebaseAuth.instance.signOut();
+    // FirebaseAuth.instance.signOut();
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
@@ -20,6 +20,13 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     } else {
       emit(AuthenticationLoaded(user));
     }
+    // FirebaseAuth.instance.authStateChanges().listen((event) {
+    //   if (event == null) {
+    //     Navigator.pushNamed(
+    //         navigatorKey.currentContext!, AuthenticationPage.routeName);
+    //     emit(const AuthenticationLogin());
+    //   }
+    // });
   }
 
   register({
