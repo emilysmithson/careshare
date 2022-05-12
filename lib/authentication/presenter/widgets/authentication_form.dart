@@ -5,15 +5,53 @@ import 'package:careshare/widgets/upload_profile_photo.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class AuthenticationForm extends StatelessWidget {
+class AuthenticationForm extends StatefulWidget {
   final AuthenticationState state;
 
   AuthenticationForm({Key? key, required this.state}) : super(key: key);
+
+  @override
+  State<AuthenticationForm> createState() => _AuthenticationFormState();
+}
+
+class _AuthenticationFormState extends State<AuthenticationForm> {
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
+  Widget _infoTile(String title, String subtitle) {
+    return ListTile(
+      title: Text(title),
+      subtitle: Text(subtitle.isEmpty ? 'Not set' : subtitle),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,25 +62,25 @@ class AuthenticationForm extends StatelessWidget {
     late String title;
     late String buttonText;
     late String textButtonText;
-    switch (state.runtimeType) {
+    switch (widget.state.runtimeType) {
       case AuthenticationRegister:
-        errorMessage = (state as AuthenticationRegister).errorMessage;
+        errorMessage = (widget.state as AuthenticationRegister).errorMessage;
         title = 'Register';
         buttonText = 'Register';
         textButtonText = 'Already Registered?';
-        initialEmailValue = (state as AuthenticationRegister).initialEmailValue;
-        initialNameValue = (state as AuthenticationRegister).initialNameValue;
+        initialEmailValue = (widget.state as AuthenticationRegister).initialEmailValue;
+        initialNameValue = (widget.state as AuthenticationRegister).initialNameValue;
         break;
       case AuthenticationLogin:
-        errorMessage = (state as AuthenticationLogin).errorMessage;
+        errorMessage = (widget.state as AuthenticationLogin).errorMessage;
         title = 'Login';
         buttonText = 'Login';
         textButtonText = 'Need to Register?';
-        initialEmailValue = (state as AuthenticationLogin).initialEmailValue;
+        initialEmailValue = (widget.state as AuthenticationLogin).initialEmailValue;
         break;
       default:
         initialEmailValue =
-            (state as AuthenticationResetPassword).initialEmailValue;
+            (widget.state as AuthenticationResetPassword).initialEmailValue;
         title = 'Forgotten Password';
         buttonText = 'Send password reset email';
         textButtonText = 'Sign in';
@@ -64,7 +102,7 @@ class AuthenticationForm extends StatelessWidget {
               key: _formKey,
               child: Column(
                 children: [
-                  if (state is AuthenticationRegister)
+                  if (widget.state is AuthenticationRegister)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: UploadProfilePhotoWidget(
@@ -74,7 +112,7 @@ class AuthenticationForm extends StatelessWidget {
                       ),
                     ),
                   // Name field
-                  if (state is AuthenticationRegister)
+                  if (widget.state is AuthenticationRegister)
                     TextFormField(
                       controller: nameController,
                       decoration: const InputDecoration(
@@ -110,7 +148,7 @@ class AuthenticationForm extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 16),
-                  if (state is! AuthenticationResetPassword)
+                  if (widget.state is! AuthenticationResetPassword)
                     TextFormField(
                       maxLines: 1,
                       controller: passwordController,
@@ -138,7 +176,7 @@ class AuthenticationForm extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (photo == null && state is AuthenticationRegister) {
+                      if (photo == null && widget.state is AuthenticationRegister) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content:
@@ -151,7 +189,7 @@ class AuthenticationForm extends StatelessWidget {
                       if (_formKey.currentState!.validate()) {
                         final authenticationCubit =
                             BlocProvider.of<AuthenticationCubit>(context);
-                        switch (state.runtimeType) {
+                        switch (widget.state.runtimeType) {
                           case AuthenticationRegister:
                             authenticationCubit.register(
                                 context: context,
@@ -181,7 +219,7 @@ class AuthenticationForm extends StatelessWidget {
                     onPressed: () {
                       final authenticationCubit =
                           BlocProvider.of<AuthenticationCubit>(context);
-                      if (state is! AuthenticationLogin) {
+                      if (widget.state is! AuthenticationLogin) {
                         authenticationCubit.switchToLogin(
                             emailAddress: emailController.text);
                       } else {
@@ -191,7 +229,7 @@ class AuthenticationForm extends StatelessWidget {
                     },
                     child: Text(textButtonText),
                   ),
-                  if (state is! AuthenticationResetPassword)
+                  if (widget.state is! AuthenticationResetPassword)
                     TextButton(
                       onPressed: () {
                         final authenticationCubit =
@@ -216,7 +254,9 @@ class AuthenticationForm extends StatelessWidget {
                       child: const Text('Forgotten Password?'),
                     ),
                   const SizedBox(height: 150),
-                  const Text("CareShare version: 0.0.19+19")
+                  Text("CareShare version: ${_packageInfo.version}+${_packageInfo.buildNumber}")
+
+
                 ],
               ),
             ),

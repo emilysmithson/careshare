@@ -29,7 +29,7 @@ class AuthenticationPage extends StatelessWidget {
         }
 
         if (state is AuthenticationLoaded) {
-          WidgetsBinding.instance.addPostFrameCallback(
+          WidgetsBinding.instance!.addPostFrameCallback(
             (_) => Navigator.pushReplacementNamed(context, HomePage.routeName),
           );
 
