@@ -88,7 +88,7 @@ class _AssignATaskState extends State<AssignATask> {
           ),
         )
         .toList());
-    if (widget.task.acceptedBy != null && widget.task.acceptedBy!.isNotEmpty) {
+    if (!widget.locked) {
       widgetList.add(GestureDetector(
         onTap: () {
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;

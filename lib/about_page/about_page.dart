@@ -53,14 +53,14 @@ class _AboutPageState extends State<AboutPage> {
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
             child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:  [
-                Text('Careshare is the genius idea of Emily and Tina...'),
-            _infoTile('App name', _packageInfo.appName),
-            _infoTile('Package name', _packageInfo.packageName),
-            _infoTile('App version', _packageInfo.version),
-            _infoTile('Build number', _packageInfo.buildNumber),
-            _infoTile('Build signature', _packageInfo.buildSignature),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:  [
+              Text('Careshare is the genius idea of Emily and Tina...'),
+              _infoTile('App name', _packageInfo.appName),
+              _infoTile('Package name', _packageInfo.packageName),
+              _infoTile('App version', _packageInfo.version),
+              _infoTile('Build number', _packageInfo.buildNumber),
+              _infoTile('Build signature', _packageInfo.buildSignature),
           ],
         )),
       ),

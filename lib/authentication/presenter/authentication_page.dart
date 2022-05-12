@@ -6,6 +6,7 @@ import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../home_page/home_page.dart';
 import '../../profile_manager/presenter/fetch_my_profile_page.dart';
 
 class AuthenticationPage extends StatelessWidget {

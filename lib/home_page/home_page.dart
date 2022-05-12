@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
           if (myCaregroups.length == 1 &&
               (_showInvitationsOnHomePage == false) &&
               (_showOtherCaregropusOnHomePage == false)) {
-            WidgetsBinding.instance!.addPostFrameCallback(
+            WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.pushNamed(
                 context,
                 TaskManagerView.routeName,
