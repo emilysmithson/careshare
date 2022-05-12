@@ -1,6 +1,7 @@
 import 'package:careshare/core/presentation/photo_and_name_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/assign_a_task.dart';
@@ -73,6 +74,20 @@ class TaskDetailedView extends StatelessWidget {
                 child: Wrap(
                   runSpacing: 24,
                   children: [
+                   Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('draft', style: (task.taskStatus == TaskStatus.draft) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                        Text('  >  '),
+                        Text('created', style: (task.taskStatus == TaskStatus.created) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                        Text('  >  '),
+                        Text('assigned', style: (task.taskStatus == TaskStatus.assigned) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                        Text('  >  '),
+                        Text('accepted', style: (task.taskStatus == TaskStatus.accepted) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                        Text('  >  '),
+                        Text('completed', style: (task.taskStatus == TaskStatus.completed) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                      ],
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 4.0),
                       child: TaskInputFieldWidget(
