@@ -192,7 +192,6 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                         switch (widget.state.runtimeType) {
                           case AuthenticationRegister:
                             authenticationCubit.register(
-                                context: context,
                                 email: emailController.text,
                                 password: passwordController.text,
                                 name: nameController.text,
@@ -200,7 +199,6 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                             break;
                           case AuthenticationLogin:
                             authenticationCubit.login(
-                              context: context,
                               email: emailController.text,
                               password: passwordController.text,
                               name: nameController.text,

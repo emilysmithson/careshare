@@ -50,3 +50,11 @@ class ProfileLoaded extends ProfileState {
   @override
   int get hashCode => profileList.hashCode;
 }
+
+class MyProfileLoaded extends ProfileState {
+  final Profile? myProfile;
+
+  const MyProfileLoaded({
+    required this.myProfile,
+  });
+}

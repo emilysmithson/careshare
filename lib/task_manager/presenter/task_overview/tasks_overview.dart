@@ -1,13 +1,13 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
-import 'package:careshare/kudos/kudos_board.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../kudos/kudos_board.dart';
+import '../../../profile_manager/cubit/profile_cubit.dart';
 import 'widgets/task_section.dart';
 
 class TasksOverview extends StatelessWidget {
@@ -58,7 +58,7 @@ class TasksOverview extends StatelessWidget {
           KudosBoard(
             profileList: BlocProvider.of<ProfileCubit>(context)
                 .profileList
-                .where((profile) => profile.carerInCaregroups!
+                .where((profile) => profile.carerInCaregroups
                     .where((element) => element.caregroupId == caregroup.id)
                     .isNotEmpty)
                 .toList(),

@@ -5,7 +5,7 @@ import 'package:careshare/profile_manager/presenter/profile_widgets/profile_phot
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../my_profile/models/profile.dart';
+import '../../models/profile.dart';
 
 class ProfileSummary extends StatelessWidget {
   static const String routeName = "/profile-summary";

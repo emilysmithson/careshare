@@ -1,19 +1,22 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/profile_manager/presenter/view_profile.dart';
 import 'package:flutter/material.dart';
 
+import '../my_profile/models/profile.dart';
+
 class KudosBoardWidget extends StatelessWidget {
   final Profile profile;
   final Caregroup caregroup;
-  const KudosBoardWidget({Key? key, required this.profile, required this.caregroup}) : super(key: key);
+  const KudosBoardWidget(
+      {Key? key, required this.profile, required this.caregroup})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    RoleInCaregroup roleInCaregroup = profile.carerInCaregroups!.firstWhere((element) => element.caregroupId == caregroup.id);
+    RoleInCaregroup roleInCaregroup = profile.carerInCaregroups
+        .firstWhere((element) => element.caregroupId == caregroup.id);
     return Tooltip(
       message: profile.name,
       child: GestureDetector(
@@ -21,8 +24,7 @@ class KudosBoardWidget extends StatelessWidget {
           Navigator.pushNamed(
             context,
             ViewProfile.routeName,
-            arguments:
-            {
+            arguments: {
               'caregroup': caregroup,
               'profile': profile,
             },
@@ -33,27 +35,21 @@ class KudosBoardWidget extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ProfilePhotoWidget(id: profile.id!),
+              ProfilePhotoWidget(id: profile.id),
               const SizedBox(width: 2),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Row(
-                    //     children: [
-                    //       const Icon(Icons.check_box_rounded, size: 10),
-                    //       const SizedBox(width: 2),
-                    //       Text(roleInCaregroup.completedCount.toString()),
-                    //     ]),
-                    Row(
-                        children: [
-                          const Icon(Icons.star, size: 10),
-                          const SizedBox(width: 2),
-                          Text(roleInCaregroup.kudosValue.toString()),
-                        ]),
-
-                  ]
-
-              ),
+              Column(mainAxisSize: MainAxisSize.min, children: [
+                // Row(
+                //     children: [
+                //       const Icon(Icons.check_box_rounded, size: 10),
+                //       const SizedBox(width: 2),
+                //       Text(roleInCaregroup.completedCount.toString()),
+                //     ]),
+                Row(children: [
+                  const Icon(Icons.star, size: 10),
+                  const SizedBox(width: 2),
+                  Text(roleInCaregroup.kudosValue.toString()),
+                ]),
+              ]),
             ],
           ),
         ),

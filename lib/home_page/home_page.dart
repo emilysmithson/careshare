@@ -2,7 +2,6 @@ import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_photo_widget.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/invitation_manager/models/invitation_status.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
@@ -10,6 +9,8 @@ import 'package:careshare/task_manager/presenter/task_manager/task_manager_view.
 import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../my_profile/models/profile.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/home-page";
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage> {
           // My Caregroups
           List<Caregroup> myCaregroups = allCaregroups
               .where((caregroup) =>
-                  myProfile.carerInCaregroups!.indexWhere(
+                  myProfile.carerInCaregroups.indexWhere(
                       (element) => element.caregroupId == caregroup.id) !=
                   -1)
               .toList();
@@ -195,14 +196,14 @@ class _HomePageState extends State<HomePage> {
                                       // double check that I'm not already in it
                                       // print("#############################################");
                                       // print(myProfile.carerInCaregroups!.indexWhere((element) => element.caregroupId == invitation.caregroupId));
-                                      if (myProfile.carerInCaregroups!
+                                      if (myProfile.carerInCaregroups
                                               .indexWhere((element) =>
                                                   element.caregroupId ==
                                                   caregroup.id) ==
                                           -1) {
                                         BlocProvider.of<ProfileCubit>(context)
                                             .addCarerInCaregroupToProfile(
-                                          profileId: myProfile.id!,
+                                          profileId: myProfile.id,
                                           caregroupId: caregroup.id,
                                         );
                                       }
@@ -312,21 +313,21 @@ class _HomePageState extends State<HomePage> {
                                           BlocProvider.of<CaregroupCubit>(
                                                   context)
                                               .addCarerInCaregroupToCaregroup(
-                                            profileId: myProfile.id!,
+                                            profileId: myProfile.id,
                                             caregroupId: invitation.caregroupId,
                                           );
                                         }
 
                                         // Add my profile to the caregroup
                                         // double check that I'm not already in it
-                                        if (myProfile.carerInCaregroups!
+                                        if (myProfile.carerInCaregroups
                                                 .indexWhere((element) =>
                                                     element.caregroupId ==
                                                     invitation.caregroupId) ==
                                             -1) {
                                           BlocProvider.of<ProfileCubit>(context)
                                               .addCarerInCaregroupToProfile(
-                                            profileId: myProfile.id!,
+                                            profileId: myProfile.id,
                                             caregroupId: invitation.caregroupId,
                                           );
                                         }

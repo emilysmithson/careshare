@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/notifications/cubit/notifications_cubit.dart';
+import 'package:careshare/profile_manager/repository/complete_task.dart';
+import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:careshare/router/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -11,6 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/presentation/custom_theme.dart';
 
 import 'firebase_options.dart';
+import 'profile_manager/cubit/profile_cubit.dart';
+import 'profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
+import 'profile_manager/repository/edit_profile_field_repository.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
@@ -38,18 +43,26 @@ class _AppState extends State<App> {
       create: (context) => AuthenticationCubit(),
       child: BlocProvider(
         create: (context) => NotificationsCubit(),
-        child: MaterialApp(
-          scrollBehavior: const MaterialScrollBehavior().copyWith(
-            dragDevices: {
-              PointerDeviceKind.mouse,
-              PointerDeviceKind.touch,
-              PointerDeviceKind.stylus,
-              PointerDeviceKind.unknown
-            },
+        child: BlocProvider(
+          create: (context) => ProfileCubit(
+            editProfileFieldRepository: EditProfileFieldRepository(),
+            addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
+            giveKudos: GiveKudos(),
+            completeTask: CompleteTask(),
           ),
-          navigatorKey: navigatorKey,
-          theme: CustomTheme.themeData,
-          onGenerateRoute: _appRouter.onGenerateRoute,
+          child: MaterialApp(
+            scrollBehavior: const MaterialScrollBehavior().copyWith(
+              dragDevices: {
+                PointerDeviceKind.mouse,
+                PointerDeviceKind.touch,
+                PointerDeviceKind.stylus,
+                PointerDeviceKind.unknown
+              },
+            ),
+            navigatorKey: navigatorKey,
+            theme: CustomTheme.themeData,
+            onGenerateRoute: _appRouter.onGenerateRoute,
+          ),
         ),
       ),
     );
