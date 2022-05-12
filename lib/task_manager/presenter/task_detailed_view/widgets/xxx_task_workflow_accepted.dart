@@ -1,10 +1,10 @@
 import 'package:careshare/core/presentation/photo_and_name_widget.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../my_profile/models/profile.dart';
 import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 import 'package:cloud_functions/cloud_functions.dart';

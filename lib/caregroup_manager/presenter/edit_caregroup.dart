@@ -30,44 +30,47 @@ class EditCaregroup extends StatelessWidget {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          if (caregroup.status == CaregroupStatus.draft)
+            ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<CaregroupCubit>(context)
+                      .removeCaregroup(caregroup.id);
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel')),
+          if (caregroup.status == CaregroupStatus.draft)
+            const SizedBox(width: spacing),
+          if (caregroup.status == CaregroupStatus.draft)
+            ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<CaregroupCubit>(context)
+                      .editCaregroupFieldRepository(
+                    caregroupField: CaregroupField.status,
+                    caregroup: caregroup,
+                    newValue: CaregroupStatus.active,
+                  );
 
-          if (caregroup.status == CaregroupStatus.draft) ElevatedButton(
-              onPressed: () {
-                BlocProvider.of<CaregroupCubit>(context)
-                    .removeCaregroup(caregroup.id);
-                Navigator.pop(context);
-              },
-              child: const Text('Cancel')),
-          if (caregroup.status == CaregroupStatus.draft)  const SizedBox(width: spacing),
+                  // add me as a carer in the caregroup
+                  BlocProvider.of<ProfileCubit>(context)
+                      .addCarerInCaregroupToProfile(
+                          caregroupId: caregroup.id,
+                          profileId: BlocProvider.of<ProfileCubit>(context)
+                              .myProfile
+                              .id);
 
-          if (caregroup.status == CaregroupStatus.draft) ElevatedButton(
-              onPressed: () {
-                BlocProvider.of<CaregroupCubit>(context)
-                    .editCaregroupFieldRepository(
-                  caregroupField: CaregroupField.status,
-                  caregroup: caregroup,
-                  newValue: CaregroupStatus.active,
-                );
-
-                // add me as a carer in the caregroup
-                BlocProvider.of<ProfileCubit>(context).addCarerInCaregroupToProfile(
-                  caregroupId: caregroup.id,
-                  profileId: BlocProvider.of<ProfileCubit>(context).myProfile.id!
-                );
-
-                Navigator.pop(context);
-              },
-              child: const Text('Create')),
-          if (caregroup.status == CaregroupStatus.draft)  const SizedBox(width: spacing),
-
-          if (caregroup.status != CaregroupStatus.draft) ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Save')),
+                  Navigator.pop(context);
+                },
+                child: const Text('Create')),
+          if (caregroup.status == CaregroupStatus.draft)
+            const SizedBox(width: spacing),
+          if (caregroup.status != CaregroupStatus.draft)
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Save')),
         ],
       ),
-
       appBar: AppBar(
         title: const Text('Caregroup Details'),
       ),
@@ -121,7 +124,6 @@ class EditCaregroup extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: spacing),
-
                 ],
               );
             },

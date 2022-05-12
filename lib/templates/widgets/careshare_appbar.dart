@@ -1,4 +1,4 @@
-import 'package:careshare/home_page/home_page.dart';
+import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
 import 'package:careshare/task_manager/presenter/task_search/task_search.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class CareshareAppBar extends StatelessWidget with PreferredSizeWidget {
       leading: IconButton(
         icon: Image.asset('images/CareShareLogo50.jpg'),
         onPressed: () {
-          Navigator.of(context).pushNamed(HomePage.routeName);
+          Navigator.of(context).pushNamed(CaregroupManager.routeName);
         },
       ),
       title: Row(
