@@ -70,7 +70,7 @@ class TaskCubit extends Cubit<TaskState> {
       final reference = FirebaseDatabase.instance
           .ref('tasks')
           .orderByChild('caregroup')
-          .equalTo(caregroupId);
+          .equalTo("caregroupId");
 
       final response = reference.onValue;
       response.listen((event) {
@@ -79,6 +79,7 @@ class TaskCubit extends Cubit<TaskState> {
           emit(
             const TaskError("no task found"),
           );
+          return;
         } else {
           Map<dynamic, dynamic> returnedList =
               event.snapshot.value as Map<dynamic, dynamic>;

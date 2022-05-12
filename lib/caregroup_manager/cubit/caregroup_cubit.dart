@@ -157,9 +157,10 @@ class CaregroupCubit extends Cubit<CaregroupState> {
             return;
           } else {
             final data = event.snapshot.value;
-            final _role = Caregroup.fromJson(role.id, data);
+            final _role = Caregroup.fromJson(role.caregroupId, data);
             myCareGroupList.add(_role);
             myCareGroupList.sort((a, b) => a.name.compareTo(b.name));
+
             emit(CaregroupLoaded(caregroupList: myCareGroupList));
           }
         });
