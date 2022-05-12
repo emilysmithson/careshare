@@ -4,6 +4,7 @@ import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../profile_manager/cubit/profile_cubit.dart';
 import 'caregroup_manager.dart';
 
 class FetchCaregroupPage extends StatelessWidget {
@@ -14,7 +15,8 @@ class FetchCaregroupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
+    BlocProvider.of<CaregroupCubit>(context).fetchMyCaregroups(
+        profile: BlocProvider.of<ProfileCubit>(context).myProfile);
 
     return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
@@ -31,8 +33,7 @@ class FetchCaregroupPage extends StatelessWidget {
                     context,
                     CaregroupManager.routeName,
                   ));
-          // return const LoadingPageTemplate(
-          //     loadingMessage: 'Your caregroups are loaded');
+
           return Container();
         }
         return Container();

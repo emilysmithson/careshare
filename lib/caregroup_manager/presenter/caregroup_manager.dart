@@ -1,13 +1,15 @@
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_photo_widget.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
+import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 
 import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'caregroup_widgets/caregroup_photo_widget.dart';
 
 class CaregroupManager extends StatelessWidget {
   static const String routeName = "/caregroup-manager";
@@ -17,22 +19,9 @@ class CaregroupManager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!BlocProvider.of<CaregroupCubit>(context).isInitialised) {
-      BlocProvider.of<CaregroupCubit>(context).fetchCaregroups();
-    }
     return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
         if (state is CaregroupLoaded) {
-          // final myCareGroupList = state.caregroupList
-          //     .where((caregroup) =>
-          //         BlocProvider.of<MyProfileCubit>(context)
-          //             .myProfile
-          //             .carerInCaregroups
-          //             .indexWhere(
-          //                 (element) => element.caregroupId == caregroup.id) !=
-          //         -1)
-          //     .toList();
-
           return PageScaffold(
             floatingActionButton: FloatingActionButton(
                 onPressed: () async {
@@ -167,7 +156,9 @@ class CaregroupManager extends StatelessWidget {
           return const LoadingPageTemplate(
               loadingMessage: "Loading Caregroups");
         }
-
+        if (state is CaregroupError) {
+          return ErrorPageTemplate(errorMessage: state.message);
+        }
         return const Center(child: CircularProgressIndicator());
       },
     );

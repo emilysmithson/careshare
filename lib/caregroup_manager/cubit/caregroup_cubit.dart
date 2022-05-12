@@ -101,43 +101,43 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     );
   }
 
-  Future fetchCaregroups() async {
-    try {
-      emit(const CaregroupLoading());
-      DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
-      final response = reference.onValue;
+  // Future fetchCaregroups() async {
+  //   try {
+  //     emit(const CaregroupLoading());
+  //     DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
+  //     final response = reference.onValue;
 
-      response.listen((event) async {
-        if (event.snapshot.value == null) {
-          if (kDebugMode) {
-            print('empty list');
-          }
-          return;
-        } else {
-          Map<dynamic, dynamic> returnedList =
-              event.snapshot.value as Map<dynamic, dynamic>;
-          caregroupList.clear();
-          returnedList.forEach(
-            (key, value) async {
-              Caregroup caregroup = Caregroup.fromJson(key, value);
+  //     response.listen((event) async {
+  //       if (event.snapshot.value == null) {
+  //         if (kDebugMode) {
+  //           print('empty list');
+  //         }
+  //         return;
+  //       } else {
+  //         Map<dynamic, dynamic> returnedList =
+  //             event.snapshot.value as Map<dynamic, dynamic>;
+  //         caregroupList.clear();
+  //         returnedList.forEach(
+  //           (key, value) async {
+  //             Caregroup caregroup = Caregroup.fromJson(key, value);
 
-              caregroupList.add(caregroup);
-            },
-          );
+  //             caregroupList.add(caregroup);
+  //           },
+  //         );
 
-          caregroupList.sort((a, b) => a.name.compareTo(b.name));
-          emit(CaregroupLoaded(caregroupList: caregroupList));
-        }
-      });
-    } catch (error) {
-      emit(
-        CaregroupError(
-          error.toString(),
-        ),
-      );
-    }
-    isInitialised = true;
-  }
+  //         caregroupList.sort((a, b) => a.name.compareTo(b.name));
+  //         emit(CaregroupLoaded(caregroupList: caregroupList));
+  //       }
+  //     });
+  //   } catch (error) {
+  //     emit(
+  //       CaregroupError(
+  //         error.toString(),
+  //       ),
+  //     );
+  //   }
+  //   isInitialised = true;
+  // }
 
   Future fetchMyCaregroups({required Profile profile}) async {
     emit(const CaregroupLoading());
@@ -145,17 +145,22 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     for (final role in profile.carerInCaregroups) {
       try {
         DatabaseReference reference =
-            FirebaseDatabase.instance.ref('caregroups/${role.id}');
+            FirebaseDatabase.instance.ref('caregroups/${role.caregroupId}');
         final response = reference.onValue;
 
         response.listen((event) async {
           if (event.snapshot.value == null) {
-            emit(const CaregroupError("caregroup is null"));
+            if (kDebugMode) {
+              print("caregroup is null");
+            }
+            // emit(const CaregroupError("caregroup is null"));
             return;
           } else {
             final data = event.snapshot.value;
             final _role = Caregroup.fromJson(role.id, data);
             myCareGroupList.add(_role);
+            myCareGroupList.sort((a, b) => a.name.compareTo(b.name));
+            emit(CaregroupLoaded(caregroupList: myCareGroupList));
           }
         });
       } catch (error) {
@@ -166,8 +171,6 @@ class CaregroupCubit extends Cubit<CaregroupState> {
         );
       }
     }
-    myCareGroupList.sort((a, b) => a.name.compareTo(b.name));
-    emit(CaregroupLoaded(caregroupList: myCareGroupList));
   }
 
   clearList() {

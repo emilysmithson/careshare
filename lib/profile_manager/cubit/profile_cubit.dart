@@ -11,7 +11,6 @@ import 'package:careshare/profile_manager/repository/edit_profile_field_reposito
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../my_profile/models/profile.dart';
 
@@ -46,7 +45,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         } else {
           final data = event.snapshot.value;
           myProfile = Profile.fromJson(data);
-          print(myProfile);
+
           emit(MyProfileLoaded(
             myProfile: myProfile,
           ));
@@ -133,10 +132,6 @@ class ProfileCubit extends Cubit<ProfileState> {
           );
 
           profileList.sort((a, b) => a.name.compareTo(b.name));
-
-          myProfile = profileList.firstWhere((element) =>
-              element.id == FirebaseAuth.instance.currentUser!.uid);
-
           emit(ProfileLoaded(profileList: profileList, myProfile: myProfile));
         }
       });
