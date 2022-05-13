@@ -7,7 +7,7 @@ import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/caregroup_manager/presenter/fetch_caregroup_page.dart';
 import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
-import 'package:careshare/category_manager/presentation/fetch_categories_page.dart';
+import 'package:careshare/category_manager/presenter/fetch_categories_page.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
@@ -15,7 +15,9 @@ import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
-import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
+import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
+import 'package:careshare/invitation_manager/presenter/fetch_invitations_page.dart';
+import 'package:careshare/invitation_manager/presenter/fetch_my_invitations_page.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
 import 'package:careshare/my_profile/models/profile.dart';
 import 'package:careshare/notifications/presenter/notifications_page.dart';
@@ -53,7 +55,7 @@ class AppRouter {
     removeACaregroupRepository: RemoveACaregroup(),
     addCarerInCaregroupToCaregroup: AddCarerInCaregroupToCaregroup(),
   );
-  final _invitationCubit = InvitationCubit(
+  final _invitationCubit = InvitationsCubit(
     editInvitationFieldRepository: EditInvitationFieldRepository(),
   );
   final _taskCubit = TaskCubit(
@@ -89,10 +91,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
-            child: BlocProvider.value(
-              value: _invitationCubit,
               child: const HomePage(),
-            ),
           ),
         );
 
@@ -175,6 +174,7 @@ class AppRouter {
             ),
           ),
         );
+
       case ProfileSummary.routeName:
         return MaterialPageRoute(
           builder: (_) =>
@@ -202,16 +202,15 @@ class AppRouter {
           ),
         );
 
+
+
       case ViewCaregroup.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _invitationCubit,
-            child: BlocProvider.value(
               value: _caregroupCubit,
               child: ViewCaregroup(
                   caregroup: routeSettings.arguments as Caregroup),
             ),
-          ),
         );
 
       case NotificationsPage.routeName:
@@ -254,9 +253,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
-            child: const FetchCaregroupPage(),
+            child: FetchCaregroupPage(),
           ),
         );
+
+
 
         case FetchTasksPage.routeName:
         return MaterialPageRoute(
@@ -281,10 +282,24 @@ class AppRouter {
       case FetchProfilesPage.routeName:
         return MaterialPageRoute(
           builder: (_) => FetchProfilesPage(
-              caregroup: routeSettings.arguments as Caregroup,
-            ),
+            caregroup: routeSettings.arguments as Caregroup,
+          ),
 
         );
+
+      case FetchInvitationsPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => FetchInvitationsPage(
+            caregroup: routeSettings.arguments as Caregroup,
+          ),
+
+        );
+
+      case FetchMyInvitationsPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => FetchMyInvitationsPage(),
+        );
+
 
       default:
         return MaterialPageRoute(

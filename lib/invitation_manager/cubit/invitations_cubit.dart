@@ -9,13 +9,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-part 'invitation_state.dart';
+part 'invitations_state.dart';
 
-class InvitationCubit extends Cubit<InvitationState> {
+class InvitationsCubit extends Cubit<InvitationState> {
   final EditInvitationFieldRepository editInvitationFieldRepository;
   final List<Invitation> invitationList = [];
 
-  InvitationCubit({
+  InvitationsCubit({
     required this.editInvitationFieldRepository,
   }) : super(InvitationInitial());
 
@@ -51,16 +51,20 @@ class InvitationCubit extends Cubit<InvitationState> {
     emit(InvitationLoaded(invitationList: invitationList));
   }
 
-  Future fetchInvitations() async {
+  Future fetchInvitations({required String caregroupId}) async {
     try {
       emit(const InvitationLoading());
-      DatabaseReference reference = FirebaseDatabase.instance.ref('invitations');
+      final reference = FirebaseDatabase.instance
+          .ref('invitations')
+          .orderByChild('caregroup_id')
+          .equalTo(caregroupId);
+
       final response = reference.onValue;
 
       response.listen((event) async {
         if (event.snapshot.value == null) {
           if (kDebugMode) {
-            print('empty list');
+            print('empty invitations list');
           }
           return;
         } else {
@@ -76,7 +80,11 @@ class InvitationCubit extends Cubit<InvitationState> {
           );
 
           invitationList.sort((a, b) => a.email.compareTo(b.email));
-          emit(InvitationLoaded(invitationList: invitationList));
+          emit(
+              InvitationLoaded(
+                  invitationList: invitationList
+              )
+          );
         }
       });
     } catch (error) {

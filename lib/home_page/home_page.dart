@@ -1,12 +1,12 @@
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_photo_widget.dart';
-import 'package:careshare/category_manager/presentation/fetch_categories_page.dart';
-import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
+import 'package:careshare/category_manager/presenter/fetch_categories_page.dart';
+import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
+import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/invitation_manager/models/invitation_status.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
-import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,17 +93,20 @@ class _HomePageState extends State<HomePage> {
           }
           // All Caregropus
           List<Caregroup> allCaregroups = state.caregroupList;
+          print('allCaregroups: ${allCaregroups.length}');
 
           // My Caregroups
           List<Caregroup> myCaregroups = state.myCaregroupList;
+          print('myCaregroups: ${myCaregroups.length}');
 
           // My Invitations
-          List<Invitation> myInvitationList = BlocProvider.of<InvitationCubit>(
+          List<Invitation> myInvitationList = BlocProvider.of<MyInvitationsCubit>(
                   context)
-              .invitationList
-              .where((invitation) => invitation.email == myProfile.email //&&
-                  )
+              .myInvitationsList
               .toList();
+          print("all invitationList: ${BlocProvider.of<InvitationsCubit>(context).invitationList.length}");
+          print('myInvitationList: ${myInvitationList.length}');
+
           if (myInvitationList.isEmpty) {
             _showInvitationsOnHomePage = false;
           }
@@ -322,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                                         }
 
                                         // update the status of the invitation
-                                        BlocProvider.of<InvitationCubit>(
+                                        BlocProvider.of<InvitationsCubit>(
                                                 context)
                                             .editInvitationFieldRepository(
                                           invitationField:

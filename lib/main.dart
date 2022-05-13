@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
+import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
+import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
+import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
 import 'package:careshare/notifications/cubit/notifications_cubit.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
@@ -45,34 +48,42 @@ class _AppState extends State<App> {
       child: BlocProvider(
         create: (context) => NotificationsCubit(),
         child: BlocProvider(
-          create: (context) => MyProfileCubit(
-            editProfileFieldRepository: EditProfileFieldRepository(),
-            addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
-            giveKudos: GiveKudos(),
-            completeTask: CompleteTask(),
-          ),
+          create: (context) => MyInvitationsCubit(),
           child: BlocProvider(
-            create: (context) => AllProfilesCubit(
-                addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
-                editProfileFieldRepository: EditProfileFieldRepository(),
-                completeTask: CompleteTask(),
-                giveKudos: GiveKudos(),
+            create: (context) => InvitationsCubit(
+              editInvitationFieldRepository: EditInvitationFieldRepository(),
+              ),
+              child: BlocProvider(
+                create: (context) => MyProfileCubit(
+                  editProfileFieldRepository: EditProfileFieldRepository(),
+                  addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
+                  giveKudos: GiveKudos(),
+                  completeTask: CompleteTask(),
+                ),
+                child: BlocProvider(
+                  create: (context) => AllProfilesCubit(
+                    addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
+                    editProfileFieldRepository: EditProfileFieldRepository(),
+                    completeTask: CompleteTask(),
+                    giveKudos: GiveKudos(),
+                  ),
+                  child: MaterialApp(
+                  scrollBehavior: const MaterialScrollBehavior().copyWith(
+                    dragDevices: {
+                      PointerDeviceKind.mouse,
+                      PointerDeviceKind.touch,
+                      PointerDeviceKind.stylus,
+                      PointerDeviceKind.unknown
+                    },
+                  ),
+                  navigatorKey: navigatorKey,
+                  theme: CustomTheme.themeData,
+                  onGenerateRoute: _appRouter.onGenerateRoute,
+                ),
+              ),
             ),
-          child: MaterialApp(
-            scrollBehavior: const MaterialScrollBehavior().copyWith(
-              dragDevices: {
-                PointerDeviceKind.mouse,
-                PointerDeviceKind.touch,
-                PointerDeviceKind.stylus,
-                PointerDeviceKind.unknown
-              },
-            ),
-            navigatorKey: navigatorKey,
-            theme: CustomTheme.themeData,
-            onGenerateRoute: _appRouter.onGenerateRoute,
           ),
         ),
-      ),
       ),
     );
   }

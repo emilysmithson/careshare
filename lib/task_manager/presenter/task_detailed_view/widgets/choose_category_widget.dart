@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../category_manager/cubit/category_cubit.dart';
 import '../../../../category_manager/domain/models/category.dart';
-import '../../../../category_manager/presentation/add_category_widget.dart';
+import '../../../../category_manager/presenter/add_category_widget.dart';
 import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 

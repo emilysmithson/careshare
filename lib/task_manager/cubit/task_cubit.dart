@@ -24,10 +24,12 @@ class TaskCubit extends Cubit<TaskState> {
 
   final List<CareTask> careTaskList = [];
 
-  fetchTasks() async {
+  Future fetchTasks({required String caregroupId}) async {
     try {
       emit(const TaskLoading());
-      DatabaseReference reference = FirebaseDatabase.instance.ref('tasks');
+      final reference = FirebaseDatabase.instance.ref('tasks')
+          .orderByChild('caregroup')
+          .equalTo(caregroupId);
       final response = reference.onValue;
       response.listen((event) {
         emit(const TaskLoading());

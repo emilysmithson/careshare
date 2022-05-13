@@ -1,5 +1,5 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
+import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,7 +50,7 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
           currentFocus.unfocus();
         }
       },
-      child: BlocBuilder<InvitationCubit, InvitationState>(
+      child: BlocBuilder<InvitationsCubit, InvitationState>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -67,7 +67,7 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
                       children: [
                         const SizedBox(height: 10),
                         Text(
-                            'Invite someome to joing the ${widget.caregroup.name} caregroup by providing their email address and adding an optional message.'),
+                            'Invite someome to join the ${widget.caregroup.name} caregroup by providing their email address and adding an optional message.'),
                         const SizedBox(height: 10),
                         TextFormField(
                           controller: widget.emailController,
@@ -115,7 +115,7 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
                               onPressed: () {
                                 // Validate returns true if the form is valid, or false otherwise.
                                 if (_formKey.currentState!.validate()) {
-                                  BlocProvider.of<InvitationCubit>(context)
+                                  BlocProvider.of<InvitationsCubit>(context)
                                       .sendInvitation(
                                     id: DateTime.now()
                                         .millisecondsSinceEpoch
@@ -289,7 +289,7 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
 //
 // // import 'package:careshare/category_manager/cubit/category_cubit.dart';
 // // import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
-// // import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
+// // import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 // // import 'package:careshare/invitation_manager/models/invitation.dart';
 // //
 // // import 'package:flutter/material.dart';

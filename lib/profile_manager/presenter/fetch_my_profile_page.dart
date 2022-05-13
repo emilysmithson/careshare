@@ -46,7 +46,7 @@ class FetchMyProfilePage extends StatelessWidget {
       builder: (context, state) {
         if (state is MyProfileLoading) {
           return const LoadingPageTemplate(
-              loadingMessage: 'Loading your profile...');
+              loadingMessage: 'Loading my profile...');
         }
         if (state is MyProfileError) {
           return ErrorPageTemplate(errorMessage: state.message);

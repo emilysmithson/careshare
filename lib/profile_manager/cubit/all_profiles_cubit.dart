@@ -32,7 +32,7 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
   }) : super(AllProfilesInitial());
 
 
-  Future fetchProfiles() async {
+  Future fetchProfiles({required String caregroupId}) async {
     try {
       emit(const AllProfilesLoading());
       DatabaseReference reference = FirebaseDatabase.instance.ref('profiles');
@@ -41,7 +41,7 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
       response.listen((event) async {
         if (event.snapshot.value == null) {
           if (kDebugMode) {
-            print('empty list');
+            print('empty profile list');
           }
           return;
         } else {
@@ -51,8 +51,9 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
           returnedList.forEach(
                 (key, value) async {
               Profile profile = Profile.fromJson(value);
-
-              profileList.add(profile);
+              if (profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroupId) != -1) {
+                profileList.add(profile);
+              }
             },
           );
 

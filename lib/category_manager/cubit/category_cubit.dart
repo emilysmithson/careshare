@@ -40,7 +40,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         emit(CategoriesLoading());
         if (event.snapshot.value == null) {
           if (kDebugMode) {
-            print('empty list');
+            print('empty category list');
           }
           return;
         } else {

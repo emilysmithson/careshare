@@ -12,7 +12,7 @@ class FetchTasks {
       final List<CareTask> _careTaskList = [];
       if (event.snapshot.value == null) {
         if (kDebugMode) {
-          print('empty list');
+          print('empty tasks list');
         }
         return;
       } else {

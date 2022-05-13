@@ -188,7 +188,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
       response.listen((event) {
         if (event.snapshot.value == null) {
           if (kDebugMode) {
-            print('empty list');
+            print('empty caregroup list');
           }
           return;
         } else {
@@ -218,6 +218,10 @@ class CaregroupCubit extends Cubit<CaregroupState> {
             ).toList();
 
           }
+
+          print('.....loaded caregroupList: ${caregroupList.length}');
+          print('.....loaded myCaregroupList: ${myCaregroupList.length}');
+          print('.....loaded otherCaregroupList: ${otherCaregroupList.length}');
 
           emit(CaregroupsLoaded(
             caregroupList: caregroupList,

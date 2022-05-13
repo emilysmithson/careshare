@@ -1,4 +1,4 @@
-part of 'invitation_cubit.dart';
+part of 'invitations_cubit.dart';
 
 abstract class InvitationState extends Equatable {
   const InvitationState();

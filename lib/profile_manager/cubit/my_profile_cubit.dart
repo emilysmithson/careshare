@@ -44,7 +44,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
         } else {
           final data = event.snapshot.value;
           myProfile = Profile.fromJson(data);
-
+          print('-----loaded profile: ${myProfile.email}');
           emit(MyProfileLoaded(
             myProfile: myProfile,
           ));
