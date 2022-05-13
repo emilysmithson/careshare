@@ -5,7 +5,7 @@ import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/invitation_manager/models/invitation_status.dart';
 import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
-import 'package:careshare/task_manager/presenter/task_manager/task_manager_view.dart';
+import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,11 +27,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
-        if (state is CaregroupLoaded) {
+        if (state is CaregroupsLoaded) {
+
           Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
           bool _showInvitationsOnHomePage = myProfile.showInvitationsOnHomePage;
-          bool _showOtherCaregropusOnHomePage =
-              myProfile.showOtherCaregropusOnHomePage;
+          bool _showOtherCaregropusOnHomePage = myProfile.showOtherCaregropusOnHomePage;
 
           // if i haven't accepted the Terms & Conditions, navigate to the T&C page
           if (myProfile.tandcsAccepted == false) {
@@ -88,16 +88,11 @@ class _HomePageState extends State<HomePage> {
               ]),
             );
           }
-          var allCaregroups =
-              BlocProvider.of<CaregroupCubit>(context).caregroupList;
+          // All Caregropus
+          List<Caregroup> allCaregroups = state.caregroupList;
 
           // My Caregroups
-          List<Caregroup> myCaregroups = allCaregroups
-              .where((caregroup) =>
-                  myProfile.carerInCaregroups.indexWhere(
-                      (element) => element.caregroupId == caregroup.id) !=
-                  -1)
-              .toList();
+          List<Caregroup> myCaregroups = state.myCaregroupList;
 
           // My Invitations
           List<Invitation> myInvitationList = BlocProvider.of<InvitationCubit>(
@@ -111,18 +106,7 @@ class _HomePageState extends State<HomePage> {
           }
 
           // Other Caregropus
-          List<Caregroup> otherCaregroups = [];
-          if (_showOtherCaregropusOnHomePage) {
-            otherCaregroups = allCaregroups
-                .where((caregroup) =>
-                    myCaregroups.indexWhere(
-                            (myCaregroup) => caregroup.id == myCaregroup.id) ==
-                        -1 &&
-                    myInvitationList.indexWhere((invitation) =>
-                            caregroup.id == invitation.caregroupId) ==
-                        -1)
-                .toList();
-          }
+          List<Caregroup> otherCaregroups = state.otherCaregroupList;
           if (otherCaregroups.isEmpty) {
             _showOtherCaregropusOnHomePage = false;
           }
@@ -134,7 +118,7 @@ class _HomePageState extends State<HomePage> {
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.pushNamed(
                 context,
-                TaskManagerView.routeName,
+                FetchTasksPage.routeName,
                 arguments: myCaregroups.first,
               ),
             );
@@ -144,6 +128,8 @@ class _HomePageState extends State<HomePage> {
           return PageScaffold(
             body: Column(
               children: [
+
+
 // My Caregroups
                 Hero(
                   tag: 'My Caregroups',
@@ -171,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                               // navigate to the Task Manager
                               Navigator.pushNamed(
                                 context,
-                                TaskManagerView.routeName,
+                                FetchTasksPage.routeName,
                                 arguments: caregroup,
                               );
                             },
@@ -219,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                                       // Navigate to the caregroup
                                       Navigator.pushNamed(
                                         context,
-                                        TaskManagerView.routeName,
+                                        FetchTasksPage.routeName,
                                         arguments: allCaregroups.firstWhere(
                                             (caregroup) =>
                                                 caregroup.id == caregroup.id),
@@ -345,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                                         // Navigate to the caregroup
                                         Navigator.pushNamed(
                                           context,
-                                          TaskManagerView.routeName,
+                                          FetchTasksPage.routeName,
                                           arguments: allCaregroups.firstWhere(
                                               (caregroup) =>
                                                   caregroup.id ==
@@ -404,7 +390,7 @@ class _HomePageState extends State<HomePage> {
                                 // navigate to the Task Manager
                                 Navigator.pushNamed(
                                   context,
-                                  TaskManagerView.routeName,
+                                  FetchTasksPage.routeName,
                                   arguments: caregroup,
                                 );
                               },

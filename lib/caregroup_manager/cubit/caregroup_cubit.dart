@@ -27,8 +27,9 @@ class CaregroupCubit extends Cubit<CaregroupState> {
 
   final EditCaregroupFieldRepository editCaregroupFieldRepository;
   final List<Caregroup> caregroupList = [];
+  late List<Caregroup> myCaregroupList = [];
+  late List<Caregroup> otherCaregroupList = [];
   final List<String> carerIds = [];
-  final List<Caregroup> myCareGroupList = [];
   bool isInitialised = false;
 
   CaregroupCubit({
@@ -86,7 +87,11 @@ class CaregroupCubit extends Cubit<CaregroupState> {
         print(error);
       }
     }
-    emit(CaregroupLoaded(caregroupList: caregroupList));
+    emit(CaregroupsLoaded(
+        caregroupList: caregroupList,
+        myCaregroupList: myCaregroupList,
+        otherCaregroupList: otherCaregroupList,
+    ));
   }
 
   removeCaregroup(String id) {
@@ -95,8 +100,10 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     caregroupList.removeWhere((element) => element.id == id);
 
     emit(
-      CaregroupLoaded(
+      CaregroupsLoaded(
         caregroupList: caregroupList,
+        myCaregroupList: myCaregroupList,
+        otherCaregroupList: otherCaregroupList,
       ),
     );
   }
@@ -140,37 +147,91 @@ class CaregroupCubit extends Cubit<CaregroupState> {
   // }
 
   Future fetchMyCaregroups({required Profile profile}) async {
+    // emit(const CaregroupLoading());
+    // caregroupList.clear();
+    // for (final role in profile.carerInCaregroups) {
+    //   try {
+    //     DatabaseReference reference =
+    //         FirebaseDatabase.instance.ref('caregroups/${role.caregroupId}');
+    //     final response = reference.onValue;
+    //
+    //     response.listen((event) async {
+    //       if (event.snapshot.value == null) {
+    //         if (kDebugMode) {
+    //           print("caregroup is null");
+    //         }
+    //         // emit(const CaregroupError("caregroup is null"));
+    //         return;
+    //       } else {
+    //         final data = event.snapshot.value;
+    //         final _role = Caregroup.fromJson(role.caregroupId, data);
+    //         myCaregroupList.add(_role);
+    //         myCaregroupList.sort((a, b) => a.name.compareTo(b.name));
+    //
+    //         emit(CaregroupLoaded(caregroupList: myCaregroupList));
+    //       }
+    //     });
+    //   } catch (error) {
+    //     emit(
+    //       CaregroupError(
+    //         error.toString(),
+    //       ),
+    //     );
+    //   }
+    // }
+
     emit(const CaregroupLoading());
-    caregroupList.clear();
-    for (final role in profile.carerInCaregroups) {
-      try {
-        DatabaseReference reference =
-            FirebaseDatabase.instance.ref('caregroups/${role.caregroupId}');
-        final response = reference.onValue;
 
-        response.listen((event) async {
-          if (event.snapshot.value == null) {
-            if (kDebugMode) {
-              print("caregroup is null");
-            }
-            // emit(const CaregroupError("caregroup is null"));
-            return;
-          } else {
-            final data = event.snapshot.value;
-            final _role = Caregroup.fromJson(role.caregroupId, data);
-            myCareGroupList.add(_role);
-            myCareGroupList.sort((a, b) => a.name.compareTo(b.name));
-
-            emit(CaregroupLoaded(caregroupList: myCareGroupList));
+    try {
+      DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
+      final response = reference.onValue;
+      response.listen((event) {
+        if (event.snapshot.value == null) {
+          if (kDebugMode) {
+            print('empty list');
           }
-        });
-      } catch (error) {
-        emit(
-          CaregroupError(
-            error.toString(),
-          ),
-        );
-      }
+          return;
+        } else {
+          Map<dynamic, dynamic> returnedList =
+          event.snapshot.value as Map<dynamic, dynamic>;
+
+          caregroupList.clear();
+          myCaregroupList.clear();
+          otherCaregroupList.clear();
+
+          returnedList.forEach(
+                (key, value) {
+              caregroupList.add(Caregroup.fromJson(key, value));
+            },
+          );
+
+          caregroupList.sort((a, b) => a.name.compareTo(b.name));
+
+          if(profile.carerInCaregroups.length > 0) {
+
+            myCaregroupList = caregroupList.where((caregroup) =>
+              profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) != -1
+            ).toList();
+
+            otherCaregroupList = caregroupList.where((caregroup) =>
+            profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) == -1
+            ).toList();
+
+          }
+
+          emit(CaregroupsLoaded(
+            caregroupList: caregroupList,
+            myCaregroupList: myCaregroupList,
+            otherCaregroupList: otherCaregroupList,
+          ));
+        }
+      });
+    } catch (error) {
+      emit(
+        CaregroupError(
+          error.toString(),
+        ),
+      );
     }
   }
 

@@ -21,7 +21,7 @@ class CaregroupManager extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
-        if (state is CaregroupLoaded) {
+        if (state is CaregroupsLoaded) {
           return PageScaffold(
             floatingActionButton: FloatingActionButton(
                 onPressed: () async {
@@ -67,7 +67,7 @@ class CaregroupManager extends StatelessWidget {
                                     child: BlocBuilder<CaregroupCubit,
                                         CaregroupState>(
                                       builder: (context, state) {
-                                        if (state is CaregroupLoaded) {
+                                        if (state is CaregroupsLoaded) {
                                           return Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,

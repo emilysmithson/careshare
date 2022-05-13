@@ -31,12 +31,16 @@ class CaregroupError extends CaregroupState {
   int get hashCode => message.hashCode;
 }
 
-class CaregroupLoaded extends CaregroupState {
+class CaregroupsLoaded extends CaregroupState {
   final List<Caregroup> caregroupList;
+  final List<Caregroup> myCaregroupList;
+  final List<Caregroup> otherCaregroupList;
   // final Caregroup? myCaregroup;
 
-  const CaregroupLoaded({
+  const CaregroupsLoaded({
     required this.caregroupList,
+    required this.myCaregroupList,
+    required this.otherCaregroupList,
     // required this.myCaregroup,
   });
 
@@ -44,7 +48,7 @@ class CaregroupLoaded extends CaregroupState {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is CaregroupLoaded && listEquals(other.caregroupList, caregroupList);
+    return other is CaregroupsLoaded && listEquals(other.caregroupList, caregroupList);
   }
 
   @override

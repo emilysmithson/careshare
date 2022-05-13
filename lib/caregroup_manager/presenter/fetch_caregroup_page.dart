@@ -1,11 +1,12 @@
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
+import 'package:careshare/home_page/home_page.dart';
+import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../profile_manager/cubit/profile_cubit.dart';
-import 'caregroup_manager.dart';
+
 
 class FetchCaregroupPage extends StatelessWidget {
   static const routeName = '/fetch-my-caregroups-page';
@@ -27,11 +28,11 @@ class FetchCaregroupPage extends StatelessWidget {
         if (state is CaregroupError) {
           return ErrorPageTemplate(errorMessage: state.message);
         }
-        if (state is CaregroupLoaded) {
+        if (state is CaregroupsLoaded) {
           WidgetsBinding.instance
               .addPostFrameCallback((_) => Navigator.pushReplacementNamed(
                     context,
-                    CaregroupManager.routeName,
+                    HomePage.routeName,
                   ));
 
           return Container();
