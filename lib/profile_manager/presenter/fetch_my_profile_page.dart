@@ -31,6 +31,7 @@ class FetchMyProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('fetching my profile');
     if (createProfile) {
       BlocProvider.of<ProfileCubit>(context).createProfile(
         photo: photo,

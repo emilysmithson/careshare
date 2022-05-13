@@ -6,7 +6,6 @@ import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../home_page/home_page.dart';
 import '../../profile_manager/presenter/fetch_my_profile_page.dart';
 
 class AuthenticationPage extends StatelessWidget {
@@ -29,7 +28,9 @@ class AuthenticationPage extends StatelessWidget {
 
         if (state is AuthenticationLoaded) {
           WidgetsBinding.instance.addPostFrameCallback(
-            (_) => Navigator.pushReplacementNamed(context, HomePage.routeName),
+            (_) => Navigator.pushReplacementNamed(
+                context, FetchMyProfilePage.routeName,
+                arguments: state.user.uid),
           );
 
           return Container();
