@@ -5,7 +5,7 @@ import 'package:careshare/category_manager/presentation/fetch_categories_page.da
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/invitation_manager/models/invitation_status.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         if (state is CaregroupsLoaded) {
 
-          Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+          Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
           bool _showInvitationsOnHomePage = myProfile.showInvitationsOnHomePage;
           bool _showOtherCaregropusOnHomePage = myProfile.showOtherCaregropusOnHomePage;
 
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                 ElevatedButton(
                     onPressed: () {
                       // Set the accepted to true
-                      BlocProvider.of<ProfileCubit>(context)
+                      BlocProvider.of<MyProfileCubit>(context)
                           .editProfileFieldRepository(
                         profileField: ProfileField.tandcsAccepted,
                         profile: myProfile,
@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                                                   element.caregroupId ==
                                                   caregroup.id) ==
                                           -1) {
-                                        BlocProvider.of<ProfileCubit>(context)
+                                        BlocProvider.of<MyProfileCubit>(context)
                                             .addCarerInCaregroupToProfile(
                                           profileId: myProfile.id,
                                           caregroupId: caregroup.id,
@@ -314,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                                                     element.caregroupId ==
                                                     invitation.caregroupId) ==
                                             -1) {
-                                          BlocProvider.of<ProfileCubit>(context)
+                                          BlocProvider.of<MyProfileCubit>(context)
                                               .addCarerInCaregroupToProfile(
                                             profileId: myProfile.id,
                                             caregroupId: invitation.caregroupId,

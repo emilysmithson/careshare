@@ -1,6 +1,6 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/kudos/kudos_board_widget.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +25,7 @@ class KudosBoard extends StatelessWidget {
               .kudosValue),
       // (a, b) => b.kudos.compareTo(a.kudos),
     );
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<MyProfileCubit, MyProfileState>(
       builder: (context, state) {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,

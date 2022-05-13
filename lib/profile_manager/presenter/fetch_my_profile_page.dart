@@ -6,7 +6,7 @@ import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/profile_cubit.dart';
+import '../cubit/my_profile_cubit.dart';
 
 class FetchMyProfilePage extends StatelessWidget {
   final String id;
@@ -33,22 +33,22 @@ class FetchMyProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('fetching my profile');
     if (createProfile) {
-      BlocProvider.of<ProfileCubit>(context).createProfile(
+      BlocProvider.of<MyProfileCubit>(context).createProfile(
         photo: photo,
         name: name,
         email: email,
         id: id,
       );
     } else {
-      BlocProvider.of<ProfileCubit>(context).fetchMyProfile(id);
+      BlocProvider.of<MyProfileCubit>(context).fetchMyProfile(id);
     }
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<MyProfileCubit, MyProfileState>(
       builder: (context, state) {
-        if (state is ProfileLoading) {
+        if (state is MyProfileLoading) {
           return const LoadingPageTemplate(
               loadingMessage: 'Loading your profile...');
         }
-        if (state is ProfileError) {
+        if (state is MyProfileError) {
           return ErrorPageTemplate(errorMessage: state.message);
         }
         if (state is MyProfileLoaded) {

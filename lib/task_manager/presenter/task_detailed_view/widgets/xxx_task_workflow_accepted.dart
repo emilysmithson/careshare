@@ -1,5 +1,5 @@
 import 'package:careshare/core/presentation/photo_and_name_widget.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +27,7 @@ class TaskWorkflowAcceptedWidget extends StatelessWidget {
             builder: (_) => BlocProvider.value(
               value: BlocProvider.of<TaskCubit>(context),
               child: BlocProvider.value(
-                value: BlocProvider.of<ProfileCubit>(context),
+                value: BlocProvider.of<MyProfileCubit>(context),
                 child: BlocBuilder<TaskCubit, TaskState>(
                   builder: (context, state) {
                     return Dialog(
@@ -78,7 +78,7 @@ class TaskWorkflowAcceptedWidget extends StatelessWidget {
                                     Navigator.pop(context);
 
                                     Profile myProfile =
-                                        BlocProvider.of<ProfileCubit>(context)
+                                        BlocProvider.of<MyProfileCubit>(context)
                                             .myProfile;
 
                                     // Send a message to tell the world the task is complete

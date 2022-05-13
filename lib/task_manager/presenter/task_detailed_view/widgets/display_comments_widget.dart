@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../profile_manager/cubit/profile_cubit.dart';
+import '../../../../profile_manager/cubit/my_profile_cubit.dart';
 
 class DisplayCommentsWidget extends StatelessWidget {
   final CareTask task;
@@ -31,7 +31,7 @@ class DisplayCommentsWidget extends StatelessWidget {
                   Column(
                     children: task.comments!.map((comment) {
                       final bool isCommentByMe = comment.createdBy ==
-                          BlocProvider.of<ProfileCubit>(context).myProfile.id;
+                          BlocProvider.of<MyProfileCubit>(context).myProfile.id;
                       return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(

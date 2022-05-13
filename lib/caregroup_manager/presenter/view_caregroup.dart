@@ -2,7 +2,7 @@ import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 
 import 'package:flutter/material.dart';
@@ -26,8 +26,8 @@ class ViewCaregroup extends StatefulWidget {
 class _ViewCaregroupState extends State<ViewCaregroup> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
-      if (state is ProfileLoaded) {
+    return BlocBuilder<MyProfileCubit, MyProfileState>(builder: (context, state) {
+      if (state is ProfilesLoaded) {
         final profileList = state.profileList.where((profile) =>
             profile.carerInCaregroups.indexWhere(
                 (element) => element.caregroupId == widget.caregroup.id) !=

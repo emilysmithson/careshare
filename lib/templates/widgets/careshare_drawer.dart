@@ -2,7 +2,7 @@ import 'package:careshare/about_page/about_page.dart';
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
 import 'package:flutter/material.dart';
@@ -172,7 +172,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               Navigator.pushNamed(
                 context,
                 EditProfile.routeName,
-                arguments: BlocProvider.of<ProfileCubit>(context).myProfile,
+                arguments: BlocProvider.of<MyProfileCubit>(context).myProfile,
               );
             },
           ),
@@ -269,7 +269,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
             ),
             onTap: () {
               BlocProvider.of<AuthenticationCubit>(context).logout(
-                BlocProvider.of<ProfileCubit>(context),
+                BlocProvider.of<MyProfileCubit>(context),
               );
               Navigator.pushNamedAndRemoveUntil(
                   context,

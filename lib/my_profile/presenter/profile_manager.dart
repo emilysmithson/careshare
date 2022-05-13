@@ -1,4 +1,4 @@
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
 import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +13,9 @@ class ProfilesManager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<MyProfileCubit, MyProfileState>(
       builder: (context, state) {
-        if (state is ProfileLoaded) {
+        if (state is ProfilesLoaded) {
           return PageScaffold(
             body: SingleChildScrollView(
               child: Wrap(

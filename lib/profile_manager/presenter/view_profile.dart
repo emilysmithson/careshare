@@ -1,5 +1,5 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 
@@ -21,12 +21,12 @@ class ViewProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+    Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
     RoleInCaregroup roleInCaregroup = profile.carerInCaregroups
         .firstWhere((element) => element.caregroupId == caregroup.id);
 
     // const double spacing = 16;
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<MyProfileCubit, MyProfileState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -220,7 +220,7 @@ class ViewProfile extends StatelessWidget {
                             Navigator.pushReplacementNamed(
                                 context, EditProfile.routeName,
                                 arguments:
-                                    BlocProvider.of<ProfileCubit>(context)
+                                    BlocProvider.of<MyProfileCubit>(context)
                                         .myProfile);
                           },
                           child: const Text('Edit')),

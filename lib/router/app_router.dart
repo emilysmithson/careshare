@@ -17,12 +17,22 @@ import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repo
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
+import 'package:careshare/my_profile/models/profile.dart';
 import 'package:careshare/notifications/presenter/notifications_page.dart';
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
+import 'package:careshare/profile_manager/presenter/fetch_my_profile_page.dart';
+import 'package:careshare/profile_manager/presenter/fetch_profiles_page.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
 import 'package:careshare/profile_manager/presenter/view_profile.dart';
+import 'package:careshare/profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
+import 'package:careshare/profile_manager/repository/complete_task.dart';
+import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
+import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
+import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:careshare/task_manager/presenter/task_category_view/task_category_view.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
@@ -34,9 +44,7 @@ import 'package:careshare/task_manager/repository/remove_a_task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../my_profile/models/profile.dart';
-import '../profile_manager/presenter/fetch_my_profile_page.dart';
-import '../task_manager/models/task.dart';
+
 
 class AppRouter {
   final _caregroupCubit = CaregroupCubit(
@@ -55,6 +63,8 @@ class AppRouter {
   );
 
   final _categoriesCubit = CategoriesCubit();
+
+
 
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -220,7 +230,8 @@ class AppRouter {
                 EditCaregroup(caregroup: routeSettings.arguments as Caregroup),
           ),
         );
-      case FetchMyProfilePage.routeName:
+
+        case FetchMyProfilePage.routeName:
         if (routeSettings.arguments.runtimeType == String) {
           return MaterialPageRoute(
             builder: (_) =>
@@ -265,6 +276,14 @@ class AppRouter {
               caregroup: routeSettings.arguments as Caregroup,
             ),
           ),
+        );
+
+      case FetchProfilesPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => FetchProfilesPage(
+              caregroup: routeSettings.arguments as Caregroup,
+            ),
+
         );
 
       default:

@@ -1,40 +1,41 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
-import 'package:careshare/profile_manager/presenter/fetch_profiles_page.dart';
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
+import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 
-class FetchCategoriesPage extends StatelessWidget {
-  static const routeName = '/fetch-categories-page';
+class FetchProfilesPage extends StatelessWidget {
+  static const routeName = '/fetch-profiles-page';
   final Caregroup caregroup;
-  const FetchCategoriesPage({
+  const FetchProfilesPage({
     Key? key,
     required this.caregroup,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('fetching categories');
+    print('fetching profiles');
 
 
-    BlocProvider.of<CategoriesCubit>(context).fetchCategories();
+    BlocProvider.of<AllProfilesCubit>(context).fetchProfiles();
 
-    return BlocBuilder<CategoriesCubit, CategoriesState>(
+    return BlocBuilder<AllProfilesCubit, AllProfilesState>(
       builder: (context, state) {
-        if (state is CategoriesLoading) {
+        if (state is AllProfilesLoading) {
           return const LoadingPageTemplate(
-              loadingMessage: 'Loading your caregroups...');
+              loadingMessage: 'Loading profiles...');
         }
-        if (state is CategoriesError) {
+        if (state is AllProfilesError) {
           return ErrorPageTemplate(errorMessage: state.message);
         }
-        if (state is CategoriesLoaded) {
+        if (state is AllProfilesLoaded) {
           WidgetsBinding.instance.addPostFrameCallback((_) =>
-              Navigator.pushReplacementNamed(context, FetchProfilesPage.routeName,
+              Navigator.pushReplacementNamed(context, FetchTasksPage.routeName,
                   arguments: caregroup));
           return Container();
         }

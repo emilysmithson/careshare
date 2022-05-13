@@ -6,7 +6,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 
-// import '../../profile_manager/cubit/profile_cubit.dart';
+// import '../../profile_manager/cubit/my_profile_cubit.dart';
 
 // class FetchMyProfilePage extends StatelessWidget {
 //   final String id;

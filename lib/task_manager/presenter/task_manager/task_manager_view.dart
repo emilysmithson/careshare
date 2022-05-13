@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../category_manager/cubit/category_cubit.dart';
-import '../../../profile_manager/cubit/profile_cubit.dart';
+import '../../../profile_manager/cubit/my_profile_cubit.dart';
 import '../../models/task.dart';
 
 class TaskManagerView extends StatefulWidget {
@@ -44,7 +44,7 @@ class _TaskManagerViewState extends State<TaskManagerView> {
                   builder: (_) => BlocProvider.value(
                       value: BlocProvider.of<TaskCubit>(context),
                       child: BlocProvider.value(
-                        value: BlocProvider.of<ProfileCubit>(context),
+                        value: BlocProvider.of<MyProfileCubit>(context),
                         child: BlocProvider.value(
                           value: BlocProvider.of<CategoriesCubit>(context),
                           child: TaskDetailedView(

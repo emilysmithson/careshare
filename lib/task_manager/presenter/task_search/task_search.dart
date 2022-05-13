@@ -1,6 +1,7 @@
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/category_manager/domain/models/category.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
@@ -57,7 +58,10 @@ class _TaskSearchState extends State<TaskSearch> {
               _categoryList = BlocProvider.of<CategoriesCubit>(context).categoryList
                   // .where((category) => state.careTaskList.firstWhere((task) => task.category != null && task.category!.id == category.id) != -1)
               ;
-              // print("_categoryList length: ${_categoryList.length}");
+              print("_categoryList length: ${_categoryList.length}");
+
+              List<Profile> _profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
+              print("_profileList length: ${_profileList.length}");
 
               firstTimeThrough= false;
             }
@@ -77,25 +81,14 @@ class _TaskSearchState extends State<TaskSearch> {
                     fillColor: Colors.white, filled: true,
 
                     suffixIcon: IconButton(
-                      onPressed: () {
-                        // _careTaskList = state.careTaskList
-                        //     .where((task) => task.taskStatus != TaskStatus.draft && task.caregroup == widget.caregroupId
-                        //     &&
-                        //     (task.title.toUpperCase().indexOf(controller.text.toUpperCase())!=-1
-                        //         || task.details!.toUpperCase().indexOf(controller.text.toUpperCase())!=-1
-                        //     )
-                        //
-                        // ).take(10);
-                        // setState(() {});
-                      },
+                      onPressed: () {},
                       icon: const Icon(Icons.search),
                     ),
 
                   ),
                   onChanged: (text) {
                     _careTaskList = state.careTaskList
-                        .where((task) => task.taskStatus != TaskStatus.draft && task.caregroup == widget.caregroupId
-                        && (categoryId == "" || task.category != null &&  task.category!.id == categoryId)
+                        .where((task) => task.taskStatus != TaskStatus.draft
                         && (task.title.toUpperCase().contains(_controller.text.toUpperCase())
                             || task.details!.toUpperCase().contains(_controller.text.toUpperCase())
                         )
@@ -112,7 +105,7 @@ class _TaskSearchState extends State<TaskSearch> {
 
                         // print("categoryId: $categoryId");
                         _careTaskList = state.careTaskList
-                            .where((task) => task.taskStatus != TaskStatus.draft && task.caregroup == widget.caregroupId
+                            .where((task) => task.taskStatus != TaskStatus.draft
                             && categoryId == "" || task.category != null &&  task.category!.id == categoryId
                             && (task.title.toUpperCase().contains(_controller.text.toUpperCase())
                                 || task.details!.toUpperCase().contains(_controller.text.toUpperCase())
@@ -163,9 +156,9 @@ class _TaskSearchState extends State<TaskSearch> {
                             children: [
                               Text('Category: ${task.category?.name}'),
                               if (task.taskStatus == TaskStatus.draft) Text('Status: ${task.taskStatus.status}'),
-                              if (task.taskStatus == TaskStatus.assigned) Text('Status: ${task.taskStatus.status} to ${BlocProvider.of<ProfileCubit>(context).profileList.firstWhere((profile) => profile.id==task.assignedTo).name}'),
-                              if (task.taskStatus == TaskStatus.accepted) Text('Status: ${task.taskStatus.status} by ${BlocProvider.of<ProfileCubit>(context).profileList.firstWhere((profile) => profile.id==task.assignedTo).name}'),
-                              if (task.taskStatus == TaskStatus.completed) Text('Status: ${task.taskStatus.status} by ${BlocProvider.of<ProfileCubit>(context).profileList.firstWhere((profile) => profile.id==task.assignedTo).name}'),
+                              if (task.taskStatus == TaskStatus.assigned) Text('Status: ${task.taskStatus.status} to ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id==task.assignedTo).name}'),
+                              if (task.taskStatus == TaskStatus.accepted) Text('Status: ${task.taskStatus.status} by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id==task.assignedTo).name}'),
+                              if (task.taskStatus == TaskStatus.completed) Text('Status: ${task.taskStatus.status} by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id==task.assignedTo).name}'),
                               if (task.taskStatus == TaskStatus.archived) Text('Status: ${task.taskStatus.status}'),
                             ]),
                         trailing: EffortIcon(
@@ -186,49 +179,7 @@ class _TaskSearchState extends State<TaskSearch> {
                     .toList(),
               )
 
-            //   Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.start,
-            //       children: [
-            //
-            //
-            //
-            //     SizedBox(
-            //
-            //       child: Wrap(
-            //         alignment: WrapAlignment.center,
-            //         children: _careTaskList.map((task) {
-            //           return Card(
-            //             child: SizedBox(
-            //               height: 60,
-            //                 width: 160,
-            //               child: Padding(
-            //                 padding: const EdgeInsets.all(4.0),
-            //                 child: Column(
-            //                   children: [
-            //                     Expanded(child: Text(task.title,
-            //                         style: const TextStyle(fontWeight: FontWeight.bold),
-            //                         overflow: TextOverflow.fade)
-            //                     ),
-            //                     Expanded(child: Text(task.title,
-            //                         style: const TextStyle(fontWeight: FontWeight.normal),
-            //                         overflow: TextOverflow.fade)
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ),
-            //             ),
-            //           );
-            //         }).toList(),
-            //       ),
-            //     )
-            //       ],
-            //
-            //
-            //     ),
-            //   ),
-            // )
+
             );
           }
           return const Center(child: CircularProgressIndicator());

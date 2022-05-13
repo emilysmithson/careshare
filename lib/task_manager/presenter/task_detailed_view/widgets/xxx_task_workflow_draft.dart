@@ -1,4 +1,4 @@
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +28,7 @@ class TaskWorkflowDraftWidget extends StatelessWidget {
         ElevatedButton(
           onPressed: () async {
             Profile myProfile =
-                BlocProvider.of<ProfileCubit>(context).myProfile;
+                BlocProvider.of<MyProfileCubit>(context).myProfile;
 
             BlocProvider.of<TaskCubit>(context)
                 .createTask(task: task, id: myProfile.id);

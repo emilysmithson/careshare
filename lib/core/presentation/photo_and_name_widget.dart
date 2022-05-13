@@ -1,8 +1,9 @@
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../profile_manager/cubit/profile_cubit.dart';
+import '../../profile_manager/cubit/my_profile_cubit.dart';
 import '../../profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 
 class PhotoAndNameWidget extends StatelessWidget {
@@ -22,7 +23,7 @@ class PhotoAndNameWidget extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: Text(
-              "$text ${BlocProvider.of<ProfileCubit>(context).getName(id)}"
+              "$text ${BlocProvider.of<AllProfilesCubit>(context).getName(id)}"
               "${dateTime != null ? ' on ' : ''}"
               "${dateTime != null ? DateFormat('E d MMM yyyy').add_jm().format(dateTime!) : ''}"),
         ),

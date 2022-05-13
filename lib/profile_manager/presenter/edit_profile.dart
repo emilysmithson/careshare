@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_input_field_widget.dart';
 import 'package:careshare/widgets/upload_profile_photo.dart';
@@ -29,14 +29,14 @@ class EditProfile extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          child: BlocBuilder<ProfileCubit, ProfileState>(
+          child: BlocBuilder<MyProfileCubit, MyProfileState>(
             builder: (context, state) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   UploadProfilePhotoWidget(
                     imagePickFn: (File photo) {
-                      BlocProvider.of<ProfileCubit>(context)
+                      BlocProvider.of<MyProfileCubit>(context)
                           .editProfileFieldRepository(
                         profileField: ProfileField.photo,
                         profile: profile,
@@ -52,7 +52,7 @@ class EditProfile extends StatelessWidget {
                     currentValue: profile.name,
                     profile: profile,
                     onChanged: (value) {
-                      BlocProvider.of<ProfileCubit>(context)
+                      BlocProvider.of<MyProfileCubit>(context)
                           .editProfileFieldRepository(
                         profileField: ProfileField.name,
                         profile: profile,
@@ -67,7 +67,7 @@ class EditProfile extends StatelessWidget {
                     currentValue: profile.firstName,
                     profile: profile,
                     onChanged: (value) {
-                      BlocProvider.of<ProfileCubit>(context)
+                      BlocProvider.of<MyProfileCubit>(context)
                           .editProfileFieldRepository(
                         profileField: ProfileField.firstName,
                         profile: profile,
@@ -82,7 +82,7 @@ class EditProfile extends StatelessWidget {
                     currentValue: profile.lastName,
                     profile: profile,
                     onChanged: (value) {
-                      BlocProvider.of<ProfileCubit>(context)
+                      BlocProvider.of<MyProfileCubit>(context)
                           .editProfileFieldRepository(
                         profileField: ProfileField.lastName,
                         profile: profile,
@@ -97,7 +97,7 @@ class EditProfile extends StatelessWidget {
                     currentValue: profile.email,
                     profile: profile,
                     onChanged: (value) {
-                      BlocProvider.of<ProfileCubit>(context)
+                      BlocProvider.of<MyProfileCubit>(context)
                           .editProfileFieldRepository(
                         profileField: ProfileField.email,
                         profile: profile,

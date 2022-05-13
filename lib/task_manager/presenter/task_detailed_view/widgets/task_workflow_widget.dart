@@ -1,4 +1,4 @@
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/task_manager/models/kudos.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class TaskWorkflowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
+    Profile profile = BlocProvider.of<MyProfileCubit>(context).myProfile;
 
     return Row(
       children: [
@@ -62,7 +62,7 @@ class TaskWorkflowWidget extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               Profile myProfile =
-                  BlocProvider.of<ProfileCubit>(context).myProfile;
+                  BlocProvider.of<MyProfileCubit>(context).myProfile;
 
               BlocProvider.of<TaskCubit>(context).createTask(
                 task: task,
@@ -93,7 +93,7 @@ class TaskWorkflowWidget extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               Profile myProfile =
-                  BlocProvider.of<ProfileCubit>(context).myProfile;
+                  BlocProvider.of<MyProfileCubit>(context).myProfile;
 
               BlocProvider.of<TaskCubit>(context).acceptTask(
                 task: task,
@@ -126,7 +126,7 @@ class TaskWorkflowWidget extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               Profile myProfile =
-                  BlocProvider.of<ProfileCubit>(context).myProfile;
+                  BlocProvider.of<MyProfileCubit>(context).myProfile;
 
               BlocProvider.of<TaskCubit>(context).rejectTask(
                 task: task,
@@ -162,13 +162,13 @@ class TaskWorkflowWidget extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               Profile myProfile =
-                  BlocProvider.of<ProfileCubit>(context).myProfile;
+                  BlocProvider.of<MyProfileCubit>(context).myProfile;
 
               BlocProvider.of<TaskCubit>(context).completeTask(
                   task: task, id: myProfile.id, dateTime: DateTime.now());
 
               // Update the completed count in the task completer's profile
-              BlocProvider.of<ProfileCubit>(context).completeTask(
+              BlocProvider.of<MyProfileCubit>(context).completeTask(
                   profile: myProfile,
                   caregroupId: task.caregroup,
                   effort: task.taskEffort.value);
@@ -314,7 +314,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                   final kudosNotification = CareshareNotification(
                       id: id,
                       title:
-                          "${BlocProvider.of<ProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
+                          "${BlocProvider.of<MyProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
                       routeName: "/task-detailed-view",
                       subtitle:
                           'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
@@ -340,9 +340,9 @@ class TaskWorkflowWidget extends StatelessWidget {
 
                   // Update the kudos in the task completer's profile
                   Profile myProfile =
-                      BlocProvider.of<ProfileCubit>(context).myProfile;
+                      BlocProvider.of<MyProfileCubit>(context).myProfile;
 
-                  BlocProvider.of<ProfileCubit>(context).giveKudos(
+                  BlocProvider.of<MyProfileCubit>(context).giveKudos(
                       profile: myProfile,
                       caregroupId: task.caregroup,
                       kudos: task.taskEffort.value);

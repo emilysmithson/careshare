@@ -2,7 +2,7 @@ import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/home_page/home_page.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +17,7 @@ class FetchCaregroupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<CaregroupCubit>(context).fetchMyCaregroups(
-        profile: BlocProvider.of<ProfileCubit>(context).myProfile);
+        profile: BlocProvider.of<MyProfileCubit>(context).myProfile);
 
     return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {

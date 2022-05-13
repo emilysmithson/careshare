@@ -1,4 +1,4 @@
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 
@@ -33,9 +33,9 @@ class ProfileSummary extends StatelessWidget {
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: BlocBuilder<ProfileCubit, ProfileState>(
+            child: BlocBuilder<MyProfileCubit, MyProfileState>(
               builder: (context, state) {
-                if (state is ProfileLoaded) {
+                if (state is ProfilesLoaded) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

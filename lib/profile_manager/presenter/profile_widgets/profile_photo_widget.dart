@@ -1,7 +1,8 @@
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubit/profile_cubit.dart';
+import '../../cubit/my_profile_cubit.dart';
 
 class ProfilePhotoWidget extends StatelessWidget {
   final double? size;
@@ -14,7 +15,7 @@ class ProfilePhotoWidget extends StatelessWidget {
     if (id.isEmpty) {
       return Container();
     }
-    final photoURL = BlocProvider.of<ProfileCubit>(context).getPhoto(id);
+    final photoURL = BlocProvider.of<AllProfilesCubit>(context).getPhoto(id);
 
     if (photoURL != null) {
       return Center(

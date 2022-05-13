@@ -5,7 +5,7 @@ import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/models/caregroup_status.dart';
 
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_input_field_widget.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,10 +51,10 @@ class EditCaregroup extends StatelessWidget {
                   );
 
                   // add me as a carer in the caregroup
-                  BlocProvider.of<ProfileCubit>(context)
+                  BlocProvider.of<MyProfileCubit>(context)
                       .addCarerInCaregroupToProfile(
                           caregroupId: caregroup.id,
-                          profileId: BlocProvider.of<ProfileCubit>(context)
+                          profileId: BlocProvider.of<MyProfileCubit>(context)
                               .myProfile
                               .id);
 

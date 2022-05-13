@@ -1,4 +1,5 @@
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
@@ -32,7 +33,7 @@ class _AssignATaskState extends State<AssignATask> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
-    widgetList.addAll(BlocProvider.of<ProfileCubit>(context)
+    widgetList.addAll(BlocProvider.of<AllProfilesCubit>(context)
         .profileList
         .where((element) =>
             element.carerInCaregroups.indexWhere(
@@ -44,7 +45,7 @@ class _AssignATaskState extends State<AssignATask> {
 
               if (!widget.locked) {
                 Profile myProfile =
-                    BlocProvider.of<ProfileCubit>(context).myProfile;
+                    BlocProvider.of<MyProfileCubit>(context).myProfile;
 
                 BlocProvider.of<TaskCubit>(context).assignTask(
                     task: widget.task,
@@ -91,7 +92,7 @@ class _AssignATaskState extends State<AssignATask> {
     if (!widget.locked) {
       widgetList.add(GestureDetector(
         onTap: () {
-          Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
+          Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
           BlocProvider.of<TaskCubit>(context).assignTask(
               task: widget.task, assignedToId: '', assignedById: myProfile.id);
         },

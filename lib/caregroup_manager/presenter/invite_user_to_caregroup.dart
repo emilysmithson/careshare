@@ -288,7 +288,7 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
 //
 //
 // // import 'package:careshare/category_manager/cubit/category_cubit.dart';
-// // import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+// // import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 // // import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 // // import 'package:careshare/invitation_manager/models/invitation.dart';
 // //

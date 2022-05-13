@@ -1,6 +1,7 @@
 import 'package:careshare/notifications/domain/careshare_notification.dart';
 import 'package:careshare/notifications/cubit/notifications_cubit.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +32,7 @@ class KudosWidget extends StatelessWidget {
 
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
-        Profile profile = BlocProvider.of<ProfileCubit>(context).myProfile;
+        Profile profile = BlocProvider.of<MyProfileCubit>(context).myProfile;
         Kudos? kudos =
             task.kudos?.firstWhereOrNull((element) => element.id == profile.id);
 
@@ -54,7 +55,7 @@ class KudosWidget extends StatelessWidget {
             final kudosNotification = CareshareNotification(
                 id: id,
                 title:
-                    "${BlocProvider.of<ProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
+                    "${BlocProvider.of<MyProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
                 routeName: "/task-detailed-view",
                 subtitle:
                     'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
@@ -78,11 +79,11 @@ class KudosWidget extends StatelessWidget {
             );
 
             // Update the kudos in the task completer's profile
-            Profile taskCompletedBy = BlocProvider.of<ProfileCubit>(context)
+            Profile taskCompletedBy = BlocProvider.of<AllProfilesCubit>(context)
                 .profileList
                 .firstWhere((element) => element.id == task.assignedTo);
 
-            BlocProvider.of<ProfileCubit>(context).giveKudos(
+            BlocProvider.of<MyProfileCubit>(context).giveKudos(
                 profile: taskCompletedBy,
                 caregroupId: task.caregroup,
                 kudos: task.taskEffort.value);

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -134,10 +134,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress);
   }
 
-  logout(ProfileCubit profileCubit) {
+  logout(MyProfileCubit profileCubit) {
     emit(AuthenticationLoading());
     FirebaseAuth.instance.signOut();
-    profileCubit.clearList();
+
+    // NEED TO CLEAR EVERYTHING DOWN
+    // profileCubit.clearList();
     emit(const AuthenticationLogin());
   }
 }

@@ -13,7 +13,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/presentation/custom_theme.dart';
 
 import 'firebase_options.dart';
-import 'profile_manager/cubit/profile_cubit.dart';
+import 'profile_manager/cubit/all_profiles_cubit.dart';
+import 'profile_manager/cubit/my_profile_cubit.dart';
 import 'profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
 import 'profile_manager/repository/edit_profile_field_repository.dart';
 
@@ -44,12 +45,19 @@ class _AppState extends State<App> {
       child: BlocProvider(
         create: (context) => NotificationsCubit(),
         child: BlocProvider(
-          create: (context) => ProfileCubit(
+          create: (context) => MyProfileCubit(
             editProfileFieldRepository: EditProfileFieldRepository(),
             addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
             giveKudos: GiveKudos(),
             completeTask: CompleteTask(),
           ),
+          child: BlocProvider(
+            create: (context) => AllProfilesCubit(
+                addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
+                editProfileFieldRepository: EditProfileFieldRepository(),
+                completeTask: CompleteTask(),
+                giveKudos: GiveKudos(),
+            ),
           child: MaterialApp(
             scrollBehavior: const MaterialScrollBehavior().copyWith(
               dragDevices: {
@@ -64,6 +72,7 @@ class _AppState extends State<App> {
             onGenerateRoute: _appRouter.onGenerateRoute,
           ),
         ),
+      ),
       ),
     );
   }

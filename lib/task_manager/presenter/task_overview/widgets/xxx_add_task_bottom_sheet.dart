@@ -1,5 +1,5 @@
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
-import 'package:careshare/profile_manager/cubit/profile_cubit.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 
@@ -28,7 +28,7 @@ class AddTaskBottomSheet {
             builder: (_) => BlocProvider.value(
                 value: BlocProvider.of<TaskCubit>(context),
                 child: BlocProvider.value(
-                  value: BlocProvider.of<ProfileCubit>(context),
+                  value: BlocProvider.of<MyProfileCubit>(context),
                   child: BlocProvider.value(
                     value: BlocProvider.of<CategoriesCubit>(context),
                     child: TaskDetailedView(
