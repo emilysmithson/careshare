@@ -1,38 +1,40 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
-import 'package:careshare/task_manager/cubit/task_cubit.dart';
-import 'package:careshare/task_manager/presenter/task_manager/task_manager_view.dart';
+import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FetchTasksPage extends StatelessWidget {
+
+
+class FetchCategoriesPage extends StatelessWidget {
+  static const routeName = '/fetch-categories-page';
   final Caregroup caregroup;
-  static const routeName = '/fetch-tasks-page';
-  const FetchTasksPage({
+  const FetchCategoriesPage({
     Key? key,
     required this.caregroup,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('fetching tasks');
+    print('fetching categories');
 
-    BlocProvider.of<TaskCubit>(context)
-        .fetchTasksForCaregroup(caregroupId: caregroup.id);
 
-    return BlocBuilder<TaskCubit, TaskState>(
+    BlocProvider.of<CategoriesCubit>(context).fetchCategories();
+
+    return BlocBuilder<CategoriesCubit, CategoriesState>(
       builder: (context, state) {
-        if (state is TaskLoading) {
+        if (state is CategoriesLoading) {
           return const LoadingPageTemplate(
-              loadingMessage: 'Loading your tasks...');
+              loadingMessage: 'Loading your caregroups...');
         }
-        if (state is TaskError) {
+        if (state is CategoriesError) {
           return ErrorPageTemplate(errorMessage: state.message);
         }
-        if (state is TaskLoaded) {
+        if (state is CategoriesLoaded) {
           WidgetsBinding.instance.addPostFrameCallback((_) =>
-              Navigator.pushReplacementNamed(context, TaskManagerView.routeName,
+              Navigator.pushReplacementNamed(context, FetchTasksPage.routeName,
                   arguments: caregroup));
           return Container();
         }

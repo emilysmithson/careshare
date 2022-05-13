@@ -7,6 +7,7 @@ import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/caregroup_manager/presenter/fetch_caregroup_page.dart';
 import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
+import 'package:careshare/category_manager/presentation/fetch_categories_page.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
@@ -245,11 +246,22 @@ class AppRouter {
             child: const FetchCaregroupPage(),
           ),
         );
-      case FetchTasksPage.routeName:
+
+        case FetchTasksPage.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _taskCubit,
             child: FetchTasksPage(
+              caregroup: routeSettings.arguments as Caregroup,
+            ),
+          ),
+        );
+
+      case FetchCategoriesPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _categoriesCubit,
+            child: FetchCategoriesPage(
               caregroup: routeSettings.arguments as Caregroup,
             ),
           ),

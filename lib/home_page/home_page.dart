@@ -1,6 +1,7 @@
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_widgets/caregroup_photo_widget.dart';
+import 'package:careshare/category_manager/presentation/fetch_categories_page.dart';
 import 'package:careshare/invitation_manager/cubit/invitation_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/invitation_manager/models/invitation_status.dart';
@@ -25,6 +26,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    print('displaying Home Page');
+
     return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
         if (state is CaregroupsLoaded) {
@@ -118,7 +121,7 @@ class _HomePageState extends State<HomePage> {
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.pushNamed(
                 context,
-                FetchTasksPage.routeName,
+                FetchCategoriesPage.routeName,
                 arguments: myCaregroups.first,
               ),
             );
@@ -157,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                               // navigate to the Task Manager
                               Navigator.pushNamed(
                                 context,
-                                FetchTasksPage.routeName,
+                                FetchCategoriesPage.routeName,
                                 arguments: caregroup,
                               );
                             },
@@ -205,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                                       // Navigate to the caregroup
                                       Navigator.pushNamed(
                                         context,
-                                        FetchTasksPage.routeName,
+                                        FetchCategoriesPage.routeName,
                                         arguments: allCaregroups.firstWhere(
                                             (caregroup) =>
                                                 caregroup.id == caregroup.id),
@@ -331,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                                         // Navigate to the caregroup
                                         Navigator.pushNamed(
                                           context,
-                                          FetchTasksPage.routeName,
+                                          FetchCategoriesPage.routeName,
                                           arguments: allCaregroups.firstWhere(
                                               (caregroup) =>
                                                   caregroup.id ==
@@ -390,7 +393,7 @@ class _HomePageState extends State<HomePage> {
                                 // navigate to the Task Manager
                                 Navigator.pushNamed(
                                   context,
-                                  FetchTasksPage.routeName,
+                                  FetchCategoriesPage.routeName,
                                   arguments: caregroup,
                                 );
                               },
