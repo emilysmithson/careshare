@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 class ProfileInputFieldWidget extends StatefulWidget {
   final Profile profile;

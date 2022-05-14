@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:collection/collection.dart';
 
-import '../../../../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 class TaskSection extends StatelessWidget {
   final String title;

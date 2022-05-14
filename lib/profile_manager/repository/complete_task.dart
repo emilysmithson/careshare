@@ -2,7 +2,7 @@ import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart'
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 class CompleteTask {
   Future<Profile> call(

@@ -1,4 +1,4 @@
-import 'package:careshare/my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:flutter/material.dart';

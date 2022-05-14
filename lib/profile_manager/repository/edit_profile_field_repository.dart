@@ -1,8 +1,9 @@
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 class EditProfileFieldRepository {
   Future<Profile> call(

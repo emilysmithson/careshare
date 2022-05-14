@@ -1,6 +1,6 @@
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/category_manager/domain/models/category.dart';
-import 'package:careshare/my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';

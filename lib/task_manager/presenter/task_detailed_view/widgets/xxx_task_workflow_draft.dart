@@ -1,10 +1,10 @@
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
+import 'package:careshare/task_manager/models/task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../my_profile/models/profile.dart';
-import '../../../cubit/task_cubit.dart';
-import '../../../models/task.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 class TaskWorkflowDraftWidget extends StatelessWidget {

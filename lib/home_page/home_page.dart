@@ -11,7 +11,7 @@ import 'package:careshare/templates/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/home-page";
@@ -433,3 +433,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+

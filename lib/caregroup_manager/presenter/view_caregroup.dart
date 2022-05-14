@@ -4,12 +4,13 @@ import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.d
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 class ViewCaregroup extends StatefulWidget {
   static const routeName = '/view-caregroup';

@@ -4,7 +4,7 @@ import 'package:careshare/profile_manager/presenter/profile_widgets/profile_phot
 import 'package:careshare/profile_manager/presenter/view_profile.dart';
 import 'package:flutter/material.dart';
 
-import '../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 class KudosBoardWidget extends StatelessWidget {
   final Profile profile;

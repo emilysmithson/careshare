@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import '../../../cubit/task_cubit.dart';
 import '../../../models/kudos.dart';
 import 'package:collection/collection.dart';

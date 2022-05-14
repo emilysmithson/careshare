@@ -16,7 +16,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 part 'caregroup_state.dart';
 

@@ -4,7 +4,7 @@ import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
-import 'package:careshare/my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -6,7 +6,7 @@ import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../my_profile/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 
 class ViewProfile extends StatelessWidget {
   final Caregroup caregroup;
