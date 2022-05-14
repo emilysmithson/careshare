@@ -1,5 +1,5 @@
-import 'package:careshare/templates/widgets/careshare_appbar.dart';
-import 'package:careshare/templates/widgets/careshare_drawer.dart';
+import 'package:careshare/core/presentation/careshare_appbar.dart';
+import 'package:careshare/core/presentation/careshare_drawer.dart';
 import 'package:flutter/material.dart';
 
 class PageScaffold extends StatelessWidget {
