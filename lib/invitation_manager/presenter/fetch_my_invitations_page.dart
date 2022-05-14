@@ -1,4 +1,5 @@
-import 'package:careshare/caregroup_manager/presenter/fetch_caregroup_page.dart';
+import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/home_page/home_page.dart';
@@ -21,8 +22,9 @@ class FetchMyInvitationsPage extends StatelessWidget {
     print('fetching my invitations');
 
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+    List<Caregroup> myCaregroupList = BlocProvider.of<CaregroupCubit>(context).myCaregroupList;
 
-    BlocProvider.of<MyInvitationsCubit>(context).fetchMyInvitations(email: myProfile.email);
+    BlocProvider.of<MyInvitationsCubit>(context).fetchMyInvitations(email: myProfile.email, myCaregroupList: myCaregroupList);
 
     return BlocBuilder<MyInvitationsCubit, MyInvitationsState>(
       builder: (context, state) {

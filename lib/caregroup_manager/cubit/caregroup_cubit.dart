@@ -207,7 +207,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
 
           caregroupList.sort((a, b) => a.name.compareTo(b.name));
 
-          if(profile.carerInCaregroups.length > 0) {
+          if(profile.carerInCaregroups.isNotEmpty) {
 
             myCaregroupList = caregroupList.where((caregroup) =>
               profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) != -1

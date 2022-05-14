@@ -2,7 +2,6 @@ import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
-import 'package:careshare/profile_manager/presenter/fetch_profiles_page.dart';
 import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

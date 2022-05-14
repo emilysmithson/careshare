@@ -1,11 +1,7 @@
-import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
+import 'package:careshare/my_profile/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../my_profile/models/profile.dart';
 
 class ProfileSummary extends StatelessWidget {
   static const String routeName = "/profile-summary";
@@ -33,10 +29,7 @@ class ProfileSummary extends StatelessWidget {
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: BlocBuilder<MyProfileCubit, MyProfileState>(
-              builder: (context, state) {
-                if (state is ProfilesLoaded) {
-                  return Column(
+            child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ProfilePhotoWidget(id: profile.id, size: 80),
@@ -49,14 +42,11 @@ class ProfileSummary extends StatelessWidget {
                       Text('${profile.firstName} ${profile.lastName}'),
                       Text(profile.email),
                     ],
-                  );
-                }
-                return Container();
-              },
+                  ),
+
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

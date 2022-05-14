@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../profile_manager/cubit/my_profile_cubit.dart';
 import '../../profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 
 class PhotoAndNameWidget extends StatelessWidget {

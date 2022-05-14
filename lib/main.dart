@@ -1,6 +1,11 @@
 import 'dart:ui';
 
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
+import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
+import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
+import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
+import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
+import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
@@ -46,39 +51,47 @@ class _AppState extends State<App> {
     return BlocProvider(
       create: (context) => AuthenticationCubit(),
       child: BlocProvider(
-        create: (context) => NotificationsCubit(),
-        child: BlocProvider(
-          create: (context) => MyInvitationsCubit(),
+        create: (context) => CaregroupCubit(
+          createACaregroupRepository: CreateACaregroup(),
+          editCaregroupFieldRepository: EditCaregroupFieldRepository(),
+          removeACaregroupRepository: RemoveACaregroup(),
+          addCarerInCaregroupToCaregroup: AddCarerInCaregroupToCaregroup(),
+        ),
+      child: BlocProvider(
+      create: (context) => NotificationsCubit(),
           child: BlocProvider(
-            create: (context) => InvitationsCubit(
-              editInvitationFieldRepository: EditInvitationFieldRepository(),
-              ),
-              child: BlocProvider(
-                create: (context) => MyProfileCubit(
-                  editProfileFieldRepository: EditProfileFieldRepository(),
-                  addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
-                  giveKudos: GiveKudos(),
-                  completeTask: CompleteTask(),
+            create: (context) => MyInvitationsCubit(),
+            child: BlocProvider(
+              create: (context) => InvitationsCubit(
+                editInvitationFieldRepository: EditInvitationFieldRepository(),
                 ),
                 child: BlocProvider(
-                  create: (context) => AllProfilesCubit(
-                    addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
+                  create: (context) => MyProfileCubit(
                     editProfileFieldRepository: EditProfileFieldRepository(),
-                    completeTask: CompleteTask(),
+                    addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
                     giveKudos: GiveKudos(),
+                    completeTask: CompleteTask(),
                   ),
-                  child: MaterialApp(
-                  scrollBehavior: const MaterialScrollBehavior().copyWith(
-                    dragDevices: {
-                      PointerDeviceKind.mouse,
-                      PointerDeviceKind.touch,
-                      PointerDeviceKind.stylus,
-                      PointerDeviceKind.unknown
-                    },
-                  ),
-                  navigatorKey: navigatorKey,
-                  theme: CustomTheme.themeData,
-                  onGenerateRoute: _appRouter.onGenerateRoute,
+                  child: BlocProvider(
+                    create: (context) => AllProfilesCubit(
+                      addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
+                      editProfileFieldRepository: EditProfileFieldRepository(),
+                      completeTask: CompleteTask(),
+                      giveKudos: GiveKudos(),
+                    ),
+                    child: MaterialApp(
+                    scrollBehavior: const MaterialScrollBehavior().copyWith(
+                      dragDevices: {
+                        PointerDeviceKind.mouse,
+                        PointerDeviceKind.touch,
+                        PointerDeviceKind.stylus,
+                        PointerDeviceKind.unknown
+                      },
+                    ),
+                    navigatorKey: navigatorKey,
+                    theme: CustomTheme.themeData,
+                    onGenerateRoute: _appRouter.onGenerateRoute,
+                    ),
                 ),
               ),
             ),

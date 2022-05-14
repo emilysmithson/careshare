@@ -21,18 +21,12 @@ import 'package:careshare/invitation_manager/presenter/fetch_my_invitations_page
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
 import 'package:careshare/my_profile/models/profile.dart';
 import 'package:careshare/notifications/presenter/notifications_page.dart';
-import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
-import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/fetch_my_profile_page.dart';
 import 'package:careshare/profile_manager/presenter/fetch_profiles_page.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
 import 'package:careshare/profile_manager/presenter/view_profile.dart';
-import 'package:careshare/profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
-import 'package:careshare/profile_manager/repository/complete_task.dart';
-import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
-import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
@@ -289,15 +283,17 @@ class AppRouter {
 
       case FetchInvitationsPage.routeName:
         return MaterialPageRoute(
-          builder: (_) => FetchInvitationsPage(
-            caregroup: routeSettings.arguments as Caregroup,
-          ),
-
+            builder: (_) => FetchInvitationsPage(
+                caregroup: routeSettings.arguments as Caregroup,
+            ),
         );
 
       case FetchMyInvitationsPage.routeName:
         return MaterialPageRoute(
-          builder: (_) => FetchMyInvitationsPage(),
+            builder: (_) => BlocProvider.value(
+              value: _caregroupCubit,
+              child:FetchMyInvitationsPage(),
+          ),
         );
 
 

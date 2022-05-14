@@ -1,7 +1,6 @@
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
-import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/invitation_manager/presenter/fetch_my_invitations_page.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 
 import 'package:careshare/profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
@@ -9,7 +7,6 @@ import 'package:equatable/equatable.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../my_profile/models/profile.dart';

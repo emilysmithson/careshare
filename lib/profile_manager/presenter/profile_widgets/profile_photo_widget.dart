@@ -2,8 +2,6 @@ import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubit/my_profile_cubit.dart';
-
 class ProfilePhotoWidget extends StatelessWidget {
   final double? size;
   final String id;

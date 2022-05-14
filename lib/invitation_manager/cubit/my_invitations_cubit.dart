@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:equatable/equatable.dart';
@@ -14,10 +15,15 @@ class MyInvitationsCubit extends Cubit<MyInvitationsState> {
   MyInvitationsCubit() : super(MyInvitationsInitial());
 
 
-  Future fetchMyInvitations({required String email}) async {
+  Future fetchMyInvitations({
+    required String email,
+    required List<Caregroup> myCaregroupList,
+
+  }) async {
     try {
       print('.....fetching invitations for: $email');
       emit(const MyInvitationsLoading());
+
       final reference = FirebaseDatabase.instance
           .ref('invitations');
 
@@ -36,7 +42,7 @@ class MyInvitationsCubit extends Cubit<MyInvitationsState> {
           returnedList.forEach(
                 (key, value) async {
               Invitation invitation = Invitation.fromJson(value);
-            if (invitation.email == email) {
+            if (invitation.email == email && myCaregroupList.indexWhere((caregroup) => caregroup.id == invitation.caregroupId) == -1)  {
               myInvitationsList.add(invitation);
             }
           },
