@@ -121,14 +121,19 @@ class _TaskSearchState extends State<TaskSearch> {
                               PopupMenuItem<String>(
                                 value: category.id,
                                 child: Text(category.name),
+                                textStyle: (categoryId== category.id)
+                                    ? TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
+                                    : TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
                               ),
                         )
                             .toList();
                         widgetList.add(
-                          const PopupMenuItem<String>(
+                          PopupMenuItem<String>(
                             value: '',
                             child: Text('Show all'),
-                          ),
+                            textStyle: (categoryId== "")
+                                ? TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
+                                : TextStyle(color: Colors.black, fontWeight: FontWeight.normal),                          ),
                         );
                         return widgetList;
                       }),
