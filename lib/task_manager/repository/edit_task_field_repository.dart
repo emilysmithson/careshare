@@ -50,6 +50,13 @@ class EditTaskFieldRepository {
         field = 'can_be_remote';
         value = newValue;
         break;
+
+      case TaskField.dueDate:
+        newTask.dueDate = newValue;
+        field = 'due_date';
+        value = newValue.toString();
+        break;
+
       case TaskField.taskPriority:
         newTask.taskPriority = TaskPriority.priorityList
             .firstWhere((element) => element.value == newValue.truncate());

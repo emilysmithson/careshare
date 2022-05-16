@@ -24,6 +24,8 @@ class CareTask {
   TaskType taskType;
   bool canBeRemote;
 
+  DateTime dueDate;
+
   String? createdBy;
   DateTime? taskCreatedDate;
 
@@ -38,7 +40,6 @@ class CareTask {
   String? completedBy;
   DateTime? taskCompletedDate;
 
-
   List<Comment>? comments = [];
   List<Kudos>? kudos = [];
   List<TaskHistory>? taskHistory = [];
@@ -46,16 +47,18 @@ class CareTask {
   CareTask({
     required this.id,
     required this.caregroup,
-    this.taskStatus = TaskStatus.draft,
 
     required this.title,
-    this.details,
+    required this.dueDate,
 
+    this.taskStatus = TaskStatus.draft,
+    this.details,
     this.category,
     this.taskEffort = TaskEffort.medium,
     this.taskPriority = TaskPriority.medium,
     this.taskType = TaskType.any,
     this.canBeRemote = true,
+
 
     required this.createdBy,
     required this.taskCreatedDate,
@@ -83,6 +86,7 @@ class CareTask {
         title: title,
         createdBy: createdBy,
         taskCreatedDate: taskCreatedDate,
+        dueDate: DateTime.now(),
     );
 
     cloned.taskStatus = taskStatus;
@@ -92,6 +96,7 @@ class CareTask {
     cloned.taskPriority = taskPriority;
     cloned.taskType = taskType;
     cloned.canBeRemote = canBeRemote;
+    cloned.dueDate = dueDate;
     cloned.assignedTo = assignedTo;
     cloned.assignedBy = assignedBy;
     cloned.assignedDate = assignedDate;
@@ -113,26 +118,15 @@ class CareTask {
     print(taskHistory?.map((taskHistory) => taskHistory.toJson()).toList());
 
 
-    var newTaskHistoryA = Map();
-    var newTaskHistoryB = Map();
+    var newTaskHistory = Map();
     if (taskHistory!=null) {
       
       taskHistory!.forEach((element) {
-        print("element: $element");
-        newTaskHistoryA.addAll(element.toJson());
-        print("newTaskHistoryA: $newTaskHistoryA");
-
         var newElement = Map();
         newElement = {element.id: element.toJson()};
-        print("newElement: $newElement");
-        newTaskHistoryB.addAll(newElement);
-        print("newTaskHistoryB: $newTaskHistoryB");
-
+        newTaskHistory.addAll(newElement);
       });
     }
-    print("newTaskHistory: $newTaskHistoryA");
-    print("newTaskHistory: $newTaskHistoryB");
-
 
 
     return {
@@ -147,6 +141,7 @@ class CareTask {
       'priority': taskPriority.value,
       'task_type': taskType.value,
       'can_be_remote': canBeRemote,
+      'due_date': dueDate.toString(),
 
       'created_by': createdBy,
       'created_date': taskCreatedDate.toString(),
@@ -164,7 +159,7 @@ class CareTask {
 
       'comments': comments?.map((comment) => comment.toJson()).toList(),
       'kudos': kudos?.map((kudos) => kudos.toJson()).toList(),
-      'history': newTaskHistoryB,
+      'history': newTaskHistory,
 
     };
   }
@@ -189,6 +184,10 @@ class CareTask {
         .firstWhere((element) => element.value == value['task_type']);
 
     final canBeRemote = (value['can_be_remote'] == "false") ? false : true;
+
+    final dueDate = (value['due_date']!=null && value['due_date']!="" && DateTime.tryParse(value['due_date']) != null)
+        ? DateTime.parse(value['due_date'])
+        : DateTime.parse(value['created_date']);
 
     final priority = TaskPriority.priorityList
         .firstWhere((element) => value['priority'] == element.value);
@@ -247,6 +246,7 @@ class CareTask {
         taskEffort: taskSize,
         taskType: taskType,
         canBeRemote: canBeRemote,
+        dueDate: dueDate,
         taskStatus: taskStatus,
         taskPriority: priority,
         createdBy: createdBy,
@@ -278,6 +278,7 @@ class CareTask {
         other.taskEffort == taskEffort &&
         other.taskType == taskType &&
         other.canBeRemote == canBeRemote &&
+        other.dueDate ==dueDate &&
         other.details == details &&
         other.category == category &&
         other.id == id &&
@@ -308,6 +309,7 @@ class CareTask {
         taskEffort.hashCode ^
         taskType.hashCode ^
         canBeRemote.hashCode ^
+        dueDate.hashCode ^
         details.hashCode ^
         category.hashCode ^
         id.hashCode ^
@@ -342,6 +344,7 @@ enum TaskField {
   taskPriority,
   taskType,
   canBeRemote,
+  dueDate,
 
   createdBy,
   taskCreatedDate,

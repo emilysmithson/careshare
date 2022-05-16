@@ -15,6 +15,7 @@ import 'widgets/display_comments_widget.dart';
 import 'widgets/effort_widget.dart';
 import 'widgets/priority_widget.dart';
 import 'widgets/task_workflow_widget.dart';
+import 'package:intl/intl.dart';
 
 class TaskDetailedView extends StatefulWidget {
   static const String routeName = "/task-detailed-view";
@@ -35,6 +36,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
   Timer? _debounce;
   TextEditingController titleController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
+  TextEditingController dueDateController = TextEditingController();
 
   bool _dirty = false;
 
@@ -43,6 +45,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
     if (widget.task.title != null) {
       titleController.text = widget.task.title;
       detailsController.text = (widget.task.details==null) ? "" : widget.task.details!;
+      dueDateController.text = DateFormat('d MMM yyyy').format(widget.task.dueDate);
     }
     super.initState();
   }
@@ -52,6 +55,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
     _debounce?.cancel();
     titleController.dispose();
     detailsController.dispose();
+    dueDateController.dispose();
     super.dispose();
   }
 
@@ -59,35 +63,8 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
   Widget build(BuildContext context) {
 
     CareTask originalTask = widget.task.clone();
-    //
-    // CareTask originalTask = CareTask(
-    //     id: widget.task.id,
-    //     caregroup: widget.task.caregroup,
-    //     title: widget.task.title,
-    //     createdBy: widget.task.createdBy,
-    //     taskCreatedDate: widget.task.taskCreatedDate
-    // );
-    // originalTask.details = widget.task.details;
-    // originalTask.taskStatus = widget.task.taskStatus;
-    // originalTask.acceptedBy = widget.task.acceptedBy;
-    // originalTask.acceptedOnDate = widget.task.acceptedOnDate;
-    // originalTask.assignedBy = widget.task.assignedBy;
-    // originalTask.assignedDate = widget.task.assignedDate;
-    // originalTask.assignedTo = widget.task.assignedTo;
-    // originalTask.canBeRemote = widget.task.canBeRemote;
-    // originalTask.category = widget.task.category;
-    // originalTask.comments = widget.task.comments;
-    // originalTask.completedBy = widget.task.completedBy;
-    // originalTask.kudos = widget.task.kudos;
-    // originalTask.taskAcceptedForDate = widget.task.taskAcceptedForDate;
-    // originalTask.taskCompletedDate = widget.task.taskCompletedDate;
-    // originalTask.taskEffort = widget.task.taskEffort;
-    // originalTask.taskHistory = widget.task.taskHistory;
-    // originalTask.taskPriority = widget.task.taskPriority;
-    // originalTask.taskType = widget.task.taskType;
 
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
-
 
     return GestureDetector(
       onTap: () {
@@ -243,6 +220,13 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                   child: Wrap(
                     runSpacing: 24,
                     children: [
+
+                      PhotoAndNameWidget(
+                        id: widget.task.createdBy!,
+                        text: 'Created by:',
+                        dateTime: widget.task.taskCreatedDate,
+                      ),
+
                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -290,13 +274,6 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
 
                         ),
                       ),
-                      PhotoAndNameWidget(
-                        id: widget.task.createdBy!,
-                        text: 'Created by:',
-                        dateTime: widget.task.taskCreatedDate,
-                      ),
-
-
                       TextFormField(
                         enabled: !widget.task.taskStatus.locked,
                         validator: (value) {
@@ -332,25 +309,72 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                         ),
                       ),
 
+                      TextFormField(
+                        enabled: !widget.task.taskStatus.locked,
+                        readOnly: true,
+                        validator: (value) {
+                          if (value == null || value.length == 0)  {
+                            return 'Please enter a due date';
+                          }
+                          return null;
+                        },
+                        // style: widget.textStyle,
+                        maxLines: 1,
+                        controller: dueDateController,
+                        onChanged: (value) async {
+                          _dirty = true;
 
-                      // TaskInputFieldWidget(
-                      //     locked: widget.task.taskStatus.locked,
-                      //     currentValue: widget.task.details,
-                      //     maxLines: 5,
-                      //     task: widget.task,
-                      //     label: 'Description',
-                      //     onChanged: (value) {
-                      //       BlocProvider.of<TaskCubit>(context)
-                      //           .editTaskFieldRepository(
-                      //         task: widget.task,
-                      //         newValue: value,
-                      //         taskField: TaskField.details,
-                      //       );
-                      //     }),
-                      PriorityWidget(
-                        locked: widget.task.taskStatus.locked,
-                        task: widget.task,
+                          if (_debounce?.isActive ?? false) _debounce?.cancel();
+                          _debounce = Timer(const Duration(milliseconds: 1000), () {
+                            BlocProvider.of<TaskCubit>(context)
+                                .editTaskFieldRepository(
+                              taskField: TaskField.dueDate,
+                              task: widget.task,
+                              newValue: value,
+                            );
+                          });
+                        },
+
+
+
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.calendar_today),
+                          disabledBorder:(
+                              OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))
+                          ),
+                          label: Text('Due Date'),
+                        ),
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2101)
+                          );
+
+                          if(pickedDate != null ){
+                            print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
+                            //you can implement different kind of Date Format here according to your requirement
+
+
+                            BlocProvider.of<TaskCubit>(context)
+                                .editTaskFieldRepository(
+                              taskField: TaskField.dueDate,
+                              task: widget.task,
+                              newValue: pickedDate,
+                            );
+
+
+                            setState(() {
+                              dueDateController.text =
+                                  DateFormat('d MMM yyyy').format(pickedDate);
+                            });
+                          }else{
+                            print("Date is not selected");
+                          }
+                        },
                       ),
+
 
                       Row(
                         children: [
@@ -372,13 +396,18 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                         ],
                       ),
 
-                      // TypeWidget(
-                      //   task: task,
-                      // ),
+                      PriorityWidget(
+                        locked: widget.task.taskStatus.locked,
+                        task: widget.task,
+                      ),
+
                       EffortWidget(
                         task: widget.task,
                         locked: widget.task.taskStatus.locked,
                       ),
+
+
+
                       ChooseCategoryWidget(
                         task: widget.task,
                         locked: widget.task.taskStatus.locked,

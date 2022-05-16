@@ -12,6 +12,7 @@ class CreateATask {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       createdBy: FirebaseAuth.instance.currentUser!.uid,
       taskCreatedDate: DateTime.now(),
+      dueDate: DateTime.now(),
     );
     DatabaseReference reference = FirebaseDatabase.instance.ref('tasks');
 
