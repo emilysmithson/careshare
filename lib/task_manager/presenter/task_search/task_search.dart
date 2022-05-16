@@ -99,7 +99,7 @@ class _TaskSearchState extends State<TaskSearch> {
                 actions: [
                   PopupMenuButton<String>(
                       tooltip: 'Filter',
-                      icon: const Icon(Icons.filter_alt),
+                      icon: (categoryId == "" ) ? Icon(Icons.filter_alt_outlined) : Icon(Icons.filter_alt),
                       onSelected: (String id) {
                         categoryId = id;
 
