@@ -12,6 +12,7 @@ class TaskInputFieldWidget extends StatefulWidget {
   final String label;
   final TextStyle? textStyle;
   final bool locked;
+  final int minLength;
   const TaskInputFieldWidget({
     Key? key,
     required this.task,
@@ -21,6 +22,7 @@ class TaskInputFieldWidget extends StatefulWidget {
     this.textStyle,
     this.maxLines = 1,
     this.locked = false,
+    this.minLength = 0,
   }) : super(
           key: key,
         );
@@ -50,8 +52,17 @@ class _TaskInputFieldWidgetState extends State<TaskInputFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       enabled: !widget.locked,
+      validator: (value) {
+        if (widget.minLength > 0 && value != null && value.length < widget.minLength)  {
+          return '${widget.label} must be at least ${widget.minLength} characters long';
+        }
+        return null;
+      },
+
+
+
       style: widget.textStyle,
       maxLines: widget.maxLines,
       controller: controller,

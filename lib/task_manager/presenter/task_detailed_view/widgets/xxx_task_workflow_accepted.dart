@@ -71,7 +71,7 @@ class TaskWorkflowAcceptedWidget extends StatelessWidget {
                                     BlocProvider.of<TaskCubit>(context)
                                         .completeTask(
                                       task: task,
-                                      id: task.acceptedBy!,
+                                      profileId: task.acceptedBy!,
                                       dateTime: dateTime,
                                     );
 

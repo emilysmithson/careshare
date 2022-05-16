@@ -15,6 +15,10 @@ class TaskLoading extends TaskState {
   const TaskLoading();
 }
 
+class TaskUpdating extends TaskState {
+  const TaskUpdating();
+}
+
 class TaskLoaded extends TaskState {
   final List<CareTask> careTaskList;
   

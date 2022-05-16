@@ -5,6 +5,7 @@ import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
 import 'package:careshare/task_manager/repository/edit_task_field_repository.dart';
 import 'package:careshare/task_manager/repository/remove_a_task.dart';
+import 'package:careshare/task_manager/repository/update_a_task.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -15,10 +16,12 @@ part 'task_state.dart';
 class TaskCubit extends Cubit<TaskState> {
   final CreateATask createATaskRepository;
   final EditTaskFieldRepository editTaskFieldRepository;
+  final UpdateATask updateATaskRepository;
   final RemoveATask removeATaskRepository;
   TaskCubit({
     required this.createATaskRepository,
     required this.editTaskFieldRepository,
+    required this.updateATaskRepository,
     required this.removeATaskRepository,
   }) : super(const TaskInitial());
 
@@ -128,18 +131,26 @@ class TaskCubit extends Cubit<TaskState> {
   // Create Task
   // Update the task status to Created, unless the task is already assigned
   // in which case set the status to Assigned
-  createTask({required CareTask task, required String id}) {
+  createTask({
+    required CareTask task,
+    required String profileId
+  }) {
     if (task.assignedTo == null || task.assignedTo == '') {
       editTaskFieldRepository(
         task: task,
         taskField: TaskField.taskStatus,
         newValue: TaskStatus.created,
       );
+
       editTaskFieldRepository(
         task: task,
         taskField: TaskField.taskHistory,
         newValue: TaskHistory(
-            id: id, taskStatus: TaskStatus.created, dateTime: DateTime.now()),
+            id: DateTime.now().millisecondsSinceEpoch.toString(),
+            profileId: profileId,
+            taskStatus: TaskStatus.created,
+            dateTime: DateTime.now()
+        ),
       );
     } else {
       editTaskFieldRepository(
@@ -151,12 +162,16 @@ class TaskCubit extends Cubit<TaskState> {
         task: task,
         taskField: TaskField.taskHistory,
         newValue: TaskHistory(
-            id: id, taskStatus: TaskStatus.assigned, dateTime: DateTime.now()),
+            id: DateTime.now().millisecondsSinceEpoch.toString(),
+            profileId: profileId,
+            taskStatus: TaskStatus.assigned,
+            dateTime: DateTime.now()
+        ),
       );
     }
   }
 
-  acceptTask({required CareTask task, required String id}) {
+  acceptTask({required CareTask task, required String profileId}) {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskStatus,
@@ -165,12 +180,14 @@ class TaskCubit extends Cubit<TaskState> {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskHistory,
-      newValue: TaskHistory(
-          id: id, taskStatus: TaskStatus.accepted, dateTime: DateTime.now()),
+      newValue: TaskHistory(id: DateTime.now().millisecondsSinceEpoch.toString(),
+          profileId: profileId,
+          taskStatus: TaskStatus.accepted,
+          dateTime: DateTime.now()),
     );
   }
 
-  rejectTask({required CareTask task, required String id}) {
+  rejectTask({required CareTask task, required String profileId}) {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskStatus,
@@ -184,8 +201,10 @@ class TaskCubit extends Cubit<TaskState> {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskHistory,
-      newValue: TaskHistory(
-          id: id, taskStatus: TaskStatus.created, dateTime: DateTime.now()),
+      newValue: TaskHistory(id: DateTime.now().millisecondsSinceEpoch.toString(),
+          profileId: profileId,
+          taskStatus: TaskStatus.created,
+          dateTime: DateTime.now()),
     );
   }
 
@@ -201,12 +220,12 @@ class TaskCubit extends Cubit<TaskState> {
 
   completeTask(
       {required CareTask task,
-      required String id,
+      required String profileId,
       required DateTime dateTime}) {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.completedBy,
-      newValue: id,
+      newValue: profileId,
     );
     editTaskFieldRepository(
       task: task,
@@ -221,8 +240,10 @@ class TaskCubit extends Cubit<TaskState> {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskHistory,
-      newValue: TaskHistory(
-          id: id, taskStatus: TaskStatus.assigned, dateTime: DateTime.now()),
+      newValue: TaskHistory(id: DateTime.now().millisecondsSinceEpoch.toString(),
+          profileId: profileId,
+          taskStatus: TaskStatus.completed,
+          dateTime: DateTime.now()),
     );
   }
 
@@ -250,14 +271,26 @@ class TaskCubit extends Cubit<TaskState> {
       editTaskFieldRepository(
         task: task,
         taskField: TaskField.taskHistory,
-        newValue: TaskHistory(
-            id: assignedById,
+        newValue: TaskHistory(id: DateTime.now().millisecondsSinceEpoch.toString(),
+            profileId: assignedById,
             taskStatus: TaskStatus.assigned,
             dateTime: DateTime.now()),
       );
     }
   }
 
+  updateTask(CareTask task) {
+    emit(const TaskUpdating());
+    updateATaskRepository(task);
+    careTaskList.removeWhere((element) => element.id == task.id);
+    careTaskList.add(task);
+
+    emit(
+      TaskLoaded(
+        careTaskList: careTaskList,
+      ),
+    );
+  }
   removeTask(String id) {
     emit(const TaskLoading());
     removeATaskRepository(id);

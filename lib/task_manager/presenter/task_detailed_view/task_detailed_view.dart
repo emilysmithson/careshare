@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:careshare/core/presentation/photo_and_name_widget.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/assign_a_task.dart';
@@ -10,9 +15,8 @@ import 'widgets/display_comments_widget.dart';
 import 'widgets/effort_widget.dart';
 import 'widgets/priority_widget.dart';
 import 'widgets/task_workflow_widget.dart';
-import 'widgets/task_input_field_widget.dart';
 
-class TaskDetailedView extends StatelessWidget {
+class TaskDetailedView extends StatefulWidget {
   static const String routeName = "/task-detailed-view";
   final CareTask task;
 
@@ -21,8 +25,70 @@ class TaskDetailedView extends StatelessWidget {
     required this.task,
   }) : super(key: key);
 
+
+  @override
+  State<TaskDetailedView> createState() => _TaskDetailedViewState();
+}
+
+class _TaskDetailedViewState extends State<TaskDetailedView> {
+  final _formKey = GlobalKey<FormState>();
+  Timer? _debounce;
+  TextEditingController titleController = TextEditingController();
+  TextEditingController detailsController = TextEditingController();
+
+  bool _dirty = false;
+
+  @override
+  void initState() {
+    if (widget.task.title != null) {
+      titleController.text = widget.task.title;
+      detailsController.text = (widget.task.details==null) ? "" : widget.task.details!;
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    titleController.dispose();
+    detailsController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    CareTask originalTask = widget.task.clone();
+    //
+    // CareTask originalTask = CareTask(
+    //     id: widget.task.id,
+    //     caregroup: widget.task.caregroup,
+    //     title: widget.task.title,
+    //     createdBy: widget.task.createdBy,
+    //     taskCreatedDate: widget.task.taskCreatedDate
+    // );
+    // originalTask.details = widget.task.details;
+    // originalTask.taskStatus = widget.task.taskStatus;
+    // originalTask.acceptedBy = widget.task.acceptedBy;
+    // originalTask.acceptedOnDate = widget.task.acceptedOnDate;
+    // originalTask.assignedBy = widget.task.assignedBy;
+    // originalTask.assignedDate = widget.task.assignedDate;
+    // originalTask.assignedTo = widget.task.assignedTo;
+    // originalTask.canBeRemote = widget.task.canBeRemote;
+    // originalTask.category = widget.task.category;
+    // originalTask.comments = widget.task.comments;
+    // originalTask.completedBy = widget.task.completedBy;
+    // originalTask.kudos = widget.task.kudos;
+    // originalTask.taskAcceptedForDate = widget.task.taskAcceptedForDate;
+    // originalTask.taskCompletedDate = widget.task.taskCompletedDate;
+    // originalTask.taskEffort = widget.task.taskEffort;
+    // originalTask.taskHistory = widget.task.taskHistory;
+    // originalTask.taskPriority = widget.task.taskPriority;
+    // originalTask.taskType = widget.task.taskType;
+
+    Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+
+
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -32,126 +98,300 @@ class TaskDetailedView extends StatelessWidget {
       },
       child: BlocBuilder<TaskCubit, TaskState>(
         builder: (context, state) {
-          return Scaffold(
-            floatingActionButton: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TaskWorkflowWidget(task: task),
-              ],
-            ),
-            appBar: AppBar(
-              title: const Text('Task Details'),
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.delete,
+          return Form(
+            key: _formKey,
+            child: Scaffold(
+              floatingActionButton: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+
+                  // Cancel button
+                  // Shown when the task is in Draft
+                  // When clicked, the draft task is deleted
+                  if (widget.task.taskStatus == TaskStatus.draft)
+                    ElevatedButton(
+                      onPressed: () {
+                        BlocProvider.of<TaskCubit>(context).removeTask(widget.task.id);
+
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                  if (widget.task.taskStatus == TaskStatus.draft)
+                    const SizedBox(width: 20),
+
+                  // Undo button
+                  // Shown when _dirty is true
+                  // When clicked, the task is reverted
+                  if (widget.task.taskStatus != TaskStatus.draft && _dirty)
+                    ElevatedButton(
+                      onPressed: () {
+
+
+                        BlocProvider.of<TaskCubit>(context).updateTask(originalTask);
+
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Undo Changes'),
+                    ),
+                  if (widget.task.taskStatus == TaskStatus.draft)
+                    const SizedBox(width: 20),
+
+
+                  // Create Task button
+                  // Shown when the task is in Draft
+                  // When clicked, the status is set to:
+                  //    Created if task isn't assigned
+                  //    Assigned if the task is assigned to someone else
+                  //    Accepted if the task is assigned to me
+                  // A message is sent to everyone in the caregroup except me if the task is unassigned
+                  // A message is sent to the assignee if the task is assigned
+                  if (widget.task.taskStatus == TaskStatus.draft)
+                    ElevatedButton(
+                      onPressed: ()  {
+
+                        if (!_formKey.currentState!.validate()) {
+                          print('validation failed');
+                        }
+                        else {
+
+                          BlocProvider.of<TaskCubit>(context).createTask(
+                            task: widget.task,
+                            profileId: myProfile.id,
+                          );
+
+                          Navigator.pop(context);
+
+                          // Send a message to tell the world the task is created
+                          HttpsCallable callable =
+                          FirebaseFunctions.instance.httpsCallable(
+                              'createTask');
+                           callable.call(<String, dynamic>{
+                            'task_id': widget.task.id,
+                            'task_title': widget.task.title,
+                            'creater_id': myProfile.id,
+                            'creater_name': myProfile.name,
+                            'date_time': DateTime.now().toString()
+                          });
+                        }
+                      },
+                      child: const Text('Create Task'),
+                    ),
+                  if (widget.task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
+
+
+                  // Accept Task Button
+                  // Shown when the task is Assigned
+                  if (widget.task.taskStatus == TaskStatus.assigned &&
+                      widget.task.assignedTo == myProfile.id)
+                    ElevatedButton(
+                      onPressed: ()  {
+
+                        if (!_formKey.currentState!.validate()) {
+                          print('validation failed');
+                        }
+                        else {
+
+                        BlocProvider.of<TaskCubit>(context).acceptTask(
+                          task: widget.task,
+                          profileId: myProfile.id,
+                        );
+
+                        Navigator.pop(context);
+
+                        // Send a message to tell the world the task is accepted
+                        HttpsCallable callable =
+                        FirebaseFunctions.instance.httpsCallable('acceptTask');
+                         callable.call(<String, dynamic>{
+                          'task_id': widget.task.id,
+                          'task_title': widget.task.title,
+                          'accepter_id': myProfile.id,
+                          'accepter_name': myProfile.name,
+                          'date_time': DateTime.now().toString()
+                           });
+                       }
+                    },
+                      child: const Text('Accept Task'),
+                    ),
+                  if (widget.task.taskStatus == TaskStatus.assigned &&
+                      widget.task.assignedTo == myProfile.id)
+                    const SizedBox(width: 20),
+
+
+                  TaskWorkflowWidget(task: widget.task, formKey: _formKey,),
+                ],
+              ),
+              appBar: AppBar(
+                title: const Text('Task Details'),
+                actions: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                    ),
+                    onPressed: () {
+                      final taskCubit = BlocProvider.of<TaskCubit>(context);
+
+                      taskCubit.removeTask(widget.task.id);
+                      Navigator.pop(context);
+                    },
                   ),
-                  onPressed: () {
-                    final taskCubit = BlocProvider.of<TaskCubit>(context);
-
-                    taskCubit.removeTask(task.id);
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Wrap(
-                  runSpacing: 24,
-                  children: [
-                   Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('draft', style: (task.taskStatus == TaskStatus.draft) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
-                        Text('  >  '),
-                        Text('created', style: (task.taskStatus == TaskStatus.created) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
-                        Text('  >  '),
-                        Text('assigned', style: (task.taskStatus == TaskStatus.assigned) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
-                        Text('  >  '),
-                        Text('accepted', style: (task.taskStatus == TaskStatus.accepted) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
-                        Text('  >  '),
-                        Text('completed', style: (task.taskStatus == TaskStatus.completed) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: TaskInputFieldWidget(
-                        locked: task.taskStatus.locked,
-                        label: 'Title',
-                        maxLines: 1,
-                        currentValue: task.title,
-                        task: task,
-                        onChanged: (value) {
-                          BlocProvider.of<TaskCubit>(context)
-                              .editTaskFieldRepository(
-                            taskField: TaskField.title,
-                            task: task,
-                            newValue: value,
-                          );
-                        },
+                ],
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    runSpacing: 24,
+                    children: [
+                     Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('draft', style: (widget.task.taskStatus == TaskStatus.draft) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                          Text('  >  '),
+                          Text('created', style: (widget.task.taskStatus == TaskStatus.created) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                          Text('  >  '),
+                          Text('assigned', style: (widget.task.taskStatus == TaskStatus.assigned) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                          Text('  >  '),
+                          Text('accepted', style: (widget.task.taskStatus == TaskStatus.accepted) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                          Text('  >  '),
+                          Text('completed', style: (widget.task.taskStatus == TaskStatus.completed) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                        ],
                       ),
-                    ),
-                    PhotoAndNameWidget(
-                      id: task.createdBy!,
-                      text: 'Created by:',
-                      dateTime: task.taskCreatedDate,
-                    ),
-                    TaskInputFieldWidget(
-                        locked: task.taskStatus.locked,
-                        currentValue: task.details,
-                        maxLines: 5,
-                        task: task,
-                        label: 'Description',
-                        onChanged: (value) {
-                          BlocProvider.of<TaskCubit>(context)
-                              .editTaskFieldRepository(
-                            task: task,
-                            newValue: value,
-                            taskField: TaskField.details,
-                          );
-                        }),
-                    PriorityWidget(
-                      locked: task.taskStatus.locked,
-                      task: task,
-                    ),
+                      TextFormField(
+                        enabled: !widget.task.taskStatus.locked,
+                        validator: (value) {
+                          if (value == null || value.length == 0)  {
+                            return 'Please enter a title';
+                          } else if (value.length < 10)  {
+                            return 'Too short! please make it at least 10 characters.';
+                          }
+                          return null;
+                        },
+                        // style: widget.textStyle,
+                        maxLines: 1,
+                        controller: titleController,
+                        onChanged: (value) async {
+                          _dirty = true;
+                          if (_debounce?.isActive ?? false) _debounce?.cancel();
+                          _debounce = Timer(const Duration(milliseconds: 1000), () {
+                              BlocProvider.of<TaskCubit>(context)
+                                  .editTaskFieldRepository(
+                                taskField: TaskField.title,
+                                task: widget.task,
+                                newValue: value,
+                              );
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          disabledBorder:(
+                              OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))
+                          ) ,
+                          label: Text('Title'),
 
-                    Row(
-                      children: [
-                        const Text('Can be done remotely'),
-                        Checkbox(
-                            value: task.canBeRemote,
-                            onChanged: (bool? value) {
-                              if  (!task.taskStatus.locked) {
-                                BlocProvider.of<TaskCubit>(context)
-                                    .editTaskFieldRepository(
-                                  task: task,
-                                  newValue: value,
-                                  taskField: TaskField.canBeRemote,
-                                );
-                              }
-                            }),
-                      ],
-                    ),
+                        ),
+                      ),
+                      PhotoAndNameWidget(
+                        id: widget.task.createdBy!,
+                        text: 'Created by:',
+                        dateTime: widget.task.taskCreatedDate,
+                      ),
 
-                    // TypeWidget(
-                    //   task: task,
-                    // ),
-                    EffortWidget(
-                      task: task,
-                      locked: task.taskStatus.locked,
-                    ),
-                    ChooseCategoryWidget(
-                      task: task,
-                      locked: task.taskStatus.locked,
-                    ),
-                    AssignATask(
-                      task: task,
-                      locked: task.taskStatus.locked,
-                    ),
-                    DisplayCommentsWidget(task: task),
-                  ],
+
+                      TextFormField(
+                        enabled: !widget.task.taskStatus.locked,
+                        validator: (value) {
+                          if (value == null || value.length == 0)  {
+                            return 'Please enter a description';
+                          } else if (value.length < 20)  {
+                            return 'Too short! please make it   at least 20 characters.';
+                          }
+                          return null;
+                        },
+                        // style: widget.textStyle,
+                        maxLines: 4,
+                        controller: detailsController,
+                        onChanged: (value) async {
+                          _dirty = true;
+
+                          if (_debounce?.isActive ?? false) _debounce?.cancel();
+                          _debounce = Timer(const Duration(milliseconds: 1000), () {
+                            BlocProvider.of<TaskCubit>(context)
+                                .editTaskFieldRepository(
+                              taskField: TaskField.details,
+                              task: widget.task,
+                              newValue: value,
+                            );
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          disabledBorder:(
+                              OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))
+                          ) ,
+                          label: Text('Description'),
+
+                        ),
+                      ),
+
+
+                      // TaskInputFieldWidget(
+                      //     locked: widget.task.taskStatus.locked,
+                      //     currentValue: widget.task.details,
+                      //     maxLines: 5,
+                      //     task: widget.task,
+                      //     label: 'Description',
+                      //     onChanged: (value) {
+                      //       BlocProvider.of<TaskCubit>(context)
+                      //           .editTaskFieldRepository(
+                      //         task: widget.task,
+                      //         newValue: value,
+                      //         taskField: TaskField.details,
+                      //       );
+                      //     }),
+                      PriorityWidget(
+                        locked: widget.task.taskStatus.locked,
+                        task: widget.task,
+                      ),
+
+                      Row(
+                        children: [
+                          const Text('Can be done remotely'),
+                          Checkbox(
+                              value: widget.task.canBeRemote,
+                              onChanged: (bool? value) {
+                                _dirty = true;
+
+                                if  (!widget.task.taskStatus.locked) {
+                                  BlocProvider.of<TaskCubit>(context)
+                                      .editTaskFieldRepository(
+                                    task: widget.task,
+                                    newValue: value,
+                                    taskField: TaskField.canBeRemote,
+                                  );
+                                }
+                              }),
+                        ],
+                      ),
+
+                      // TypeWidget(
+                      //   task: task,
+                      // ),
+                      EffortWidget(
+                        task: widget.task,
+                        locked: widget.task.taskStatus.locked,
+                      ),
+                      ChooseCategoryWidget(
+                        task: widget.task,
+                        locked: widget.task.taskStatus.locked,
+                      ),
+                      AssignATask(
+                        task: widget.task,
+                        locked: widget.task.taskStatus.locked,
+                      ),
+                      DisplayCommentsWidget(task: widget.task),
+                      SizedBox(height: 150,),
+
+                    ],
+                  ),
                 ),
               ),
             ),

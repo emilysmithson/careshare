@@ -31,7 +31,7 @@ class TaskWorkflowDraftWidget extends StatelessWidget {
                 BlocProvider.of<MyProfileCubit>(context).myProfile;
 
             BlocProvider.of<TaskCubit>(context)
-                .createTask(task: task, id: myProfile.id);
+                .createTask(task: task, profileId: myProfile.id);
 
             Navigator.pop(context);
 

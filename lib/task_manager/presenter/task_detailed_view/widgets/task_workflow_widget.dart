@@ -21,7 +21,8 @@ import 'package:intl/intl.dart';
 
 class TaskWorkflowWidget extends StatelessWidget {
   final CareTask task;
-  const TaskWorkflowWidget({Key? key, required this.task}) : super(key: key);
+  final formKey;
+  const TaskWorkflowWidget({Key? key, required this.task, required this.formKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,88 +37,94 @@ class TaskWorkflowWidget extends StatelessWidget {
         //    Complete - shown when status is Draft, Assigned or Accepted
         //    Give Kudos - shown when status is Complete
 
-        // Cancel button
-        // Shown when the task is in Draft
-        // When clicked, the draft task is deleted
-        if (task.taskStatus == TaskStatus.draft)
-          ElevatedButton(
-            onPressed: () {
-              BlocProvider.of<TaskCubit>(context).removeTask(task.id);
-
-              Navigator.pop(context);
-            },
-            child: const Text('Cancel'),
-          ),
+        // // Cancel button
+        // // Shown when the task is in Draft
+        // // When clicked, the draft task is deleted
+        // if (task.taskStatus == TaskStatus.draft)
+        //   ElevatedButton(
+        //     onPressed: () {
+        //       BlocProvider.of<TaskCubit>(context).removeTask(task.id);
+        //
+        //       Navigator.pop(context);
+        //     },
+        //     child: const Text('Cancel'),
+        //   ),
         if (task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
 
-        // Create Task button
-        // Shown when the task is in Draft
-        // When clicked, the status is set to:
-        //    Created if task isn't assigned
-        //    Assigned if the task is assigned to someone else
-        //    Accepted if the task is assigned to me
-        // A message is sent to everyone in the caregroup except me if the task is unassigned
-        // A message is sent to the assignee if the task is assigned
-        if (task.taskStatus == TaskStatus.draft)
-          ElevatedButton(
-            onPressed: () async {
-              Profile myProfile =
-                  BlocProvider.of<MyProfileCubit>(context).myProfile;
+    //     // Create Task button
+    //     // Shown when the task is in Draft
+    //     // When clicked, the status is set to:
+    //     //    Created if task isn't assigned
+    //     //    Assigned if the task is assigned to someone else
+    //     //    Accepted if the task is assigned to me
+    //     // A message is sent to everyone in the caregroup except me if the task is unassigned
+    //     // A message is sent to the assignee if the task is assigned
+    //     if (task.taskStatus == TaskStatus.draft)
+    //       ElevatedButton(
+    //         onPressed: () async {
+    //
+    // if (this.formKey.currentState!.validate()) {
+    //   print('validated');
+    // }
+    //
+    //
+    //           Profile myProfile =
+    //               BlocProvider.of<MyProfileCubit>(context).myProfile;
+    //
+    //           BlocProvider.of<TaskCubit>(context).createTask(
+    //             task: task,
+    //             id: myProfile.id,
+    //           );
+    //
+    //           Navigator.pop(context);
+    //
+    //           // Send a message to tell the world the task is created
+    //           HttpsCallable callable =
+    //               FirebaseFunctions.instance.httpsCallable('createTask');
+    //           await callable.call(<String, dynamic>{
+    //             'task_id': task.id,
+    //             'task_title': task.title,
+    //             'creater_id': myProfile.id,
+    //             'creater_name': myProfile.name,
+    //             'date_time': DateTime.now().toString()
+    //           });
+    //         },
+    //         child: const Text('Create Task'),
+    //       ),
+    //     if (task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
 
-              BlocProvider.of<TaskCubit>(context).createTask(
-                task: task,
-                id: myProfile.id,
-              );
-
-              Navigator.pop(context);
-
-              // Send a message to tell the world the task is created
-              HttpsCallable callable =
-                  FirebaseFunctions.instance.httpsCallable('createTask');
-              await callable.call(<String, dynamic>{
-                'task_id': task.id,
-                'task_title': task.title,
-                'creater_id': myProfile.id,
-                'creater_name': myProfile.name,
-                'date_time': DateTime.now().toString()
-              });
-            },
-            child: const Text('Create Task'),
-          ),
-        if (task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
-
-        // Accept Task Button
-        // Shown when the task is Assigned
-        if (task.taskStatus == TaskStatus.assigned &&
-            task.assignedTo == profile.id)
-          ElevatedButton(
-            onPressed: () async {
-              Profile myProfile =
-                  BlocProvider.of<MyProfileCubit>(context).myProfile;
-
-              BlocProvider.of<TaskCubit>(context).acceptTask(
-                task: task,
-                id: myProfile.id,
-              );
-
-              Navigator.pop(context);
-
-              // Send a message to tell the world the task is accepted
-              HttpsCallable callable =
-                  FirebaseFunctions.instance.httpsCallable('acceptTask');
-              await callable.call(<String, dynamic>{
-                'task_id': task.id,
-                'task_title': task.title,
-                'accepter_id': myProfile.id,
-                'accepter_name': myProfile.name,
-                'date_time': DateTime.now().toString()
-              });
-            },
-            child: const Text('Accept Task'),
-          ),
-        if (task.taskStatus == TaskStatus.assigned &&
-            task.assignedTo == profile.id)
-          const SizedBox(width: 20),
+        // // Accept Task Button
+        // // Shown when the task is Assigned
+        // if (task.taskStatus == TaskStatus.assigned &&
+        //     task.assignedTo == profile.id)
+        //   ElevatedButton(
+        //     onPressed: () async {
+        //       Profile myProfile =
+        //           BlocProvider.of<MyProfileCubit>(context).myProfile;
+        //
+        //       BlocProvider.of<TaskCubit>(context).acceptTask(
+        //         task: task,
+        //         id: myProfile.id,
+        //       );
+        //
+        //       Navigator.pop(context);
+        //
+        //       // Send a message to tell the world the task is accepted
+        //       HttpsCallable callable =
+        //           FirebaseFunctions.instance.httpsCallable('acceptTask');
+        //       await callable.call(<String, dynamic>{
+        //         'task_id': task.id,
+        //         'task_title': task.title,
+        //         'accepter_id': myProfile.id,
+        //         'accepter_name': myProfile.name,
+        //         'date_time': DateTime.now().toString()
+        //       });
+        //     },
+        //     child: const Text('Accept Task'),
+        //   ),
+        // if (task.taskStatus == TaskStatus.assigned &&
+        //     task.assignedTo == profile.id)
+        //   const SizedBox(width: 20),
 
         // Reject Task Button
         // Shown when the task is Assigned
@@ -130,7 +137,7 @@ class TaskWorkflowWidget extends StatelessWidget {
 
               BlocProvider.of<TaskCubit>(context).rejectTask(
                 task: task,
-                id: myProfile.id,
+                profileId: myProfile.id,
               );
 
               Navigator.pop(context);
@@ -165,7 +172,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                   BlocProvider.of<MyProfileCubit>(context).myProfile;
 
               BlocProvider.of<TaskCubit>(context).completeTask(
-                  task: task, id: myProfile.id, dateTime: DateTime.now());
+                  task: task, profileId: myProfile.id, dateTime: DateTime.now());
 
               // Update the completed count in the task completer's profile
               BlocProvider.of<MyProfileCubit>(context).completeTask(

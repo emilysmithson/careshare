@@ -27,7 +27,6 @@ class InviteUserToCaregroup extends StatefulWidget {
 class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
-  //
   // Note: This is a `GlobalKey<FormState>`,
   // not a GlobalKey<InviteUserToCaregroupState>.
   final _formKey = GlobalKey<FormState>();

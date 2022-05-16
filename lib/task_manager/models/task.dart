@@ -76,7 +76,65 @@ class CareTask {
     this.taskHistory,
   });
 
+  CareTask clone() {
+    CareTask cloned = CareTask(
+        id: id,
+        caregroup: caregroup,
+        title: title,
+        createdBy: createdBy,
+        taskCreatedDate: taskCreatedDate,
+    );
+
+    cloned.taskStatus = taskStatus;
+    cloned.details = details;
+    cloned.category = category;
+    cloned.taskEffort = taskEffort;
+    cloned.taskPriority = taskPriority;
+    cloned.taskType = taskType;
+    cloned.canBeRemote = canBeRemote;
+    cloned.assignedTo = assignedTo;
+    cloned.assignedBy = assignedBy;
+    cloned.assignedDate = assignedDate;
+    cloned.acceptedBy = acceptedBy;
+    cloned.acceptedOnDate = acceptedOnDate;
+    cloned.taskAcceptedForDate = taskAcceptedForDate;
+    cloned.completedBy = completedBy;
+    cloned.taskCompletedDate = taskCompletedDate;
+
+    cloned.comments = comments;
+    cloned.kudos = kudos;
+    cloned.taskHistory = taskHistory;
+
+    return cloned;
+  }
+  
+  
   Map<String, dynamic> toJson() {
+    print(taskHistory?.map((taskHistory) => taskHistory.toJson()).toList());
+
+
+    var newTaskHistoryA = Map();
+    var newTaskHistoryB = Map();
+    if (taskHistory!=null) {
+      
+      taskHistory!.forEach((element) {
+        print("element: $element");
+        newTaskHistoryA.addAll(element.toJson());
+        print("newTaskHistoryA: $newTaskHistoryA");
+
+        var newElement = Map();
+        newElement = {element.id: element.toJson()};
+        print("newElement: $newElement");
+        newTaskHistoryB.addAll(newElement);
+        print("newTaskHistoryB: $newTaskHistoryB");
+
+      });
+    }
+    print("newTaskHistory: $newTaskHistoryA");
+    print("newTaskHistory: $newTaskHistoryB");
+
+
+
     return {
       'caregroup': caregroup,
       'task_status': taskStatus.status,
@@ -106,7 +164,7 @@ class CareTask {
 
       'comments': comments?.map((comment) => comment.toJson()).toList(),
       'kudos': kudos?.map((kudos) => kudos.toJson()).toList(),
-      'history': taskHistory?.map((taskHistory) => taskHistory.toJson()).toList(),
+      'history': newTaskHistoryB,
 
     };
   }
@@ -176,7 +234,7 @@ class CareTask {
 
     if (value['history'] != null) {
       value['history'].forEach((k, v) {
-        taskHistory.add(TaskHistory.fromJson(v));
+        taskHistory.add(TaskHistory.fromJson(k,v));
       });
     }
 

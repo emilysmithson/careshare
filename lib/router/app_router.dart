@@ -37,6 +37,7 @@ import 'package:careshare/task_manager/presenter/task_search/task_search.dart';
 import 'package:careshare/task_manager/repository/create_a_task.dart';
 import 'package:careshare/task_manager/repository/edit_task_field_repository.dart';
 import 'package:careshare/task_manager/repository/remove_a_task.dart';
+import 'package:careshare/task_manager/repository/update_a_task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,6 +57,7 @@ class AppRouter {
     createATaskRepository: CreateATask(),
     editTaskFieldRepository: EditTaskFieldRepository(),
     removeATaskRepository: RemoveATask(),
+    updateATaskRepository: UpdateATask(),
   );
 
   final _categoriesCubit = CategoriesCubit();
