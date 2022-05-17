@@ -29,20 +29,33 @@ class TaskSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // if task are complete, place tasks I completed at the end of the list
+    // if (isCompletedTasks) {
+    //   Profile profile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+    //   careTaskList.sort(
+    //     ((a, b) {
+    //       if (a.kudos
+    //               ?.firstWhereOrNull((element) => element.id == profile.id) ==
+    //           null) {
+    //         return -1;
+    //       } else {
+    //         return 1;
+    //       }
+    //     }),
+    //   );
+    // }
+
+    // if tasks are complete sort by completed date, otherwise sort them by due date
     if (isCompletedTasks) {
-      Profile profile = BlocProvider.of<MyProfileCubit>(context).myProfile;
-      careTaskList.sort(
-        ((a, b) {
-          if (a.kudos
-                  ?.firstWhereOrNull((element) => element.id == profile.id) ==
-              null) {
-            return -1;
-          } else {
-            return 1;
-          }
-        }),
-      );
-    }
+      careTaskList.sort((a,b) => b.taskCompletedDate!.compareTo(a.taskCompletedDate!));
+      }
+    else
+      {
+        careTaskList.sort((a,b) => b.dueDate.compareTo(a.dueDate));
+      }
+
+
     return Column(
       children: [
         GestureDetector(

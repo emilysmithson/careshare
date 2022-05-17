@@ -208,9 +208,16 @@ class CareTask {
     final taskAcceptedForDate = DateTime.tryParse(value['accepted_for_date']);
     final acceptedBy = value['accepted_by'] ?? '';
 
-    final taskCompletedDate = (value['completed_date'] != null)
+
+    DateTime? taskCompletedDate = (value['completed_date'] != null)
         ? DateTime.tryParse(value['completed_date'])
         : null;
+    if (taskCompletedDate == null && (taskStatus==TaskStatus.completed || taskStatus==TaskStatus.archived))
+      {
+        taskCompletedDate = taskCreatedDate;
+      }
+
+
     final completedBy = value['completed_by'] ?? '';
 
     final List<Comment> comments = [];
