@@ -1,15 +1,16 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
-import 'package:careshare/invitation_manager/models/invitation.dart';
+import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ViewCaregroupInvitations extends StatelessWidget {
+class ViewCaregroupMembers extends StatelessWidget {
   static const routeName = '/view-caregroup-overview';
   final Caregroup caregroup;
 
-  const ViewCaregroupInvitations({
+  const ViewCaregroupMembers({
     Key? key,
     required this.caregroup,
   }) : super(key: key);
@@ -20,42 +21,20 @@ class ViewCaregroupInvitations extends StatelessWidget {
     final profileList = BlocProvider.of<AllProfilesCubit>(
         context).profileList;
 
-    final invitationList = BlocProvider.of<InvitationsCubit>(context)
-        .invitationList;
-
-
 
     return Column(
       children: [
-
-        Hero(
-          tag: 'Caregroup',
-          child: Container(
-            width: double.infinity,
-            color: Theme.of(context).primaryColor.withOpacity(0.5),
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Text(
-                  'Caregroup: ${caregroup.name}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      ?.copyWith(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
-        // Invitations
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Table(columnWidths: const {
-            0: FlexColumnWidth(3),
-            1: FlexColumnWidth(2),
-            2: FlexColumnWidth(2),
-            3: FlexColumnWidth(1),
-          }, children: [
+          child: Table(
+            // border: TableBorder.all(
+            //     width: 4.0, color: Colors.white),
+              columnWidths: const {
+                0: FlexColumnWidth(4),
+                1: FlexColumnWidth(3),
+                2: FlexColumnWidth(2),
+                3: FlexColumnWidth(1),
+              }, children: [
             TableRow(children: [
               TableCell(
                 child: Padding(
@@ -63,7 +42,7 @@ class ViewCaregroupInvitations extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const <Widget>[
-                      Text('Email',
+                      Text('Member',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -75,7 +54,7 @@ class ViewCaregroupInvitations extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const <Widget>[
-                      Text('Invited By',
+                      Text('Role',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -87,56 +66,63 @@ class ViewCaregroupInvitations extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const <Widget>[
-                      Text('Invited Date',
+                      Text('Status',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
               ),
               const TableCell(
-                child: (SizedBox(width: 1)),
+                child: SizedBox(width: 10),
               ),
             ]),
-            for (Invitation invitation in invitationList)
+            for (Profile profile in profileList)
               TableRow(children: [
                 TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Expanded(
-                            child: Text(
-                              invitation.email,
-                              overflow: TextOverflow.fade,
-                            )),
+                        if (profile.firstName != "" || profile.lastName != "")
+                          Expanded(child: Text('${profile.firstName} ${profile.lastName}'))
+                        else
+                          Expanded(child: Text(profile.email))                  ,
                       ],
                     ),
                   ),
                 ),
                 TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Text(profileList
+                        Text(profile.carerInCaregroups
                             .firstWhere((element) =>
-                        element.id == invitation.invitedById)
-                            .name),
+                        element.caregroupId ==
+                            caregroup.id)
+                            .role
+                            .role),
                       ],
                     ),
                   ),
                 ),
                 TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Expanded(
-                            child:
-                            Text(invitation.invitedDate.toString())),
+                        Text(profile.carerInCaregroups
+                            .firstWhere((element) =>
+                        element.caregroupId ==
+                            caregroup.id)
+                            .status
+                            .status),
                       ],
                     ),
                   ),
@@ -152,11 +138,23 @@ class ViewCaregroupInvitations extends StatelessWidget {
                         Icons.more_vert,
                       ),
                     ),
-                    onSelected: (value) {},
+                    onSelected: (value) {
+                      switch (value) {
+                        case "View Profile":
+                          {
+                            Navigator.pushNamed(
+                              context,
+                              EditProfile.routeName,
+                              arguments: profile,
+                            );
+                          }
+                          break;
+                      }
+                    },
                     itemBuilder: (context) => [
                       const PopupMenuItem(
                         child: Text("View Profile"),
-                        value: 1,
+                        value: "View Profile",
                       ),
                       const PopupMenuItem(
                         child: Text("Block"),
@@ -170,14 +168,24 @@ class ViewCaregroupInvitations extends StatelessWidget {
                   ),
                 ),
               ])
-          ]),
+          ]
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, InviteUserToCaregroup.routeName,
+                      arguments: caregroup);
+                },
+                child: const Text('Invite someone to join this group')),
+          ],
         ),
 
       ],
     );
-
-
-
 
 
   }

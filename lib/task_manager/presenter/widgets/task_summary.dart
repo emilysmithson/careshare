@@ -1,12 +1,12 @@
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/add_kudos_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/task_status.dart';
-import '../../task_detailed_view/widgets/add_kudos_widget.dart';
 
 class TaskSummary extends StatelessWidget {
   final CareTask task;
@@ -37,14 +37,7 @@ class TaskSummary extends StatelessWidget {
               elevation: 4,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: BlocBuilder<TaskCubit, TaskState>(
-                  builder: (context, state) {
-                    String photoId = task.acceptedBy ?? task.createdBy!;
-                    if (photoId == '') {
-                      photoId = task.createdBy!;
-                    }
-
-                    return SizedBox(
+                child: SizedBox(
                       height: double.infinity,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,8 +65,8 @@ class TaskSummary extends StatelessWidget {
                           ),
                         ],
                       ),
-                    );
-                  },
+
+
                 ),
               ),
             ),

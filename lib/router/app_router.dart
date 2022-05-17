@@ -5,6 +5,7 @@ import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/caregroup_manager/presenter/fetch_caregroup_page.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
 import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
 import 'package:careshare/category_manager/presenter/fetch_categories_page.dart';
@@ -104,18 +105,18 @@ class AppRouter {
           ),
         );
 
-      case TaskManagerView.routeName:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _taskCubit,
-            child: BlocProvider.value(
-              value: _categoriesCubit,
-              child: TaskManagerView(
-                caregroup: routeSettings.arguments as Caregroup,
-              ),
-            ),
-          ),
-        );
+      // case TaskManagerView.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider.value(
+      //       value: _taskCubit,
+      //       child: BlocProvider.value(
+      //         value: _categoriesCubit,
+      //         child: TaskManagerView(
+      //           caregroup: routeSettings.arguments as Caregroup,
+      //         ),
+      //       ),
+      //     ),
+      //   );
 
       case TaskSearch.routeName:
         return MaterialPageRoute(
@@ -204,9 +205,16 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
               value: _caregroupCubit,
+            child: BlocProvider.value(
+              value: _taskCubit,
               child: ViewCaregroup(
-                  caregroup: routeSettings.arguments as Caregroup),
+                  careTaskList: (routeSettings.arguments
+                  as Map<String, dynamic>)['careTaskList']
+                  as List<CareTask>,
+                  caregroup: (routeSettings.arguments
+                  as Map<String, dynamic>)['caregroup']),
             ),
+          ),
         );
 
       case NotificationsPage.routeName:
@@ -254,8 +262,19 @@ class AppRouter {
         );
 
 
+      case ViewCaregroupTasks.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _taskCubit,
+            child: ViewCaregroupTasks(
+              caregroup: routeSettings.arguments as Caregroup,
+                careTaskList: routeSettings.arguments as List<CareTask>
+            ),
+          ),
+        );
 
-        case FetchTasksPage.routeName:
+
+      case FetchTasksPage.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _taskCubit,

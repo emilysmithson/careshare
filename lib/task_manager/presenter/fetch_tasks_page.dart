@@ -1,4 +1,5 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
@@ -32,8 +33,11 @@ class FetchTasksPage extends StatelessWidget {
         }
         if (state is TaskLoaded) {
           WidgetsBinding.instance.addPostFrameCallback((_) =>
-              Navigator.pushReplacementNamed(context, TaskManagerView.routeName,
-                  arguments: caregroup));
+              Navigator.pushReplacementNamed(context, ViewCaregroup.routeName,
+                arguments: {
+                  'careTaskList': state.careTaskList,
+                  'caregroup': caregroup,
+                },));
           return Container();
         }
         return Container();

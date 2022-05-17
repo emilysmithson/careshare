@@ -1,26 +1,21 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/caregroup_manager/presenter/view-caregroup_invitations.dart';
-import 'package:careshare/caregroup_manager/presenter/view-caregroup_memebers.dart';
-import 'package:careshare/caregroup_manager/presenter/view-caregroup_overview.dart';
-import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
-import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
-import 'package:careshare/invitation_manager/models/invitation.dart';
-import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
-import 'package:careshare/profile_manager/presenter/edit_profile.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_invitations.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
+import 'package:careshare/task_manager/models/task.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:careshare/profile_manager/models/profile.dart';
 
 class ViewCaregroup extends StatefulWidget {
   static const routeName = '/view-caregroup';
   final Caregroup caregroup;
+  final List<CareTask> careTaskList;
 
   const ViewCaregroup({
     Key? key,
     required this.caregroup,
+    required this.careTaskList,
   }) : super(key: key);
 
   @override
@@ -49,12 +44,49 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
         //       setState(() {});
         //     },
         //     child: const Icon(Icons.add)),
-        body: (_selectedIndex == 0) ? ViewCaregroupOverview(caregroup: widget.caregroup)
-            : (_selectedIndex == 1)
-            ? ViewCaregroupMembers(caregroup: widget.caregroup)
-            : ViewCaregroupInvitations(caregroup: widget.caregroup),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+
+              Hero(
+                tag: 'Caregroup',
+                child: Container(
+                  width: double.infinity,
+                  color: Theme.of(context).primaryColor.withOpacity(0.5),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Caregroup: ${widget.caregroup.name}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            ?.copyWith(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+
+              (_selectedIndex == 0) ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
+                  : (_selectedIndex == 1) ? ViewCaregroupOverview(caregroup: widget.caregroup)
+                  : (_selectedIndex == 2) ? ViewCaregroupMembers(caregroup: widget.caregroup)
+                  : (_selectedIndex == 3) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                  : Container(),
+
+            ],
+          ),
+        ),
+
+
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.summarize_outlined),
+              label: 'Tasks',
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.summarize_outlined),
               label: 'Overview',
