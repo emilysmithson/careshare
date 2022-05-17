@@ -30,7 +30,7 @@ class FetchMyInvitationsPage extends StatelessWidget {
       builder: (context, state) {
         if (state is MyInvitationsLoading) {
           return const LoadingPageTemplate(
-              loadingMessage: 'Loading my invitations...');
+              loadingMessage: 'Loading invitations....');
         }
         if (state is MyInvitationsError) {
           return ErrorPageTemplate(errorMessage: state.message);

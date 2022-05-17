@@ -27,7 +27,7 @@ class FetchCategoriesPage extends StatelessWidget {
       builder: (context, state) {
         if (state is CategoriesLoading) {
           return const LoadingPageTemplate(
-              loadingMessage: 'Loading your caregroups...');
+              loadingMessage: 'Loading caregroups...');
         }
         if (state is CategoriesError) {
           return ErrorPageTemplate(errorMessage: state.message);

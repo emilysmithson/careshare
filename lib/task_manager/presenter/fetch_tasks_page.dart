@@ -25,7 +25,7 @@ class FetchTasksPage extends StatelessWidget {
       builder: (context, state) {
         if (state is TaskLoading) {
           return const LoadingPageTemplate(
-              loadingMessage: 'Loading your tasks...');
+              loadingMessage: 'Loading tasks...');
         }
         if (state is TaskError) {
           return ErrorPageTemplate(errorMessage: state.message);
