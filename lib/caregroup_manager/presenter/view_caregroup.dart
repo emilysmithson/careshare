@@ -1,4 +1,6 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_chat.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_documents.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_invitations.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
@@ -70,9 +72,11 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
 
 
               (_selectedIndex == 0) ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
-                  : (_selectedIndex == 1) ? ViewCaregroupOverview(caregroup: widget.caregroup)
-                  : (_selectedIndex == 2) ? ViewCaregroupMembers(caregroup: widget.caregroup)
-                  : (_selectedIndex == 3) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                  : (_selectedIndex == 1) ? ViewCaregroupDocuments(caregroup: widget.caregroup)
+                  : (_selectedIndex == 2) ? ViewCaregroupChat(caregroup: widget.caregroup)
+                  : (_selectedIndex == 3) ? ViewCaregroupOverview(caregroup: widget.caregroup)
+                  : (_selectedIndex == 4) ? ViewCaregroupMembers(caregroup: widget.caregroup)
+                  : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
                   : Container(),
 
             ],
@@ -86,6 +90,14 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
             BottomNavigationBarItem(
               icon: Icon(Icons.summarize_outlined),
               label: 'Tasks',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.library_books),
+              label: 'Docs',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chat',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.summarize_outlined),
