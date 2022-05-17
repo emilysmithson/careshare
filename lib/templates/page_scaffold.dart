@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class PageScaffold extends StatelessWidget {
   final Widget body;
   final Widget? floatingActionButton;
+  final Widget? bottomNavigationBar;
   final String searchScope;
   final String searchType;
 
@@ -12,6 +13,7 @@ class PageScaffold extends StatelessWidget {
     Key? key,
     required this.body,
     this.floatingActionButton,
+    this.bottomNavigationBar,
     this.searchScope = "",
     this.searchType = "",
   }) : super(key: key);
@@ -22,6 +24,7 @@ class PageScaffold extends StatelessWidget {
       appBar: CareshareAppBar('CareShare', searchScope, searchType),
       endDrawer: CareshareDrawer(),
       floatingActionButton: floatingActionButton,
+      bottomNavigationBar: bottomNavigationBar,
       body: body,
     );
   }
