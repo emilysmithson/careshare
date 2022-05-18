@@ -97,27 +97,15 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-
-              Hero(
-                tag: 'Caregroup',
-                child: Container(
-                  width: double.infinity,
-                  color: Theme.of(context).primaryColor.withOpacity(0.5),
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Caregroup: ${widget.caregroup.name}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
+              AppBar(
+                title: Text('Caregroup: ${widget.caregroup.name}'),
+                backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+                elevation: 0,
+                toolbarHeight: 40,
+                actions: [
+                  IconButton(icon: Icon(Icons.more_vert), onPressed: () {},),
+                ],
               ),
-
 
               (_selectedIndex == 0) ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
                   : (_selectedIndex == 1) ? ViewCaregroupDocuments(caregroup: widget.caregroup)

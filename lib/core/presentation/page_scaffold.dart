@@ -1,4 +1,3 @@
-import 'package:careshare/core/presentation/careshare_appbar.dart';
 import 'package:careshare/core/presentation/careshare_drawer.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
@@ -37,32 +36,21 @@ class PageScaffold extends StatelessWidget {
         title: Text('CareShare'),
         actions: [
           const BellWidget(),
-          if (searchType != "")
-            InkWell(
-              onTap: () {
-                if (searchType == "Tasks") {
-                  Navigator.pushNamed(context, TaskSearch.routeName,
-                      arguments: searchScope);
-                }
-              },
-              child: SizedBox(
-                width: 50,
-                height: 50,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: const [
-                    Center(child: Icon(Icons.search)),
-                  ],
-                ),
-              ),
-            ),
-
+          if (searchType != "") IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              if (searchType == "Tasks") {
+                Navigator.pushNamed(context, TaskSearch.routeName,
+                    arguments: searchScope);
+              }
+            },
+          ),
           IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {
               _key.currentState!.openEndDrawer(); // this opens drawer
             },
-          )
+          ),
         ],
       ),
       // appBar: CareshareAppBar('CareShare', searchScope, searchType),
