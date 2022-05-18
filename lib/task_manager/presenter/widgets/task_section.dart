@@ -111,24 +111,10 @@ class TaskSection extends StatelessWidget {
                                 final CareTask? task =
                                     await taskCubit.draftTask('', caregroup.id);
                                 if (task != null) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => BlocProvider.value(
-                                          value: BlocProvider.of<TaskCubit>(
-                                              context),
-                                          child: BlocProvider.value(
-                                            value:
-                                                BlocProvider.of<MyProfileCubit>(
-                                                    context),
-                                            child: BlocProvider.value(
-                                              value: BlocProvider.of<
-                                                  CategoriesCubit>(context),
-                                              child: TaskDetailedView(
-                                                task: task,
-                                              ),
-                                            ),
-                                          )),
-                                    ),
+                                  Navigator.of(context).pushNamed(
+                                    TaskDetailedView.routeName,
+                                    arguments: task,
+
                                   );
                                 }
                               },
