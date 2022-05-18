@@ -8,7 +8,7 @@ import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart'
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
-import 'package:careshare/templates/page_scaffold.dart';
+import 'package:careshare/core/presentation/page_scaffold.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

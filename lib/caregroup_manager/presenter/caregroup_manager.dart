@@ -5,7 +5,7 @@ import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 
-import 'package:careshare/templates/page_scaffold.dart';
+import 'package:careshare/core/presentation/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
