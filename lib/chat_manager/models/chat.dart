@@ -1,14 +1,4 @@
-
-import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/chat_manager/models/chat_type.dart';
-import 'package:careshare/task_manager/models/comment.dart';
-import 'package:careshare/task_manager/models/kudos.dart';
-import 'package:careshare/task_manager/models/task_effort.dart';
-import 'package:careshare/task_manager/models/task_history.dart';
-import 'package:careshare/task_manager/models/task_priority.dart';
-import 'package:careshare/task_manager/models/task_status.dart';
-import 'package:careshare/task_manager/models/task_type.dart';
-import 'package:flutter/foundation.dart';
 
 class Chat {
 

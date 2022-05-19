@@ -1,7 +1,6 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_chat.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_documents.dart';
-import 'package:careshare/caregroup_manager/presenter/view_caregroup_invitations.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';

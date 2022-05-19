@@ -224,7 +224,8 @@ class CareTask {
 
     if (value['comments'] != null) {
       value['comments'].forEach((k, v) {
-        comments.add(Comment.fromJson(v));
+        print("key: $key Comments: $v");
+        // comments.add(Comment.fromJson(v));
       });
     }
 
@@ -240,7 +241,7 @@ class CareTask {
 
     if (value['history'] != null) {
       value['history'].forEach((k, v) {
-        taskHistory.add(TaskHistory.fromJson(k,v));
+        // taskHistory.add(TaskHistory.fromJson(k,v));
       });
     }
 

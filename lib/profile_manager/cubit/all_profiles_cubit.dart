@@ -10,8 +10,6 @@ import 'package:careshare/profile_manager/repository/edit_profile_field_reposito
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:careshare/profile_manager/models/profile.dart';
-
 part 'all_profiles_state.dart';
 
 class AllProfilesCubit extends Cubit<AllProfilesState> {
