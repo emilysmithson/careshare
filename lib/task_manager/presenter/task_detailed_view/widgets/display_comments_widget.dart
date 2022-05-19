@@ -59,7 +59,7 @@ class DisplayCommentsWidget extends StatelessWidget {
                                     '${comment.createdByDisplayName} on ${DateFormat('E d MMM yyyy').add_jm().format(comment.commentCreatedDate)}',
                                     style: Theme.of(context).textTheme.caption,
                                   ),
-                                  Text(comment.commment),
+                                  Text(comment.comment),
                                 ],
                               )));
                     }).toList(),

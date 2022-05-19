@@ -1,5 +1,5 @@
 class Comment {
-  final String commment;
+  final String comment;
   final String createdBy;
   final String createdByDisplayName;
   final DateTime commentCreatedDate;
@@ -8,14 +8,14 @@ class Comment {
   @override
   String toString() {
     return '''
-      comment: $commment
+      comment: $comment
       created by: $createdByDisplayName
       date created: $commentCreatedDate
     ''';
   }
 
   Comment({
-    required this.commment,
+    required this.comment,
     required this.id,
     required this.createdBy,
     required this.createdByDisplayName,
@@ -24,7 +24,7 @@ class Comment {
 
   Map<String, dynamic> toJson() {
     return {
-      'commment': commment,
+      'comment': comment,
       'created_by': createdBy,
       'created_by_display_name': createdByDisplayName,
       'created_date': commentCreatedDate.toString(),
@@ -34,7 +34,7 @@ class Comment {
 
   factory Comment.fromJson(value) {
     Comment newComment = Comment(
-      commment: value['commment'] ?? '',
+      comment: value['comment'] ?? '',
       createdBy: value['created_by'] ?? '',
       createdByDisplayName: value['created_by_display_name'] ?? '',
       commentCreatedDate: DateTime.parse(value['created_date']),
