@@ -24,61 +24,62 @@ class ViewCaregroupTasks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    return SingleChildScrollView(
+      child: Column(
+        children: [
 
-    return Column(
-      children: [
-
-        KudosBoard(
-          profileList: BlocProvider.of<AllProfilesCubit>(context)
-              .profileList
-              .where((profile) => profile.carerInCaregroups
-              .where((element) => element.caregroupId == caregroup.id)
-              .isNotEmpty)
-              .toList(),
-          caregroup: caregroup,
-        ),
-        TaskSection(
-          title: 'New Tasks',
-          caregroup: caregroup,
-          careTaskList: careTaskList
-              .where(
-                (element) => element.taskStatus == TaskStatus.created,
-          )
-              .toList(),
-        ),
-        TaskSection(
-          title: 'My Tasks',
-          caregroup: caregroup,
-          careTaskList: careTaskList
-              .where((element) =>
-          (element.taskStatus == TaskStatus.assigned ||
-              element.taskStatus == TaskStatus.accepted) &&
-              element.assignedTo ==
-                  BlocProvider.of<MyProfileCubit>(context).myProfile.id)
-              .toList(),
-        ),
-        TaskSection(
-          title: 'Completed Tasks',
-          caregroup: caregroup,
-          isCompletedTasks: true,
-          careTaskList: careTaskList
-              .where((element) => element.taskStatus == TaskStatus.completed)
-              .toList(),
-        ),
-        TaskSection(
-          title: "Other People's Tasks",
-          caregroup: caregroup,
-          careTaskList: careTaskList
-              .where(
-                (element) =>
+          KudosBoard(
+            profileList: BlocProvider.of<AllProfilesCubit>(context)
+                .profileList
+                .where((profile) => profile.carerInCaregroups
+                .where((element) => element.caregroupId == caregroup.id)
+                .isNotEmpty)
+                .toList(),
+            caregroup: caregroup,
+          ),
+          TaskSection(
+            title: 'New Tasks',
+            caregroup: caregroup,
+            careTaskList: careTaskList
+                .where(
+                  (element) => element.taskStatus == TaskStatus.created,
+            )
+                .toList(),
+          ),
+          TaskSection(
+            title: 'My Tasks',
+            caregroup: caregroup,
+            careTaskList: careTaskList
+                .where((element) =>
             (element.taskStatus == TaskStatus.assigned ||
                 element.taskStatus == TaskStatus.accepted) &&
-                element.assignedTo !=
-                    BlocProvider.of<MyProfileCubit>(context).myProfile.id,
-          )
-              .toList(),
-        ),
-      ],
+                element.assignedTo ==
+                    BlocProvider.of<MyProfileCubit>(context).myProfile.id)
+                .toList(),
+          ),
+          TaskSection(
+            title: 'Completed Tasks',
+            caregroup: caregroup,
+            isCompletedTasks: true,
+            careTaskList: careTaskList
+                .where((element) => element.taskStatus == TaskStatus.completed)
+                .toList(),
+          ),
+          TaskSection(
+            title: "Other People's Tasks",
+            caregroup: caregroup,
+            careTaskList: careTaskList
+                .where(
+                  (element) =>
+              (element.taskStatus == TaskStatus.assigned ||
+                  element.taskStatus == TaskStatus.accepted) &&
+                  element.assignedTo !=
+                      BlocProvider.of<MyProfileCubit>(context).myProfile.id,
+            )
+                .toList(),
+          ),
+        ],
+      ),
     );
 
 

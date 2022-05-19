@@ -93,29 +93,27 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
           },
 
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              AppBar(
-                title: Text('Caregroup: ${widget.caregroup.name}'),
-                backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-                elevation: 0,
-                toolbarHeight: 40,
-                actions: [
-                  IconButton(icon: Icon(Icons.more_vert), onPressed: () {},),
-                ],
-              ),
+        body: Scaffold(
+                appBar:AppBar(
+                    automaticallyImplyLeading: false,
+                    title: Text('Caregroup: ${widget.caregroup.name}'),
+                    backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+                    elevation: 0,
+                    toolbarHeight: 40,
+                    actions: [
+                      IconButton(icon: Icon(Icons.more_vert), onPressed: () {},),
+                    ],
+               ),
+                body:
+            (_selectedIndex == 0) ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
+                : (_selectedIndex == 1) ? ViewCaregroupChat(caregroup: widget.caregroup)
+                : (_selectedIndex == 2) ? ViewCaregroupDocuments(caregroup: widget.caregroup)
+                : (_selectedIndex == 3) ? ViewCaregroupOverview(caregroup: widget.caregroup)
+                : (_selectedIndex == 4) ? ViewCaregroupMembers(caregroup: widget.caregroup)
+                // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                : Container(),
 
-              (_selectedIndex == 0) ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
-                  : (_selectedIndex == 1) ? ViewCaregroupChat(caregroup: widget.caregroup)
-                  : (_selectedIndex == 2) ? ViewCaregroupDocuments(caregroup: widget.caregroup)
-                  : (_selectedIndex == 3) ? ViewCaregroupOverview(caregroup: widget.caregroup)
-                  : (_selectedIndex == 4) ? ViewCaregroupMembers(caregroup: widget.caregroup)
-                  // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
-                  : Container(),
 
-            ],
-          ),
         ),
 
 

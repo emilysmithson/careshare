@@ -115,7 +115,7 @@ class CareTask {
   
   
   Map<String, dynamic> toJson() {
-    print(taskHistory?.map((taskHistory) => taskHistory.toJson()).toList());
+    // print(taskHistory?.map((taskHistory) => taskHistory.toJson()).toList());
 
 
     var newTaskHistory = Map();
@@ -224,7 +224,7 @@ class CareTask {
 
     if (value['comments'] != null) {
       value['comments'].forEach((k, v) {
-        print("key: $key Comments: $v");
+        // print("key: $key Comments: $v");
         // comments.add(Comment.fromJson(v));
       });
     }
