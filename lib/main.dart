@@ -6,6 +6,9 @@ import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to
 import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
+import 'package:careshare/chat_manager/cubit/chat_cubit.dart';
+import 'package:careshare/chat_manager/repository/create_chat.dart';
+import 'package:careshare/chat_manager/repository/remove_chat.dart';
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
@@ -79,19 +82,25 @@ class _AppState extends State<App> {
                       completeTask: CompleteTask(),
                       giveKudos: GiveKudos(),
                     ),
-                    child: MaterialApp(
-                    scrollBehavior: const MaterialScrollBehavior().copyWith(
-                      dragDevices: {
-                        PointerDeviceKind.mouse,
-                        PointerDeviceKind.touch,
-                        PointerDeviceKind.stylus,
-                        PointerDeviceKind.unknown
-                      },
-                    ),
-                    navigatorKey: navigatorKey,
-                    theme: CustomTheme.themeData,
-                    onGenerateRoute: _appRouter.onGenerateRoute,
-                    ),
+                    child: BlocProvider(
+                      create: (context) => ChatCubit(
+                        createChatRepository: CreateChat(),
+                        removeChatRepository: RemoveChat(),
+                        ),
+                      child: MaterialApp(
+                      scrollBehavior: const MaterialScrollBehavior().copyWith(
+                        dragDevices: {
+                          PointerDeviceKind.mouse,
+                          PointerDeviceKind.touch,
+                          PointerDeviceKind.stylus,
+                          PointerDeviceKind.unknown
+                        },
+                      ),
+                      navigatorKey: navigatorKey,
+                      theme: CustomTheme.themeData,
+                      onGenerateRoute: _appRouter.onGenerateRoute,
+                      ),
+                  ),
                 ),
               ),
             ),

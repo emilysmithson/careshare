@@ -38,7 +38,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
       return PageScaffold(
         searchScope: widget.caregroup.id,
         searchType: "Tasks",
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: (_selectedIndex != 0) ? null : FloatingActionButton(
             onPressed: () async {
               // AddTaskBottomSheet().call(context);
 
@@ -65,12 +65,12 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
               label: 'Tasks',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.library_books),
-              label: 'Docs',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.chat),
               label: 'Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.library_books),
+              label: 'Docs',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.summarize_outlined),
@@ -80,10 +80,10 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
               icon: Icon(Icons.people_outlined),
               label: 'Members',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.mail_outline),
-              label: 'Invitations',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.mail_outline),
+            //   label: 'Invitations',
+            // ),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.blueAccent,
@@ -108,11 +108,11 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
               ),
 
               (_selectedIndex == 0) ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
-                  : (_selectedIndex == 1) ? ViewCaregroupDocuments(caregroup: widget.caregroup)
-                  : (_selectedIndex == 2) ? ViewCaregroupChat(caregroup: widget.caregroup)
+                  : (_selectedIndex == 1) ? ViewCaregroupChat(caregroup: widget.caregroup)
+                  : (_selectedIndex == 2) ? ViewCaregroupDocuments(caregroup: widget.caregroup)
                   : (_selectedIndex == 3) ? ViewCaregroupOverview(caregroup: widget.caregroup)
                   : (_selectedIndex == 4) ? ViewCaregroupMembers(caregroup: widget.caregroup)
-                  : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                  // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
                   : Container(),
 
             ],

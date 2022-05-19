@@ -9,6 +9,9 @@ import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart'
 import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
 import 'package:careshare/category_manager/presenter/fetch_categories_page.dart';
+import 'package:careshare/chat_manager/cubit/chat_cubit.dart';
+import 'package:careshare/chat_manager/repository/create_chat.dart';
+import 'package:careshare/chat_manager/repository/remove_chat.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
@@ -59,6 +62,11 @@ class AppRouter {
     editTaskFieldRepository: EditTaskFieldRepository(),
     removeATaskRepository: RemoveATask(),
     updateATaskRepository: UpdateATask(),
+  );
+
+  final _chatCubit = ChatCubit(
+    createChatRepository: CreateChat(),
+    removeChatRepository: RemoveChat(),
   );
 
   final _categoriesCubit = CategoriesCubit();
