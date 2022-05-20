@@ -132,20 +132,23 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                           color: Colors.blueAccent,
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        child: IconButton(
-                          onPressed: () async {
-                            final imagePicker = ImagePicker();
-                            final pickedImageFile = await imagePicker.pickImage(
-                              // source: fromGallery ? ImageSource.gallery : ImageSource.camera,
-                              source: ImageSource.camera,
+                        child: PopupMenuButton(
+                          tooltip: 'image',
+                          icon: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                          ),
+                          onSelected: (value) async {
+                            final _image = await ImagePicker().pickImage(
+                              source: (value == "camera") ? ImageSource.camera : ImageSource.gallery,
                             );
-                            if (pickedImageFile != null) {
+                            if (_image != null) {
                               final ref = FirebaseStorage.instance
                                   .ref()
                                   .child('chat')
                                   .child(DateTime.now().millisecondsSinceEpoch.toString() + '.jpg');
 
-                              await ref.putFile(File(pickedImageFile.path));
+                              await ref.putFile(File(_image.path));
                               final url = await ref.getDownloadURL();
 
                               // save the chat
@@ -154,10 +157,24 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                               chatController.clear();
                             }
                           },
-                          icon: const Icon(
-                            Icons.camera_alt,
-                          ),
-                          color: Colors.white,
+                          itemBuilder: (BuildContext bc) {
+                            return const [
+                              PopupMenuItem(
+                                child: ListTile(
+                                  leading: Icon(Icons.camera_alt), // your icon
+                                  title: Text("camera"),
+                                ),
+                                value: "camera",
+                              ),
+                              PopupMenuItem(
+                                child: ListTile(
+                                  leading: Icon(Icons.photo_library), // your icon
+                                  title: Text("gallery"),
+                                ),
+                                value: "gallery",
+                              ),
+                            ];
+                          },
                         ),
                       ),
                       Flexible(
@@ -188,7 +205,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                           onPressed: () async {
                             // onSendMessage(textEditingController.text, MessageType.text);
                             // add message to chat
-                            if (chatController.text.length>0) {
+                            if (chatController.text.length > 0) {
                               final chatCubit = BlocProvider.of<ChatCubit>(context);
                               await chatCubit.createChatRepository(
                                   widget.caregroup.id, chatController.text, ChatType.text);

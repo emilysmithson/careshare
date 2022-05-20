@@ -79,8 +79,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
         initialEmailValue = (widget.state as AuthenticationLogin).initialEmailValue;
         break;
       default:
-        initialEmailValue =
-            (widget.state as AuthenticationResetPassword).initialEmailValue;
+        initialEmailValue = (widget.state as AuthenticationResetPassword).initialEmailValue;
         title = 'Forgotten Password';
         buttonText = 'Send password reset email';
         textButtonText = 'Sign in';
@@ -136,8 +135,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       if (value == null) {
                         return 'Please enter your Email address';
                       }
-                      bool emailValid = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")
+                      bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")
                           // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(value);
                       if (!emailValid) {
@@ -179,16 +177,14 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       if (photo == null && widget.state is AuthenticationRegister) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content:
-                                const Text('You must upload a profile photo'),
+                            content: const Text('You must upload a profile photo'),
                             backgroundColor: Theme.of(context).errorColor,
                           ),
                         );
                         return;
                       }
                       if (_formKey.currentState!.validate()) {
-                        final authenticationCubit =
-                            BlocProvider.of<AuthenticationCubit>(context);
+                        final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
                         switch (widget.state.runtimeType) {
                           case AuthenticationRegister:
                             authenticationCubit.register(
@@ -215,14 +211,11 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   ),
                   TextButton(
                     onPressed: () {
-                      final authenticationCubit =
-                          BlocProvider.of<AuthenticationCubit>(context);
+                      final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
                       if (widget.state is! AuthenticationLogin) {
-                        authenticationCubit.switchToLogin(
-                            emailAddress: emailController.text);
+                        authenticationCubit.switchToLogin(emailAddress: emailController.text);
                       } else {
-                        authenticationCubit.switchToRegister(
-                            emailAddress: emailController.text);
+                        authenticationCubit.switchToRegister(emailAddress: emailController.text);
                       }
                     },
                     child: Text(textButtonText),
@@ -230,11 +223,9 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   if (widget.state is! AuthenticationResetPassword)
                     TextButton(
                       onPressed: () {
-                        final authenticationCubit =
-                            BlocProvider.of<AuthenticationCubit>(context);
+                        final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
 
-                        authenticationCubit.sentPasswordReset(
-                            emailAddress: emailController.text);
+                        authenticationCubit.sentPasswordReset(emailAddress: emailController.text);
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -253,8 +244,6 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     ),
                   const SizedBox(height: 150),
                   Text("CareShare version: ${_packageInfo.version}+${_packageInfo.buildNumber}")
-
-
                 ],
               ),
             ),
