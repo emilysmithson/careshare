@@ -1,15 +1,12 @@
 import 'package:careshare/chat_manager/models/chat_type.dart';
 
 class Chat {
-
   final String id;
   String channelId;
   String fromProfileId;
   DateTime timeStamp;
   String content;
   ChatType type;
-
-
 
   Chat({
     required this.id,
@@ -20,9 +17,7 @@ class Chat {
     required this.type,
   });
 
-
   Map<String, dynamic> toJson() {
-
     return {
       'id': id,
       'channel': channelId,
@@ -34,15 +29,13 @@ class Chat {
   }
 
   factory Chat.fromJson(dynamic key, dynamic value) {
-
-     return Chat(
-       id: key,
-        channelId: value['channel'],
-        fromProfileId: value['from'],
-        timeStamp: DateTime.parse(value['time_stamp']),
-        content: value['content'],
-        type: ChatType.ChatTypeList
-          .firstWhere((element) => element.type == value['type']),
+    return Chat(
+      id: key,
+      channelId: value['channel'],
+      fromProfileId: value['from'],
+      timeStamp: DateTime.parse(value['time_stamp']),
+      content: value['content'],
+      type: ChatType.ChatTypeList.firstWhere((element) => element.type == value['type']),
     );
   }
 
@@ -56,19 +49,16 @@ class Chat {
         other.fromProfileId == fromProfileId &&
         other.timeStamp == timeStamp &&
         other.content == content &&
-        other.type == type
-    ;
+        other.type == type;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-    channelId.hashCode ^
-    fromProfileId.hashCode ^
-    timeStamp.hashCode ^
-    content.hashCode ^
-    type.hashCode
-    ;
+        channelId.hashCode ^
+        fromProfileId.hashCode ^
+        timeStamp.hashCode ^
+        content.hashCode ^
+        type.hashCode;
   }
 }
-

@@ -40,19 +40,16 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
   @override
   Widget build(BuildContext context) {
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
-    List<Profile> profileList =
-        BlocProvider.of<AllProfilesCubit>(context).profileList;
+    List<Profile> profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
     List<Chat> chatList = BlocProvider.of<ChatCubit>(context).chatList;
 
-    BlocProvider.of<ChatCubit>(context)
-        .fetchChat(channelId: widget.caregroup.id);
+    BlocProvider.of<ChatCubit>(context).fetchChat(channelId: widget.caregroup.id);
 
     return BlocBuilder<ChatCubit, ChatState>(
       builder: (context, state) {
         if (state is ChatLoading) {
           return const //Text("loading chat");
-          LoadingPageTemplate(
-              loadingMessage: 'Loading chat...');
+              LoadingPageTemplate(loadingMessage: 'Loading chat...');
         }
         if (state is ChatError) {
           return ErrorPageTemplate(errorMessage: state.message);
@@ -77,43 +74,35 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                             image: NetworkImage(profileList
-                                                .firstWhere((profile) =>
-                                                    profile.id ==
-                                                    chatList[index]
-                                                        .fromProfileId)
+                                                .firstWhere((profile) => profile.id == chatList[index].fromProfileId)
                                                 .photo),
                                             fit: BoxFit.cover),
                                       ),
                                     )
                                   : SizedBox(width: 35),
                               Expanded(
-                                child:
-                                (chatList[index].type == ChatType.image) ?
-                                Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Container(
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
+                                child: (chatList[index].type == ChatType.image)
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: Container(
+                                          height: 200,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Color(0xFFE8E8EE),
+                                              width: 3,
+                                            ),
+                                            borderRadius: BorderRadius.circular(12),
+                                            shape: BoxShape.rectangle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(chatList[index].content), fit: BoxFit.scaleDown),
+                                          ),
+                                        ),
+                                      )
+                                    : BubbleSpecialThree(
+                                        text: chatList[index].content,
                                         color: Color(0xFFE8E8EE),
-                                        width: 3,
-                                      ),
-                                      borderRadius: BorderRadius.circular(12),
-                                      shape: BoxShape.rectangle,
-                                      image: DecorationImage(
-                                          image: NetworkImage(chatList[index].content),
-                                          fit: BoxFit.scaleDown),
-                                    ),
-                                  ),
-                                ) :
-                                BubbleSpecialThree(
-                                  text: chatList[index].content,
-                                  color: Color(0xFFE8E8EE),
-                                  tail: true,
-                                  isSender: (chatList[index].fromProfileId ==
-                                      myProfile.id)
-                                ),
-
+                                        tail: true,
+                                        isSender: (chatList[index].fromProfileId == myProfile.id)),
                               ),
                               (chatList[index].fromProfileId == myProfile.id)
                                   ? Container(
@@ -123,10 +112,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                             image: NetworkImage(profileList
-                                                .firstWhere((profile) =>
-                                                    profile.id ==
-                                                    chatList[index]
-                                                        .fromProfileId)
+                                                .firstWhere((profile) => profile.id == chatList[index].fromProfileId)
                                                 .photo),
                                             fit: BoxFit.cover),
                                       ),
@@ -140,7 +126,6 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                   height: 50,
                   child: Row(
                     children: [
-
                       Container(
                         margin: const EdgeInsets.only(right: 4),
                         decoration: BoxDecoration(
@@ -158,19 +143,14 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                               final ref = FirebaseStorage.instance
                                   .ref()
                                   .child('chat')
-                                  .child(DateTime.now()
-                                          .millisecondsSinceEpoch
-                                          .toString() +
-                                      '.jpg');
+                                  .child(DateTime.now().millisecondsSinceEpoch.toString() + '.jpg');
 
                               await ref.putFile(File(pickedImageFile.path));
                               final url = await ref.getDownloadURL();
 
                               // save the chat
-                              final chatCubit =
-                                  BlocProvider.of<ChatCubit>(context);
-                              await chatCubit.createChatRepository(
-                                      widget.caregroup.id, url, ChatType.image);
+                              final chatCubit = BlocProvider.of<ChatCubit>(context);
+                              await chatCubit.createChatRepository(widget.caregroup.id, url, ChatType.image);
                               chatController.clear();
                             }
                           },
@@ -188,10 +168,8 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                           textCapitalization: TextCapitalization.sentences,
                           controller: chatController,
                           onSubmitted: (String value) async {
-                            final chatCubit =
-                                BlocProvider.of<ChatCubit>(context);
-                            await chatCubit.createChatRepository(
-                                    widget.caregroup.id, value, ChatType.text);
+                            final chatCubit = BlocProvider.of<ChatCubit>(context);
+                            await chatCubit.createChatRepository(widget.caregroup.id, value, ChatType.text);
                             chatController.clear();
                           },
                           // decoration:
@@ -210,13 +188,12 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                           onPressed: () async {
                             // onSendMessage(textEditingController.text, MessageType.text);
                             // add message to chat
-                            final chatCubit =
-                                BlocProvider.of<ChatCubit>(context);
-                            await chatCubit.createChatRepository(
-                                    widget.caregroup.id,
-                                    chatController.text,
-                                    ChatType.text);
-                            chatController.clear();
+                            if (chatController.text.length>0) {
+                              final chatCubit = BlocProvider.of<ChatCubit>(context);
+                              await chatCubit.createChatRepository(
+                                  widget.caregroup.id, chatController.text, ChatType.text);
+                              chatController.clear();
+                            }
                           },
                           icon: const Icon(Icons.send_rounded),
                           color: Colors.white,
