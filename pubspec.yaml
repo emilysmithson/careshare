@@ -43,6 +43,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_image_compress: ^1.1.0
   flutter_local_notifications: ^9.4.0
   image_picker: ^0.8.4+11
   package_info_plus: ^1.4.2

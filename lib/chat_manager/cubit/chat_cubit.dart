@@ -8,11 +8,13 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
+
 part 'chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   final CreateChat createChatRepository;
   final RemoveChat removeChatRepository;
+
   ChatCubit({
     required this.createChatRepository,
     required this.removeChatRepository,
@@ -20,17 +22,13 @@ class ChatCubit extends Cubit<ChatState> {
 
   final List<Chat> chatList = [];
 
-  Future fetchChat({
-    required String channelId
-  }) async {
+  Future fetchChat({required String channelId}) async {
     try {
       print('.....fetching chat for: $channelId');
 
       emit(const ChatLoading());
 
-      final reference = FirebaseDatabase.instance.ref('chats')
-          .orderByChild('channel')
-          .equalTo(channelId);
+      final reference = FirebaseDatabase.instance.ref('chats').orderByChild('channel').equalTo(channelId);
       final response = reference.onValue;
       response.listen((event) {
         emit(const ChatLoading());
@@ -41,8 +39,7 @@ class ChatCubit extends Cubit<ChatState> {
             ),
           );
         } else {
-          Map<dynamic, dynamic> returnedList =
-              event.snapshot.value as Map<dynamic, dynamic>;
+          Map<dynamic, dynamic> returnedList = event.snapshot.value as Map<dynamic, dynamic>;
 
           chatList.clear();
           returnedList.forEach(
@@ -66,14 +63,10 @@ class ChatCubit extends Cubit<ChatState> {
     }
   }
 
-  Future<Chat?> createChat(String channelId, String content, ChatType type) async {
+  Future<Chat?> createChat(String channelId, String content, String link, ChatType type) async {
     Chat? chat;
     try {
-      chat = await createChatRepository(
-        channelId,
-        content,
-        type
-        );
+      chat = await createChatRepository(channelId, content, link, type);
 
       return chat;
     } catch (e) {
@@ -86,7 +79,6 @@ class ChatCubit extends Cubit<ChatState> {
     }
     return null;
   }
-
 
   removeChat(String id) {
     emit(const ChatLoading());

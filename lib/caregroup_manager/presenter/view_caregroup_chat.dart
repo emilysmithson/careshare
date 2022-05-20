@@ -13,6 +13,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ViewCaregroupChat extends StatefulWidget {
@@ -84,17 +85,44 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                 child: (chatList[index].type == ChatType.image)
                                     ? Padding(
                                         padding: const EdgeInsets.all(3.0),
-                                        child: Container(
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Color(0xFFE8E8EE),
-                                              width: 3,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    contentPadding: EdgeInsets.zero,
+                                                    actionsAlignment: MainAxisAlignment.center,
+
+                                                    content: Container(
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Color(0xFFE8E8EE),
+                                                          width: 3,
+                                                        ),
+                                                        borderRadius: BorderRadius.circular(2),
+                                                        shape: BoxShape.rectangle,
+                                                        image: DecorationImage(
+                                                            image: NetworkImage(
+                                                                (chatList[index].link != null) ? chatList[index].link! : chatList[index].content),
+                                                            fit: BoxFit.cover),
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                          child: Container(
+                                            height: 200,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Color(0xFFE8E8EE),
+                                                width: 3,
+                                              ),
+                                              borderRadius: BorderRadius.circular(12),
+                                              shape: BoxShape.rectangle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(chatList[index].content), fit: BoxFit.scaleDown),
                                             ),
-                                            borderRadius: BorderRadius.circular(12),
-                                            shape: BoxShape.rectangle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(chatList[index].content), fit: BoxFit.scaleDown),
                                           ),
                                         ),
                                       )
@@ -139,22 +167,57 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                             color: Colors.white,
                           ),
                           onSelected: (value) async {
+                            // acquire image
                             final _image = await ImagePicker().pickImage(
                               source: (value == "camera") ? ImageSource.camera : ImageSource.gallery,
                             );
+
                             if (_image != null) {
+                              final filePath = File(_image.path).absolute.path;
+
+                              // create thumbnail
+                              // Create output file path
+                              // eg:- "Volume/VM/abcd_out.jpeg"
+                              final imageName = "${myProfile.id}_${DateTime.now().millisecondsSinceEpoch.toString()}";
+                              final lastIndex = filePath.lastIndexOf(new RegExp(r'.jp'));
+                              final splitted = filePath.substring(0, (lastIndex));
+                              final thumbnailPath = "${splitted}_thumb${filePath.substring(lastIndex)}";
+
+                              var result = await FlutterImageCompress.compressAndGetFile(
+                                filePath,
+                                thumbnailPath,
+                                quality: 5,
+                              );
+
+                              // store thumbnail image
+                              final thumbnailRef = FirebaseStorage.instance
+                                  .ref()
+                                  .child('chat')
+                                  .child(widget.caregroup.id)
+                                  .child(DateTime.now().year.toString().padLeft(4, '0'))
+                                  .child(DateTime.now().month.toString().padLeft(2, '0'))
+                                  .child(DateTime.now().day.toString().padLeft(2, '0'))
+                                  .child(imageName + '_thumb.jpg');
+                              await thumbnailRef.putFile(File(thumbnailPath));
+                              final thumbnailUrl = await thumbnailRef.getDownloadURL();
+
+                              // store full size image
                               final ref = FirebaseStorage.instance
                                   .ref()
                                   .child('chat')
-                                  .child(DateTime.now().millisecondsSinceEpoch.toString() + '.jpg');
-
+                                  .child(widget.caregroup.id)
+                                  .child(DateTime.now().year.toString().padLeft(4, '0'))
+                                  .child(DateTime.now().month.toString().padLeft(2, '0'))
+                                  .child(DateTime.now().day.toString().padLeft(2, '0'))
+                                  .child(imageName + '.jpg');
                               await ref.putFile(File(_image.path));
-                              final url = await ref.getDownloadURL();
+                              final imageUrl = await ref.getDownloadURL();
 
                               // save the chat
                               final chatCubit = BlocProvider.of<ChatCubit>(context);
-                              await chatCubit.createChatRepository(widget.caregroup.id, url, ChatType.image);
+                              await chatCubit.createChatRepository(widget.caregroup.id, thumbnailUrl, imageUrl, ChatType.image);
                               chatController.clear();
+
                             }
                           },
                           itemBuilder: (BuildContext bc) {
@@ -186,7 +249,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                           controller: chatController,
                           onSubmitted: (String value) async {
                             final chatCubit = BlocProvider.of<ChatCubit>(context);
-                            await chatCubit.createChatRepository(widget.caregroup.id, value, ChatType.text);
+                            await chatCubit.createChatRepository(widget.caregroup.id, value, "", ChatType.text);
                             chatController.clear();
                           },
                           // decoration:
@@ -208,7 +271,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                             if (chatController.text.length > 0) {
                               final chatCubit = BlocProvider.of<ChatCubit>(context);
                               await chatCubit.createChatRepository(
-                                  widget.caregroup.id, chatController.text, ChatType.text);
+                                  widget.caregroup.id, chatController.text, "", ChatType.text);
                               chatController.clear();
                             }
                           },

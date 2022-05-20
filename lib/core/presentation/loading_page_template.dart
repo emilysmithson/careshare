@@ -8,23 +8,21 @@ class LoadingPageTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Scaffold(
-        body: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 4,
-                ),
+    return Scaffold(
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 4,
               ),
-              const SizedBox(width: 16),
-              Text(loadingMessage)
-            ],
-          ),
+            ),
+            const SizedBox(width: 16),
+            Text(loadingMessage)
+          ],
         ),
       ),
     );

@@ -6,6 +6,7 @@ class Chat {
   String fromProfileId;
   DateTime timeStamp;
   String content;
+  String? link;
   ChatType type;
 
   Chat({
@@ -14,6 +15,7 @@ class Chat {
     required this.fromProfileId,
     required this.timeStamp,
     required this.content,
+    this.link,
     required this.type,
   });
 
@@ -24,6 +26,7 @@ class Chat {
       'from': fromProfileId,
       'time_stamp': timeStamp.toString(),
       'content': content,
+      'link': link,
       'type': type.type,
     };
   }
@@ -35,6 +38,7 @@ class Chat {
       fromProfileId: value['from'],
       timeStamp: DateTime.parse(value['time_stamp']),
       content: value['content'],
+      link: value['link'] ?? "",
       type: ChatType.ChatTypeList.firstWhere((element) => element.type == value['type']),
     );
   }
@@ -49,6 +53,7 @@ class Chat {
         other.fromProfileId == fromProfileId &&
         other.timeStamp == timeStamp &&
         other.content == content &&
+        other.link == link &&
         other.type == type;
   }
 
@@ -59,6 +64,7 @@ class Chat {
         fromProfileId.hashCode ^
         timeStamp.hashCode ^
         content.hashCode ^
+        link.hashCode ^
         type.hashCode;
   }
 }

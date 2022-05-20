@@ -9,6 +9,7 @@ class CreateChat {
   Future<Chat> call(
       String channelId,
       String content,
+      String link,
       ChatType type,
       ) async {
     final chat = Chat(
@@ -17,6 +18,7 @@ class CreateChat {
       fromProfileId: FirebaseAuth.instance.currentUser!.uid,
       timeStamp: DateTime.now(),
       content: content,
+      link: link,
       type: type,
     );
     DatabaseReference reference = FirebaseDatabase.instance.ref('chats');
