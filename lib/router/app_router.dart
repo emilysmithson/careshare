@@ -44,8 +44,6 @@ import 'package:careshare/task_manager/repository/update_a_task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-
 class AppRouter {
   final _caregroupCubit = CaregroupCubit(
     createACaregroupRepository: CreateACaregroup(),
@@ -70,8 +68,6 @@ class AppRouter {
 
   final _categoriesCubit = CategoriesCubit();
 
-
-
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case AuthenticationPage.routeName:
@@ -95,7 +91,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
-              child: const HomePage(),
+            child: const HomePage(),
           ),
         );
 
@@ -146,8 +142,7 @@ class AppRouter {
             value: _taskCubit,
             child: BlocProvider.value(
               value: _categoriesCubit,
-              child: TaskDetailedView(
-                  task: task ?? routeSettings.arguments as CareTask),
+              child: TaskDetailedView(task: task ?? routeSettings.arguments as CareTask),
             ),
           ),
         );
@@ -157,8 +152,7 @@ class AppRouter {
             value: _caregroupCubit,
             child: BlocProvider.value(
               value: _invitationCubit,
-              child: InviteUserToCaregroup(
-                  caregroup: routeSettings.arguments as Caregroup),
+              child: InviteUserToCaregroup(caregroup: routeSettings.arguments as Caregroup),
             ),
           ),
         );
@@ -170,19 +164,15 @@ class AppRouter {
             child: BlocProvider.value(
               value: _categoriesCubit,
               child: TaskCategoryView(
-                  careTaskList: (routeSettings.arguments
-                          as Map<String, dynamic>)['careTaskList']
-                      as List<CareTask>,
-                  title: (routeSettings.arguments
-                      as Map<String, dynamic>)['title']),
+                  careTaskList: (routeSettings.arguments as Map<String, dynamic>)['careTaskList'] as List<CareTask>,
+                  title: (routeSettings.arguments as Map<String, dynamic>)['title']),
             ),
           ),
         );
 
       case ProfileSummary.routeName:
         return MaterialPageRoute(
-          builder: (_) =>
-              ProfileSummary(profile: routeSettings.arguments as Profile),
+          builder: (_) => ProfileSummary(profile: routeSettings.arguments as Profile),
         );
       case ProfilesManager.routeName:
         return MaterialPageRoute(
@@ -190,8 +180,7 @@ class AppRouter {
         );
       case EditProfile.routeName:
         return MaterialPageRoute(
-          builder: (_) =>
-              EditProfile(profile: routeSettings.arguments as Profile),
+          builder: (_) => EditProfile(profile: routeSettings.arguments as Profile),
         );
 
       case ViewProfile.routeName:
@@ -199,27 +188,20 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
             child: ViewProfile(
-                caregroup: (routeSettings.arguments
-                    as Map<String, dynamic>)['caregroup'] as Caregroup,
-                profile: (routeSettings.arguments
-                    as Map<String, dynamic>)['profile'] as Profile),
+                caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup'] as Caregroup,
+                profile: (routeSettings.arguments as Map<String, dynamic>)['profile'] as Profile),
           ),
         );
-
-
 
       case ViewCaregroup.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-              value: _caregroupCubit,
+            value: _caregroupCubit,
             child: BlocProvider.value(
               value: _taskCubit,
               child: ViewCaregroup(
-                  careTaskList: (routeSettings.arguments
-                  as Map<String, dynamic>)['careTaskList']
-                  as List<CareTask>,
-                  caregroup: (routeSettings.arguments
-                  as Map<String, dynamic>)['caregroup']),
+                  careTaskList: (routeSettings.arguments as Map<String, dynamic>)['careTaskList'] as List<CareTask>,
+                  caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup']),
             ),
           ),
         );
@@ -236,16 +218,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
-            child:
-                EditCaregroup(caregroup: routeSettings.arguments as Caregroup),
+            child: EditCaregroup(caregroup: routeSettings.arguments as Caregroup),
           ),
         );
 
-        case FetchMyProfilePage.routeName:
+      case FetchMyProfilePage.routeName:
         if (routeSettings.arguments.runtimeType == String) {
           return MaterialPageRoute(
-            builder: (_) =>
-                FetchMyProfilePage(id: routeSettings.arguments as String),
+            builder: (_) => FetchMyProfilePage(id: routeSettings.arguments as String),
           );
         } else {
           final arguments = routeSettings.arguments as Map<String, dynamic>;
@@ -268,18 +248,15 @@ class AppRouter {
           ),
         );
 
-
       case ViewCaregroupTasks.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _taskCubit,
             child: ViewCaregroupTasks(
-              caregroup: routeSettings.arguments as Caregroup,
-                careTaskList: routeSettings.arguments as List<CareTask>
-            ),
+                caregroup: routeSettings.arguments as Caregroup,
+                careTaskList: routeSettings.arguments as List<CareTask>),
           ),
         );
-
 
       case FetchTasksPage.routeName:
         return MaterialPageRoute(
@@ -306,24 +283,22 @@ class AppRouter {
           builder: (_) => FetchProfilesPage(
             caregroup: routeSettings.arguments as Caregroup,
           ),
-
         );
 
-      case FetchInvitationsPage.routeName:
-        return MaterialPageRoute(
-            builder: (_) => FetchInvitationsPage(
-                caregroup: routeSettings.arguments as Caregroup,
-            ),
-        );
+      // case FetchInvitationsPage.routeName:
+      //   return MaterialPageRoute(
+      //       builder: (_) => FetchInvitationsPage(
+      //           caregroup: routeSettings.arguments as Caregroup,
+      //       ),
+      //   );
 
       case FetchMyInvitationsPage.routeName:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-              value: _caregroupCubit,
-              child:FetchMyInvitationsPage(),
+          builder: (_) => BlocProvider.value(
+            value: _caregroupCubit,
+            child: FetchMyInvitationsPage(),
           ),
         );
-
 
       default:
         return MaterialPageRoute(

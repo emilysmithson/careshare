@@ -1,8 +1,8 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
-import 'package:careshare/invitation_manager/presenter/fetch_invitations_page.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
+import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +34,7 @@ class FetchProfilesPage extends StatelessWidget {
         }
         if (state is AllProfilesLoaded) {
           WidgetsBinding.instance.addPostFrameCallback((_) =>
-              Navigator.pushReplacementNamed(context, FetchInvitationsPage.routeName,
+              Navigator.pushReplacementNamed(context, FetchTasksPage.routeName,
                   arguments: caregroup));
           return Container();
         }
