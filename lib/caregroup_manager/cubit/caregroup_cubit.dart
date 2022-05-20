@@ -206,8 +206,9 @@ class CaregroupCubit extends Cubit<CaregroupState> {
           );
 
           caregroupList.sort((a, b) => a.name.compareTo(b.name));
+print("caregroupList: $caregroupList");
 
-          if(profile.carerInCaregroups.isNotEmpty) {
+          // if(profile.carerInCaregroups.isNotEmpty) {
 
             myCaregroupList = caregroupList.where((caregroup) =>
               profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) != -1
@@ -217,7 +218,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
             profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) == -1
             ).toList();
 
-          }
+          // }
 
           print('.....loaded caregroupList: ${caregroupList.length}');
           print('.....loaded myCaregroupList: ${myCaregroupList.length}');
