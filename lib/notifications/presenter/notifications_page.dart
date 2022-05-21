@@ -1,13 +1,11 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/notifications/cubit/notifications_cubit.dart';
-import 'package:careshare/notifications/initialise_notifications.dart';
 import 'package:careshare/notifications/models/careshare_notification.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
+import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
-import '../../task_manager/cubit/task_cubit.dart';
 
 class NotificationsPage extends StatelessWidget {
   static const String routeName = "/notifications-page";
@@ -20,11 +18,12 @@ class NotificationsPage extends StatelessWidget {
     return BlocBuilder<NotificationsCubit, NotificationsState>(
       builder: (context, state) {
         if (state is NotificationsLoaded) {
-          List<CareshareNotification> myNotifications  =  state.notificationsList.where((n) => n.caregroupId == caregroup.id).toList();
+          List<CareshareNotification> myNotifications =
+              state.notificationsList.where((n) => n.caregroupId == caregroup.id).toList();
           myNotifications.sort(
-                (a, b) => b.dateTime.compareTo(a.dateTime),
+            (a, b) => b.dateTime.compareTo(a.dateTime),
           );
-          int myNewNotificationsCount = myNotifications.where((n) => n.isRead==false).length;
+          int myNewNotificationsCount = myNotifications.where((n) => n.isRead == false).length;
           return Scaffold(
             appBar: AppBar(
               title: const Text('Notifications Page'),
@@ -55,14 +54,14 @@ class NotificationsPage extends StatelessWidget {
             body: Column(
               children: [
                 ListTile(
-                    leading: BellWidget(caregroup: caregroup,),
+                    leading: BellWidget(
+                      caregroup: caregroup,
+                    ),
                     title: myNewNotificationsCount == 0
                         ? const Text('You have no new notifications')
                         : Text(
-                      "You have ${myNewNotificationsCount} new notification${myNewNotificationsCount > 1
-                          ? 's'
-                          : ''}",
-                    )),
+                            "You have ${myNewNotificationsCount} new notification${myNewNotificationsCount > 1 ? 's' : ''}",
+                          )),
                 const Divider(),
                 Expanded(
                   child: ListView.builder(
@@ -94,7 +93,7 @@ class NotificationsPage extends StatelessWidget {
                               if (notification.routeName.isNotEmpty) {
                                 if (notification.routeName == "/task-detailed-view") {
                                   final task =
-                                  BlocProvider.of<TaskCubit>(context).fetchTaskFromID(notification.arguments);
+                                      BlocProvider.of<TaskCubit>(context).fetchTaskFromID(notification.arguments);
 
                                   if (task == null) {
                                     Navigator.pop(context);
@@ -126,12 +125,12 @@ class NotificationsPage extends StatelessWidget {
                                   subtitle: Text(notification.subtitle),
                                   trailing: !notification.isRead
                                       ? Container(
-                                      decoration: const BoxDecoration(
-                                        color: Colors.blue,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      height: 10,
-                                      width: 10)
+                                          decoration: const BoxDecoration(
+                                            color: Colors.blue,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          height: 10,
+                                          width: 10)
                                       : null,
                                 ),
                                 const Divider(),

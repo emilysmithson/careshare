@@ -10,7 +10,7 @@ class ChatType {
   static const ChatType audio = ChatType('audio', 2, 'can be done remotely','settings_phone_sharp ');
   static const ChatType image = ChatType('image', 3, 'can be done from anywhere','gps_fixed_sharp ');
 
-  static List<ChatType> ChatTypeList = [
+  static List<ChatType> chatTypeList = [
     text,
     audio,
     image,

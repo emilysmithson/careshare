@@ -26,7 +26,6 @@ class TaskDetailedView extends StatefulWidget {
     required this.task,
   }) : super(key: key);
 
-
   @override
   State<TaskDetailedView> createState() => _TaskDetailedViewState();
 }
@@ -42,11 +41,9 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
 
   @override
   void initState() {
-    if (widget.task.title != null) {
-      titleController.text = widget.task.title;
-      detailsController.text = (widget.task.details==null) ? "" : widget.task.details!;
-      dueDateController.text = DateFormat('d MMM yyyy').format(widget.task.dueDate);
-    }
+    titleController.text = widget.task.title;
+    detailsController.text = (widget.task.details == null) ? "" : widget.task.details!;
+    dueDateController.text = DateFormat('d MMM yyyy').format(widget.task.dueDate);
     super.initState();
   }
 
@@ -61,7 +58,6 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
 
   @override
   Widget build(BuildContext context) {
-
     CareTask originalTask = widget.task.clone();
 
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
@@ -81,7 +77,6 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
               floatingActionButton: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-
                   // Cancel button
                   // Shown when the task is in Draft
                   // When clicked, the draft task is deleted
@@ -94,8 +89,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                       },
                       child: const Text('Cancel'),
                     ),
-                  if (widget.task.taskStatus == TaskStatus.draft)
-                    const SizedBox(width: 20),
+                  if (widget.task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
 
                   // Undo button
                   // Shown when _dirty is true
@@ -103,17 +97,13 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                   if (widget.task.taskStatus != TaskStatus.draft && _dirty)
                     ElevatedButton(
                       onPressed: () {
-
-
                         BlocProvider.of<TaskCubit>(context).updateTask(originalTask);
 
                         Navigator.pop(context);
                       },
                       child: const Text('Undo Changes'),
                     ),
-                  if (widget.task.taskStatus == TaskStatus.draft)
-                    const SizedBox(width: 20),
-
+                  if (widget.task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
 
                   // Create Task button
                   // Shown when the task is in Draft
@@ -125,13 +115,10 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                   // A message is sent to the assignee if the task is assigned
                   if (widget.task.taskStatus == TaskStatus.draft)
                     ElevatedButton(
-                      onPressed: ()  {
-
+                      onPressed: () {
                         if (!_formKey.currentState!.validate()) {
                           print('validation failed');
-                        }
-                        else {
-
+                        } else {
                           BlocProvider.of<TaskCubit>(context).createTask(
                             task: widget.task,
                             profileId: myProfile.id,
@@ -140,10 +127,8 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           Navigator.pop(context);
 
                           // Send a message to tell the world the task is created
-                          HttpsCallable callable =
-                          FirebaseFunctions.instance.httpsCallable(
-                              'createTask');
-                           callable.call(<String, dynamic>{
+                          HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('createTask');
+                          callable.call(<String, dynamic>{
                             'task_id': widget.task.id,
                             'task_title': widget.task.title,
                             'creater_id': myProfile.id,
@@ -156,46 +141,41 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                     ),
                   if (widget.task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
 
-
                   // Accept Task Button
                   // Shown when the task is Assigned
-                  if (widget.task.taskStatus == TaskStatus.assigned &&
-                      widget.task.assignedTo == myProfile.id)
+                  if (widget.task.taskStatus == TaskStatus.assigned && widget.task.assignedTo == myProfile.id)
                     ElevatedButton(
-                      onPressed: ()  {
-
+                      onPressed: () {
                         if (!_formKey.currentState!.validate()) {
                           print('validation failed');
+                        } else {
+                          BlocProvider.of<TaskCubit>(context).acceptTask(
+                            task: widget.task,
+                            profileId: myProfile.id,
+                          );
+
+                          Navigator.pop(context);
+
+                          // Send a message to tell the world the task is accepted
+                          HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('acceptTask');
+                          callable.call(<String, dynamic>{
+                            'task_id': widget.task.id,
+                            'task_title': widget.task.title,
+                            'accepter_id': myProfile.id,
+                            'accepter_name': myProfile.name,
+                            'date_time': DateTime.now().toString()
+                          });
                         }
-                        else {
-
-                        BlocProvider.of<TaskCubit>(context).acceptTask(
-                          task: widget.task,
-                          profileId: myProfile.id,
-                        );
-
-                        Navigator.pop(context);
-
-                        // Send a message to tell the world the task is accepted
-                        HttpsCallable callable =
-                        FirebaseFunctions.instance.httpsCallable('acceptTask');
-                         callable.call(<String, dynamic>{
-                          'task_id': widget.task.id,
-                          'task_title': widget.task.title,
-                          'accepter_id': myProfile.id,
-                          'accepter_name': myProfile.name,
-                          'date_time': DateTime.now().toString()
-                           });
-                       }
-                    },
+                      },
                       child: const Text('Accept Task'),
                     ),
-                  if (widget.task.taskStatus == TaskStatus.assigned &&
-                      widget.task.assignedTo == myProfile.id)
+                  if (widget.task.taskStatus == TaskStatus.assigned && widget.task.assignedTo == myProfile.id)
                     const SizedBox(width: 20),
 
-
-                  TaskWorkflowWidget(task: widget.task, formKey: _formKey,),
+                  TaskWorkflowWidget(
+                    task: widget.task,
+                    formKey: _formKey,
+                  ),
                 ],
               ),
               appBar: AppBar(
@@ -220,33 +200,46 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                   child: Wrap(
                     runSpacing: 24,
                     children: [
-
                       PhotoAndNameWidget(
                         id: widget.task.createdBy!,
                         text: 'Created by:',
                         dateTime: widget.task.taskCreatedDate,
                       ),
-
-                     Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('draft', style: (widget.task.taskStatus == TaskStatus.draft) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                          Text('draft',
+                              style: (widget.task.taskStatus == TaskStatus.draft)
+                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                  : null),
                           Text('  >  '),
-                          Text('created', style: (widget.task.taskStatus == TaskStatus.created) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                          Text('created',
+                              style: (widget.task.taskStatus == TaskStatus.created)
+                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                  : null),
                           Text('  >  '),
-                          Text('assigned', style: (widget.task.taskStatus == TaskStatus.assigned) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                          Text('assigned',
+                              style: (widget.task.taskStatus == TaskStatus.assigned)
+                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                  : null),
                           Text('  >  '),
-                          Text('accepted', style: (widget.task.taskStatus == TaskStatus.accepted) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                          Text('accepted',
+                              style: (widget.task.taskStatus == TaskStatus.accepted)
+                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                  : null),
                           Text('  >  '),
-                          Text('completed', style: (widget.task.taskStatus == TaskStatus.completed) ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold) : null ),
+                          Text('completed',
+                              style: (widget.task.taskStatus == TaskStatus.completed)
+                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                  : null),
                         ],
                       ),
                       TextFormField(
                         enabled: !widget.task.taskStatus.locked,
                         validator: (value) {
-                          if (value == null || value.length == 0)  {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter a title';
-                          } else if (value.length < 10)  {
+                          } else if (value.length < 10) {
                             return 'Too short! please make it at least 10 characters.';
                           }
                           return null;
@@ -258,28 +251,24 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           _dirty = true;
                           if (_debounce?.isActive ?? false) _debounce?.cancel();
                           _debounce = Timer(const Duration(milliseconds: 1000), () {
-                              BlocProvider.of<TaskCubit>(context)
-                                  .editTaskFieldRepository(
-                                taskField: TaskField.title,
-                                task: widget.task,
-                                newValue: value,
-                              );
+                            BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
+                              taskField: TaskField.title,
+                              task: widget.task,
+                              newValue: value,
+                            );
                           });
                         },
                         decoration: const InputDecoration(
-                          disabledBorder:(
-                              OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))
-                          ) ,
+                          disabledBorder: (OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))),
                           label: Text('Title'),
-
                         ),
                       ),
                       TextFormField(
                         enabled: !widget.task.taskStatus.locked,
                         validator: (value) {
-                          if (value == null || value.length == 0)  {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter a description';
-                          } else if (value.length < 20)  {
+                          } else if (value.length < 20) {
                             return 'Too short! please make it   at least 20 characters.';
                           }
                           return null;
@@ -292,8 +281,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
 
                           if (_debounce?.isActive ?? false) _debounce?.cancel();
                           _debounce = Timer(const Duration(milliseconds: 1000), () {
-                            BlocProvider.of<TaskCubit>(context)
-                                .editTaskFieldRepository(
+                            BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
                               taskField: TaskField.details,
                               task: widget.task,
                               newValue: value,
@@ -301,19 +289,15 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           });
                         },
                         decoration: const InputDecoration(
-                          disabledBorder:(
-                              OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))
-                          ) ,
+                          disabledBorder: (OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))),
                           label: Text('Description'),
-
                         ),
                       ),
-
                       TextFormField(
                         enabled: !widget.task.taskStatus.locked,
                         readOnly: true,
                         validator: (value) {
-                          if (value == null || value.length == 0)  {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter a due date';
                           }
                           return null;
@@ -326,8 +310,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
 
                           if (_debounce?.isActive ?? false) _debounce?.cancel();
                           _debounce = Timer(const Duration(milliseconds: 1000), () {
-                            BlocProvider.of<TaskCubit>(context)
-                                .editTaskFieldRepository(
+                            BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
                               taskField: TaskField.dueDate,
                               task: widget.task,
                               newValue: value,
@@ -335,13 +318,9 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           });
                         },
 
-
-
                         decoration: const InputDecoration(
                           icon: Icon(Icons.calendar_today),
-                          disabledBorder:(
-                              OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))
-                          ),
+                          disabledBorder: (OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))),
                           label: Text('Due Date'),
                         ),
                         onTap: () async {
@@ -349,33 +328,26 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate: DateTime(2000),
-                              lastDate: DateTime(2101)
-                          );
+                              lastDate: DateTime(2101));
 
-                          if(pickedDate != null ){
-                            print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
+                          if (pickedDate != null) {
+                            print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                             //you can implement different kind of Date Format here according to your requirement
 
-
-                            BlocProvider.of<TaskCubit>(context)
-                                .editTaskFieldRepository(
+                            BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
                               taskField: TaskField.dueDate,
                               task: widget.task,
                               newValue: pickedDate,
                             );
 
-
                             setState(() {
-                              dueDateController.text =
-                                  DateFormat('d MMM yyyy').format(pickedDate);
+                              dueDateController.text = DateFormat('d MMM yyyy').format(pickedDate);
                             });
-                          }else{
+                          } else {
                             print("Date is not selected");
                           }
                         },
                       ),
-
-
                       Row(
                         children: [
                           const Text('Can be done remotely'),
@@ -384,9 +356,8 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                               onChanged: (bool? value) {
                                 _dirty = true;
 
-                                if  (!widget.task.taskStatus.locked) {
-                                  BlocProvider.of<TaskCubit>(context)
-                                      .editTaskFieldRepository(
+                                if (!widget.task.taskStatus.locked) {
+                                  BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
                                     task: widget.task,
                                     newValue: value,
                                     taskField: TaskField.canBeRemote,
@@ -395,19 +366,14 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                               }),
                         ],
                       ),
-
                       PriorityWidget(
                         locked: widget.task.taskStatus.locked,
                         task: widget.task,
                       ),
-
                       EffortWidget(
                         task: widget.task,
                         locked: widget.task.taskStatus.locked,
                       ),
-
-
-
                       ChooseCategoryWidget(
                         task: widget.task,
                         locked: widget.task.taskStatus.locked,
@@ -417,8 +383,9 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                         locked: widget.task.taskStatus.locked,
                       ),
                       DisplayCommentsWidget(task: widget.task),
-                      SizedBox(height: 150,),
-
+                      SizedBox(
+                        height: 150,
+                      ),
                     ],
                   ),
                 ),

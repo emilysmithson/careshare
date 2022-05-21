@@ -12,7 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:careshare/profile_manager/models/profile.dart';
 
 class AssignATask extends StatefulWidget {
   final CareTask task;

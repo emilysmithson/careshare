@@ -1,6 +1,4 @@
-import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 
 import 'package:flutter/material.dart';

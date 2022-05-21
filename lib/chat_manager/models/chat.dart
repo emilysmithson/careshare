@@ -39,7 +39,7 @@ class Chat {
       timeStamp: DateTime.parse(value['time_stamp']),
       content: value['content'],
       link: value['link'] ?? "",
-      type: ChatType.ChatTypeList.firstWhere((element) => element.type == value['type']),
+      type: ChatType.chatTypeList.firstWhere((element) => element.type == value['type']),
     );
   }
 

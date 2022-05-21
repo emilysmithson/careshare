@@ -268,7 +268,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                           onPressed: () async {
                             // onSendMessage(textEditingController.text, MessageType.text);
                             // add message to chat
-                            if (chatController.text.length > 0) {
+                            if (chatController.text.isNotEmpty) {
                               final chatCubit = BlocProvider.of<ChatCubit>(context);
                               await chatCubit.createChatRepository(
                                   widget.caregroup.id, chatController.text, "", ChatType.text);
