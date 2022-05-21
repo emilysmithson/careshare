@@ -33,7 +33,6 @@ class KudosBoardWidget extends StatelessWidget {
         task.kudos!.forEach((kudos) {
           kudosValue = kudosValue + task.taskEffort.value;
         });
-
       });
     }
 
