@@ -34,90 +34,92 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
   Widget build(BuildContext context) {
 
 
-      return PageScaffold(
-        searchScope: widget.caregroup.id,
-        searchType: "Tasks",
-        floatingActionButton: (_selectedIndex != 0) ? null : FloatingActionButton(
-            onPressed: () async {
-              // AddTaskBottomSheet().call(context);
+      return BlocBuilder<TaskCubit,TaskState>(
+        builder: (context, state) {
+          return PageScaffold(
+            searchScope: widget.caregroup.id,
+            searchType: "Tasks",
+            floatingActionButton: (_selectedIndex != 0) ? null : FloatingActionButton(
+                onPressed: () async {
+                  // AddTaskBottomSheet().call(context);
 
-              // Create a draft task and pass it to the edit screen
-              final taskCubit = BlocProvider.of<TaskCubit>(context);
-              final CareTask? task =
-              await taskCubit.draftTask('', widget.caregroup.id);
-              if (task != null) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => TaskDetailedView(
-                              task: task,
-                    ),
-                  ),
-                );
-              }
-            },
-            child: const Icon(Icons.add)),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.summarize_outlined),
-              label: 'Tasks',
+                  // Create a draft task and pass it to the edit screen
+                  final taskCubit = BlocProvider.of<TaskCubit>(context);
+                  final CareTask? task =
+                  await taskCubit.draftTask('', widget.caregroup.id);
+                  if (task != null) {
+                    Navigator.pushNamed(
+                      context,
+                      TaskDetailedView.routeName,
+                      arguments: task,
+                    );
+                  }
+                },
+                child: const Icon(Icons.add)),
+            bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.summarize_outlined),
+                  label: 'Tasks',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.chat),
+                  label: 'Chat',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.library_books),
+                  label: 'Docs',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.summarize_outlined),
+                  label: 'Overview',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.people_outlined),
+                  label: 'Members',
+                ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.mail_outline),
+                //   label: 'Invitations',
+                // ),
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: Colors.blueAccent,
+              onTap: (int index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: 'Chat',
+            body: Scaffold(
+                    appBar:AppBar(
+                        automaticallyImplyLeading: false,
+                        title: Text('Caregroup: ${widget.caregroup.name}'),
+                        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+                        elevation: 0,
+                        toolbarHeight: 40,
+                        actions: [
+                          IconButton(icon: Icon(Icons.more_vert), onPressed: () {},),
+                        ],
+                   ),
+                    body:
+                (_selectedIndex == 0) ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
+                    : (_selectedIndex == 1) ? ViewCaregroupChat(caregroup: widget.caregroup)
+                    : (_selectedIndex == 2) ? ViewCaregroupDocuments(caregroup: widget.caregroup)
+                    : (_selectedIndex == 3) ? ViewCaregroupOverview(caregroup: widget.caregroup)
+                    : (_selectedIndex == 4) ? ViewCaregroupMembers(caregroup: widget.caregroup)
+                    // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                    : Container(),
+
+
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.library_books),
-              label: 'Docs',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.summarize_outlined),
-              label: 'Overview',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people_outlined),
-              label: 'Members',
-            ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.mail_outline),
-            //   label: 'Invitations',
-            // ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blueAccent,
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-
-        ),
-        body: Scaffold(
-                appBar:AppBar(
-                    automaticallyImplyLeading: false,
-                    title: Text('Caregroup: ${widget.caregroup.name}'),
-                    backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-                    elevation: 0,
-                    toolbarHeight: 40,
-                    actions: [
-                      IconButton(icon: Icon(Icons.more_vert), onPressed: () {},),
-                    ],
-               ),
-                body:
-            (_selectedIndex == 0) ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
-                : (_selectedIndex == 1) ? ViewCaregroupChat(caregroup: widget.caregroup)
-                : (_selectedIndex == 2) ? ViewCaregroupDocuments(caregroup: widget.caregroup)
-                : (_selectedIndex == 3) ? ViewCaregroupOverview(caregroup: widget.caregroup)
-                : (_selectedIndex == 4) ? ViewCaregroupMembers(caregroup: widget.caregroup)
-                // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
-                : Container(),
-
-
-        ),
 
 
 
+          );
+        }
       );
   }
 }

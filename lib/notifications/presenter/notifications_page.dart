@@ -1,5 +1,7 @@
 import 'package:careshare/notifications/cubit/notifications_cubit.dart';
+import 'package:careshare/notifications/initialise_notifications.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +14,12 @@ class NotificationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    String userId = BlocProvider.of<MyProfileCubit>(context).myProfile.id;
+    initialiseNotifications(
+      userId,
+    );
+
     return BlocBuilder<NotificationsCubit, NotificationsState>(
       builder: (context, state) {
         if (state is NotificationsLoaded) {

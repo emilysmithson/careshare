@@ -206,7 +206,6 @@ class CaregroupCubit extends Cubit<CaregroupState> {
           );
 
           caregroupList.sort((a, b) => a.name.compareTo(b.name));
-print("caregroupList: $caregroupList");
 
           // if(profile.carerInCaregroups.isNotEmpty) {
 

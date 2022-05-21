@@ -3,7 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-Future initialiseNotifications(String userId, BuildContext context) async {
+Future initialiseNotifications(String userId) async {
   void onMessage(RemoteMessage message) {}
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   NotificationSettings settings = await messaging.requestPermission(

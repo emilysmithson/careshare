@@ -20,7 +20,6 @@ import 'package:careshare/caregroup_manager/repository/create_a_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/edit_caregroup_field_repository.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
-import 'package:careshare/invitation_manager/presenter/fetch_invitations_page.dart';
 import 'package:careshare/invitation_manager/presenter/fetch_my_invitations_page.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
 import 'package:careshare/notifications/presenter/fetch_my_notifications.dart';
@@ -147,7 +146,8 @@ class AppRouter {
             ),
           ),
         );
-      case InviteUserToCaregroup.routeName:
+
+        case InviteUserToCaregroup.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,

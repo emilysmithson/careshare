@@ -30,6 +30,7 @@ import 'profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
 import 'profile_manager/repository/edit_profile_field_repository.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -60,13 +61,15 @@ class _AppState extends State<App> {
           removeACaregroupRepository: RemoveACaregroup(),
           addCarerInCaregroupToCaregroup: AddCarerInCaregroupToCaregroup(),
         ),
-      child: BlocProvider(
-      create: (context) => NotificationsCubit(),
+        child: BlocProvider(
+          create: (context) => NotificationsCubit(),
           child: BlocProvider(
             create: (context) => MyInvitationsCubit(),
             child: BlocProvider(
-              create: (context) => InvitationsCubit(
-                editInvitationFieldRepository: EditInvitationFieldRepository(),
+              create: (context) => NotificationsCubit(),
+              child: BlocProvider(
+                create: (context) => InvitationsCubit(
+                  editInvitationFieldRepository: EditInvitationFieldRepository(),
                 ),
                 child: BlocProvider(
                   create: (context) => MyProfileCubit(
@@ -86,20 +89,21 @@ class _AppState extends State<App> {
                       create: (context) => ChatCubit(
                         createChatRepository: CreateChat(),
                         removeChatRepository: RemoveChat(),
-                        ),
+                      ),
                       child: MaterialApp(
-                      scrollBehavior: const MaterialScrollBehavior().copyWith(
-                        dragDevices: {
-                          PointerDeviceKind.mouse,
-                          PointerDeviceKind.touch,
-                          PointerDeviceKind.stylus,
-                          PointerDeviceKind.unknown
-                        },
+                        scrollBehavior: const MaterialScrollBehavior().copyWith(
+                          dragDevices: {
+                            PointerDeviceKind.mouse,
+                            PointerDeviceKind.touch,
+                            PointerDeviceKind.stylus,
+                            PointerDeviceKind.unknown
+                          },
+                        ),
+                        navigatorKey: navigatorKey,
+                        theme: CustomTheme.themeData,
+                        onGenerateRoute: _appRouter.onGenerateRoute,
                       ),
-                      navigatorKey: navigatorKey,
-                      theme: CustomTheme.themeData,
-                      onGenerateRoute: _appRouter.onGenerateRoute,
-                      ),
+                    ),
                   ),
                 ),
               ),
