@@ -1,5 +1,6 @@
 class CareshareNotification {
   final String id;
+  final String caregroupId;
   final String title;
   final String routeName;
   final String subtitle;
@@ -10,6 +11,7 @@ class CareshareNotification {
 
   CareshareNotification({
     required this.id,
+    required this.caregroupId,
     required this.title,
     required this.routeName,
     required this.subtitle,
@@ -22,6 +24,7 @@ class CareshareNotification {
   factory CareshareNotification.fromJson(Map<String, dynamic> json) {
     return CareshareNotification(
       id: json['id'],
+      caregroupId: json['caregroup'] ?? "",
       title: json['title'],
       routeName: json['route'],
       subtitle: json['subtitle'],
@@ -35,6 +38,7 @@ class CareshareNotification {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'caregroup': caregroupId,
       'title': title,
       'route': routeName,
       'subtitle': subtitle,
@@ -51,6 +55,7 @@ class CareshareNotification {
 
     return other is CareshareNotification &&
         other.id == id &&
+        other.caregroupId == caregroupId &&
         other.title == title &&
         other.routeName == routeName &&
         other.subtitle == subtitle &&
@@ -63,6 +68,7 @@ class CareshareNotification {
   @override
   int get hashCode {
     return id.hashCode ^
+        caregroupId.hashCode ^
         title.hashCode ^
         routeName.hashCode ^
         subtitle.hashCode ^

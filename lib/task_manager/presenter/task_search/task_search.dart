@@ -45,7 +45,7 @@ class _TaskSearchState extends State<TaskSearch> {
       if (state is TaskLoaded) {
         if (firstTimeThrough == true) {
           _careTaskList = state.careTaskList
-              .where((task) => task.taskStatus != TaskStatus.draft && task.caregroup == widget.caregroupId)
+              .where((task) => task.taskStatus != TaskStatus.draft && task.caregroupId == widget.caregroupId)
               .take(10);
           // print("state.careTaskList length: ${state.careTaskList.length}");
           // print("_careTaskList length: ${_careTaskList.length}");

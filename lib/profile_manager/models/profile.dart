@@ -1,6 +1,9 @@
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
+import 'package:careshare/profile_manager/models/profile_type.dart';
+
 
 class Profile {
+  ProfileType type;
   String name;
   String firstName;
   String lastName;
@@ -16,6 +19,7 @@ class Profile {
 
   Profile({
     required this.id,
+    required this.type,
     required this.name,
     required this.firstName,
     required this.lastName,
@@ -30,6 +34,10 @@ class Profile {
   });
 
   factory Profile.fromJson(dynamic json) {
+
+    final profileType = ProfileType.profileTypeList
+        .firstWhere((element) => element.type == json['type']);
+
     final List<RoleInCaregroup> carerInCaregroups = [];
 
     if (json['carer_in'] != null) {
@@ -40,6 +48,7 @@ class Profile {
     final createdDate = DateTime.parse(json['created_date']);
 
     return Profile(
+      type: profileType,
       id: json['id'],
       name: json['name'] ?? "",
       firstName: json['first_name'] ?? "",
@@ -59,6 +68,7 @@ class Profile {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'type': type.type,
       'name': name,
       'first_name': firstName,
       'last_name': lastName,
@@ -79,6 +89,7 @@ class Profile {
   String toString() {
     return '''
     id: $id,
+    type: $type,
     name: $name,
     firstName: $firstName,
     lastName: $lastName,
@@ -95,6 +106,7 @@ class Profile {
 
 enum ProfileField {
   name,
+  type,
   firstName,
   lastName,
   email,

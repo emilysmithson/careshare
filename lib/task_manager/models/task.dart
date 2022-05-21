@@ -12,7 +12,7 @@ import 'package:flutter/foundation.dart';
 class CareTask {
 
   final String id;
-  String caregroup;
+  String caregroupId;
   TaskStatus taskStatus;
 
   String title;
@@ -46,7 +46,7 @@ class CareTask {
 
   CareTask({
     required this.id,
-    required this.caregroup,
+    required this.caregroupId,
 
     required this.title,
     required this.dueDate,
@@ -82,7 +82,7 @@ class CareTask {
   CareTask clone() {
     CareTask cloned = CareTask(
         id: id,
-        caregroup: caregroup,
+        caregroupId: caregroupId,
         title: title,
         createdBy: createdBy,
         taskCreatedDate: taskCreatedDate,
@@ -130,7 +130,7 @@ class CareTask {
 
 
     return {
-      'caregroup': caregroup,
+      'caregroup': caregroupId,
       'task_status': taskStatus.status,
 
       'title': title,
@@ -248,7 +248,7 @@ class CareTask {
     return CareTask(
         id: key,
         title: title,
-        caregroup: caregroup,
+        caregroupId: caregroup,
         details: details,
         category: category,
         taskEffort: taskSize,
@@ -281,7 +281,7 @@ class CareTask {
 
     return other is CareTask &&
         other.title == title &&
-        other.caregroup == caregroup &&
+        other.caregroupId == caregroupId &&
         other.taskPriority == taskPriority &&
         other.taskEffort == taskEffort &&
         other.taskType == taskType &&
@@ -312,7 +312,7 @@ class CareTask {
   @override
   int get hashCode {
     return title.hashCode ^
-        caregroup.hashCode ^
+        caregroupId.hashCode ^
         taskPriority.hashCode ^
         taskEffort.hashCode ^
         taskType.hashCode ^

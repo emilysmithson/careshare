@@ -15,6 +15,11 @@ class EditProfileFieldRepository {
     // ignore: prefer_typing_uninitialized_variables
     late var value;
     switch (profileField) {
+      case ProfileField.type:
+        newProfile.name = newValue;
+        field = 'type';
+        value = newValue;
+        break;
       case ProfileField.name:
         newProfile.name = newValue;
         field = 'name';

@@ -13,16 +13,12 @@ class PageScaffold extends StatelessWidget {
   final Widget body;
   final Widget? floatingActionButton;
   final Widget? bottomNavigationBar;
-  final String searchScope;
-  final String searchType;
 
   PageScaffold({
     Key? key,
     required this.body,
     this.floatingActionButton,
     this.bottomNavigationBar,
-    this.searchScope = "",
-    this.searchType = "",
   }) : super(key: key);
 
   GlobalKey<ScaffoldState> _key = GlobalKey(); // add this
@@ -42,16 +38,16 @@ class PageScaffold extends StatelessWidget {
         ),
         title: Text('CareShare'),
         actions: [
-          if (searchType != "")
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                if (searchType == "Tasks") {
-                  Navigator.pushNamed(context, TaskSearch.routeName, arguments: searchScope);
-                }
-              },
-            ),
-          const BellWidget(),
+          // if (searchType != "")
+          //   IconButton(
+          //     icon: Icon(Icons.search),
+          //     onPressed: () {
+          //       if (searchType == "Tasks") {
+          //         Navigator.pushNamed(context, TaskSearch.routeName, arguments: searchScope);
+          //       }
+          //     },
+          //   ),
+          // const BellWidget(),
           Tooltip(
             message: myProfile.name,
             child: GestureDetector(

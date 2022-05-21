@@ -1,4 +1,4 @@
-import 'package:careshare/notifications/domain/careshare_notification.dart';
+import 'package:careshare/notifications/models/careshare_notification.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:flutter/material.dart';
 

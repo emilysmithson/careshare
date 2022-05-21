@@ -211,7 +211,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _taskCubit,
-            child: const NotificationsPage(),
+            child: NotificationsPage(caregroup: routeSettings.arguments as Caregroup),
           ),
         );
 

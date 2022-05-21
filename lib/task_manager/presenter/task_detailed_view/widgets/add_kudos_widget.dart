@@ -1,4 +1,4 @@
-import 'package:careshare/notifications/domain/careshare_notification.dart';
+import 'package:careshare/notifications/models/careshare_notification.dart';
 import 'package:careshare/notifications/cubit/notifications_cubit.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
@@ -54,6 +54,7 @@ class KudosWidget extends StatelessWidget {
             final DateTime dateTime = DateTime.now();
             final kudosNotification = CareshareNotification(
                 id: id,
+                caregroupId: task.caregroupId,
                 title:
                     "${BlocProvider.of<MyProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
                 routeName: "/task-detailed-view",
@@ -85,7 +86,7 @@ class KudosWidget extends StatelessWidget {
 
             BlocProvider.of<MyProfileCubit>(context).giveKudos(
                 profile: taskCompletedBy,
-                caregroupId: task.caregroup,
+                caregroupId: task.caregroupId,
                 kudos: task.taskEffort.value);
           },
           child: const Text('Give Kudos'),

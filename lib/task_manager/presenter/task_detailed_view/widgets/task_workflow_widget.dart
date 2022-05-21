@@ -9,7 +9,7 @@ import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
-import 'package:careshare/notifications/domain/careshare_notification.dart';
+import 'package:careshare/notifications/models/careshare_notification.dart';
 import 'package:careshare/notifications/cubit/notifications_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
@@ -177,7 +177,7 @@ class TaskWorkflowWidget extends StatelessWidget {
               // Update the completed count in the task completer's profile
               BlocProvider.of<MyProfileCubit>(context).completeTask(
                   profile: myProfile,
-                  caregroupId: task.caregroup,
+                  caregroupId: task.caregroupId,
                   effort: task.taskEffort.value);
 
               Navigator.pop(context);
@@ -320,6 +320,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                   final DateTime dateTime = DateTime.now();
                   final kudosNotification = CareshareNotification(
                       id: id,
+                      caregroupId: task.caregroupId,
                       title:
                           "${BlocProvider.of<MyProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
                       routeName: "/task-detailed-view",
@@ -351,7 +352,7 @@ class TaskWorkflowWidget extends StatelessWidget {
 
                   BlocProvider.of<MyProfileCubit>(context).giveKudos(
                       profile: myProfile,
-                      caregroupId: task.caregroup,
+                      caregroupId: task.caregroupId,
                       kudos: task.taskEffort.value);
                 },
                 child: const Text('Give Kudos'),

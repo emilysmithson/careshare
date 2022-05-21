@@ -4,10 +4,12 @@ import 'package:careshare/caregroup_manager/presenter/view_caregroup_documents.d
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
+import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 import 'package:careshare/core/presentation/page_scaffold.dart';
+import 'package:careshare/task_manager/presenter/task_search/task_search.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +31,7 @@ class ViewCaregroup extends StatefulWidget {
 
 class _ViewCaregroupState extends State<ViewCaregroup> {
   int _selectedIndex = 0;
+  String _searchType = "Tasks";
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +39,10 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
 
       return BlocBuilder<TaskCubit,TaskState>(
         builder: (context, state) {
+
           return PageScaffold(
-            searchScope: widget.caregroup.id,
-            searchType: "Tasks",
+            // searchScope: widget.caregroup.id,
+            // searchType: "Tasks",
             floatingActionButton: (_selectedIndex != 0) ? null : FloatingActionButton(
                 onPressed: () async {
                   // AddTaskBottomSheet().call(context);
@@ -96,11 +100,21 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
             body: Scaffold(
                     appBar:AppBar(
                         automaticallyImplyLeading: false,
-                        title: Text('Caregroup: ${widget.caregroup.name}'),
+                        title: Text(widget.caregroup.name),
                         backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
                         elevation: 0,
                         toolbarHeight: 40,
                         actions: [
+                          if (_searchType != "")
+                            IconButton(
+                              icon: Icon(Icons.search),
+                              onPressed: () {
+                                if (_searchType == "Tasks") {
+                                  Navigator.pushNamed(context, TaskSearch.routeName, arguments: widget.caregroup.id);
+                                }
+                              },
+                            ),
+                          BellWidget(caregroup: widget.caregroup,),
                           IconButton(icon: Icon(Icons.more_vert), onPressed: () {},),
                         ],
                    ),

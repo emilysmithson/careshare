@@ -11,6 +11,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
+
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
@@ -18,6 +19,7 @@ class TaskCubit extends Cubit<TaskState> {
   final EditTaskFieldRepository editTaskFieldRepository;
   final UpdateATask updateATaskRepository;
   final RemoveATask removeATaskRepository;
+
   TaskCubit({
     required this.createATaskRepository,
     required this.editTaskFieldRepository,
@@ -30,9 +32,7 @@ class TaskCubit extends Cubit<TaskState> {
   Future fetchTasks({required String caregroupId}) async {
     try {
       emit(const TaskLoading());
-      final reference = FirebaseDatabase.instance.ref('tasks')
-          .orderByChild('caregroup')
-          .equalTo(caregroupId);
+      final reference = FirebaseDatabase.instance.ref('tasks').orderByChild('caregroup').equalTo(caregroupId);
       final response = reference.onValue;
       response.listen((event) {
         emit(const TaskLoading());
@@ -43,8 +43,7 @@ class TaskCubit extends Cubit<TaskState> {
             ),
           );
         } else {
-          Map<dynamic, dynamic> returnedList =
-              event.snapshot.value as Map<dynamic, dynamic>;
+          Map<dynamic, dynamic> returnedList = event.snapshot.value as Map<dynamic, dynamic>;
 
           taskList.clear();
           returnedList.forEach(
@@ -72,39 +71,34 @@ class TaskCubit extends Cubit<TaskState> {
     try {
       emit(const TaskLoading());
       taskList.clear();
-      final reference = FirebaseDatabase.instance
-          .ref('tasks')
-          .orderByChild('caregroup')
-          .equalTo(caregroupId);
+      final reference = FirebaseDatabase.instance.ref('tasks').orderByChild('caregroup').equalTo(caregroupId);
 
       final response = reference.onValue;
       response.listen((event) {
         emit(const TaskLoading());
+        Map<dynamic, dynamic> returnedList;
         if (event.snapshot.value == null) {
-          emit(
-            const TaskError("no task found"),
-          );
-          return;
+          print("no task found");
+          returnedList = {};
         } else {
-          Map<dynamic, dynamic> returnedList =
-              event.snapshot.value as Map<dynamic, dynamic>;
-
-          taskList.clear();
-          returnedList.forEach(
-            (key, value) {
-              taskList.add(CareTask.fromJson(key, value));
-            },
-          );
-          taskList.sort(
-            (a, b) => b.taskCreatedDate!.compareTo(a.taskCreatedDate!),
-          );
-
-          emit(
-            TaskLoaded(
-              careTaskList: taskList,
-            ),
-          );
+          returnedList = event.snapshot.value as Map<dynamic, dynamic>;
         }
+        taskList.clear();
+        returnedList.forEach(
+          (key, value) {
+            taskList.add(CareTask.fromJson(key, value));
+          },
+        );
+        taskList.sort(
+          (a, b) => b.taskCreatedDate!.compareTo(a.taskCreatedDate!),
+        );
+
+        emit(
+          TaskLoaded(
+            careTaskList: taskList,
+          ),
+        );
+        // }
       });
     } catch (error) {
       emit(TaskError(error.toString()));
@@ -131,10 +125,7 @@ class TaskCubit extends Cubit<TaskState> {
   // Create Task
   // Update the task status to Created, unless the task is already assigned
   // in which case set the status to Assigned
-  createTask({
-    required CareTask task,
-    required String profileId
-  }) {
+  createTask({required CareTask task, required String profileId}) {
     if (task.assignedTo == null || task.assignedTo == '') {
       editTaskFieldRepository(
         task: task,
@@ -149,8 +140,7 @@ class TaskCubit extends Cubit<TaskState> {
             id: DateTime.now().millisecondsSinceEpoch.toString(),
             profileId: profileId,
             taskStatus: TaskStatus.created,
-            dateTime: DateTime.now()
-        ),
+            dateTime: DateTime.now()),
       );
     } else {
       editTaskFieldRepository(
@@ -165,8 +155,7 @@ class TaskCubit extends Cubit<TaskState> {
             id: DateTime.now().millisecondsSinceEpoch.toString(),
             profileId: profileId,
             taskStatus: TaskStatus.assigned,
-            dateTime: DateTime.now()
-        ),
+            dateTime: DateTime.now()),
       );
     }
   }
@@ -180,7 +169,8 @@ class TaskCubit extends Cubit<TaskState> {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskHistory,
-      newValue: TaskHistory(id: DateTime.now().millisecondsSinceEpoch.toString(),
+      newValue: TaskHistory(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
           profileId: profileId,
           taskStatus: TaskStatus.accepted,
           dateTime: DateTime.now()),
@@ -201,27 +191,21 @@ class TaskCubit extends Cubit<TaskState> {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskHistory,
-      newValue: TaskHistory(id: DateTime.now().millisecondsSinceEpoch.toString(),
+      newValue: TaskHistory(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
           profileId: profileId,
           taskStatus: TaskStatus.created,
           dateTime: DateTime.now()),
     );
   }
 
-  editTask(
-      {required CareTask task,
-      required TaskField taskField,
-      required dynamic newValue}) {
+  editTask({required CareTask task, required TaskField taskField, required dynamic newValue}) {
     emit(const TaskLoading());
 
-    editTaskFieldRepository(
-        task: task, taskField: taskField, newValue: newValue);
+    editTaskFieldRepository(task: task, taskField: taskField, newValue: newValue);
   }
 
-  completeTask(
-      {required CareTask task,
-      required String profileId,
-      required DateTime dateTime}) {
+  completeTask({required CareTask task, required String profileId, required DateTime dateTime}) {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.completedBy,
@@ -240,17 +224,15 @@ class TaskCubit extends Cubit<TaskState> {
     editTaskFieldRepository(
       task: task,
       taskField: TaskField.taskHistory,
-      newValue: TaskHistory(id: DateTime.now().millisecondsSinceEpoch.toString(),
+      newValue: TaskHistory(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
           profileId: profileId,
           taskStatus: TaskStatus.completed,
           dateTime: DateTime.now()),
     );
   }
 
-  assignTask(
-      {required CareTask task,
-      required String? assignedToId,
-      required String assignedById}) {
+  assignTask({required CareTask task, required String? assignedToId, required String assignedById}) {
     editTask(
       newValue: assignedToId,
       task: task,
@@ -263,15 +245,15 @@ class TaskCubit extends Cubit<TaskState> {
     );
     if (task.taskStatus != TaskStatus.draft) {
       editTask(
-        newValue:
-            assignedToId == null ? TaskStatus.created : TaskStatus.assigned,
+        newValue: assignedToId == null ? TaskStatus.created : TaskStatus.assigned,
         task: task,
         taskField: TaskField.taskStatus,
       );
       editTaskFieldRepository(
         task: task,
         taskField: TaskField.taskHistory,
-        newValue: TaskHistory(id: DateTime.now().millisecondsSinceEpoch.toString(),
+        newValue: TaskHistory(
+            id: DateTime.now().millisecondsSinceEpoch.toString(),
             profileId: assignedById,
             taskStatus: TaskStatus.assigned,
             dateTime: DateTime.now()),
@@ -291,6 +273,7 @@ class TaskCubit extends Cubit<TaskState> {
       ),
     );
   }
+
   removeTask(String id) {
     emit(const TaskLoading());
     removeATaskRepository(id);

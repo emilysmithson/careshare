@@ -21,9 +21,7 @@ class NotificationsError extends NotificationsState {
 
 class NotificationsLoaded extends NotificationsState {
   final List<CareshareNotification> notificationsList;
-  final int numberOfNewNotifications;
   const NotificationsLoaded({
     required this.notificationsList,
-    required this.numberOfNewNotifications,
   });
 }

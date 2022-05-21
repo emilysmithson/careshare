@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:careshare/profile_manager/models/profile_type.dart';
 
 import 'package:careshare/profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
@@ -84,6 +85,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
     final url = await ref.getDownloadURL();
 
     myProfile = Profile(
+      type: ProfileType.user,
       id: id,
       name: name,
       firstName: firstName ?? "",

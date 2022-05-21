@@ -38,7 +38,7 @@ class _AssignATaskState extends State<AssignATask> {
         .profileList
         .where((element) =>
             element.carerInCaregroups.indexWhere(
-                (element) => element.caregroupId == widget.task.caregroup) !=
+                (element) => element.caregroupId == widget.task.caregroupId) !=
             -1)
         .map(
           (profile) => GestureDetector(

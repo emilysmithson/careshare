@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/notifications/domain/careshare_notification.dart';
+import 'package:careshare/notifications/models/careshare_notification.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,7 +30,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
           emit(
             NotificationsLoaded(
               notificationsList: notificationsList,
-              numberOfNewNotifications: numberOfUnreadNotifications(),
+
             ),
           );
         } else {
@@ -50,7 +50,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
           emit(
             NotificationsLoaded(
               notificationsList: notificationsList,
-              numberOfNewNotifications: numberOfUnreadNotifications(),
+
             ),
           );
         }
@@ -139,14 +139,14 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       notificationsList.clear();
       emit(NotificationsLoaded(
           notificationsList: notificationsList,
-          numberOfNewNotifications: numberOfUnreadNotifications()));
+          ));
     } catch (error) {
       emit(NotificationsError(error.toString()));
     }
   }
 
-  deleteAllNotifications() {
-    for (final CareshareNotification notification in notificationsList) {
+  deleteAllNotifications(Caregroup caregroup) {
+    for (final CareshareNotification notification in notificationsList.where((n) => n.caregroupId==caregroup.id)) {
       deleteNotification(notification.id);
     }
   }

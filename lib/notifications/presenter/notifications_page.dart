@@ -1,7 +1,8 @@
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/notifications/cubit/notifications_cubit.dart';
 import 'package:careshare/notifications/initialise_notifications.dart';
+import 'package:careshare/notifications/models/careshare_notification.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
-import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,22 +11,20 @@ import '../../task_manager/cubit/task_cubit.dart';
 
 class NotificationsPage extends StatelessWidget {
   static const String routeName = "/notifications-page";
-  const NotificationsPage({Key? key}) : super(key: key);
+  final Caregroup caregroup;
+
+  const NotificationsPage({Key? key, required this.caregroup}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    String userId = BlocProvider.of<MyProfileCubit>(context).myProfile.id;
-    initialiseNotifications(
-      userId,
-    );
-
     return BlocBuilder<NotificationsCubit, NotificationsState>(
       builder: (context, state) {
         if (state is NotificationsLoaded) {
-          state.notificationsList.sort(
-            (a, b) => b.dateTime.compareTo(a.dateTime),
+          List<CareshareNotification> myNotifications  =  state.notificationsList.where((n) => n.caregroupId == caregroup.id).toList();
+          myNotifications.sort(
+                (a, b) => b.dateTime.compareTo(a.dateTime),
           );
+          int myNewNotificationsCount = myNotifications.where((n) => n.isRead==false).length;
           return Scaffold(
             appBar: AppBar(
               title: const Text('Notifications Page'),
@@ -38,8 +37,7 @@ class NotificationsPage extends StatelessWidget {
                   FloatingActionButton.extended(
                     key: const Key('Delete'),
                     onPressed: () {
-                      BlocProvider.of<NotificationsCubit>(context)
-                          .deleteAllNotifications();
+                      BlocProvider.of<NotificationsCubit>(context).deleteAllNotifications(caregroup);
                     },
                     label: const Text('Delete all'),
                   ),
@@ -47,8 +45,7 @@ class NotificationsPage extends StatelessWidget {
                   FloatingActionButton.extended(
                     key: const Key('Mark as read'),
                     onPressed: () {
-                      BlocProvider.of<NotificationsCubit>(context)
-                          .markAllAsRead();
+                      BlocProvider.of<NotificationsCubit>(context).markAllAsRead();
                     },
                     label: const Text('Mark all as read'),
                   ),
@@ -58,30 +55,30 @@ class NotificationsPage extends StatelessWidget {
             body: Column(
               children: [
                 ListTile(
-                    leading: const BellWidget(),
-                    title: state.numberOfNewNotifications == 0
+                    leading: BellWidget(caregroup: caregroup,),
+                    title: myNewNotificationsCount == 0
                         ? const Text('You have no new notifications')
                         : Text(
-                            "You have ${state.numberOfNewNotifications} new notification${state.numberOfNewNotifications > 1 ? 's' : ''}",
-                          )),
+                      "You have ${myNewNotificationsCount} new notification${myNewNotificationsCount > 1
+                          ? 's'
+                          : ''}",
+                    )),
                 const Divider(),
                 Expanded(
                   child: ListView.builder(
-                      itemCount: state.notificationsList.length,
+                      itemCount: myNotifications.length,
                       itemBuilder: (context, index) {
-                        final notification = state.notificationsList[index];
+                        final notification = myNotifications[index];
                         return Dismissible(
                           key: UniqueKey(),
                           onDismissed: (direction) {
-                            BlocProvider.of<NotificationsCubit>(context)
-                                .deleteNotification(notification.id);
+                            BlocProvider.of<NotificationsCubit>(context).deleteNotification(notification.id);
                           },
                           background: Container(
                             color: Colors.red,
                             child: const Center(
                               child: ListTile(
-                                leading:
-                                    Icon(Icons.delete, color: Colors.white),
+                                leading: Icon(Icons.delete, color: Colors.white),
                                 title: Text(
                                   "Delete",
                                   style: TextStyle(color: Colors.white),
@@ -92,15 +89,12 @@ class NotificationsPage extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               if (!notification.isRead) {
-                                BlocProvider.of<NotificationsCubit>(context)
-                                    .markAsRead(notification.id);
+                                BlocProvider.of<NotificationsCubit>(context).markAsRead(notification.id);
                               }
                               if (notification.routeName.isNotEmpty) {
-                                if (notification.routeName ==
-                                    "/task-detailed-view") {
-                                  final task = BlocProvider.of<TaskCubit>(
-                                          context)
-                                      .fetchTaskFromID(notification.arguments);
+                                if (notification.routeName == "/task-detailed-view") {
+                                  final task =
+                                  BlocProvider.of<TaskCubit>(context).fetchTaskFromID(notification.arguments);
 
                                   if (task == null) {
                                     Navigator.pop(context);
@@ -132,12 +126,12 @@ class NotificationsPage extends StatelessWidget {
                                   subtitle: Text(notification.subtitle),
                                   trailing: !notification.isRead
                                       ? Container(
-                                          decoration: const BoxDecoration(
-                                            color: Colors.blue,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          height: 10,
-                                          width: 10)
+                                      decoration: const BoxDecoration(
+                                        color: Colors.blue,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      height: 10,
+                                      width: 10)
                                       : null,
                                 ),
                                 const Divider(),

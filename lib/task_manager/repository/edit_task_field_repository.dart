@@ -24,7 +24,7 @@ class EditTaskFieldRepository {
         value = newValue;
         break;
       case TaskField.caregroup:
-        newTask.caregroup = newValue;
+        newTask.caregroupId = newValue;
         field = 'caregroup';
         value = newValue;
         break;

@@ -8,7 +8,7 @@ class CreateATask {
   Future<CareTask> call(String taskName, String caregroupId) async {
     final task = CareTask(
       title: taskName,
-      caregroup: caregroupId,
+      caregroupId: caregroupId,
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       createdBy: FirebaseAuth.instance.currentUser!.uid,
       taskCreatedDate: DateTime.now(),
