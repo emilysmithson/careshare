@@ -47,7 +47,7 @@ class TaskSection extends StatelessWidget {
       }
     else
       {
-        careTaskList.sort((a,b) => b.dueDate.compareTo(a.dueDate));
+        careTaskList.sort((a,b) => a.dueDate.compareTo(b.dueDate));
       }
 
 
