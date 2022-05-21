@@ -23,6 +23,7 @@ import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/presenter/fetch_invitations_page.dart';
 import 'package:careshare/invitation_manager/presenter/fetch_my_invitations_page.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
+import 'package:careshare/notifications/presenter/fetch_my_notifications.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/notifications/presenter/notifications_page.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
@@ -30,7 +31,7 @@ import 'package:careshare/profile_manager/presenter/fetch_my_profile_page.dart';
 import 'package:careshare/profile_manager/presenter/fetch_profiles_page.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
-import 'package:careshare/profile_manager/presenter/view_profile.dart';
+import 'package:careshare/profile_manager/presenter/view_profile_in_caregroup.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
@@ -183,11 +184,11 @@ class AppRouter {
           builder: (_) => EditProfile(profile: routeSettings.arguments as Profile),
         );
 
-      case ViewProfile.routeName:
+      case ViewProfileInCaregroup.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
-            child: ViewProfile(
+            child: ViewProfileInCaregroup(
                 caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup'] as Caregroup,
                 profile: (routeSettings.arguments as Map<String, dynamic>)['profile'] as Profile),
           ),
@@ -297,6 +298,14 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
             child: FetchMyInvitationsPage(),
+          ),
+        );
+
+      case FetchMyNotificationsPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _caregroupCubit,
+            child: FetchMyNotificationsPage(),
           ),
         );
 

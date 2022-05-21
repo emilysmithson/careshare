@@ -8,18 +8,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:careshare/profile_manager/models/profile.dart';
 
-class ViewProfile extends StatelessWidget {
+class ViewProfileInCaregroup extends StatelessWidget {
+  final Caregroup caregroup;
   final Profile profile;
   static const routeName = '/view-profile';
 
-  const ViewProfile({
+  const ViewProfileInCaregroup({
     Key? key,
+    required this.caregroup,
     required this.profile,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+    RoleInCaregroup roleInCaregroup = profile.carerInCaregroups
+        .firstWhere((element) => element.caregroupId == caregroup.id);
 
     // const double spacing = 16;
     return BlocBuilder<MyProfileCubit, MyProfileState>(
@@ -118,6 +122,96 @@ class ViewProfile extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Caregroup',
+                          style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(caregroup.name,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Role',
+                          style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(roleInCaregroup.role.role,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Tasks Completed',
+                          style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(roleInCaregroup.completedCount.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Value Of Tasks Completed',
+                          style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(roleInCaregroup.completedValue.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Kudos Count',
+                          style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(roleInCaregroup.kudosCount.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Kudos Value',
+                          style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(roleInCaregroup.kudosValue.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 32),
                 if (profile == myProfile)
                   Row(
                     children: [

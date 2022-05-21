@@ -9,6 +9,10 @@ abstract class NotificationsState extends Equatable {
 
 class NotificationsInitial extends NotificationsState {}
 
+class NotificationsLoading extends NotificationsState {
+  const NotificationsLoading();
+}
+
 class NotificationsError extends NotificationsState {
   final String errorMessage;
 

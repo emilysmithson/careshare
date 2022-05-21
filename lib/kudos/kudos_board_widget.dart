@@ -1,7 +1,7 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
-import 'package:careshare/profile_manager/presenter/view_profile.dart';
+import 'package:careshare/profile_manager/presenter/view_profile_in_caregroup.dart';
 import 'package:flutter/material.dart';
 
 import 'package:careshare/profile_manager/models/profile.dart';
@@ -23,7 +23,7 @@ class KudosBoardWidget extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            ViewProfile.routeName,
+            ViewProfileInCaregroup.routeName,
             arguments: {
               'caregroup': caregroup,
               'profile': profile,

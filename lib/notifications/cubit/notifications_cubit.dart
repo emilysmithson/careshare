@@ -15,8 +15,11 @@ part 'notifications_state.dart';
 class NotificationsCubit extends Cubit<NotificationsState> {
   NotificationsCubit() : super(NotificationsInitial());
   List<CareshareNotification> notificationsList = [];
+
   fetchNotifications() async {
     try {
+      emit(const NotificationsLoading());
+
       final reference = FirebaseDatabase.instance.ref(
         'profiles/${FirebaseAuth.instance.currentUser!.uid}/notifications',
       );
