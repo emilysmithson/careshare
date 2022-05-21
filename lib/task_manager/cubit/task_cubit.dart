@@ -25,7 +25,7 @@ class TaskCubit extends Cubit<TaskState> {
     required this.removeATaskRepository,
   }) : super(const TaskInitial());
 
-  final List<CareTask> careTaskList = [];
+  final List<CareTask> taskList = [];
 
   Future fetchTasks({required String caregroupId}) async {
     try {
@@ -39,26 +39,26 @@ class TaskCubit extends Cubit<TaskState> {
         if (event.snapshot.value == null) {
           emit(
             TaskLoaded(
-              careTaskList: careTaskList,
+              careTaskList: taskList,
             ),
           );
         } else {
           Map<dynamic, dynamic> returnedList =
               event.snapshot.value as Map<dynamic, dynamic>;
 
-          careTaskList.clear();
+          taskList.clear();
           returnedList.forEach(
             (key, value) {
-              careTaskList.add(CareTask.fromJson(key, value));
+              taskList.add(CareTask.fromJson(key, value));
             },
           );
-          careTaskList.sort(
+          taskList.sort(
             (a, b) => b.taskCreatedDate!.compareTo(a.taskCreatedDate!),
           );
 
           emit(
             TaskLoaded(
-              careTaskList: careTaskList,
+              careTaskList: taskList,
             ),
           );
         }
@@ -71,7 +71,7 @@ class TaskCubit extends Cubit<TaskState> {
   fetchTasksForCaregroup({required String caregroupId}) async {
     try {
       emit(const TaskLoading());
-      careTaskList.clear();
+      taskList.clear();
       final reference = FirebaseDatabase.instance
           .ref('tasks')
           .orderByChild('caregroup')
@@ -89,19 +89,19 @@ class TaskCubit extends Cubit<TaskState> {
           Map<dynamic, dynamic> returnedList =
               event.snapshot.value as Map<dynamic, dynamic>;
 
-          careTaskList.clear();
+          taskList.clear();
           returnedList.forEach(
             (key, value) {
-              careTaskList.add(CareTask.fromJson(key, value));
+              taskList.add(CareTask.fromJson(key, value));
             },
           );
-          careTaskList.sort(
+          taskList.sort(
             (a, b) => b.taskCreatedDate!.compareTo(a.taskCreatedDate!),
           );
 
           emit(
             TaskLoaded(
-              careTaskList: careTaskList,
+              careTaskList: taskList,
             ),
           );
         }
@@ -282,23 +282,23 @@ class TaskCubit extends Cubit<TaskState> {
   updateTask(CareTask task) {
     emit(const TaskUpdating());
     updateATaskRepository(task);
-    careTaskList.removeWhere((element) => element.id == task.id);
-    careTaskList.add(task);
+    taskList.removeWhere((element) => element.id == task.id);
+    taskList.add(task);
 
     emit(
       TaskLoaded(
-        careTaskList: careTaskList,
+        careTaskList: taskList,
       ),
     );
   }
   removeTask(String id) {
     emit(const TaskLoading());
     removeATaskRepository(id);
-    careTaskList.removeWhere((element) => element.id == id);
+    taskList.removeWhere((element) => element.id == id);
 
     emit(
       TaskLoaded(
-        careTaskList: careTaskList,
+        careTaskList: taskList,
       ),
     );
   }
@@ -306,7 +306,7 @@ class TaskCubit extends Cubit<TaskState> {
   showTaskDetails(CareTask task) {
     emit(
       TaskLoaded(
-        careTaskList: careTaskList,
+        careTaskList: taskList,
       ),
     );
   }
@@ -314,12 +314,12 @@ class TaskCubit extends Cubit<TaskState> {
   showTasksOverview() {
     emit(
       TaskLoaded(
-        careTaskList: careTaskList,
+        careTaskList: taskList,
       ),
     );
   }
 
   CareTask? fetchTaskFromID(String id) {
-    return careTaskList.firstWhereOrNull((element) => element.id == id);
+    return taskList.firstWhereOrNull((element) => element.id == id);
   }
 }
