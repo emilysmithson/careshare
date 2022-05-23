@@ -97,6 +97,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
       tandcsAccepted: false,
       showInvitationsOnHomePage: true,
       showOtherCaregropusOnHomePage: true,
+      messagingToken: "",
     );
 
     try {

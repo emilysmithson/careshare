@@ -1,9 +1,14 @@
 import 'package:careshare/main.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future initialiseNotifications(String userId) async {
+Future initialiseNotifications() async {
+  final context = navigatorKey.currentContext!;
+
   void onMessage(RemoteMessage message) {}
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   NotificationSettings settings = await messaging.requestPermission(
@@ -24,8 +29,20 @@ Future initialiseNotifications(String userId) async {
     // print('User declined or has not accepted permission');
   }
 
-  messaging.setForegroundNotificationPresentationOptions(
-      alert: true, badge: true, sound: true);
+  // get my profile
+  Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+
+  // retrieve the my token
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+
+  // save it to my profile
+  BlocProvider.of<MyProfileCubit>(context).editProfileFieldRepository(
+    profileField: ProfileField.messagingToken,
+    profile: myProfile,
+    newValue: fcmToken,
+  );
+
+  messaging.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
   if (!kIsWeb) {
     print('unsubscribing.............................................................................');
     messaging.unsubscribeFromTopic('Rc5YlbwrzWbG8Q1um4CkHvfFrwl2');
@@ -33,8 +50,8 @@ Future initialiseNotifications(String userId) async {
 
     // messaging.subscribeToTopic('task');
     // messaging.subscribeToTopic('task_completed');
-    print('subscribing to $userId   .............................................................................');
-    messaging.subscribeToTopic(userId);
+    print('subscribing to ${myProfile.id}   .............................................................................');
+    messaging.subscribeToTopic(myProfile.id);
   }
 
   // print("kudos/$userId");
@@ -45,8 +62,7 @@ Future initialiseNotifications(String userId) async {
     final arguments = message.data['arguments'];
     // print(arguments);
     if (route != null) {
-      Navigator.pushNamed(navigatorKey.currentContext!, route,
-          arguments: arguments);
+      Navigator.pushNamed(context, route, arguments: arguments);
     }
   });
 
@@ -56,14 +72,13 @@ Future initialiseNotifications(String userId) async {
   });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-
     final route = message.data['route'];
     // print(route);
     final arguments = message.data['arguments'];
     // print(arguments);
 
     showDialog(
-      context: navigatorKey.currentContext!,
+      context: context,
       builder: (context) => Center(
         child: Material(
           color: Colors.transparent,
@@ -80,10 +95,8 @@ Future initialiseNotifications(String userId) async {
               TextButton(
                 onPressed: () {
                   if (route != null) {
-                    Navigator.pushNamed(navigatorKey.currentContext!, route,
-                        arguments: arguments);
+                    Navigator.pushNamed(context, route, arguments: arguments);
                   }
-
                 },
                 child: const Text('See task'),
               ),

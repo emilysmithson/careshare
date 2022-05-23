@@ -24,6 +24,11 @@ class EditProfileFieldRepository {
         field = 'name';
         value = newValue;
         break;
+      case ProfileField.messagingToken:
+        newProfile.messagingToken = newValue;
+        field = 'messaging_token';
+        value = newValue;
+        break;
       case ProfileField.firstName:
         newProfile.firstName = newValue;
         field = 'first_name';

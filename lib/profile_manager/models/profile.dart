@@ -1,7 +1,6 @@
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/models/profile_type.dart';
 
-
 class Profile {
   ProfileType type;
   String name;
@@ -15,6 +14,7 @@ class Profile {
   bool tandcsAccepted;
   bool showInvitationsOnHomePage;
   bool showOtherCaregropusOnHomePage;
+  String messagingToken;
   List<RoleInCaregroup> carerInCaregroups = [];
 
   Profile({
@@ -30,13 +30,12 @@ class Profile {
     required this.tandcsAccepted,
     required this.showInvitationsOnHomePage,
     required this.showOtherCaregropusOnHomePage,
+    required this.messagingToken,
     required this.carerInCaregroups,
   });
 
   factory Profile.fromJson(dynamic json) {
-
-    final profileType = ProfileType.profileTypeList
-        .firstWhere((element) => element.type == json['type']);
+    final profileType = ProfileType.profileTypeList.firstWhere((element) => element.type == json['type']);
 
     final List<RoleInCaregroup> carerInCaregroups = [];
 
@@ -59,8 +58,8 @@ class Profile {
       createdDate: createdDate,
       tandcsAccepted: json['tandcs_accepted'] ?? false,
       showInvitationsOnHomePage: json['show_invitations_on_homepage'] ?? false,
-      showOtherCaregropusOnHomePage:
-      json['show_other_caregroups_on_homepage'] ?? false,
+      showOtherCaregropusOnHomePage: json['show_other_caregroups_on_homepage'] ?? false,
+      messagingToken: json['messaging_token'] ?? "",
       carerInCaregroups: carerInCaregroups,
     );
   }
@@ -79,9 +78,8 @@ class Profile {
       'tandcs_accepted': tandcsAccepted,
       'show_invitations_on_homepage': showInvitationsOnHomePage,
       'show_other_caregroups_on_homepage': showOtherCaregropusOnHomePage,
-      'carer_in': carerInCaregroups
-          .map((carerInCaregroups) => carerInCaregroups.toJson())
-          .toList(),
+      'messaging_token': messagingToken,
+      'carer_in': carerInCaregroups.map((carerInCaregroups) => carerInCaregroups.toJson()).toList(),
     };
   }
 
@@ -99,6 +97,7 @@ class Profile {
     tandcsAccepted: $tandcsAccepted,
     showInvitationsOnHomePage: $showInvitationsOnHomePage,
     showOtherCaregropusOnHomePage: $showOtherCaregropusOnHomePage,
+    messagingToken: $messagingToken,
     carer_in: $carerInCaregroups,
     ''';
   }
@@ -115,9 +114,8 @@ enum ProfileField {
   tandcsAccepted,
   showInvitationsOnHomePage,
   showOtherCaregropusOnHomePage,
+  messagingToken,
 }
-
-
 
 // import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 

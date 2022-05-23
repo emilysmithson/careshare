@@ -38,131 +38,102 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
 
   @override
   Widget build(BuildContext context) {
-
-
-      return BlocBuilder<TaskCubit,TaskState>(
-        builder: (context, state) {
-
-          return PageScaffold(
-            // searchScope: widget.caregroup.id,
-            // searchType: "Tasks",
-            floatingActionButton: (_selectedIndex != 0) ? null : FloatingActionButton(
+    return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
+      return PageScaffold(
+        // searchScope: widget.caregroup.id,
+        // searchType: "Tasks",
+        floatingActionButton: (_selectedIndex != 0)
+            ? null
+            : FloatingActionButton(
                 onPressed: () async {
-
-// send a message to baldfatchris
-
-                  final String id = DateTime.now().millisecondsSinceEpoch.toString();
-                  final DateTime dateTime = DateTime.now();
-
-                  final completionNotification = CareshareNotification(
-                      id: id,
-                      caregroupId: "1652046223125",
-                      title: "Hello baldfatchris",
-                      routeName: "/task-detailed-view",
-                      subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
-                      dateTime: dateTime,
-                      senderId: 'Rc5YlbwrzWbG8Q1um4CkHvfFrwl2',
-                      isRead: false,
-                      arguments: '1653222014395');
-
-                  List<String> recipientList = ['RWfw1NO39sg8fyuMTuOXUUnTS6b2'];
-
-                  BlocProvider.of<NotificationsCubit>(context).sendNotifications(
-                    notification: completionNotification,
-                    recipients: recipientList,
-                  );
-
-
-                  //
-                  // // AddTaskBottomSheet().call(context);
-                  //
-                  // // Create a draft task and pass it to the edit screen
-                  // final taskCubit = BlocProvider.of<TaskCubit>(context);
-                  // final CareTask? task =
-                  // await taskCubit.draftTask('', widget.caregroup.id);
-                  // if (task != null) {
-                  //   Navigator.pushNamed(
-                  //     context,
-                  //     TaskDetailedView.routeName,
-                  //     arguments: task,
-                  //   );
-                  // }
+                  // Create a draft task and pass it to the edit screen
+                  final taskCubit = BlocProvider.of<TaskCubit>(context);
+                  final CareTask? task = await taskCubit.draftTask('', widget.caregroup.id);
+                  if (task != null) {
+                    Navigator.pushNamed(
+                      context,
+                      TaskDetailedView.routeName,
+                      arguments: task,
+                    );
+                  }
                 },
                 child: const Icon(Icons.add)),
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.summarize_outlined),
-                  label: 'Tasks',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.chat),
-                  label: 'Chat',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.library_books),
-                  label: 'Docs',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.summarize_outlined),
-                  label: 'Overview',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.people_outlined),
-                  label: 'Members',
-                ),
-                // BottomNavigationBarItem(
-                //   icon: Icon(Icons.mail_outline),
-                //   label: 'Invitations',
-                // ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: Colors.blueAccent,
-              onTap: (int index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.summarize_outlined),
+              label: 'Tasks',
             ),
-            body: Scaffold(
-                    appBar:AppBar(
-                        automaticallyImplyLeading: false,
-                        title: Text(widget.caregroup.name),
-                        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-                        elevation: 0,
-                        toolbarHeight: 40,
-                        actions: [
-                          if (_searchType != "")
-                            IconButton(
-                              icon: Icon(Icons.search),
-                              onPressed: () {
-                                if (_searchType == "Tasks") {
-                                  Navigator.pushNamed(context, TaskSearch.routeName, arguments: widget.caregroup.id);
-                                }
-                              },
-                            ),
-                          BellWidget(caregroup: widget.caregroup,),
-                          IconButton(icon: Icon(Icons.more_vert), onPressed: () {},),
-                        ],
-                   ),
-                    body:
-                (_selectedIndex == 0) ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
-                    : (_selectedIndex == 1) ? ViewCaregroupChat(caregroup: widget.caregroup)
-                    : (_selectedIndex == 2) ? ViewCaregroupDocuments(caregroup: widget.caregroup)
-                    : (_selectedIndex == 3) ? ViewCaregroupOverview(caregroup: widget.caregroup)
-                    : (_selectedIndex == 4) ? ViewCaregroupMembers(caregroup: widget.caregroup)
-                    // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
-                    : Container(),
-
-
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chat',
             ),
-
-
-
-          );
-        }
+            BottomNavigationBarItem(
+              icon: Icon(Icons.library_books),
+              label: 'Docs',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.summarize_outlined),
+              label: 'Overview',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people_outlined),
+              label: 'Members',
+            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.mail_outline),
+            //   label: 'Invitations',
+            // ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blueAccent,
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+        ),
+        body: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text(widget.caregroup.name),
+            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+            elevation: 0,
+            toolbarHeight: 40,
+            actions: [
+              if (_searchType != "")
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    if (_searchType == "Tasks") {
+                      Navigator.pushNamed(context, TaskSearch.routeName, arguments: widget.caregroup.id);
+                    }
+                  },
+                ),
+              BellWidget(
+                caregroup: widget.caregroup,
+              ),
+              IconButton(
+                icon: Icon(Icons.more_vert),
+                onPressed: () {},
+              ),
+            ],
+          ),
+          body: (_selectedIndex == 0)
+              ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
+              : (_selectedIndex == 1)
+                  ? ViewCaregroupChat(caregroup: widget.caregroup)
+                  : (_selectedIndex == 2)
+                      ? ViewCaregroupDocuments(caregroup: widget.caregroup)
+                      : (_selectedIndex == 3)
+                          ? ViewCaregroupOverview(caregroup: widget.caregroup)
+                          : (_selectedIndex == 4)
+                              ? ViewCaregroupMembers(caregroup: widget.caregroup)
+                              // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                              : Container(),
+        ),
       );
+    });
   }
 }
