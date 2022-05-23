@@ -4,9 +4,7 @@ import 'package:careshare/caregroup_manager/presenter/view_caregroup_documents.d
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
-import 'package:careshare/notifications/cubit/notifications_cubit.dart';
-import 'package:careshare/notifications/models/careshare_notification.dart';
-import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
+import 'package:careshare/notification_manager/presenter/widgets/bell_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';

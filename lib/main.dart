@@ -12,7 +12,7 @@ import 'package:careshare/chat_manager/repository/remove_chat.dart';
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
-import 'package:careshare/notifications/cubit/notifications_cubit.dart';
+import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:careshare/router/app_router.dart';

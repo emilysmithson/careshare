@@ -1,7 +1,7 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/notifications/cubit/notifications_cubit.dart';
-import 'package:careshare/notifications/models/careshare_notification.dart';
-import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
+import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
+import 'package:careshare/notification_manager/models/careshare_notification.dart';
+import 'package:careshare/notification_manager/presenter/widgets/bell_widget.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:flutter/material.dart';

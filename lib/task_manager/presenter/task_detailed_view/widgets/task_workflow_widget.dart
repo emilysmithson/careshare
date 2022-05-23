@@ -10,11 +10,10 @@ import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
-import 'package:careshare/notifications/models/careshare_notification.dart';
-import 'package:careshare/notifications/cubit/notifications_cubit.dart';
+import 'package:careshare/notification_manager/models/careshare_notification.dart';
+import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../models/kudos.dart';
 import 'package:collection/collection.dart';

@@ -3,7 +3,7 @@ import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
-import 'package:careshare/notifications/presenter/fetch_my_notifications.dart';
+import 'package:careshare/notification_manager/presenter/fetch_my_notifications.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/material.dart';

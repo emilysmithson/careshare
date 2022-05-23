@@ -1,19 +1,18 @@
-import 'package:careshare/notifications/models/careshare_notification.dart';
-import 'package:careshare/notifications/cubit/notifications_cubit.dart';
+import 'package:careshare/notification_manager/models/careshare_notification.dart';
+import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
+import 'package:careshare/task_manager/models/kudos.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:careshare/profile_manager/models/profile.dart';
-import '../../../cubit/task_cubit.dart';
-import '../../../models/kudos.dart';
 import 'package:collection/collection.dart';
-import '../../../models/task_status.dart';
 import 'package:intl/intl.dart';
 
 class KudosWidget extends StatelessWidget {

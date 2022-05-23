@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/notifications/models/careshare_notification.dart';
+import 'package:careshare/notification_manager/models/careshare_notification.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
