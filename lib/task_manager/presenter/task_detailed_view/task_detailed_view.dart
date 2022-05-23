@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:careshare/core/presentation/photo_and_name_widget.dart';
+import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
+import 'package:careshare/notification_manager/models/careshare_notification.dart';
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
@@ -128,19 +131,42 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           Navigator.pop(context);
 
                           // Send a message to tell the world the task is created
-                          HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('createTask');
-                          callable.call(<String, dynamic>{
-                            'task_id': widget.task.id,
-                            'task_title': widget.task.title,
-                            'creater_id': myProfile.id,
-                            'creater_name': myProfile.name,
-                            'date_time': DateTime.now().toString()
+                          final String id = DateTime.now().millisecondsSinceEpoch.toString();
+                          final DateTime dateTime = DateTime.now();
+
+                          final completionNotification = CareshareNotification(
+                              id: id,
+                              caregroupId: widget.task.caregroupId,
+                              title: "${myProfile.name} has created a new task: ${widget.task.title}",
+                              routeName: "/task-detailed-view",
+                              subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                              dateTime: dateTime,
+                              senderId: myProfile.id,
+                              isRead: false,
+                              arguments: widget.task.id);
+
+                          // send to everyone in the caregroup except me
+                          List<String> recipientList = [];
+                          BlocProvider.of<AllProfilesCubit>(context).profileList.forEach((p) {
+                            if (p.id != myProfile.id &&
+                                p.carerInCaregroups
+                                        .indexWhere((element) => element.caregroupId == widget.task.caregroupId) !=
+                                    -1) {
+                              recipientList.add(p.id);
+                            }
                           });
+
+                          BlocProvider.of<NotificationsCubit>(context).sendNotifications(
+                            notification: completionNotification,
+                            recipients: recipientList,
+                          );
+
                         }
                       },
                       child: const Text('Create Task'),
                     ),
                   if (widget.task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
+
 
                   // Accept Task Button
                   // Shown when the task is Assigned
