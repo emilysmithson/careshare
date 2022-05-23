@@ -17,7 +17,7 @@ class FetchMyNotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('fetching my Notifications');
 
-    // initialiseNotifications();
+    initialiseNotifications();
 
     BlocProvider.of<NotificationsCubit>(context).fetchNotifications();
 
