@@ -27,8 +27,13 @@ Future initialiseNotifications(String userId) async {
   messaging.setForegroundNotificationPresentationOptions(
       alert: true, badge: true, sound: true);
   if (!kIsWeb) {
-    messaging.subscribeToTopic('task');
-    messaging.subscribeToTopic('task_completed');
+    print('unsubscribing.............................................................................');
+    messaging.unsubscribeFromTopic('Rc5YlbwrzWbG8Q1um4CkHvfFrwl2');
+    messaging.unsubscribeFromTopic('RWfw1NO39sg8fyuMTuOXUUnTS6b2');
+
+    // messaging.subscribeToTopic('task');
+    // messaging.subscribeToTopic('task_completed');
+    print('subscribing to $userId   .............................................................................');
     messaging.subscribeToTopic(userId);
   }
 
@@ -51,6 +56,12 @@ Future initialiseNotifications(String userId) async {
   });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+
+    final route = message.data['route'];
+    // print(route);
+    final arguments = message.data['arguments'];
+    // print(arguments);
+
     showDialog(
       context: navigatorKey.currentContext!,
       builder: (context) => Center(
@@ -68,7 +79,11 @@ Future initialiseNotifications(String userId) async {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  if (route != null) {
+                    Navigator.pushNamed(navigatorKey.currentContext!, route,
+                        arguments: arguments);
+                  }
+
                 },
                 child: const Text('See task'),
               ),

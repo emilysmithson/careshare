@@ -1,3 +1,4 @@
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/task_manager/models/kudos.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
@@ -22,11 +23,12 @@ import 'package:intl/intl.dart';
 class TaskWorkflowWidget extends StatelessWidget {
   final CareTask task;
   final formKey;
+
   const TaskWorkflowWidget({Key? key, required this.task, required this.formKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Profile profile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+    Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
 
     return Row(
       children: [
@@ -51,47 +53,44 @@ class TaskWorkflowWidget extends StatelessWidget {
         //   ),
         if (task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
 
-    //     // Create Task button
-    //     // Shown when the task is in Draft
-    //     // When clicked, the status is set to:
-    //     //    Created if task isn't assigned
-    //     //    Assigned if the task is assigned to someone else
-    //     //    Accepted if the task is assigned to me
-    //     // A message is sent to everyone in the caregroup except me if the task is unassigned
-    //     // A message is sent to the assignee if the task is assigned
-    //     if (task.taskStatus == TaskStatus.draft)
-    //       ElevatedButton(
-    //         onPressed: () async {
-    //
-    // if (this.formKey.currentState!.validate()) {
-    //   print('validated');
-    // }
-    //
-    //
-    //           Profile myProfile =
-    //               BlocProvider.of<MyProfileCubit>(context).myProfile;
-    //
-    //           BlocProvider.of<TaskCubit>(context).createTask(
-    //             task: task,
-    //             id: myProfile.id,
-    //           );
-    //
-    //           Navigator.pop(context);
-    //
-    //           // Send a message to tell the world the task is created
-    //           HttpsCallable callable =
-    //               FirebaseFunctions.instance.httpsCallable('createTask');
-    //           await callable.call(<String, dynamic>{
-    //             'task_id': task.id,
-    //             'task_title': task.title,
-    //             'creater_id': myProfile.id,
-    //             'creater_name': myProfile.name,
-    //             'date_time': DateTime.now().toString()
-    //           });
-    //         },
-    //         child: const Text('Create Task'),
-    //       ),
-    //     if (task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
+        //     // Create Task button
+        //     // Shown when the task is in Draft
+        //     // When clicked, the status is set to:
+        //     //    Created if task isn't assigned
+        //     //    Assigned if the task is assigned to someone else
+        //     //    Accepted if the task is assigned to me
+        //     // A message is sent to everyone in the caregroup except me if the task is unassigned
+        //     // A message is sent to the assignee if the task is assigned
+        //     if (task.taskStatus == TaskStatus.draft)
+        //       ElevatedButton(
+        //         onPressed: () async {
+        //
+        // if (this.formKey.currentState!.validate()) {
+        //   print('validated');
+        // }
+        //
+        //
+        //           BlocProvider.of<TaskCubit>(context).createTask(
+        //             task: task,
+        //             id: myProfile.id,
+        //           );
+        //
+        //           Navigator.pop(context);
+        //
+        //           // Send a message to tell the world the task is created
+        //           HttpsCallable callable =
+        //               FirebaseFunctions.instance.httpsCallable('createTask');
+        //           await callable.call(<String, dynamic>{
+        //             'task_id': task.id,
+        //             'task_title': task.title,
+        //             'creater_id': myProfile.id,
+        //             'creater_name': myProfile.name,
+        //             'date_time': DateTime.now().toString()
+        //           });
+        //         },
+        //         child: const Text('Create Task'),
+        //       ),
+        //     if (task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
 
         // // Accept Task Button
         // // Shown when the task is Assigned
@@ -99,8 +98,6 @@ class TaskWorkflowWidget extends StatelessWidget {
         //     task.assignedTo == profile.id)
         //   ElevatedButton(
         //     onPressed: () async {
-        //       Profile myProfile =
-        //           BlocProvider.of<MyProfileCubit>(context).myProfile;
         //
         //       BlocProvider.of<TaskCubit>(context).acceptTask(
         //         task: task,
@@ -128,13 +125,9 @@ class TaskWorkflowWidget extends StatelessWidget {
 
         // Reject Task Button
         // Shown when the task is Assigned
-        if (task.taskStatus == TaskStatus.assigned &&
-            task.assignedTo == profile.id)
+        if (task.taskStatus == TaskStatus.assigned && task.assignedTo == myProfile.id)
           ElevatedButton(
             onPressed: () async {
-              Profile myProfile =
-                  BlocProvider.of<MyProfileCubit>(context).myProfile;
-
               BlocProvider.of<TaskCubit>(context).rejectTask(
                 task: task,
                 profileId: myProfile.id,
@@ -143,8 +136,7 @@ class TaskWorkflowWidget extends StatelessWidget {
               Navigator.pop(context);
 
               // Send a message to tell the world the task is accepted
-              HttpsCallable callable =
-                  FirebaseFunctions.instance.httpsCallable('rejectTask');
+              HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('rejectTask');
               await callable.call(<String, dynamic>{
                 'task_id': task.id,
                 'task_title': task.title,
@@ -155,183 +147,95 @@ class TaskWorkflowWidget extends StatelessWidget {
             },
             child: const Text('Reject Task'),
           ),
-        if (task.taskStatus == TaskStatus.assigned &&
-            task.assignedTo == profile.id)
-          const SizedBox(width: 20),
+        if (task.taskStatus == TaskStatus.assigned && task.assignedTo == myProfile.id) const SizedBox(width: 20),
 
         // Complete Task button
         // Shown when the task is in
         //    Accepted and the task is assigned to me
         // When clicked, the status is set to: Completed
         // A message is sent to everyone in the caregroup except me
-        if (task.assignedTo == profile.id &&
-            task.taskStatus == TaskStatus.accepted)
+        if (task.assignedTo == myProfile.id && task.taskStatus == TaskStatus.accepted)
           ElevatedButton(
             onPressed: () async {
-              Profile myProfile =
-                  BlocProvider.of<MyProfileCubit>(context).myProfile;
-
-              BlocProvider.of<TaskCubit>(context).completeTask(
-                  task: task, profileId: myProfile.id, dateTime: DateTime.now());
+              BlocProvider.of<TaskCubit>(context)
+                  .completeTask(task: task, profileId: myProfile.id, dateTime: DateTime.now());
 
               // Update the completed count in the task completer's profile
-              BlocProvider.of<MyProfileCubit>(context).completeTask(
-                  profile: myProfile,
-                  caregroupId: task.caregroupId,
-                  effort: task.taskEffort.value);
+              BlocProvider.of<MyProfileCubit>(context)
+                  .completeTask(profile: myProfile, caregroupId: task.caregroupId, effort: task.taskEffort.value);
 
               Navigator.pop(context);
 
-              // Send a message to tell the world the task is complete
-              HttpsCallable callable =
-                  FirebaseFunctions.instance.httpsCallable('completeTask');
-              await callable.call(<String, dynamic>{
-                'task_id': task.id,
-                'task_title': task.title,
-                'completer_id': myProfile.id,
-                'completer_name': myProfile.name,
-                'date_time': DateTime.now().toString()
+              // notify everyone except me
+              final String id = DateTime.now().millisecondsSinceEpoch.toString();
+              final DateTime dateTime = DateTime.now();
+
+              final completionNotification = CareshareNotification(
+                  id: id,
+                  caregroupId: task.caregroupId,
+                  title: "${myProfile.name} has completed task '${task.title}'",
+                  routeName: "/task-detailed-view",
+                  subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                  dateTime: dateTime,
+                  senderId: myProfile.id,
+                  isRead: false,
+                  arguments: task.id);
+
+              List<String> recipientList = [];
+              BlocProvider.of<AllProfilesCubit>(context).profileList.forEach((p) {
+                if (p.id != myProfile.id) {
+                  recipientList.add(p.id);
+                }
               });
+
+              BlocProvider.of<NotificationsCubit>(context).sendNotifications(
+                notification: completionNotification,
+                recipients: recipientList,
+              );
+
+              // // Send a message to tell the world the task is complete
+              // HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('completeTask');
+              // await callable.call(<String, dynamic>{
+              //   'task_id': task.id,
+              //   'task_title': task.title,
+              //   'completer_id': myProfile.id,
+              //   'completer_name': myProfile.name,
+              //   'date_time': DateTime.now().toString()
+              // });
             },
             child: const Text('Mark Complete'),
           ),
-        if (task.assignedTo == profile.id &&
-            task.taskStatus == TaskStatus.accepted)
-          const SizedBox(width: 20),
 
-        // Complete Task button
-        // Shown when the task is in
-        //    Accepted and the task is assigned to me
-        // When clicked, the status is set to: Completed
-        // A message is sent to everyone in the caregroup except me
-        // if (task.assignedTo == profile.id && task.taskStatus == TaskStatus.accepted)
-        // ElevatedButton(
-        //   onPressed: () {},
-        //   child: GestureDetector(
-        //     onTap: () {
-        //       showDialog(
-        //         context: context,
-        //         builder: (_) => BlocProvider.value(
-        //           value: BlocProvider.of<TaskCubit>(context),
-        //           child: BlocProvider.value(
-        //             value: BlocProvider.of<ProfileCubit>(context),
-        //             child: BlocBuilder<TaskCubit, TaskState>(
-        //               builder: (context, state) {
-        //                 return Dialog(
-        //                   child: Padding(
-        //                     padding: const EdgeInsets.all(8.0),
-        //                     child: Wrap(
-        //                       runSpacing: 16,
-        //                       children: [
-        //                         SizedBox(
-        //                           width: double.infinity,
-        //                           child: Center(
-        //                             child: Text(
-        //                               'Mark as Complete',
-        //                               style: Theme.of(context).textTheme.headline6,
-        //                             ),
-        //                           ),
-        //                         ),
-        //                         Text(
-        //                           'Completed: ',
-        //                           style: Theme.of(context).textTheme.subtitle1,
-        //                         ),
-        //                         SizedBox(
-        //                           height: 120,
-        //                           child: CupertinoDatePicker(
-        //                             onDateTimeChanged: (DateTime dateTime) {
-        //                               dateTime = dateTime;
-        //                             },
-        //                           ),
-        //                         ),
-        //                         SizedBox(
-        //                           width: double.infinity,
-        //                           child: Align(
-        //                             alignment: Alignment.bottomRight,
-        //                             child: ElevatedButton(
-        //                               onPressed: ()  async {
-        //
-        //                                 Profile myProfile = BlocProvider.of<ProfileCubit>(context).myProfile;
-        //
-        //
-        //                                 BlocProvider.of<TaskCubit>(context)
-        //                                     .completeTask(
-        //                                   task: task,
-        //                                   id: myProfile.id!,
-        //                                   dateTime: dateTime,
-        //                                 );
-        //
-        //                                 Navigator.pop(context);
-        //
-        //
-        //                                 // Send a message to tell the world the task is complete
-        //                                 HttpsCallable callable =
-        //                                 FirebaseFunctions.instance.httpsCallable('completeTask');
-        //                                 final resp = await callable.call(<String, dynamic>{
-        //                                   'task_id': task.id,
-        //                                   'task_title': task.title,
-        //                                   'completer_id': myProfile.id,
-        //                                   'completer_name': myProfile.name,
-        //                                   'date_time': DateTime.now().toString()
-        //                                 });
-        //
-        //
-        //                               },
-        //                               child: const Text('Ok'),
-        //                             ),
-        //                           ),
-        //                         )
-        //                       ],
-        //                     ),
-        //                   ),
-        //                 );
-        //               },
-        //             ),
-        //           ),
-        //         ),
-        //       );
-        //     },
-        //     child: const Text('Mark as complete'),
-        //   ),
-        // ),
-        // if (task.assignedTo == profile.id && task.taskStatus == TaskStatus.accepted)
-        //   SizedBox(width:20),
+        if (task.assignedTo == myProfile.id && task.taskStatus == TaskStatus.accepted) const SizedBox(width: 20),
 
-        // Kudos
-        // Shown when the task is Complete
         if (task.taskStatus == TaskStatus.completed)
           BlocBuilder<TaskCubit, TaskState>(
             builder: (context, state) {
-              Kudos? kudos = task.kudos
-                  ?.firstWhereOrNull((element) => element.id == profile.id);
+              Kudos? kudos = task.kudos?.firstWhereOrNull((element) => element.id == myProfile.id);
 
               if (kudos != null) {
                 // I've already given kudos, so don't show the button
                 return ElevatedButton(
                   onPressed: () {},
-                  child: Text(
-                      '* ${(task.kudos!.length * task.taskEffort.value).toString()}'),
+                  child: Text('* ${(task.kudos!.length * task.taskEffort.value).toString()}'),
                 );
               }
               return ElevatedButton(
                 onPressed: () async {
-                  final String id =
-                      DateTime.now().millisecondsSinceEpoch.toString();
+                  final String id = DateTime.now().millisecondsSinceEpoch.toString();
                   final DateTime dateTime = DateTime.now();
                   final kudosNotification = CareshareNotification(
                       id: id,
                       caregroupId: task.caregroupId,
-                      title:
-                          "${BlocProvider.of<MyProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
+                      title: "${myProfile.name} has given you kudos for completing ${task.title}",
                       routeName: "/task-detailed-view",
-                      subtitle:
-                          'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                      subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
                       dateTime: dateTime,
-                      senderId: FirebaseAuth.instance.currentUser!.uid,
+                      senderId: myProfile.id,
                       isRead: false,
                       arguments: task.id);
 
-                  BlocProvider.of<NotificationsCubit>(context).sendNotifcations(
+                  BlocProvider.of<NotificationsCubit>(context).sendNotifications(
                     notification: kudosNotification,
                     recipients: [task.assignedTo!],
                   );
@@ -340,20 +244,15 @@ class TaskWorkflowWidget extends StatelessWidget {
                   BlocProvider.of<TaskCubit>(context).editTask(
                     task: task,
                     newValue: Kudos(
-                      id: profile.id,
+                      id: myProfile.id,
                       dateTime: DateTime.now(),
                     ),
                     taskField: TaskField.kudos,
                   );
 
                   // Update the kudos in the task completer's profile
-                  Profile myProfile =
-                      BlocProvider.of<MyProfileCubit>(context).myProfile;
-
-                  BlocProvider.of<MyProfileCubit>(context).giveKudos(
-                      profile: myProfile,
-                      caregroupId: task.caregroupId,
-                      kudos: task.taskEffort.value);
+                  BlocProvider.of<MyProfileCubit>(context)
+                      .giveKudos(profile: myProfile, caregroupId: task.caregroupId, kudos: task.taskEffort.value);
                 },
                 child: const Text('Give Kudos'),
               );

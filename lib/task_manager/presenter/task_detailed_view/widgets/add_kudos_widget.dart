@@ -32,9 +32,9 @@ class KudosWidget extends StatelessWidget {
 
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
-        Profile profile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+        Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
         Kudos? kudos =
-            task.kudos?.firstWhereOrNull((element) => element.id == profile.id);
+            task.kudos?.firstWhereOrNull((element) => element.id == myProfile.id);
 
         if (kudos != null) {
           // I've already given kudos, so don't show the button
@@ -52,28 +52,29 @@ class KudosWidget extends StatelessWidget {
           onPressed: () async {
             final String id = DateTime.now().millisecondsSinceEpoch.toString();
             final DateTime dateTime = DateTime.now();
+
             final kudosNotification = CareshareNotification(
                 id: id,
                 caregroupId: task.caregroupId,
                 title:
-                    "${BlocProvider.of<MyProfileCubit>(context).myProfile.name} has given you kudos for completing ${task.title}",
+                    "${myProfile.name} has given you kudos for completing ${task.title}",
                 routeName: "/task-detailed-view",
                 subtitle:
                     'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
                 dateTime: dateTime,
-                senderId: FirebaseAuth.instance.currentUser!.uid,
+                senderId: myProfile.id,
                 isRead: false,
                 arguments: task.id);
 
-            BlocProvider.of<NotificationsCubit>(context).sendNotifcations(
+            BlocProvider.of<NotificationsCubit>(context).sendNotifications(
               notification: kudosNotification,
-              recipients: [task.assignedTo!],
+              recipients: [task.completedBy!],
             );
 
             BlocProvider.of<TaskCubit>(context).editTask(
               task: task,
               newValue: Kudos(
-                id: profile.id,
+                id: myProfile.id,
                 dateTime: DateTime.now(),
               ),
               taskField: TaskField.kudos,
@@ -82,7 +83,7 @@ class KudosWidget extends StatelessWidget {
             // Update the kudos in the task completer's profile
             Profile taskCompletedBy = BlocProvider.of<AllProfilesCubit>(context)
                 .profileList
-                .firstWhere((element) => element.id == task.assignedTo);
+                .firstWhere((element) => element.id == task.completedBy);
 
             BlocProvider.of<MyProfileCubit>(context).giveKudos(
                 profile: taskCompletedBy,

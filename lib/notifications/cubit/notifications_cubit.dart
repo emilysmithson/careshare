@@ -16,6 +16,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   NotificationsCubit() : super(NotificationsInitial());
   List<CareshareNotification> notificationsList = [];
 
+  // fetchNotifications
   fetchNotifications() async {
     try {
       emit(const NotificationsLoading());
@@ -30,12 +31,10 @@ class NotificationsCubit extends Cubit<NotificationsState> {
           emit(
             NotificationsLoaded(
               notificationsList: notificationsList,
-
             ),
           );
         } else {
-          Map<dynamic, dynamic> returnedList =
-              event.snapshot.value as Map<dynamic, dynamic>;
+          Map<dynamic, dynamic> returnedList = event.snapshot.value as Map<dynamic, dynamic>;
           notificationsList.clear();
 
           returnedList.forEach((key, value) {
@@ -50,7 +49,6 @@ class NotificationsCubit extends Cubit<NotificationsState> {
           emit(
             NotificationsLoaded(
               notificationsList: notificationsList,
-
             ),
           );
         }
@@ -60,18 +58,20 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     }
   }
 
-  sendNotifcations({
+  // sendNotifications
+  sendNotifications({
     required CareshareNotification notification,
     required List<String> recipients,
   }) {
     for (final String recipient in recipients) {
-      final reference =
-          FirebaseDatabase.instance.ref('profiles/$recipient/notifications');
 
+      // save to the profile/notifocations
+      final reference = FirebaseDatabase.instance.ref('profiles/$recipient/notifications');
       reference.child(notification.id).set(
             notification.toJson(),
           );
 
+      // send the notification
       final callable = FirebaseFunctions.instance.httpsCallable('notifyUsers');
       callable.call(
         {
@@ -88,28 +88,26 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     }
   }
 
-  notifyEveryoneInMyCareGroupApartFromMe({
-    required CareshareNotification notification,
-    required Caregroup caregroup,
-    required String userId,
-    required List<Profile> profileList,
-  }) {
-    List<String> recipients = [];
-
-    final profilesInCaregroupExceptMe = profileList.where((profile) =>
-        profile.id != userId &&
-        profile.carerInCaregroups
-                .indexWhere((element) => element.caregroupId == caregroup.id) !=
-            -1);
-
-    for (final Profile profile in profilesInCaregroupExceptMe) {
-      recipients.add(profile.id);
-    }
-
-    if (recipients.isNotEmpty) {
-      sendNotifcations(notification: notification, recipients: recipients);
-    }
-  }
+  // notifyEveryoneInMyCareGroupApartFromMe({
+  //   required CareshareNotification notification,
+  //   required Caregroup caregroup,
+  //   required String userId,
+  //   required List<Profile> profileList,
+  // }) {
+  //   List<String> recipients = [];
+  //
+  //   final profilesInCaregroupExceptMe = profileList.where((profile) =>
+  //       profile.id != userId &&
+  //       profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) != -1);
+  //
+  //   for (final Profile profile in profilesInCaregroupExceptMe) {
+  //     recipients.add(profile.id);
+  //   }
+  //
+  //   if (recipients.isNotEmpty) {
+  //     sendNotifications(notification: notification, recipients: recipients);
+  //   }
+  // }
 
   markAsRead(String notificationID) async {
     try {
@@ -138,15 +136,15 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       reference.remove();
       notificationsList.clear();
       emit(NotificationsLoaded(
-          notificationsList: notificationsList,
-          ));
+        notificationsList: notificationsList,
+      ));
     } catch (error) {
       emit(NotificationsError(error.toString()));
     }
   }
 
   deleteAllNotifications(Caregroup caregroup) {
-    for (final CareshareNotification notification in notificationsList.where((n) => n.caregroupId==caregroup.id)) {
+    for (final CareshareNotification notification in notificationsList.where((n) => n.caregroupId == caregroup.id)) {
       deleteNotification(notification.id);
     }
   }

@@ -8,6 +8,7 @@ import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/assign_a_task.dart';
 import 'widgets/choose_category_widget.dart';
@@ -205,34 +206,37 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                         text: 'Created by:',
                         dateTime: widget.task.taskCreatedDate,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('draft',
-                              style: (widget.task.taskStatus == TaskStatus.draft)
-                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
-                                  : null),
-                          Text('  >  '),
-                          Text('created',
-                              style: (widget.task.taskStatus == TaskStatus.created)
-                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
-                                  : null),
-                          Text('  >  '),
-                          Text('assigned',
-                              style: (widget.task.taskStatus == TaskStatus.assigned)
-                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
-                                  : null),
-                          Text('  >  '),
-                          Text('accepted',
-                              style: (widget.task.taskStatus == TaskStatus.accepted)
-                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
-                                  : null),
-                          Text('  >  '),
-                          Text('completed',
-                              style: (widget.task.taskStatus == TaskStatus.completed)
-                                  ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
-                                  : null),
-                        ],
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('draft',
+                                style: (widget.task.taskStatus == TaskStatus.draft)
+                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    : null),
+                            Text('  >  '),
+                            Text('created',
+                                style: (widget.task.taskStatus == TaskStatus.created)
+                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    : null),
+                            Text('  >  '),
+                            Text('assigned',
+                                style: (widget.task.taskStatus == TaskStatus.assigned)
+                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    : null),
+                            Text('  >  '),
+                            Text('accepted',
+                                style: (widget.task.taskStatus == TaskStatus.accepted)
+                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    : null),
+                            Text('  >  '),
+                            Text('completed',
+                                style: (widget.task.taskStatus == TaskStatus.completed)
+                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    : null),
+                          ],
+                        ),
                       ),
                       TextFormField(
                         enabled: !widget.task.taskStatus.locked,

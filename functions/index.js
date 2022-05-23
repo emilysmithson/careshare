@@ -18,15 +18,20 @@ exports.createTask = functions.https.onCall(async (data) => {
         clickAction: "FLUTTER_NOTIFICATION_CLICK",
       },
     data: {
-      "task_id": data["task_id"],
+        "route": data["route"],
+        "arguments": data["task_id"],
     },
   });
   return `Successfully completed: ${data["task_id"]}`;
 });
 
+
+
+
+
 exports.notifyUsers = functions.https.onCall(async (data) =>{
   console.log(data);
-  console.log(data.sender_id);
+  console.log(data.recipient_id);
 
   // Send the task completer a message
   admin.messaging().sendToTopic(data.recipient_id, {
@@ -36,9 +41,14 @@ exports.notifyUsers = functions.https.onCall(async (data) =>{
           body: data.subtitle,
           clickAction: "FLUTTER_NOTIFICATION_CLICK",
         },
-    data: data,
+    data:
+        {
+        "route": data["route"],
+        "arguments": data["arguments"],
+        },
   });
-  return "Successfully received.";
+
+  return "Notification successfully sent.";
 });
 
 // giveKudos is called when a user clicks the kudos button in the UI

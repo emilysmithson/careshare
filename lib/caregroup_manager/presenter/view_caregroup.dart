@@ -4,6 +4,8 @@ import 'package:careshare/caregroup_manager/presenter/view_caregroup_documents.d
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
+import 'package:careshare/notifications/cubit/notifications_cubit.dart';
+import 'package:careshare/notifications/models/careshare_notification.dart';
 import 'package:careshare/notifications/presenter/widgets/bell_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
@@ -13,6 +15,7 @@ import 'package:careshare/task_manager/presenter/task_search/task_search.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class ViewCaregroup extends StatefulWidget {
   static const routeName = '/view-caregroup';
@@ -45,19 +48,45 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
             // searchType: "Tasks",
             floatingActionButton: (_selectedIndex != 0) ? null : FloatingActionButton(
                 onPressed: () async {
-                  // AddTaskBottomSheet().call(context);
 
-                  // Create a draft task and pass it to the edit screen
-                  final taskCubit = BlocProvider.of<TaskCubit>(context);
-                  final CareTask? task =
-                  await taskCubit.draftTask('', widget.caregroup.id);
-                  if (task != null) {
-                    Navigator.pushNamed(
-                      context,
-                      TaskDetailedView.routeName,
-                      arguments: task,
-                    );
-                  }
+// send a message to baldfatchris
+
+                  final String id = DateTime.now().millisecondsSinceEpoch.toString();
+                  final DateTime dateTime = DateTime.now();
+
+                  final completionNotification = CareshareNotification(
+                      id: id,
+                      caregroupId: "1652046223125",
+                      title: "Hello baldfatchris",
+                      routeName: "/task-detailed-view",
+                      subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                      dateTime: dateTime,
+                      senderId: 'Rc5YlbwrzWbG8Q1um4CkHvfFrwl2',
+                      isRead: false,
+                      arguments: '1653222014395');
+
+                  List<String> recipientList = ['RWfw1NO39sg8fyuMTuOXUUnTS6b2'];
+
+                  BlocProvider.of<NotificationsCubit>(context).sendNotifications(
+                    notification: completionNotification,
+                    recipients: recipientList,
+                  );
+
+
+                  //
+                  // // AddTaskBottomSheet().call(context);
+                  //
+                  // // Create a draft task and pass it to the edit screen
+                  // final taskCubit = BlocProvider.of<TaskCubit>(context);
+                  // final CareTask? task =
+                  // await taskCubit.draftTask('', widget.caregroup.id);
+                  // if (task != null) {
+                  //   Navigator.pushNamed(
+                  //     context,
+                  //     TaskDetailedView.routeName,
+                  //     arguments: task,
+                  //   );
+                  // }
                 },
                 child: const Icon(Icons.add)),
             bottomNavigationBar: BottomNavigationBar(
