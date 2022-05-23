@@ -182,7 +182,10 @@ class TaskWorkflowWidget extends StatelessWidget {
 
               List<String> recipientList = [];
               BlocProvider.of<AllProfilesCubit>(context).profileList.forEach((p) {
-                if (p.id != myProfile.id) {
+                if (p.id != myProfile.id &&
+                    p.carerInCaregroups
+                        .indexWhere((element) => element.caregroupId == task.caregroupId) !=
+                        -1) {
                   recipientList.add(p.id);
                 }
               });
@@ -236,7 +239,7 @@ class TaskWorkflowWidget extends StatelessWidget {
 
                   BlocProvider.of<NotificationsCubit>(context).sendNotifications(
                     notification: kudosNotification,
-                    recipients: [task.assignedTo!],
+                    recipients: [task.completedBy!],
                   );
 
                   // Add a kudos record to the task/kudos
