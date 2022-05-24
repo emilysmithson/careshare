@@ -39,6 +39,7 @@ class CareTask {
 
   String? completedBy;
   DateTime? taskCompletedDate;
+  DateTime? taskSortDate;
 
   List<Comment>? comments = [];
   List<Kudos>? kudos = [];
@@ -73,6 +74,7 @@ class CareTask {
 
     this.completedBy,
     this.taskCompletedDate,
+    this.taskSortDate,
 
     this.comments,
     this.kudos,
@@ -217,6 +219,7 @@ class CareTask {
         taskCompletedDate = taskCreatedDate;
       }
 
+    DateTime? taskSortDate = taskStatus.complete ? taskCompletedDate : dueDate;
 
     final completedBy = value['completed_by'] ?? '';
 
@@ -268,6 +271,7 @@ class CareTask {
         acceptedBy: acceptedBy,
         acceptedOnDate: acceptedOnDate,
         taskCompletedDate: taskCompletedDate,
+        taskSortDate: taskSortDate,
         completedBy: completedBy,
         comments: comments,
         kudos: kudos,

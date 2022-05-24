@@ -280,7 +280,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                         onChanged: (value) async {
                           _dirty = true;
                           if (_debounce?.isActive ?? false) _debounce?.cancel();
-                          _debounce = Timer(const Duration(milliseconds: 1000), () {
+                          _debounce = Timer(const Duration(milliseconds: 100), () {
                             BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
                               taskField: TaskField.title,
                               task: widget.task,
@@ -310,7 +310,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           _dirty = true;
 
                           if (_debounce?.isActive ?? false) _debounce?.cancel();
-                          _debounce = Timer(const Duration(milliseconds: 1000), () {
+                          _debounce = Timer(const Duration(milliseconds: 100), () {
                             BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
                               taskField: TaskField.details,
                               task: widget.task,
