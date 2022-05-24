@@ -95,6 +95,7 @@ Future initialiseNotifications() async {
               TextButton(
                 onPressed: () {
                   if (route != null) {
+                    Navigator.pop(context);
                     Navigator.pushNamed(context, route, arguments: arguments);
                   }
                 },
