@@ -60,7 +60,7 @@ class NotificationsPage extends StatelessWidget {
                     title: myNewNotificationsCount == 0
                         ? const Text('You have no new notifications')
                         : Text(
-                            "You have ${myNewNotificationsCount} new notification${myNewNotificationsCount > 1 ? 's' : ''}",
+                            "You have $myNewNotificationsCount new notification${myNewNotificationsCount > 1 ? 's' : ''}",
                           )),
                 const Divider(),
                 Expanded(

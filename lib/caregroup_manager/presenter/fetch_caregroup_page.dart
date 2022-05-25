@@ -16,7 +16,7 @@ class FetchCaregroupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('fetching my caregroups');
+    // print('fetching my caregroups');
     BlocProvider.of<CaregroupCubit>(context).fetchMyCaregroups(
         profile: BlocProvider.of<MyProfileCubit>(context).myProfile);
 

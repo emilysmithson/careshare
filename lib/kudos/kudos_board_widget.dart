@@ -23,7 +23,7 @@ class KudosBoardWidget extends StatelessWidget {
       RoleInCaregroup roleInCaregroup =
           profile.carerInCaregroups.firstWhere((element) => element.caregroupId == caregroup.id);
 
-      int kudosValue = roleInCaregroup.kudosValue;
+      // int kudosValue = roleInCaregroup.kudosValue;
     } else {
       List<CareTask> mytaskList = BlocProvider.of<TaskCubit>(context)
           .taskList

@@ -1,7 +1,6 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/presenter/task_category_view/task_category_view.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 import 'package:careshare/task_manager/presenter/widgets/task_summary.dart';
 
@@ -53,40 +52,39 @@ class TaskSection extends StatelessWidget {
 
     return Column(
       children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              TaskCategoryView.routeName,
-              arguments: {
-                'careTaskList': careTaskList,
-                'title': title,
-              },
-            );
-          },
-          child: Hero(
-            tag: title,
-            child: Container(
-              width: double.infinity,
-              color: Theme.of(context).primaryColor.withOpacity(0.8),
-              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-              child: Row(
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        ?.copyWith(color: Colors.white),
-                  ),
-                  const SizedBox(width: 10),
-                  const Icon(Icons.play_circle_fill_outlined,
-                      size: 25, color: Colors.white),
-                ],
-              ),
-            ),
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: () {
+        //     Navigator.pushNamed(
+        //       context,
+        //       TaskSearch.routeName,
+        //       arguments: {
+        //         'selectedStatuses': [TaskStatus.created],
+        //       },
+        //     );
+        //   },
+        //   child: Hero(
+        //     tag: title,
+        //     child: Container(
+        //       width: double.infinity,
+        //       color: Theme.of(context).primaryColor.withOpacity(0.8),
+        //       padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+        //       child: Row(
+        //         children: [
+        //           Text(
+        //             title,
+        //             style: Theme.of(context)
+        //                 .textTheme
+        //                 .headline6
+        //                 ?.copyWith(color: Colors.white),
+        //           ),
+        //           const SizedBox(width: 10),
+        //           const Icon(Icons.play_circle_fill_outlined,
+        //               size: 25, color: Colors.white),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
         SizedBox(
           height: 120,
           child: Container(

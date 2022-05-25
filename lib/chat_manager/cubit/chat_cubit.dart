@@ -24,7 +24,7 @@ class ChatCubit extends Cubit<ChatState> {
 
   Future fetchChat({required String channelId}) async {
     try {
-      print('.....fetching chat for: $channelId');
+      // print('.....fetching chat for: $channelId');
 
       emit(const ChatLoading());
 

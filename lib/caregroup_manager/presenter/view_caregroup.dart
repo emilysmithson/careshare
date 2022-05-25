@@ -31,7 +31,7 @@ class ViewCaregroup extends StatefulWidget {
 
 class _ViewCaregroupState extends State<ViewCaregroup> {
   int _selectedIndex = 0;
-  String _searchType = "Tasks";
+  final String _searchType = "Tasks";
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +101,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
             actions: [
               if (_searchType != "")
                 IconButton(
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                   onPressed: () {
                     if (_searchType == "Tasks") {
                       Navigator.pushNamed(context, TaskSearch.routeName, arguments: widget.caregroup.id);
@@ -112,7 +112,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
                 caregroup: widget.caregroup,
               ),
               IconButton(
-                icon: Icon(Icons.more_vert),
+                icon: const Icon(Icons.more_vert),
                 onPressed: () {},
               ),
             ],

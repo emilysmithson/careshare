@@ -44,13 +44,13 @@ Future initialiseNotifications() async {
 
   messaging.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
   if (!kIsWeb) {
-    print('unsubscribing.............................................................................');
+    // print('unsubscribing.............................................................................');
     messaging.unsubscribeFromTopic('Rc5YlbwrzWbG8Q1um4CkHvfFrwl2');
     messaging.unsubscribeFromTopic('RWfw1NO39sg8fyuMTuOXUUnTS6b2');
 
     // messaging.subscribeToTopic('task');
     // messaging.subscribeToTopic('task_completed');
-    print('subscribing to ${myProfile.id}   .............................................................................');
+    // print('subscribing to ${myProfile.id}   .............................................................................');
     messaging.subscribeToTopic(myProfile.id);
   }
 

@@ -18,7 +18,7 @@ class PageScaffold extends StatelessWidget {
     this.bottomNavigationBar,
   }) : super(key: key);
 
-  GlobalKey<ScaffoldState> _key = GlobalKey(); // add this
+  final GlobalKey<ScaffoldState> _key = GlobalKey(); // add this
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class PageScaffold extends StatelessWidget {
             Navigator.of(context).pushNamed(HomePage.routeName);
           },
         ),
-        title: Text('CareShare'),
+        title: const Text('CareShare'),
         actions: [
           // if (searchType != "")
           //   IconButton(

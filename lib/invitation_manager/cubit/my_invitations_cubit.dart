@@ -21,7 +21,7 @@ class MyInvitationsCubit extends Cubit<MyInvitationsState> {
 
   }) async {
     try {
-      print('.....fetching invitations for: $email');
+      // print('.....fetching invitations for: $email');
       emit(const MyInvitationsLoading());
 
       final reference = FirebaseDatabase.instance
@@ -50,7 +50,7 @@ class MyInvitationsCubit extends Cubit<MyInvitationsState> {
 
         myInvitationsList.sort((a, b) => a.email.compareTo(b.email));
 
-        print('.....invitiations loaded: ${myInvitationsList.length}');
+        // print('.....invitiations loaded: ${myInvitationsList.length}');
         emit(
               MyInvitationsLoaded(
                   myInvitationsList: myInvitationsList

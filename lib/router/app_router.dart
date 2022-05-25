@@ -33,6 +33,7 @@ import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summ
 import 'package:careshare/profile_manager/presenter/view_profile_in_caregroup.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:careshare/task_manager/presenter/task_category_view/task_category_view.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
@@ -127,7 +128,10 @@ class AppRouter {
             value: _taskCubit,
             child: BlocProvider.value(
               value: _categoriesCubit,
-              child: TaskSearch(caregroupId: routeSettings.arguments as String),
+              child: TaskSearch(
+                selectedStatuses: (routeSettings.arguments as Map<String, dynamic>)['selectedStatuses'] as List<TaskStatus>?,
+                selectedProfiles: (routeSettings.arguments as Map<String, dynamic>)['selectedProfiles'] as List<Profile>?,
+              ),
             ),
           ),
         );

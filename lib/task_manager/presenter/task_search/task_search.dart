@@ -9,23 +9,22 @@ import 'package:careshare/task_manager/presenter/task_detailed_view/task_detaile
 import 'package:careshare/core/presentation/multi_select_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../task_detailed_view/widgets/effort_icon.dart';
 
 class TaskSearch extends StatefulWidget {
   static const String routeName = "/task-search";
-  final String caregroupId;
 
-  List<TaskStatus> selectedStatuses;
+  List<TaskStatus>? selectedStatuses;
   List<CareCategory> selectedCategories;
-  List<Profile> selectedProfiles;
+  List<Profile>? selectedProfiles;
 
   TaskSearch({
     Key? key,
-    required this.caregroupId,
-    this.selectedStatuses = const [],
+    this.selectedStatuses,
     this.selectedCategories = const [],
-    this.selectedProfiles = const [],
+    this.selectedProfiles,
   }) : super(key: key);
 
   @override
@@ -39,7 +38,6 @@ class _TaskSearchState extends State<TaskSearch> {
   Iterable<Profile> _profileList = [];
 
   bool firstTimeThrough = true;
-
   List<CareCategory> _selectedCategories = [];
   List<TaskStatus> _selectedStatuses = [];
   List<Profile> _selectedProfiles = [];
@@ -53,18 +51,20 @@ class _TaskSearchState extends State<TaskSearch> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
+      print("selectedStatuses: ${widget.selectedStatuses}");
+
       if (state is TaskLoaded) {
         if (firstTimeThrough == true) {
           _selectedCategories = widget.selectedCategories;
-          _selectedStatuses = widget.selectedStatuses;
-          _selectedProfiles = widget.selectedProfiles;
-          
+          _selectedStatuses = widget.selectedStatuses != null ? widget.selectedStatuses! : [];
+          _selectedProfiles = widget.selectedProfiles != null ? widget.selectedProfiles! : [];
+
           _categoryList = BlocProvider.of<CategoriesCubit>(context).categoryList
               // .where((category) => state.careTaskList.firstWhere((task) => task.category != null && task.category!.id == category.id) != -1)
               ;
-          
+
           _profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
-          
+
           firstTimeThrough = false;
         }
 
@@ -72,19 +72,21 @@ class _TaskSearchState extends State<TaskSearch> {
         List<CareTask> _filteredTaskList = state.careTaskList
             .where((task) =>
                 // filter status
-                (_selectedStatuses.isEmpty || task.taskStatus != TaskStatus.draft &&
-                _selectedStatuses.indexWhere((s) => s == task.taskStatus) != -1) &&
+                (_selectedStatuses.isEmpty ||
+                    task.taskStatus != TaskStatus.draft &&
+                        _selectedStatuses.indexWhere((s) => s == task.taskStatus) != -1) &&
 
-                    // filter category
-                    (_selectedCategories.isEmpty || task.category != null && _selectedCategories.indexWhere((c) => c.id == task.category!.id) != -1) &&
+                // filter category
+                (_selectedCategories.isEmpty ||
+                    task.category != null && _selectedCategories.indexWhere((c) => c.id == task.category!.id) != -1) &&
 
-                    // filter profile
-                    (_selectedProfiles.isEmpty ||
-                        (task.assignedTo != null && _selectedProfiles.indexWhere((p) => p.id == task.assignedTo) != -1) ||
-                          (task.completedBy != null && _selectedProfiles.indexWhere((p) => p.id == task.completedBy) != -1)
-                    ) &&
+                // filter profile
+                (_selectedProfiles.isEmpty ||
+                    (task.assignedTo != null && _selectedProfiles.indexWhere((p) => p.id == task.assignedTo) != -1) ||
+                    (task.completedBy != null &&
+                        _selectedProfiles.indexWhere((p) => p.id == task.completedBy) != -1)) &&
 
-                    // filter search
+                // filter search
                 (task.title.toUpperCase().contains(_controller.text.toUpperCase()) ||
                     task.details!.toUpperCase().contains(_controller.text.toUpperCase())))
             .toList();
@@ -109,7 +111,7 @@ class _TaskSearchState extends State<TaskSearch> {
                     _controller.text = "";
                     setState(() {});
                   },
-                  icon: (_controller.text == "") ? Icon(Icons.search) : Icon(Icons.close),
+                  icon: (_controller.text == "") ? const Icon(Icons.search) : const Icon(Icons.close),
                 ),
               ),
               onChanged: (text) {
@@ -117,7 +119,6 @@ class _TaskSearchState extends State<TaskSearch> {
               },
             ),
             actions: [
-              
               // Category Filter
               IconButton(
                   onPressed: () async {
@@ -136,7 +137,7 @@ class _TaskSearchState extends State<TaskSearch> {
                     _selectedCategories = (_categories != null) ? _categories.toList() : [];
                     setState(() {});
                   },
-                  icon: (_selectedCategories.isEmpty) ? Icon(Icons.category_outlined) : Icon(Icons.category)),
+                  icon: (_selectedCategories.isEmpty) ? const Icon(Icons.category_outlined) : const Icon(Icons.category)),
 
               // Profile Filter
               IconButton(
@@ -156,7 +157,7 @@ class _TaskSearchState extends State<TaskSearch> {
                     _selectedProfiles = (_profiles != null) ? _profiles.toList() : [];
                     setState(() {});
                   },
-                  icon: (_selectedProfiles.isEmpty) ? Icon(Icons.people_alt_outlined) : Icon(Icons.people_alt)),
+                  icon: (_selectedProfiles.isEmpty) ? const Icon(Icons.people_alt_outlined) : const Icon(Icons.people_alt)),
 
               // Status Filter
               IconButton(
@@ -179,7 +180,7 @@ class _TaskSearchState extends State<TaskSearch> {
                     _selectedStatuses = (_statuses != null) ? _statuses.toList() : [];
                     setState(() {});
                   },
-                  icon: (_selectedCategories.isEmpty) ? Icon(Icons.account_tree_outlined) : Icon(Icons.account_tree)),
+                  icon: (_selectedCategories.isEmpty) ? const Icon(Icons.account_tree_outlined) : const Icon(Icons.account_tree)),
             ],
           ),
           body: Scaffold(
@@ -191,14 +192,14 @@ class _TaskSearchState extends State<TaskSearch> {
                   (_selectedCategories.isNotEmpty)
                       ? Row(
                           children: [
-                            Text("category: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                            const Text("category: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
                             Expanded(
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: _selectedCategories.map((CareCategory c) {
                                     return Text("${c.name}, ",
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
+                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
                                   }).toList(),
                                 ),
                               ),
@@ -208,7 +209,13 @@ class _TaskSearchState extends State<TaskSearch> {
                                 _selectedCategories = [];
                                 setState(() {});
                               },
-                              child: Icon(Icons.close),
+                              child: const Padding(
+                                padding: EdgeInsets.all(2.0),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20,
+                                ),
+                              ),
                             ),
                           ],
                         )
@@ -217,42 +224,48 @@ class _TaskSearchState extends State<TaskSearch> {
                   //Show selected profiles
                   (_selectedProfiles.isNotEmpty)
                       ? Row(
-                    children: [
-                      Text("people: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: _selectedProfiles.map((Profile p) {
-                              return Text("${p.name}, ",
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _selectedProfiles = [];
-                          setState(() {});
-                        },
-                        child: Icon(Icons.close),
-                      ),
-                    ],
-                  )
+                          children: [
+                            const Text("people: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: _selectedProfiles.map((Profile p) {
+                                    return Text("${p.name}${", "}",
+                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _selectedProfiles = [];
+                                setState(() {});
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(2.0),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       : Container(),
-                  
+
                   //Show selected statuses
                   (_selectedStatuses.isNotEmpty)
                       ? Row(
                           children: [
-                            Text("status: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                            const Text("status: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
                             Expanded(
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: _selectedStatuses.map((TaskStatus s) {
                                     return Text("${s.status}, ",
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
+                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
                                   }).toList(),
                                 ),
                               ),
@@ -262,7 +275,13 @@ class _TaskSearchState extends State<TaskSearch> {
                                 _selectedStatuses = [];
                                 setState(() {});
                               },
-                              child: Icon(Icons.close),
+                              child: const Padding(
+                                padding: EdgeInsets.all(2.0),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20,
+                                ),
+                              ),
                             ),
                           ],
                         )
@@ -271,53 +290,71 @@ class _TaskSearchState extends State<TaskSearch> {
               ),
               backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
               elevation: 0,
-              toolbarHeight: 20 + (_selectedStatuses.isEmpty ? 0 : 20) + (_selectedCategories.isEmpty ? 0 : 20) + (_selectedProfiles.isEmpty ? 0 : 20),
-              actions: [],
+              toolbarHeight: 20 +
+                  (_selectedStatuses.isEmpty ? 0 : 20) +
+                  (_selectedCategories.isEmpty ? 0 : 20) +
+                  (_selectedProfiles.isEmpty ? 0 : 20),
+              actions: const [],
             ),
-            body: ListView(
-              children: _filteredTaskList
-                  .map(
-                    (task) => GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          TaskDetailedView.routeName,
-                          arguments: task,
-                        );
-                      },
-                      child: Card(
-                        child: ListTile(
-                          title: Text(task.title),
-                          subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            Text('Category: ${task.category?.name}'),
-                            if (task.taskStatus == TaskStatus.draft) Text('Status: ${task.taskStatus.status}'),
-                            if (task.taskStatus == TaskStatus.assigned)
-                              Text(
-                                  'Status: ${task.taskStatus.status} to ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).name}'),
-                            if (task.taskStatus == TaskStatus.accepted)
-                              Text(
-                                  'Status: ${task.taskStatus.status} by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).name}'),
-                            if (task.taskStatus == TaskStatus.completed)
-                              Text(
-                                  'Status: ${task.taskStatus.status} by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).name}'),
-                            if (task.taskStatus == TaskStatus.archived) Text('Status: ${task.taskStatus.status}'),
-                          ]),
-                          trailing: EffortIcon(
-                            effort: task.taskEffort.value,
-                          ),
-                          leading: Container(
-                            width: 15,
-                            height: 15,
-                            decoration: BoxDecoration(
-                              color: task.taskPriority.color,
-                              shape: BoxShape.circle,
+            body: _filteredTaskList.isNotEmpty
+                ? ListView(
+                    children: _filteredTaskList
+                        .map(
+                          (task) => GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                TaskDetailedView.routeName,
+                                arguments: task,
+                              );
+                            },
+                            child: Card(
+                              child: ListTile(
+                                title: Text(task.title),
+                                subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                  Text('Category: ${task.category?.name}'),
+                                  if (task.taskStatus == TaskStatus.draft) Text('Status: ${task.taskStatus.status}'),
+                                  if (task.taskStatus == TaskStatus.assigned)
+                                    Text(
+                                        'Status: assigned to ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).name}'),
+                                  if (task.taskStatus == TaskStatus.accepted)
+                                    Text(
+                                        'Status: accepted by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).name}'),
+                                  if (task.taskStatus == TaskStatus.completed)
+                                    Text(
+                                        'Status: completed by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).name}'),
+                                  if (task.taskStatus == TaskStatus.archived) Text('Status: ${task.taskStatus.status}'),
+                                  if (task.taskStatus == TaskStatus.created || task.taskStatus == TaskStatus.assigned || task.taskStatus == TaskStatus.accepted) Text(
+                                      'Due date: ${DateFormat('E d MMM yyyy').format(task.dueDate)}'),
+                                  if (task.taskStatus == TaskStatus.completed || task.taskStatus == TaskStatus.archived) Text(
+                                      'Completed date: ${DateFormat('E d MMM yyyy').format(task.taskCompletedDate!)}'),
+
+                                ]),
+                                trailing: EffortIcon(
+                                  effort: task.taskEffort.value,
+                                ),
+                                leading: Container(
+                                  width: 15,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                    color: task.taskPriority.color,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
+                        )
+                        .toList(),
+                  )
+                : ListView(
+                    children: const [
+                      Card(
+                        child: ListTile(
+                          title: Text("No tasks found"),
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
-            ),
+                    ],
+                  ),
           ),
         );
       }

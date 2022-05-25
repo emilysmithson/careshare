@@ -16,7 +16,7 @@ class FetchTasksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('fetching tasks');
+    // print('fetching tasks');
 
     BlocProvider.of<TaskCubit>(context)
         .fetchTasksForCaregroup(caregroupId: caregroup.id);

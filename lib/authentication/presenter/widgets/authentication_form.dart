@@ -10,7 +10,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 class AuthenticationForm extends StatefulWidget {
   final AuthenticationState state;
 
-  AuthenticationForm({Key? key, required this.state}) : super(key: key);
+  const AuthenticationForm({Key? key, required this.state}) : super(key: key);
 
   @override
   State<AuthenticationForm> createState() => _AuthenticationFormState();

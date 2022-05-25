@@ -19,7 +19,7 @@ class FetchMyInvitationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('fetching my invitations');
+    // print('fetching my invitations');
 
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
     List<Caregroup> myCaregroupList = BlocProvider.of<CaregroupCubit>(context).myCaregroupList;

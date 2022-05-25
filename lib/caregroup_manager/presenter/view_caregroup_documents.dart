@@ -14,9 +14,9 @@ class ViewCaregroupDocuments extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Column(
-      children: [
+      children: const [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Text('Documents')
 
         ),

@@ -13,7 +13,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ViewCaregroupChat extends StatefulWidget {
@@ -80,7 +79,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                             fit: BoxFit.cover),
                                       ),
                                     )
-                                  : SizedBox(width: 35),
+                                  : const SizedBox(width: 35),
                               Expanded(
                                 child: (chatList[index].type == ChatType.image)
                                     ? Padding(
@@ -97,7 +96,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                                     content: Container(
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
-                                                          color: Color(0xFFE8E8EE),
+                                                          color: const Color(0xFFE8E8EE),
                                                           width: 3,
                                                         ),
                                                         borderRadius: BorderRadius.circular(2),
@@ -115,7 +114,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                             height: 200,
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: Color(0xFFE8E8EE),
+                                                color: const Color(0xFFE8E8EE),
                                                 width: 3,
                                               ),
                                               borderRadius: BorderRadius.circular(12),
@@ -128,7 +127,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                       )
                                     : BubbleSpecialThree(
                                         text: chatList[index].content,
-                                        color: Color(0xFFE8E8EE),
+                                        color: const Color(0xFFE8E8EE),
                                         tail: true,
                                         isSender: (chatList[index].fromProfileId == myProfile.id)),
                               ),
@@ -145,7 +144,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                             fit: BoxFit.cover),
                                       ),
                                     )
-                                  : SizedBox(width: 35),
+                                  : const SizedBox(width: 35),
                             ],
                           )),
                 ),
@@ -162,7 +161,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                         ),
                         child: PopupMenuButton(
                           tooltip: 'image',
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.camera_alt,
                             color: Colors.white,
                           ),
@@ -179,15 +178,15 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                               // Create output file path
                               // eg:- "Volume/VM/abcd_out.jpeg"
                               final imageName = "${myProfile.id}_${DateTime.now().millisecondsSinceEpoch.toString()}";
-                              final lastIndex = filePath.lastIndexOf(new RegExp(r'.jp'));
+                              final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
                               final splitted = filePath.substring(0, (lastIndex));
                               final thumbnailPath = "${splitted}_thumb${filePath.substring(lastIndex)}";
 
-                              var result = await FlutterImageCompress.compressAndGetFile(
-                                filePath,
-                                thumbnailPath,
-                                quality: 5,
-                              );
+                              // var result = await FlutterImageCompress.compressAndGetFile(
+                              //   filePath,
+                              //   thumbnailPath,
+                              //   quality: 5,
+                              // );
 
                               // store thumbnail image
                               final thumbnailRef = FirebaseStorage.instance

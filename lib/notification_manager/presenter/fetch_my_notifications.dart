@@ -2,7 +2,6 @@ import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 import 'package:careshare/notification_manager/initialise_notifications.dart';
-import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +14,7 @@ class FetchMyNotificationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('fetching my Notifications');
+    // print('fetching my Notifications');
 
     initialiseNotifications();
 

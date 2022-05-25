@@ -50,7 +50,7 @@ class ViewCaregroupOverview extends StatelessWidget {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 4,
                           child: Text('Details:',
                               style: TextStyle(fontWeight: FontWeight.normal)),
@@ -65,7 +65,7 @@ class ViewCaregroupOverview extends StatelessWidget {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 4,
                           child: Text('Type:',
                               style: TextStyle(fontWeight: FontWeight.normal)),
@@ -80,7 +80,7 @@ class ViewCaregroupOverview extends StatelessWidget {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 4,
                           child: Text('Status:',
                               style: TextStyle(fontWeight: FontWeight.normal)),

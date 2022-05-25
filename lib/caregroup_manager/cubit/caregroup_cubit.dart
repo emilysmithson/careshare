@@ -219,9 +219,9 @@ class CaregroupCubit extends Cubit<CaregroupState> {
 
           // }
 
-          print('.....loaded caregroupList: ${caregroupList.length}');
-          print('.....loaded myCaregroupList: ${myCaregroupList.length}');
-          print('.....loaded otherCaregroupList: ${otherCaregroupList.length}');
+          // print('.....loaded caregroupList: ${caregroupList.length}');
+          // print('.....loaded myCaregroupList: ${myCaregroupList.length}');
+          // print('.....loaded otherCaregroupList: ${otherCaregroupList.length}');
 
           emit(CaregroupsLoaded(
             caregroupList: caregroupList,

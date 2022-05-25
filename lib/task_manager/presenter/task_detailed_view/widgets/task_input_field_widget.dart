@@ -74,7 +74,7 @@ class _TaskInputFieldWidgetState extends State<TaskInputFieldWidget> {
       },
       decoration: InputDecoration(
         disabledBorder:(
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))
+            const OutlineInputBorder(borderSide: const BorderSide(color: Colors.black38))
         ) ,
         label: Text(widget.label),
 

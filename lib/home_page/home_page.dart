@@ -28,7 +28,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    print('displaying Home Page');
+    // print('displaying Home Page');
 
     return BlocBuilder<CaregroupCubit, CaregroupState>(
       builder: (context, state) {
@@ -90,15 +90,15 @@ class _HomePageState extends State<HomePage> {
 
           // All Caregropus
           List<Caregroup> allCaregroups = state.caregroupList;
-          print('allCaregroups: ${allCaregroups.length}');
+          // print('allCaregroups: ${allCaregroups.length}');
 
           // My Caregroups
           List<Caregroup> myCaregroups = state.myCaregroupList;
-          print('myCaregroups: ${myCaregroups.length}');
+          // print('myCaregroups: ${myCaregroups.length}');
 
           // My Invitations
           List<Invitation> myInvitationList = BlocProvider.of<MyInvitationsCubit>(context).myInvitationsList.toList();
-          print('myInvitationList: ${myInvitationList.length}');
+          // print('myInvitationList: ${myInvitationList.length}');
 
           if (myInvitationList.isEmpty) {
             _showInvitationsOnHomePage = false;
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
             otherCaregroups = state.otherCaregroupList
                 .where((caregroup) => myInvitationList.indexWhere((i) => i.caregroupId == caregroup.id) == -1)
                 .toList();
-            print('otherCaregroups: ${otherCaregroups.length}');
+            // print('otherCaregroups: ${otherCaregroups.length}');
 
             if (otherCaregroups.isEmpty) {
               _showOtherCaregropusOnHomePage = false;
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   // My Caregroups
                   AppBar(
-                    title: Text("My Caregroups"),
+                    title: const Text("My Caregroups"),
                     backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
                     elevation: 0,
                     toolbarHeight: 40,
@@ -201,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   if (_showInvitationsOnHomePage)
                     AppBar(
-                      title: Text("My Invitations"),
+                      title: const Text("My Invitations"),
                       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
                       elevation: 0,
                       toolbarHeight: 40,
@@ -287,7 +287,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   if (_showOtherCaregropusOnHomePage)
                     AppBar(
-                      title: Text("Other Caregroups"),
+                      title: const Text("Other Caregroups"),
                       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
                       elevation: 0,
                       toolbarHeight: 40,

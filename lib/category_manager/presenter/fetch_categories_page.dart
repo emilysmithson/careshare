@@ -18,7 +18,7 @@ class FetchCategoriesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('fetching categories');
+    // print('fetching categories');
 
 
     BlocProvider.of<CategoriesCubit>(context).fetchCategories();
