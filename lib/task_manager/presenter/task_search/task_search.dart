@@ -18,14 +18,14 @@ class TaskSearch extends StatefulWidget {
 
   List<TaskStatus> selectedStatuses;
   List<CareCategory> selectedCategories;
-  List<String>? selectedProfiles;
+  List<Profile> selectedProfiles;
 
   TaskSearch({
     Key? key,
     required this.caregroupId,
     this.selectedStatuses = const [],
     this.selectedCategories = const [],
-    this.selectedProfiles,
+    this.selectedProfiles = const [],
   }) : super(key: key);
 
   @override
@@ -34,14 +34,15 @@ class TaskSearch extends StatefulWidget {
 
 class _TaskSearchState extends State<TaskSearch> {
   final TextEditingController _controller = TextEditingController();
-  Iterable<CareCategory> _categoryList = [];
 
-  Iterable<CareTask> _filteredTaskList = [];
+  Iterable<CareCategory> _categoryList = [];
+  Iterable<Profile> _profileList = [];
+
   bool firstTimeThrough = true;
 
   List<CareCategory> _selectedCategories = [];
   List<TaskStatus> _selectedStatuses = [];
-  String _status = "";
+  List<Profile> _selectedProfiles = [];
 
   @override
   void dispose() {
@@ -56,19 +57,14 @@ class _TaskSearchState extends State<TaskSearch> {
         if (firstTimeThrough == true) {
           _selectedCategories = widget.selectedCategories;
           _selectedStatuses = widget.selectedStatuses;
-
-          // _filteredTaskList = state.careTaskList
-          //     .where((task) => task.taskStatus != TaskStatus.draft && task.caregroupId == widget.caregroupId)
-          //     .take(10);
-
+          _selectedProfiles = widget.selectedProfiles;
+          
           _categoryList = BlocProvider.of<CategoriesCubit>(context).categoryList
               // .where((category) => state.careTaskList.firstWhere((task) => task.category != null && task.category!.id == category.id) != -1)
               ;
-          // print("_categoryList length: ${_categoryList.length}");
-
-          List<Profile> _profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
-          // print("_profileList length: ${_profileList.length}");
-
+          
+          _profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
+          
           firstTimeThrough = false;
         }
 
@@ -79,10 +75,16 @@ class _TaskSearchState extends State<TaskSearch> {
                 (_selectedStatuses.isEmpty || task.taskStatus != TaskStatus.draft &&
                 _selectedStatuses.indexWhere((s) => s == task.taskStatus) != -1) &&
 
-                // filter category
-                (_selectedCategories.isEmpty || task.category != null && _selectedCategories.indexWhere((c) => c.id == task.category!.id) != -1) &&
+                    // filter category
+                    (_selectedCategories.isEmpty || task.category != null && _selectedCategories.indexWhere((c) => c.id == task.category!.id) != -1) &&
 
-                // filter search
+                    // filter profile
+                    (_selectedProfiles.isEmpty ||
+                        (task.assignedTo != null && _selectedProfiles.indexWhere((p) => p.id == task.assignedTo) != -1) ||
+                          (task.completedBy != null && _selectedProfiles.indexWhere((p) => p.id == task.completedBy) != -1)
+                    ) &&
+
+                    // filter search
                 (task.title.toUpperCase().contains(_controller.text.toUpperCase()) ||
                     task.details!.toUpperCase().contains(_controller.text.toUpperCase())))
             .toList();
@@ -115,6 +117,7 @@ class _TaskSearchState extends State<TaskSearch> {
               },
             ),
             actions: [
+              
               // Category Filter
               IconButton(
                   onPressed: () async {
@@ -134,6 +137,26 @@ class _TaskSearchState extends State<TaskSearch> {
                     setState(() {});
                   },
                   icon: (_selectedCategories.isEmpty) ? Icon(Icons.category_outlined) : Icon(Icons.category)),
+
+              // Profile Filter
+              IconButton(
+                  onPressed: () async {
+                    final items = _profileList.map((c) => MultiSelectDialogItem<Profile>(c, c.name)).toList();
+
+                    final _profiles = await showDialog<Set<Profile>>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return MultiSelectDialog(
+                          items: items,
+                          initialSelectedValues: _selectedProfiles.toSet(),
+                        );
+                      },
+                    );
+
+                    _selectedProfiles = (_profiles != null) ? _profiles.toList() : [];
+                    setState(() {});
+                  },
+                  icon: (_selectedProfiles.isEmpty) ? Icon(Icons.people_alt_outlined) : Icon(Icons.people_alt)),
 
               // Status Filter
               IconButton(
@@ -191,6 +214,33 @@ class _TaskSearchState extends State<TaskSearch> {
                         )
                       : Container(),
 
+                  //Show selected profiles
+                  (_selectedProfiles.isNotEmpty)
+                      ? Row(
+                    children: [
+                      Text("people: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: _selectedProfiles.map((Profile p) {
+                              return Text("${p.name}, ",
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _selectedProfiles = [];
+                          setState(() {});
+                        },
+                        child: Icon(Icons.close),
+                      ),
+                    ],
+                  )
+                      : Container(),
+                  
                   //Show selected statuses
                   (_selectedStatuses.isNotEmpty)
                       ? Row(
@@ -221,7 +271,7 @@ class _TaskSearchState extends State<TaskSearch> {
               ),
               backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
               elevation: 0,
-              toolbarHeight: 20 + (_selectedStatuses.isEmpty ? 0 : 20) + (_selectedCategories.isEmpty ? 0 : 20),
+              toolbarHeight: 20 + (_selectedStatuses.isEmpty ? 0 : 20) + (_selectedCategories.isEmpty ? 0 : 20) + (_selectedProfiles.isEmpty ? 0 : 20),
               actions: [],
             ),
             body: ListView(

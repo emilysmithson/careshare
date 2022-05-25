@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class MultiSelectDialogItem<V> {
   const MultiSelectDialogItem(this.value, this.label);
@@ -54,7 +54,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
       contentPadding: const EdgeInsets.only(top: 12.0),
       content: SingleChildScrollView(
         child: ListTileTheme(
-          contentPadding: const EdgeInsets.fromLTRB(14.0, 0.0, 24.0, 0.0),
+            contentPadding: const EdgeInsets.fromLTRB(14.0, 0.0, 24.0, 0.0),
           child: ListBody(
             children: widget.items.map(_buildItem).toList(),
           ),
@@ -76,6 +76,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
   Widget _buildItem(MultiSelectDialogItem<V> item) {
     final checked = _selectedValues.contains(item.value);
     return CheckboxListTile(
+      visualDensity: VisualDensity.compact,
       value: checked,
       title: Text(item.label),
       controlAffinity: ListTileControlAffinity.leading,
