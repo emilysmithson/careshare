@@ -8,6 +8,7 @@ import 'package:careshare/caregroup_manager/presenter/fetch_caregroup_page.dart'
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
 import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
+import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/category_manager/presenter/fetch_categories_page.dart';
 import 'package:careshare/chat_manager/cubit/chat_cubit.dart';
 import 'package:careshare/chat_manager/repository/create_chat.dart';
@@ -131,6 +132,7 @@ class AppRouter {
               child: TaskSearch(
                 selectedStatuses: (routeSettings.arguments as Map<String, dynamic>)['selectedStatuses'] as List<TaskStatus>?,
                 selectedProfiles: (routeSettings.arguments as Map<String, dynamic>)['selectedProfiles'] as List<Profile>?,
+                // selectedCategories: (routeSettings.arguments as Map<String, dynamic>)['selectedCategories'] as List<CareCategory>?,
               ),
             ),
           ),

@@ -4,9 +4,12 @@ import 'package:careshare/caregroup_manager/presenter/view_caregroup_documents.d
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
+import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/notification_manager/presenter/widgets/bell_widget.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
+import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 import 'package:careshare/core/presentation/page_scaffold.dart';
 import 'package:careshare/task_manager/presenter/task_search/task_search.dart';
@@ -104,7 +107,15 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
                   icon: const Icon(Icons.search),
                   onPressed: () {
                     if (_searchType == "Tasks") {
-                      Navigator.pushNamed(context, TaskSearch.routeName, arguments: widget.caregroup.id);
+                      List<TaskStatus> _statuses = [];
+                      List<Profile> _profiles = [];
+                      List<CareCategory> _categories = [];
+                      Navigator.pushNamed(context, TaskSearch.routeName,
+                          arguments: {
+                            "selectedStatuses": _statuses,
+                            "selectedProfiles": _profiles,
+                            "selectedCategories": _categories
+                          });
                     }
                   },
                 ),
