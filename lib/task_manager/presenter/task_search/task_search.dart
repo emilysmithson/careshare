@@ -15,18 +15,16 @@ import '../task_detailed_view/widgets/effort_icon.dart';
 class TaskSearch extends StatefulWidget {
   static const String routeName = "/task-search";
   final String caregroupId;
-  String? statusFilter;
-  String? categoryFilter;
 
-  List<CareCategory>? selectedCategories;
+  List<TaskStatus> selectedStatuses;
+  List<CareCategory> selectedCategories;
   List<String>? selectedProfiles;
 
   TaskSearch({
     Key? key,
     required this.caregroupId,
-    this.statusFilter,
-    this.categoryFilter,
-    this.selectedCategories,
+    this.selectedStatuses = const [],
+    this.selectedCategories = const [],
     this.selectedProfiles,
   }) : super(key: key);
 
@@ -41,7 +39,8 @@ class _TaskSearchState extends State<TaskSearch> {
   Iterable<CareTask> _filteredTaskList = [];
   bool firstTimeThrough = true;
 
-  List<CareCategory>? _selectedCategories = [];
+  List<CareCategory> _selectedCategories = [];
+  List<TaskStatus> _selectedStatuses = [];
   String _status = "";
 
   @override
@@ -56,6 +55,7 @@ class _TaskSearchState extends State<TaskSearch> {
       if (state is TaskLoaded) {
         if (firstTimeThrough == true) {
           _selectedCategories = widget.selectedCategories;
+          _selectedStatuses = widget.selectedStatuses;
 
           // _filteredTaskList = state.careTaskList
           //     .where((task) => task.taskStatus != TaskStatus.draft && task.caregroupId == widget.caregroupId)
@@ -64,25 +64,23 @@ class _TaskSearchState extends State<TaskSearch> {
           _categoryList = BlocProvider.of<CategoriesCubit>(context).categoryList
               // .where((category) => state.careTaskList.firstWhere((task) => task.category != null && task.category!.id == category.id) != -1)
               ;
-          print("_categoryList length: ${_categoryList.length}");
+          // print("_categoryList length: ${_categoryList.length}");
 
           List<Profile> _profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
-          print("_profileList length: ${_profileList.length}");
+          // print("_profileList length: ${_profileList.length}");
 
           firstTimeThrough = false;
         }
 
-        // print("categoryId: $categoryId");
+        // filter
         List<CareTask> _filteredTaskList = state.careTaskList
             .where((task) =>
                 // filter status
-                task.taskStatus != TaskStatus.draft &&
-                (_status == "" || task.taskStatus.status == _status) &&
+                (_selectedStatuses.isEmpty || task.taskStatus != TaskStatus.draft &&
+                _selectedStatuses.indexWhere((s) => s == task.taskStatus) != -1) &&
 
                 // filter category
-                (_selectedCategories == null ||
-                    (task.category != null &&
-                        _selectedCategories!.indexWhere((c) => c.id == task.category!.id) != -1)) &&
+                (_selectedCategories.isEmpty || task.category != null && _selectedCategories.indexWhere((c) => c.id == task.category!.id) != -1) &&
 
                 // filter search
                 (task.title.toUpperCase().contains(_controller.text.toUpperCase()) ||
@@ -127,7 +125,7 @@ class _TaskSearchState extends State<TaskSearch> {
                       builder: (BuildContext context) {
                         return MultiSelectDialog(
                           items: items,
-                          initialSelectedValues: (_selectedCategories != null) ? _selectedCategories!.toSet() : null,
+                          initialSelectedValues: _selectedCategories.toSet(),
                         );
                       },
                     );
@@ -135,43 +133,30 @@ class _TaskSearchState extends State<TaskSearch> {
                     _selectedCategories = (_categories != null) ? _categories.toList() : [];
                     setState(() {});
                   },
-                  icon: (_selectedCategories == null || _selectedCategories!.length == 0)
-                      ? Icon(Icons.category_outlined)
-                      : Icon(Icons.category)),
+                  icon: (_selectedCategories.isEmpty) ? Icon(Icons.category_outlined) : Icon(Icons.category)),
 
               // Status Filter
-              PopupMenuButton<String>(
-                  tooltip: 'Status Filter',
-                  icon: (_status == "") ? Icon(Icons.account_tree_outlined) : Icon(Icons.account_tree),
-                  onSelected: (String id) {
-                    _status = id;
+              IconButton(
+                  onPressed: () async {
+                    final items = TaskStatus.taskStatusList
+                        .where((s) => s != TaskStatus.draft)
+                        .map((s) => MultiSelectDialogItem<TaskStatus>(s, s.status))
+                        .toList();
 
+                    final _statuses = await showDialog<Set<TaskStatus>>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return MultiSelectDialog(
+                          items: items,
+                          initialSelectedValues: _selectedStatuses.toSet(),
+                        );
+                      },
+                    );
+
+                    _selectedStatuses = (_statuses != null) ? _statuses.toList() : [];
                     setState(() {});
                   },
-                  itemBuilder: (BuildContext context) {
-                    List<PopupMenuItem<String>> widgetList = TaskStatus.taskStatusList
-                        .where((status) => status != TaskStatus.draft)
-                        .map(
-                          (TaskStatus status) => PopupMenuItem<String>(
-                            value: status.status,
-                            child: Text(status.status),
-                            textStyle: (_status == status.status)
-                                ? TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
-                                : TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
-                          ),
-                        )
-                        .toList();
-                    widgetList.add(
-                      PopupMenuItem<String>(
-                        value: '',
-                        child: Text('Show all'),
-                        textStyle: (_status == "")
-                            ? TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
-                            : TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
-                      ),
-                    );
-                    return widgetList;
-                  }),
+                  icon: (_selectedCategories.isEmpty) ? Icon(Icons.account_tree_outlined) : Icon(Icons.account_tree)),
             ],
           ),
           body: Scaffold(
@@ -179,7 +164,8 @@ class _TaskSearchState extends State<TaskSearch> {
               automaticallyImplyLeading: false,
               title: Column(
                 children: [
-                  (_selectedCategories != null)
+                  //Show selected categories
+                  (_selectedCategories.isNotEmpty)
                       ? Row(
                           children: [
                             Text("category: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
@@ -187,7 +173,7 @@ class _TaskSearchState extends State<TaskSearch> {
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
-                                  children: _selectedCategories!.map((CareCategory c) {
+                                  children: _selectedCategories.map((CareCategory c) {
                                     return Text("${c.name}, ",
                                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
                                   }).toList(),
@@ -196,7 +182,7 @@ class _TaskSearchState extends State<TaskSearch> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                _selectedCategories = null;
+                                _selectedCategories = [];
                                 setState(() {});
                               },
                               child: Icon(Icons.close),
@@ -204,16 +190,26 @@ class _TaskSearchState extends State<TaskSearch> {
                           ],
                         )
                       : Container(),
-                  (_status != "")
+
+                  //Show selected statuses
+                  (_selectedStatuses.isNotEmpty)
                       ? Row(
                           children: [
                             Text("status: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
                             Expanded(
-                              child: Text("$_status", style: TextStyle(fontSize: 16)),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: _selectedStatuses.map((TaskStatus s) {
+                                    return Text("${s.status}, ",
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
+                                  }).toList(),
+                                ),
+                              ),
                             ),
                             GestureDetector(
                               onTap: () {
-                                _status = "";
+                                _selectedStatuses = [];
                                 setState(() {});
                               },
                               child: Icon(Icons.close),
@@ -225,11 +221,7 @@ class _TaskSearchState extends State<TaskSearch> {
               ),
               backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
               elevation: 0,
-              toolbarHeight: (_status == "" && _selectedCategories == null)
-                  ? 20
-                  : (_status != "" && _selectedCategories != null)
-                      ? 60
-                      : 40,
+              toolbarHeight: 20 + (_selectedStatuses.isEmpty ? 0 : 20) + (_selectedCategories.isEmpty ? 0 : 20),
               actions: [],
             ),
             body: ListView(
