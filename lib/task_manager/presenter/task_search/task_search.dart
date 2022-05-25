@@ -6,6 +6,7 @@ import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
+import 'package:careshare/core/presentation/multi_select_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,11 +18,16 @@ class TaskSearch extends StatefulWidget {
   String? statusFilter;
   String? categoryFilter;
 
+  List<CareCategory>? selectedCategories;
+  List<String>? selectedProfiles;
+
   TaskSearch({
     Key? key,
     required this.caregroupId,
     this.statusFilter,
     this.categoryFilter,
+    this.selectedCategories,
+    this.selectedProfiles,
   }) : super(key: key);
 
   @override
@@ -35,7 +41,7 @@ class _TaskSearchState extends State<TaskSearch> {
   Iterable<CareTask> _filteredTaskList = [];
   bool firstTimeThrough = true;
 
-  String _categoryId = "";
+  List<CareCategory>? _selectedCategories = [];
   String _status = "";
 
   @override
@@ -49,6 +55,8 @@ class _TaskSearchState extends State<TaskSearch> {
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
       if (state is TaskLoaded) {
         if (firstTimeThrough == true) {
+          _selectedCategories = widget.selectedCategories;
+
           // _filteredTaskList = state.careTaskList
           //     .where((task) => task.taskStatus != TaskStatus.draft && task.caregroupId == widget.caregroupId)
           //     .take(10);
@@ -69,14 +77,17 @@ class _TaskSearchState extends State<TaskSearch> {
             .where((task) =>
                 // filter status
                 task.taskStatus != TaskStatus.draft &&
-                (_status == "" ||
-                task.taskStatus.status == _status) &&
+                (_status == "" || task.taskStatus.status == _status) &&
 
-                    // filter category
-                    (_categoryId == "" || (task.category != null && task.category!.id == _categoryId)) &&
-                    // filter search
-                    (task.title.toUpperCase().contains(_controller.text.toUpperCase()) ||
-                        task.details!.toUpperCase().contains(_controller.text.toUpperCase()))).toList();
+                // filter category
+                (_selectedCategories == null ||
+                    (task.category != null &&
+                        _selectedCategories!.indexWhere((c) => c.id == task.category!.id) != -1)) &&
+
+                // filter search
+                (task.title.toUpperCase().contains(_controller.text.toUpperCase()) ||
+                    task.details!.toUpperCase().contains(_controller.text.toUpperCase())))
+            .toList();
 
         _filteredTaskList.sort((a, b) => a.taskSortDate!.compareTo(b.taskSortDate!));
 
@@ -95,10 +106,10 @@ class _TaskSearchState extends State<TaskSearch> {
                 filled: true,
                 suffixIcon: IconButton(
                   onPressed: () {
-                    _controller.text ="";
+                    _controller.text = "";
                     setState(() {});
                   },
-                  icon: (_controller.text =="") ? Icon(Icons.search) : Icon(Icons.close) ,
+                  icon: (_controller.text == "") ? Icon(Icons.search) : Icon(Icons.close),
                 ),
               ),
               onChanged: (text) {
@@ -107,37 +118,26 @@ class _TaskSearchState extends State<TaskSearch> {
             ),
             actions: [
               // Category Filter
-              PopupMenuButton<String>(
-                  tooltip: 'Category Filter',
-                  icon: (_categoryId == "") ? Icon(Icons.category_outlined) : Icon(Icons.category),
-                  onSelected: (String id) {
-                    _categoryId = id;
+              IconButton(
+                  onPressed: () async {
+                    final items = _categoryList.map((c) => MultiSelectDialogItem<CareCategory>(c, c.name)).toList();
 
+                    final _categories = await showDialog<Set<CareCategory>>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return MultiSelectDialog(
+                          items: items,
+                          initialSelectedValues: (_selectedCategories != null) ? _selectedCategories!.toSet() : null,
+                        );
+                      },
+                    );
+
+                    _selectedCategories = (_categories != null) ? _categories.toList() : [];
                     setState(() {});
                   },
-                  itemBuilder: (BuildContext context) {
-                    List<PopupMenuItem<String>> widgetList = _categoryList
-                        .map(
-                          (CareCategory category) => PopupMenuItem<String>(
-                            value: category.id,
-                            child: Text(category.name),
-                            textStyle: (_categoryId == category.id)
-                                ? TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
-                                : TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
-                          ),
-                        )
-                        .toList();
-                    widgetList.add(
-                      PopupMenuItem<String>(
-                        value: '',
-                        child: Text('Show all'),
-                        textStyle: (_categoryId == "")
-                            ? TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
-                            : TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
-                      ),
-                    );
-                    return widgetList;
-                  }),
+                  icon: (_selectedCategories == null || _selectedCategories!.length == 0)
+                      ? Icon(Icons.category_outlined)
+                      : Icon(Icons.category)),
 
               // Status Filter
               PopupMenuButton<String>(
@@ -179,48 +179,57 @@ class _TaskSearchState extends State<TaskSearch> {
               automaticallyImplyLeading: false,
               title: Column(
                 children: [
-                  (_categoryId != "") ? Row(
-                    children: [
-                      Text("category: ",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
-                      Expanded(
-                        child:
-                        Text("${_categoryId!="" ? _categoryList.firstWhere((c) => c.id==_categoryId).name : ""} ",
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
-
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          _categoryId="";
-                          setState(() {});
-                          },
-                        child: Icon(Icons.close),
-                      ),
-
-                    ],
-                  ) : Container(),
-                  (_status != "") ? Row(
-                    children: [
-                      Text("status: ",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
-                      Expanded(
-                        child: Text("$_status",
-                            style: TextStyle(fontSize: 16)),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          _status = "";
-                          setState(() {});
-                        },
-                        child: Icon(Icons.close),
-                      ),
-                    ],
-                  ) : Container(),
+                  (_selectedCategories != null)
+                      ? Row(
+                          children: [
+                            Text("category: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: _selectedCategories!.map((CareCategory c) {
+                                    return Text("${c.name}, ",
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _selectedCategories = null;
+                                setState(() {});
+                              },
+                              child: Icon(Icons.close),
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  (_status != "")
+                      ? Row(
+                          children: [
+                            Text("status: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                            Expanded(
+                              child: Text("$_status", style: TextStyle(fontSize: 16)),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _status = "";
+                                setState(() {});
+                              },
+                              child: Icon(Icons.close),
+                            ),
+                          ],
+                        )
+                      : Container(),
                 ],
               ),
               backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
               elevation: 0,
-              toolbarHeight: (_status=="" && _categoryId=="" ) ? 20 : (_status!="" && _categoryId!="") ? 60 : 40,
+              toolbarHeight: (_status == "" && _selectedCategories == null)
+                  ? 20
+                  : (_status != "" && _selectedCategories != null)
+                      ? 60
+                      : 40,
               actions: [],
             ),
             body: ListView(
