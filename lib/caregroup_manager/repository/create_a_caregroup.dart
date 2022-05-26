@@ -15,6 +15,7 @@ class CreateACaregroup {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       createdDate: DateTime.now(),
       createdBy: FirebaseAuth.instance.currentUser!.uid,
+      test: false,
     );
     DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
 

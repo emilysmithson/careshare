@@ -26,7 +26,6 @@ class InvitationsCubit extends Cubit<InvitationState> {
     String? message,
     // required List<String> careeInCaregroups,
     // required List<String> carerInCaregroups,
-
   }) async {
     emit(const InvitationLoading());
 
@@ -54,10 +53,7 @@ class InvitationsCubit extends Cubit<InvitationState> {
   Future fetchInvitations({required String caregroupId}) async {
     try {
       emit(const InvitationLoading());
-      final reference = FirebaseDatabase.instance
-          .ref('invitations')
-          .orderByChild('caregroup_id')
-          .equalTo(caregroupId);
+      final reference = FirebaseDatabase.instance.ref('invitations').orderByChild('caregroup_id').equalTo(caregroupId);
 
       final response = reference.onValue;
 
@@ -66,26 +62,19 @@ class InvitationsCubit extends Cubit<InvitationState> {
           if (kDebugMode) {
             print('empty invitations list');
           }
-          return;
-        } else {
-          Map<dynamic, dynamic> returnedList =
-              event.snapshot.value as Map<dynamic, dynamic>;
-          invitationList.clear();
-          returnedList.forEach(
-            (key, value) async {
-              Invitation invitation = Invitation.fromJson(value);
-
-              invitationList.add(invitation);
-            },
-          );
-
-          invitationList.sort((a, b) => a.email.compareTo(b.email));
-          emit(
-              InvitationLoaded(
-                  invitationList: invitationList
-              )
-          );
         }
+        Map<dynamic, dynamic> returnedList = event.snapshot.value as Map<dynamic, dynamic>;
+        invitationList.clear();
+        returnedList.forEach(
+          (key, value) async {
+            Invitation invitation = Invitation.fromJson(value);
+
+            invitationList.add(invitation);
+          },
+        );
+
+        invitationList.sort((a, b) => a.email.compareTo(b.email));
+        emit(InvitationLoaded(invitationList: invitationList));
       });
     } catch (error) {
       emit(
@@ -101,13 +90,9 @@ class InvitationsCubit extends Cubit<InvitationState> {
   }
 
   editInvitation(
-      {required Invitation invitation,
-      required InvitationField invitationField,
-      required dynamic newValue}) {
+      {required Invitation invitation, required InvitationField invitationField, required dynamic newValue}) {
     emit(const InvitationLoading());
 
-    editInvitationFieldRepository(
-        invitation: invitation, invitationField: invitationField, newValue: newValue);
+    editInvitationFieldRepository(invitation: invitation, invitationField: invitationField, newValue: newValue);
   }
-
 }

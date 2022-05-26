@@ -23,6 +23,11 @@ class EditCaregroupFieldRepository {
         field = 'details';
         value = newValue;
         break;
+      case CaregroupField.test:
+        newCaregroup.test = newValue;
+        field = 'test';
+        value = newValue;
+        break;
       case CaregroupField.status:
         newCaregroup.status = newValue;
         field = 'status';

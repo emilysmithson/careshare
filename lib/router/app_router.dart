@@ -8,11 +8,7 @@ import 'package:careshare/caregroup_manager/presenter/fetch_caregroup_page.dart'
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
 import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
-import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/category_manager/presenter/fetch_categories_page.dart';
-import 'package:careshare/chat_manager/cubit/chat_cubit.dart';
-import 'package:careshare/chat_manager/repository/create_chat.dart';
-import 'package:careshare/chat_manager/repository/remove_chat.dart';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/caregroup_manager/presenter/edit_caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
@@ -63,10 +59,10 @@ class AppRouter {
     updateATaskRepository: UpdateATask(),
   );
 
-  final _chatCubit = ChatCubit(
-    createChatRepository: CreateChat(),
-    removeChatRepository: RemoveChat(),
-  );
+  // final _chatCubit = ChatCubit(
+  //   createChatRepository: CreateChat(),
+  //   removeChatRepository: RemoveChat(),
+  // );
 
   final _categoriesCubit = CategoriesCubit();
 
@@ -130,8 +126,10 @@ class AppRouter {
             child: BlocProvider.value(
               value: _categoriesCubit,
               child: TaskSearch(
-                selectedStatuses: (routeSettings.arguments as Map<String, dynamic>)['selectedStatuses'] as List<TaskStatus>?,
-                selectedProfiles: (routeSettings.arguments as Map<String, dynamic>)['selectedProfiles'] as List<Profile>?,
+                selectedStatuses:
+                    (routeSettings.arguments as Map<String, dynamic>)['selectedStatuses'] as List<TaskStatus>?,
+                selectedProfiles:
+                    (routeSettings.arguments as Map<String, dynamic>)['selectedProfiles'] as List<Profile>?,
                 // selectedCategories: (routeSettings.arguments as Map<String, dynamic>)['selectedCategories'] as List<CareCategory>?,
               ),
             ),
@@ -147,13 +145,16 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _taskCubit,
             child: BlocProvider.value(
-              value: _categoriesCubit,
-              child: TaskDetailedView(task: task ?? routeSettings.arguments as CareTask),
+              value: _caregroupCubit,
+              child: BlocProvider.value(
+                value: _categoriesCubit,
+                child: TaskDetailedView(task: task ?? routeSettings.arguments as CareTask),
+              ),
             ),
           ),
         );
 
-        case InviteUserToCaregroup.routeName:
+      case InviteUserToCaregroup.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,

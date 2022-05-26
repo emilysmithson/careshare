@@ -60,10 +60,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     required String id,
   }) async {
     emit(const CaregroupLoading());
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child('caregroup_photos')
-        .child(id + '.jpg');
+    final ref = FirebaseStorage.instance.ref().child('caregroup_photos').child(id + '.jpg');
 
     await ref.putFile(photo);
     final url = await ref.getDownloadURL();
@@ -77,6 +74,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
       photo: url,
       createdDate: DateTime.now(),
       createdBy: FirebaseAuth.instance.currentUser!.uid,
+      test: false,
     );
     try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
@@ -88,9 +86,9 @@ class CaregroupCubit extends Cubit<CaregroupState> {
       }
     }
     emit(CaregroupsLoaded(
-        caregroupList: caregroupList,
-        myCaregroupList: myCaregroupList,
-        otherCaregroupList: otherCaregroupList,
+      caregroupList: caregroupList,
+      myCaregroupList: myCaregroupList,
+      otherCaregroupList: otherCaregroupList,
     ));
   }
 
@@ -192,15 +190,14 @@ class CaregroupCubit extends Cubit<CaregroupState> {
           }
           return;
         } else {
-          Map<dynamic, dynamic> returnedList =
-          event.snapshot.value as Map<dynamic, dynamic>;
+          Map<dynamic, dynamic> returnedList = event.snapshot.value as Map<dynamic, dynamic>;
 
           caregroupList.clear();
           myCaregroupList.clear();
           otherCaregroupList.clear();
 
           returnedList.forEach(
-                (key, value) {
+            (key, value) {
               caregroupList.add(Caregroup.fromJson(key, value));
             },
           );
@@ -209,13 +206,15 @@ class CaregroupCubit extends Cubit<CaregroupState> {
 
           // if(profile.carerInCaregroups.isNotEmpty) {
 
-            myCaregroupList = caregroupList.where((caregroup) =>
-              profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) != -1
-            ).toList();
+          myCaregroupList = caregroupList
+              .where((caregroup) =>
+                  profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) != -1)
+              .toList();
 
-            otherCaregroupList = caregroupList.where((caregroup) =>
-            profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) == -1
-            ).toList();
+          otherCaregroupList = caregroupList
+              .where((caregroup) =>
+                  profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroup.id) == -1)
+              .toList();
 
           // }
 
@@ -263,15 +262,9 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     return photo;
   }
 
-  editCaregroup(
-      {required Caregroup caregroup,
-      required CaregroupField caregroupField,
-      required dynamic newValue}) {
+  editCaregroup({required Caregroup caregroup, required CaregroupField caregroupField, required dynamic newValue}) {
     emit(const CaregroupLoading());
 
-    editCaregroupFieldRepository(
-        caregroup: caregroup,
-        caregroupField: caregroupField,
-        newValue: newValue);
+    editCaregroupFieldRepository(caregroup: caregroup, caregroupField: caregroupField, newValue: newValue);
   }
 }

@@ -11,6 +11,7 @@ class Caregroup {
   String? photo;
   DateTime createdDate;
   String? createdBy;
+  bool test;
   List<CarerInCaregroup>? carers = [];
 
   Caregroup({
@@ -21,24 +22,23 @@ class Caregroup {
     required this.type,
     this.photo,
     required this.createdDate,
+    required this.test,
     required this.createdBy,
   });
 
   factory Caregroup.fromJson(dynamic key, dynamic value) {
-    final status = CaregroupStatus.caregroupStatusList
-        .firstWhere((element) => element.status == value['status']);
+    final status = CaregroupStatus.caregroupStatusList.firstWhere((element) => element.status == value['status']);
 
     return Caregroup(
-      id: key,
-      name: value['name'] ?? "",
-      details: value['details'] ?? "",
-      status: status,
-      type: CaregroupType.caregroupTypeList
-          .firstWhere((element) => element.type == value['type']),
-      photo: value['photo'] ?? "",
-      createdDate: DateTime.parse(value['created_date']),
-      createdBy: value['created_by'] ?? '',
-    );
+        id: key,
+        name: value['name'] ?? "",
+        details: value['details'] ?? "",
+        status: status,
+        type: CaregroupType.caregroupTypeList.firstWhere((element) => element.type == value['type']),
+        photo: value['photo'] ?? "",
+        createdDate: DateTime.parse(value['created_date']),
+        createdBy: value['created_by'] ?? '',
+        test: value['test']);
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +51,7 @@ class Caregroup {
       'photo': photo,
       'created_date': createdDate.toString(),
       'created_by': createdBy,
+      'test': test,
     };
   }
 
@@ -64,6 +65,7 @@ class Caregroup {
     type: $type
     photo: $photo
     createdDate: $createdDate,
+    test: $test,
     ''';
   }
 
@@ -79,7 +81,8 @@ class Caregroup {
         other.type == type &&
         other.photo == photo &&
         other.createdDate == createdDate &&
-        other.createdBy == createdBy;
+        other.createdBy == createdBy &&
+        other.test == test;
   }
 
   @override
@@ -91,7 +94,8 @@ class Caregroup {
       type.hashCode ^
       photo.hashCode ^
       createdDate.hashCode ^
-      createdBy.hashCode;
+      createdBy.hashCode ^
+      test.hashCode;
 }
 
 enum CaregroupField {
@@ -102,4 +106,5 @@ enum CaregroupField {
   photo,
   createdDate,
   createdBy,
+  test,
 }

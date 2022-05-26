@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
+import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/core/presentation/photo_and_name_widget.dart';
 import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 import 'package:careshare/notification_manager/models/careshare_notification.dart';
@@ -64,8 +66,9 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
     CareTask originalTask = widget.task.clone();
 
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+      Caregroup _caregroup = BlocProvider.of<CaregroupCubit>(context).myCaregroupList.firstWhere((c) => c.id==widget.task.caregroupId);
 
-    return GestureDetector(
+      return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
         if (!currentFocus.hasPrimaryFocus) {
@@ -207,7 +210,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
               appBar: AppBar(
                 title: const Text('Task Details'),
                 actions: [
-                  IconButton(
+                  if (_caregroup.test) IconButton(
                     icon: const Icon(
                       Icons.delete,
                     ),

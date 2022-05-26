@@ -47,7 +47,7 @@ exports.notifyUsers = functions.https.onCall(async (data) =>{
         "arguments": data["arguments"],
         },
   });
-
+``
   return "Notification successfully sent.";
 });
 
