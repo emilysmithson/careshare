@@ -120,14 +120,14 @@ class CareTask {
     // print(taskHistory?.map((taskHistory) => taskHistory.toJson()).toList());
 
 
-    var newTaskHistory = Map();
+    var newTaskHistory = {};
     if (taskHistory!=null) {
       
-      taskHistory!.forEach((element) {
-        var newElement = Map();
+      for (var element in taskHistory!) {
+        var newElement = {};
         newElement = {element.id: element.toJson()};
         newTaskHistory.addAll(newElement);
-      });
+      }
     }
 
 

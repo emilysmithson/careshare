@@ -1,21 +1,17 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_chat.dart';
-import 'package:careshare/caregroup_manager/presenter/view_caregroup_documents.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
-import 'package:careshare/category_manager/domain/models/category.dart';
-import 'package:careshare/notification_manager/presenter/widgets/bell_widget.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 import 'package:careshare/core/presentation/page_scaffold.dart';
-import 'package:careshare/task_manager/presenter/task_search/task_search.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'view_caregroup_invitations.dart';
 
 class ViewCaregroup extends StatefulWidget {
   static const routeName = '/view-caregroup';
@@ -69,17 +65,21 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
               icon: Icon(Icons.chat),
               label: 'Chat',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.library_books),
-              label: 'Docs',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.library_books),
+            //   label: 'Docs',
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.summarize_outlined),
               label: 'Overview',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.people_outlined),
+              icon: Icon(Icons.people),
               label: 'Members',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people_outlined),
+              label: 'Invitations',
             ),
             // BottomNavigationBarItem(
             //   icon: Icon(Icons.mail_outline),
@@ -94,53 +94,18 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
             });
           },
         ),
-        body: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: Text(widget.caregroup.name),
-            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-            elevation: 0,
-            toolbarHeight: 40,
-            actions: [
-              if (_searchType != "")
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    if (_searchType == "Tasks") {
-                      List<TaskStatus> _statuses = [];
-                      List<Profile> _profiles = [];
-                      List<CareCategory> _categories = [];
-                      Navigator.pushNamed(context, TaskSearch.routeName,
-                          arguments: {
-                            "selectedStatuses": _statuses,
-                            "selectedProfiles": _profiles,
-                            "selectedCategories": _categories
-                          });
-                    }
-                  },
-                ),
-              BellWidget(
-                caregroup: widget.caregroup,
-              ),
-              IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () {},
-              ),
-            ],
-          ),
-          body: (_selectedIndex == 0)
-              ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
-              : (_selectedIndex == 1)
-                  ? ViewCaregroupChat(caregroup: widget.caregroup)
-                  : (_selectedIndex == 2)
-                      ? ViewCaregroupDocuments(caregroup: widget.caregroup)
-                      : (_selectedIndex == 3)
-                          ? ViewCaregroupOverview(caregroup: widget.caregroup)
-                          : (_selectedIndex == 4)
-                              ? ViewCaregroupMembers(caregroup: widget.caregroup)
-                              // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
-                              : Container(),
-        ),
+        body: (_selectedIndex == 0)
+            ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
+            : (_selectedIndex == 1)
+                ? ViewCaregroupChat(caregroup: widget.caregroup)
+                : (_selectedIndex == 2)
+                    ? ViewCaregroupOverview(caregroup: widget.caregroup)
+                    : (_selectedIndex == 3)
+                        ? ViewCaregroupMembers(caregroup: widget.caregroup)
+                        : (_selectedIndex == 4)
+                            ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                            // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                            : Container(),
       );
     });
   }

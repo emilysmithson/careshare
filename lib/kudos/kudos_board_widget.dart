@@ -29,11 +29,11 @@ class KudosBoardWidget extends StatelessWidget {
           .taskList
           .where((task) => task.completedBy == profile.id && task.taskStatus.complete)
           .toList();
-      mytaskList.forEach((task) {
-        task.kudos!.forEach((kudos) {
+      for (var task in mytaskList) {
+        for (var kudos in task.kudos!) {
           kudosValue = kudosValue + task.taskEffort.value;
-        });
-      });
+        }
+      }
     }
 
     return Tooltip(

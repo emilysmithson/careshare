@@ -252,7 +252,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
-            child: FetchCaregroupPage(),
+            child: const FetchCaregroupPage(),
           ),
         );
 
@@ -304,7 +304,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
-            child: FetchMyInvitationsPage(),
+            child: const FetchMyInvitationsPage(),
           ),
         );
 
@@ -312,7 +312,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
-            child: FetchMyNotificationsPage(),
+            child: const FetchMyNotificationsPage(),
           ),
         );
 

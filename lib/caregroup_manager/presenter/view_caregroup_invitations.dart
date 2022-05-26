@@ -1,26 +1,41 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
+import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
+import 'package:careshare/core/presentation/error_page_template.dart';
+import 'package:careshare/core/presentation/loading_page_template.dart';
+
+import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
+import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
+import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/notification_manager/presenter/widgets/bell_widget.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
+import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
+import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/profile_manager/presenter/view_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
-class ViewCaregroupMembers extends StatefulWidget {
+class ViewCaregroupInvitations extends StatefulWidget {
   final Caregroup caregroup;
 
-  const ViewCaregroupMembers({
+  const ViewCaregroupInvitations({
     Key? key,
     required this.caregroup,
   }) : super(key: key);
 
   @override
-  State<ViewCaregroupMembers> createState() => _ViewCaregroupMembersState();
+  State<ViewCaregroupInvitations> createState() => _ViewCaregroupInvitationsState();
 }
 
-class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
+class _ViewCaregroupInvitationsState extends State<ViewCaregroupInvitations> {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<InvitationsCubit>(context).fetchInvitations(caregroupId: widget.caregroup.id);
+
+    // profiles
+    final profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -42,31 +57,24 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
           // ),
         ],
       ),
-      body: BlocBuilder<AllProfilesCubit, AllProfilesState>(builder: (context, state) {
-        if (state is AllProfilesLoaded) {
+      body: BlocBuilder<InvitationsCubit, InvitationsState>(builder: (context, state) {
+        if (state is InvitationsLoaded) {
           return ListView(
-              children: state.profileList
+              children: state.invitationList
                   .map(
-                    (profile) => GestureDetector(
+                    (invitation) => GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed(
                           ViewProfile.routeName,
-                          arguments: profile,
+                          arguments: invitation,
                         );
                       },
                       child: Card(
                         child: ListTile(
-                          title: Text("${profile.firstName} ${profile.lastName}"),
+                          title: Text(invitation.email),
                           subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            Text('email: ${profile.email}'),
-                            Row(
-                              children: [
-                                Text(
-                                    "role: ${profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).role.role}"),
-                                Text(
-                                    "   satus: ${profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).status.status}"),
-                              ],
-                            ),
+                            Text(
+                                'invited by: ${profileList.firstWhere((element) => element.id == invitation.invitedById).name} on ${DateFormat('d MMM yyyy').format(invitation.invitedDate)}'),
                           ]),
                           trailing: PopupMenuButton(
                             child: Container(
@@ -77,41 +85,17 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
                                 Icons.more_vert,
                               ),
                             ),
-                            onSelected: (value) {
-                              switch (value) {
-                                case "View Profile":
-                                  {
-                                    Navigator.pushNamed(
-                                      context,
-                                      EditProfile.routeName,
-                                      arguments: profile,
-                                    );
-                                  }
-                                  break;
-                              }
-                            },
+                            onSelected: (value) {},
                             itemBuilder: (context) => [
                               const PopupMenuItem(
-                                child: Text("View Profile"),
-                                value: "View Profile",
+                                child: Text("Resend Invitation"),
+                                value: "Resend Invitation",
                               ),
                               const PopupMenuItem(
-                                child: Text("Block"),
-                                value: "Block",
+                                child: Text("Cancel Invitation"),
+                                value: "Cancel Invitation",
                               ),
-                              const PopupMenuItem(
-                                child: Text("Remove"),
-                                value: "Remove",
-                              )
                             ],
-                          ),
-                          leading: Container(
-                            height: 45,
-                            width: 45,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(image: NetworkImage(profile.photo), fit: BoxFit.cover),
-                            ),
                           ),
                         ),
                       ),

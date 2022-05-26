@@ -9,7 +9,6 @@ import 'package:careshare/widgets/upload_profile_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:careshare/profile_manager/models/profile.dart';
 
 class EditProfile extends StatelessWidget {
   static const routeName = '/edit-profile';

@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 part 'invitations_state.dart';
 
-class InvitationsCubit extends Cubit<InvitationState> {
+class InvitationsCubit extends Cubit<InvitationsState> {
   final EditInvitationFieldRepository editInvitationFieldRepository;
   final List<Invitation> invitationList = [];
 
@@ -47,7 +47,7 @@ class InvitationsCubit extends Cubit<InvitationState> {
         print(error);
       }
     }
-    emit(InvitationLoaded(invitationList: invitationList));
+    emit(InvitationsLoaded.AllInvitationsLoaded(invitationList: invitationList));
   }
 
   Future fetchInvitations({required String caregroupId}) async {
@@ -68,13 +68,14 @@ class InvitationsCubit extends Cubit<InvitationState> {
         returnedList.forEach(
           (key, value) async {
             Invitation invitation = Invitation.fromJson(value);
-
-            invitationList.add(invitation);
+            if (invitation.status == InvitationStatus.invited) {
+              invitationList.add(invitation);
+            }
           },
         );
 
         invitationList.sort((a, b) => a.email.compareTo(b.email));
-        emit(InvitationLoaded(invitationList: invitationList));
+        emit(InvitationsLoaded.AllInvitationsLoaded(invitationList: invitationList));
       });
     } catch (error) {
       emit(
@@ -83,6 +84,17 @@ class InvitationsCubit extends Cubit<InvitationState> {
         ),
       );
     }
+  }
+
+  cancelInvitation(String id) {
+    emit(const InvitationLoading());
+
+    DatabaseReference reference = FirebaseDatabase.instance.ref("invitations/$id");
+    reference.remove();
+
+    invitationList.removeWhere((element) => element.id == id);
+
+    emit(InvitationsLoaded.AllInvitationsLoaded(invitationList: invitationList));
   }
 
   clearList() {

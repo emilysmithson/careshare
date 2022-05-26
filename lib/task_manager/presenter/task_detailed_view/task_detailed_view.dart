@@ -246,27 +246,27 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           children: [
                             Text('draft',
                                 style: (widget.task.taskStatus == TaskStatus.draft)
-                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    ? const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
                                     : null),
-                            Text('  >  '),
+                            const Text('  >  '),
                             Text('created',
                                 style: (widget.task.taskStatus == TaskStatus.created)
-                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    ? const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
                                     : null),
-                            Text('  >  '),
+                            const Text('  >  '),
                             Text('assigned',
                                 style: (widget.task.taskStatus == TaskStatus.assigned)
-                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    ? const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
                                     : null),
-                            Text('  >  '),
+                            const Text('  >  '),
                             Text('accepted',
                                 style: (widget.task.taskStatus == TaskStatus.accepted)
-                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    ? const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
                                     : null),
-                            Text('  >  '),
+                            const Text('  >  '),
                             Text('completed',
                                 style: (widget.task.taskStatus == TaskStatus.completed)
-                                    ? TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                    ? const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
                                     : null),
                           ],
                         ),
@@ -368,7 +368,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                               lastDate: DateTime(2101));
 
                           if (pickedDate != null) {
-                            print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                            // print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                             //you can implement different kind of Date Format here according to your requirement
 
                             BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
@@ -420,7 +420,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                         locked: widget.task.taskStatus.locked,
                       ),
                       DisplayCommentsWidget(task: widget.task),
-                      SizedBox(
+                      const SizedBox(
                         height: 150,
                       ),
                     ],

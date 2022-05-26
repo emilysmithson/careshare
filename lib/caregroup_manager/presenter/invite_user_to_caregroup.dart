@@ -49,7 +49,7 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
           currentFocus.unfocus();
         }
       },
-      child: BlocBuilder<InvitationsCubit, InvitationState>(
+      child: BlocBuilder<InvitationsCubit, InvitationsState>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(

@@ -157,29 +157,6 @@ class _TaskSearchState extends State<TaskSearch> {
                       : Icons.filter_alt,
                   color: Colors.white,
                 ),
-
-                // Category Filter
-                // IconButton(
-                //     onPressed: () async {
-                //       final items = _categoryList.map((c) => MultiSelectDialogItem<CareCategory>(c, c.name)).toList();
-                //
-                //       final _categories = await showDialog<Set<CareCategory>>(
-                //         context: context,
-                //         builder: (BuildContext context) {
-                //           return MultiSelectDialog(
-                //             items: items,
-                //             initialSelectedValues: _selectedCategories.toSet(),
-                //           );
-                //         },
-                //       );
-                //
-                //       _selectedCategories = (_categories != null) ? _categories.toList() : [];
-                //       setState(() {});
-                //     },
-                //     icon:
-                //         (_selectedCategories.isEmpty) ? const Icon(Icons.category_outlined) : const Icon(Icons.category)),
-                //
-
                 onSelected: (value) async {
                   // print(value);
                   switch (value) {
