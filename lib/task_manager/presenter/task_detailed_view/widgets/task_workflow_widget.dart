@@ -180,19 +180,22 @@ class TaskWorkflowWidget extends StatelessWidget {
                   isRead: false,
                   arguments: task.id);
 
-              List<String> recipientList = [];
+              List<String> recipientIds = [];
+              List<String> recipientTokens = [];
               BlocProvider.of<AllProfilesCubit>(context).profileList.forEach((p) {
                 if (p.id != myProfile.id &&
-                    p.carerInCaregroups
-                        .indexWhere((element) => element.caregroupId == task.caregroupId) !=
-                        -1) {
-                  recipientList.add(p.id);
+                    p.carerInCaregroups.indexWhere((element) => element.caregroupId == task.caregroupId) != -1) {
+                  recipientIds.add(p.id);
+                  if (p.messagingToken != null) {
+                    recipientTokens.add(p.messagingToken);
+                  }
                 }
               });
 
               BlocProvider.of<NotificationsCubit>(context).sendNotifications(
                 notification: completionNotification,
-                recipients: recipientList,
+                recipientIds: recipientIds,
+                recipientTokens: recipientTokens,
               );
 
               // // Send a message to tell the world the task is complete
@@ -238,9 +241,16 @@ class TaskWorkflowWidget extends StatelessWidget {
                       arguments: task.id);
 
                   BlocProvider.of<NotificationsCubit>(context).sendNotifications(
-                    notification: kudosNotification,
-                    recipients: [task.completedBy!],
-                  );
+                      notification: kudosNotification,
+                      recipientIds: [
+                        task.completedBy!
+                      ],
+                      recipientTokens: [
+                        BlocProvider.of<AllProfilesCubit>(context)
+                            .profileList
+                            .firstWhere((p) => p.id == task.completedBy!)
+                            .messagingToken
+                      ]);
 
                   // Add a kudos record to the task/kudos
                   BlocProvider.of<TaskCubit>(context).editTask(

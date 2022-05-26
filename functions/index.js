@@ -33,7 +33,6 @@ exports.notifyUsers = functions.https.onCall(async (data) =>{
   console.log(data);
   console.log(data.recipient_id);
 
-  // Send the task completer a message
   admin.messaging().sendToTopic(data.recipient_id, {
     notification:
         {
@@ -47,8 +46,29 @@ exports.notifyUsers = functions.https.onCall(async (data) =>{
         "arguments": data["arguments"],
         },
   });
-``
+
   return "Notification successfully sent.";
+});
+
+
+exports.sendNotification = functions.https.onCall(async (data) =>{
+  console.log(data);
+  console.log(data.recipients);
+
+  admin.messaging().sendToDevice(data.recipients, {
+    notification:
+        {
+          title: data.title,
+          body: data.subtitle,
+          clickAction: "FLUTTER_NOTIFICATION_CLICK",
+        },
+    data:
+        {
+        "route": data["route"],
+        "arguments": data["arguments"],
+        },
+  });
+
 });
 
 

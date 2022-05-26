@@ -148,19 +148,24 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                               arguments: widget.task.id);
 
                           // send to everyone in the caregroup except me
-                          List<String> recipientList = [];
+                          List<String> recipientIds = [];
+                          List<String> recipientTokens = [];
                           BlocProvider.of<AllProfilesCubit>(context).profileList.forEach((p) {
                             if (p.id != myProfile.id &&
                                 p.carerInCaregroups
                                         .indexWhere((element) => element.caregroupId == widget.task.caregroupId) !=
                                     -1) {
-                              recipientList.add(p.id);
+                              recipientIds.add(p.id);
+                              if (p.messagingToken != null) {
+                                recipientTokens.add(p.messagingToken);
+                              }
                             }
                           });
 
                           BlocProvider.of<NotificationsCubit>(context).sendNotifications(
                             notification: completionNotification,
-                            recipients: recipientList,
+                            recipientIds: recipientIds,
+                            recipientTokens: recipientTokens,
                           );
 
                         }

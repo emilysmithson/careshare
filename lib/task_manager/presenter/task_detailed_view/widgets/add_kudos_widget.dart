@@ -17,12 +17,14 @@ import 'package:intl/intl.dart';
 
 class KudosWidget extends StatelessWidget {
   final CareTask task;
+
   KudosWidget({
     Key? key,
     required this.task,
   }) : super(key: key);
 
   final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     if (task.taskStatus != TaskStatus.completed) {
@@ -31,15 +33,17 @@ class KudosWidget extends StatelessWidget {
 
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
-        Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+        Profile myProfile = BlocProvider
+            .of<MyProfileCubit>(context)
+            .myProfile;
         Kudos? kudos =
-            task.kudos?.firstWhereOrNull((element) => element.id == myProfile.id);
+        task.kudos?.firstWhereOrNull((element) => element.id == myProfile.id);
 
         if (kudos != null) {
           // I've already given kudos, so don't show the button
           return Container(
             decoration:
-                BoxDecoration(color: Colors.green[50], shape: BoxShape.circle),
+            BoxDecoration(color: Colors.green[50], shape: BoxShape.circle),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -49,25 +53,34 @@ class KudosWidget extends StatelessWidget {
         }
         return ElevatedButton(
           onPressed: () async {
-            final String id = DateTime.now().millisecondsSinceEpoch.toString();
+            final String id = DateTime
+                .now()
+                .millisecondsSinceEpoch
+                .toString();
             final DateTime dateTime = DateTime.now();
 
             final kudosNotification = CareshareNotification(
                 id: id,
                 caregroupId: task.caregroupId,
                 title:
-                    "${myProfile.name} has given you kudos for completing ${task.title}",
+                "${myProfile.name} has given you kudos for completing ${task.title}",
                 routeName: "/task-detailed-view",
                 subtitle:
-                    'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
                 dateTime: dateTime,
                 senderId: myProfile.id,
                 isRead: false,
                 arguments: task.id);
 
             BlocProvider.of<NotificationsCubit>(context).sendNotifications(
-              notification: kudosNotification,
-              recipients: [task.completedBy!],
+                notification: kudosNotification,
+                recipientIds: [task.completedBy!],
+                recipientTokens: [BlocProvider
+                    .of<AllProfilesCubit>(context)
+                    .profileList
+                    .firstWhere((p) => p.id == task.completedBy!)
+                    .messagingToken
+                ]
             );
 
             BlocProvider.of<TaskCubit>(context).editTask(
@@ -80,7 +93,8 @@ class KudosWidget extends StatelessWidget {
             );
 
             // Update the kudos in the task completer's profile
-            Profile taskCompletedBy = BlocProvider.of<AllProfilesCubit>(context)
+            Profile taskCompletedBy = BlocProvider
+                .of<AllProfilesCubit>(context)
                 .profileList
                 .firstWhere((element) => element.id == task.completedBy);
 

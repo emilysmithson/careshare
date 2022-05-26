@@ -54,7 +54,20 @@ Future initialiseNotifications() async {
     messaging.subscribeToTopic(myProfile.id);
   }
 
-  // print("kudos/$userId");
+  // To be notified whenever the token is updated, subscribe to the onTokenRefresh stream:
+  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+    // save it to my profile
+    BlocProvider.of<MyProfileCubit>(context).editProfileFieldRepository(
+      profileField: ProfileField.messagingToken,
+      profile: myProfile,
+      newValue: fcmToken,
+    );
+
+    // Note: This callback is fired at each app startup and whenever a new
+    // token is generated.
+  }).onError((err) {
+    // Error getting token.
+  });
 
   FirebaseMessaging.onMessageOpenedApp.listen((message) {
     final route = message.data['route'];

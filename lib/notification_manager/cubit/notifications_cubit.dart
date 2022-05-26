@@ -8,7 +8,6 @@ import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 part 'notifications_state.dart';
 
 class NotificationsCubit extends Cubit<NotificationsState> {
@@ -60,31 +59,33 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   // sendNotifications
   sendNotifications({
     required CareshareNotification notification,
-    required List<String> recipients,
+    required List<String> recipientIds,
+    required List<String> recipientTokens,
   }) {
-    for (final String recipient in recipients) {
-
+    for (final String recipient in recipientIds) {
       // save to the profile/notifocations
       final reference = FirebaseDatabase.instance.ref('profiles/$recipient/notifications');
       reference.child(notification.id).set(
             notification.toJson(),
           );
 
-      // send the notification
-      final callable = FirebaseFunctions.instance.httpsCallable('notifyUsers');
-      callable.call(
-        {
-          'id': notification.id,
-          'title': notification.title,
-          'route': notification.routeName,
-          'subtitle': notification.subtitle,
-          'sender_id': notification.senderId,
-          'recipient_id': recipient,
-          'date_time': notification.dateTime.toString(),
-          'arguments': notification.arguments,
-        },
-      );
+
     }
+
+    // send the notification
+    final callable = FirebaseFunctions.instance.httpsCallable('sendNotification');
+    callable.call(
+      {
+        'id': notification.id,
+        'title': notification.title,
+        'route': notification.routeName,
+        'subtitle': notification.subtitle,
+        'sender_id': notification.senderId,
+        'recipients': recipientTokens,
+        'date_time': notification.dateTime.toString(),
+        'arguments': notification.arguments,
+      },
+    );
   }
 
   // notifyEveryoneInMyCareGroupApartFromMe({
