@@ -48,6 +48,11 @@ class EditCaregroupFieldRepository {
         field = 'created_by';
         value = newValue;
         break;
+      case CaregroupField.lastReminders:
+        newCaregroup.lastReminders = newValue;
+        field = 'last_reminders';
+        value = newValue;
+        break;
       case CaregroupField.photo:
         final ref = FirebaseStorage.instance
             .ref()

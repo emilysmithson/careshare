@@ -1,8 +1,12 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_chat.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_invitations.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
+import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
+import 'package:careshare/notification_manager/models/careshare_notification.dart';
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
@@ -12,7 +16,7 @@ import 'package:careshare/core/presentation/page_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'view_caregroup_invitations.dart';
+import 'package:intl/intl.dart';
 
 class ViewCaregroup extends StatefulWidget {
   static const routeName = '/view-caregroup';
@@ -27,22 +31,65 @@ class ViewCaregroup extends StatefulWidget {
 
   @override
   State<ViewCaregroup> createState() => _ViewCaregroupState();
-
-
 }
 
 class _ViewCaregroupState extends State<ViewCaregroup> {
   int _selectedIndex = 0;
   final String _searchType = "Tasks";
 
-
   @override
   Widget build(BuildContext context) {
-
     // update last access date
-    BlocProvider.of<MyProfileCubit>(context)
-        .updateLastAccess(profile: BlocProvider.of<MyProfileCubit>(context).myProfile, caregroupId: widget.caregroup.id);
+    BlocProvider.of<MyProfileCubit>(context).updateLastAccess(
+        profile: BlocProvider.of<MyProfileCubit>(context).myProfile, caregroupId: widget.caregroup.id);
 
+    // send caregroup reminders
+    // thus needs to be moved to a scheduled task
+    if (widget.caregroup.lastReminders == null ||
+        widget.caregroup.lastReminders!.difference(DateTime.now()).inHours >= 24) {
+      // caregroup XXX has X unallocated tasks that are late
+      // Send a message to tell the world the task is created
+      List<CareTask> taskList = BlocProvider.of<TaskCubit>(context)
+          .taskList
+          .where((task) => task.assignedTo!.isEmpty && task.taskStatus.complete == false && !task.dueDate.isAfter(DateTime.now()))
+          .toList();
+      taskList.forEach((task) {
+        final String id = DateTime.now().millisecondsSinceEpoch.toString();
+        final DateTime dateTime = DateTime.now();
+
+        final completionNotification = CareshareNotification(
+            id: id,
+            caregroupId: task.caregroupId,
+            title: "Task '${task.title}' is now past its due date",
+            routeName: "/task-detailed-view",
+            subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+            dateTime: dateTime,
+            senderId: "",
+            isRead: false,
+            arguments: task.id);
+
+        // send to everyone in the caregroup
+        List<String> recipientIds = [];
+        List<String> recipientTokens = [];
+        BlocProvider.of<AllProfilesCubit>(context).profileList.forEach((p) {
+          if (p.carerInCaregroups.indexWhere((element) => element.caregroupId == task.caregroupId) != -1) {
+            recipientIds.add(p.id);
+            if (p.messagingToken != null) {
+              recipientTokens.add(p.messagingToken);
+            }
+          }
+        });
+
+        BlocProvider.of<NotificationsCubit>(context).sendNotifications(
+          notification: completionNotification,
+          recipientIds: recipientIds,
+          recipientTokens: recipientTokens,
+        );
+      });
+
+      // you have xxx tasks in caregroup XXX that are late
+
+    }
 
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
       return PageScaffold(

@@ -75,6 +75,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
       createdDate: DateTime.now(),
       createdBy: FirebaseAuth.instance.currentUser!.uid,
       test: false,
+      lastReminders: null,
     );
     try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');

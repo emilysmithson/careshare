@@ -1,17 +1,9 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/invite_user_to_caregroup.dart';
-import 'package:careshare/core/presentation/error_page_template.dart';
-import 'package:careshare/core/presentation/loading_page_template.dart';
 
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
-import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
-import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/notification_manager/presenter/widgets/bell_widget.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
-import 'package:careshare/profile_manager/presenter/edit_profile.dart';
-import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
-import 'package:careshare/profile_manager/presenter/view_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';

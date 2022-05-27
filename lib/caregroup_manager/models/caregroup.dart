@@ -12,6 +12,7 @@ class Caregroup {
   DateTime createdDate;
   String? createdBy;
   bool test;
+  DateTime? lastReminders;
   List<CarerInCaregroup>? carers = [];
 
   Caregroup({
@@ -24,21 +25,24 @@ class Caregroup {
     required this.createdDate,
     required this.test,
     required this.createdBy,
+    required this.lastReminders,
   });
 
   factory Caregroup.fromJson(dynamic key, dynamic value) {
     final status = CaregroupStatus.caregroupStatusList.firstWhere((element) => element.status == value['status']);
 
     return Caregroup(
-        id: key,
-        name: value['name'] ?? "",
-        details: value['details'] ?? "",
-        status: status,
-        type: CaregroupType.caregroupTypeList.firstWhere((element) => element.type == value['type']),
-        photo: value['photo'] ?? "",
-        createdDate: DateTime.parse(value['created_date']),
-        createdBy: value['created_by'] ?? '',
-        test: value['test']);
+      id: key,
+      name: value['name'] ?? "",
+      details: value['details'] ?? "",
+      status: status,
+      type: CaregroupType.caregroupTypeList.firstWhere((element) => element.type == value['type']),
+      photo: value['photo'] ?? "",
+      createdDate: DateTime.parse(value['created_date']),
+      createdBy: value['created_by'] ?? '',
+      test: value['test'],
+      lastReminders: (value['last_reminders'] != null) ? DateTime.parse(value['last_reminders']) : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -52,6 +56,7 @@ class Caregroup {
       'created_date': createdDate.toString(),
       'created_by': createdBy,
       'test': test,
+      'last_reminders': lastReminders,
     };
   }
 
@@ -66,6 +71,7 @@ class Caregroup {
     photo: $photo
     createdDate: $createdDate,
     test: $test,
+    lastReminders: $lastReminders,
     ''';
   }
 
@@ -82,7 +88,8 @@ class Caregroup {
         other.photo == photo &&
         other.createdDate == createdDate &&
         other.createdBy == createdBy &&
-        other.test == test;
+        other.test == test &&
+        other.lastReminders == lastReminders;
   }
 
   @override
@@ -95,7 +102,8 @@ class Caregroup {
       photo.hashCode ^
       createdDate.hashCode ^
       createdBy.hashCode ^
-      test.hashCode;
+      test.hashCode ^
+      lastReminders.hashCode;
 }
 
 enum CaregroupField {
@@ -107,4 +115,5 @@ enum CaregroupField {
   createdDate,
   createdBy,
   test,
+  lastReminders,
 }

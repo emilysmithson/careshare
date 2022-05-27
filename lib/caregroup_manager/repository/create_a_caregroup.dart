@@ -16,6 +16,7 @@ class CreateACaregroup {
       createdDate: DateTime.now(),
       createdBy: FirebaseAuth.instance.currentUser!.uid,
       test: false,
+      lastReminders: null,
     );
     DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
 
