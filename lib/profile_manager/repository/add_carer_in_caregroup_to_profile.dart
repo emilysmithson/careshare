@@ -17,6 +17,7 @@ class AddCarerInCaregroupToProfile {
       completedValue: 0,
       kudosCount: 0,
       kudosValue: 0,
+      lastLogin: DateTime.now()
     );
     DatabaseReference reference =
         FirebaseDatabase.instance.ref('profiles/$profileId/carer_in');

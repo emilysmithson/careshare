@@ -15,6 +15,7 @@ import 'package:careshare/invitation_manager/repository/edit_invitation_field_re
 import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
+import 'package:careshare/profile_manager/repository/update_last_login.dart';
 import 'package:careshare/router/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -75,6 +76,7 @@ class _AppState extends State<App> {
                   create: (context) => MyProfileCubit(
                     editProfileFieldRepository: EditProfileFieldRepository(),
                     addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
+                    updateLastAccess: UpdateLastLogin(),
                     giveKudos: GiveKudos(),
                     completeTask: CompleteTask(),
                   ),

@@ -3,6 +3,7 @@ import 'package:careshare/caregroup_manager/presenter/view_caregroup_chat.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
@@ -26,14 +27,23 @@ class ViewCaregroup extends StatefulWidget {
 
   @override
   State<ViewCaregroup> createState() => _ViewCaregroupState();
+
+
 }
 
 class _ViewCaregroupState extends State<ViewCaregroup> {
   int _selectedIndex = 0;
   final String _searchType = "Tasks";
 
+
   @override
   Widget build(BuildContext context) {
+
+    // update last access date
+    BlocProvider.of<MyProfileCubit>(context)
+        .updateLastAccess(profile: BlocProvider.of<MyProfileCubit>(context).myProfile, caregroupId: widget.caregroup.id);
+
+
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
       return PageScaffold(
         // searchScope: widget.caregroup.id,

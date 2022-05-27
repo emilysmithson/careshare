@@ -7,6 +7,7 @@ import 'package:careshare/profile_manager/models/profile_type.dart';
 import 'package:careshare/profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
+import 'package:careshare/profile_manager/repository/update_last_login.dart';
 import 'package:equatable/equatable.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 
@@ -19,6 +20,7 @@ part 'my_profile_state.dart';
 
 class MyProfileCubit extends Cubit<MyProfileState> {
   final EditProfileFieldRepository editProfileFieldRepository;
+  final UpdateLastLogin updateLastAccess;
   final GiveKudos giveKudos;
   final AddCarerInCaregroupToProfile addCarerInCaregroupToProfile;
   final CompleteTask completeTask;
@@ -27,6 +29,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   MyProfileCubit({
     required this.editProfileFieldRepository,
     required this.addCarerInCaregroupToProfile,
+    required this.updateLastAccess,
     required this.giveKudos,
     required this.completeTask,
   }) : super(MyProfileInitial());
@@ -109,6 +112,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
     fetchMyProfile(id);
   }
 
+
   //
   // editProfile(
   //     {required Profile profile,
@@ -119,6 +123,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   //   editProfileFieldRepository(
   //       profile: profile, profileField: profileField, newValue: newValue);
   // }
+
 
 
 }

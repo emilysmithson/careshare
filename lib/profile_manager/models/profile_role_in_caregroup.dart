@@ -11,6 +11,7 @@ class RoleInCaregroup {
   int completedValue;
   int kudosCount;
   int kudosValue;
+  DateTime? lastLogin;
 
   RoleInCaregroup({
     required this.id,
@@ -21,6 +22,7 @@ class RoleInCaregroup {
     required this.completedValue,
     required this.kudosCount,
     required this.kudosValue,
+    required this.lastLogin,
   });
 
   Map<String, dynamic> toJson() {
@@ -33,6 +35,7 @@ class RoleInCaregroup {
       'completed_value': completedValue,
       'kudos_count': kudosCount,
       'kudos_value': kudosValue,
+      'last_login': lastLogin,
     };
   }
 
@@ -44,14 +47,14 @@ class RoleInCaregroup {
     RoleInCaregroup newRoleInCaregroup = RoleInCaregroup(
       id: json['id'],
       caregroupId: json['caregroup_id'],
-      role: ProfileRole.profileRoleList
-          .firstWhere((element) => element.role == json['role']),
+      role: ProfileRole.profileRoleList.firstWhere((element) => element.role == json['role']),
       status: ProfileRoleInCaregroupStatus.profileRoleInCaregroupStatusList
           .firstWhere((element) => element.status == json['status']),
       completedCount: json['completed_count'] ?? 0,
       completedValue: json['completed_value'] ?? 0,
       kudosCount: json['kudos_count'] ?? 0,
       kudosValue: json['kudos_value'] ?? 0,
+      lastLogin: (json['last_login']!=null) ? DateTime.parse(json['last_login']) : null,
     );
 
     return newRoleInCaregroup;
@@ -68,6 +71,7 @@ class RoleInCaregroup {
       completedValue: $completedValue
       kudosCount: $kudosCount
       kudosValue: $kudosValue
+      lastLogin: $lastLogin
       ''';
   }
 
@@ -82,7 +86,8 @@ class RoleInCaregroup {
         other.completedCount == completedCount &&
         other.completedValue == completedValue &&
         other.kudosCount == kudosCount &&
-        other.kudosValue == kudosValue;
+        other.kudosValue == kudosValue &&
+        other.lastLogin == lastLogin;
   }
 
   @override
@@ -93,5 +98,6 @@ class RoleInCaregroup {
       completedCount.hashCode ^
       completedValue.hashCode ^
       kudosCount.hashCode ^
-      kudosValue.hashCode;
+      kudosValue.hashCode ^
+      lastLogin.hashCode;
 }

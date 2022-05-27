@@ -44,10 +44,10 @@ class _ViewCaregroupInvitationsState extends State<ViewCaregroupInvitations> {
         elevation: 0,
         toolbarHeight: 40,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.search),
+          //   onPressed: () {},
+          // ),
           BellWidget(
             caregroup: widget.caregroup,
           ),
@@ -57,46 +57,57 @@ class _ViewCaregroupInvitationsState extends State<ViewCaregroupInvitations> {
           // ),
         ],
       ),
+      bottomSheet: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InviteUserToCaregroup(caregroup: widget.caregroup);
+                      });
+                },
+                child: const Text('Invite someone else to join this group')
+
+            ),
+          ),
+        ],
+      ),
+
       body: BlocBuilder<InvitationsCubit, InvitationsState>(builder: (context, state) {
         if (state is InvitationsLoaded) {
           return ListView(
               children: state.invitationList
                   .map(
-                    (invitation) => GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          ViewProfile.routeName,
-                          arguments: invitation,
-                        );
-                      },
-                      child: Card(
-                        child: ListTile(
-                          title: Text(invitation.email),
-                          subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            Text(
-                                'invited by: ${profileList.firstWhere((element) => element.id == invitation.invitedById).name} on ${DateFormat('d MMM yyyy').format(invitation.invitedDate)}'),
-                          ]),
-                          trailing: PopupMenuButton(
-                            child: Container(
-                              height: 36,
-                              width: 48,
-                              alignment: Alignment.centerRight,
-                              child: const Icon(
-                                Icons.more_vert,
-                              ),
+                    (invitation) => Card(
+                      child: ListTile(
+                        title: Text(invitation.email),
+                        subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Text(
+                              'invited by: ${profileList.firstWhere((element) => element.id == invitation.invitedById).name} on ${DateFormat('d MMM yyyy').format(invitation.invitedDate)}'),
+                        ]),
+                        trailing: PopupMenuButton(
+                          child: Container(
+                            height: 36,
+                            width: 48,
+                            alignment: Alignment.centerRight,
+                            child: const Icon(
+                              Icons.more_vert,
                             ),
-                            onSelected: (value) {},
-                            itemBuilder: (context) => [
-                              const PopupMenuItem(
-                                child: Text("Resend Invitation"),
-                                value: "Resend Invitation",
-                              ),
-                              const PopupMenuItem(
-                                child: Text("Cancel Invitation"),
-                                value: "Cancel Invitation",
-                              ),
-                            ],
                           ),
+                          onSelected: (value) {},
+                          itemBuilder: (context) => [
+                            const PopupMenuItem(
+                              child: Text("Resend Invitation"),
+                              value: "Resend Invitation",
+                            ),
+                            const PopupMenuItem(
+                              child: Text("Cancel Invitation"),
+                              value: "Cancel Invitation",
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -109,3 +120,18 @@ class _ViewCaregroupInvitationsState extends State<ViewCaregroupInvitations> {
     );
   }
 }
+
+// Row(
+// mainAxisAlignment: MainAxisAlignment.center,
+// children: [
+// ElevatedButton(
+// onPressed: () {
+// showDialog(
+// context: context,
+// builder: (BuildContext context) {
+// return InviteUserToCaregroup(caregroup: widget.caregroup);
+// });
+// },
+// child: const Text('Invite someone else to join this group')),
+// ],
+// ),
