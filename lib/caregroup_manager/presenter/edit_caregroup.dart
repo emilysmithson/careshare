@@ -44,7 +44,7 @@ class EditCaregroup extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   BlocProvider.of<CaregroupCubit>(context)
-                      .editCaregroupFieldRepository(
+                      .editCaregroup(
                     caregroupField: CaregroupField.status,
                     caregroup: caregroup,
                     newValue: CaregroupStatus.active,
@@ -85,7 +85,7 @@ class EditCaregroup extends StatelessWidget {
                   UploadCaregroupPhotoWidget(
                     imagePickFn: (File photo) {
                       BlocProvider.of<CaregroupCubit>(context)
-                          .editCaregroupFieldRepository(
+                          .editCaregroup(
                         caregroupField: CaregroupField.photo,
                         caregroup: caregroup,
                         newValue: photo,
@@ -101,7 +101,7 @@ class EditCaregroup extends StatelessWidget {
                     caregroup: caregroup,
                     onChanged: (value) {
                       BlocProvider.of<CaregroupCubit>(context)
-                          .editCaregroupFieldRepository(
+                          .editCaregroup(
                         caregroupField: CaregroupField.name,
                         caregroup: caregroup,
                         newValue: value,
@@ -116,7 +116,7 @@ class EditCaregroup extends StatelessWidget {
                     caregroup: caregroup,
                     onChanged: (value) {
                       BlocProvider.of<CaregroupCubit>(context)
-                          .editCaregroupFieldRepository(
+                          .editCaregroup(
                         caregroupField: CaregroupField.details,
                         caregroup: caregroup,
                         newValue: value,

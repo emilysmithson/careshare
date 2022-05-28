@@ -38,7 +38,7 @@ class _NotesWidgetState extends State<NotesWidget> {
             actions: [
               ElevatedButton(
                   onPressed: () {
-                    BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
+                    BlocProvider.of<TaskCubit>(context).editTask(
                       task: widget.task,
                       newValue: controller.text,
                       taskField: TaskField.details,

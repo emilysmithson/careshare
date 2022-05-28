@@ -51,7 +51,7 @@ class EditCaregroupFieldRepository {
       case CaregroupField.lastReminders:
         newCaregroup.lastReminders = newValue;
         field = 'last_reminders';
-        value = newValue;
+        value = newValue.toString();
         break;
       case CaregroupField.photo:
         final ref = FirebaseStorage.instance

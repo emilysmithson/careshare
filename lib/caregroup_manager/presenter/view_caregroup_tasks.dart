@@ -5,8 +5,10 @@ import 'package:careshare/notification_manager/presenter/widgets/bell_widget.dar
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
+import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 import 'package:careshare/task_manager/presenter/task_search/task_search.dart';
 import 'package:careshare/task_manager/presenter/widgets/task_section.dart';
 
@@ -32,7 +34,22 @@ class ViewCaregroupTasks extends StatelessWidget {
     List<Profile> allProfiles = BlocProvider.of<AllProfilesCubit>(context).profileList;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            // Create a draft task and pass it to the edit screen
+            final taskCubit = BlocProvider.of<TaskCubit>(context);
+            final CareTask? task = await taskCubit.draftTask('', caregroup.id);
+            if (task != null) {
+              Navigator.pushNamed(
+                context,
+                TaskDetailedView.routeName,
+                arguments: task,
+              );
+            }
+          },
+          child: const Icon(Icons.add)),
       appBar: AppBar(
+
         automaticallyImplyLeading: false,
         title: Text(caregroup.name),
         backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),

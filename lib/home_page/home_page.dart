@@ -237,10 +237,9 @@ class _HomePageState extends State<HomePage> {
                                     onPressed: () {
                                       // Add the caregroup to my profile
                                       // double check that I'm not already in it
-                                      if (allCaregroups
-                                              .firstWhere((caregroup) => caregroup.id == invitation.caregroupId)
-                                              .carers!
-                                              .indexWhere((carer) => carer.profileId == myProfile.id) ==
+
+                                      if (myProfile.carerInCaregroups
+                                              .indexWhere((element) => element.caregroupId == invitation.caregroupId) ==
                                           -1) {
                                         BlocProvider.of<CaregroupCubit>(context).addCarerInCaregroupToCaregroup(
                                           profileId: myProfile.id,

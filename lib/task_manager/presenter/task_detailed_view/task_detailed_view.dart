@@ -288,7 +288,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           _dirty = true;
                           if (_debounce?.isActive ?? false) _debounce?.cancel();
                           _debounce = Timer(const Duration(milliseconds: 100), () {
-                            BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
+                            BlocProvider.of<TaskCubit>(context).editTask(
                               taskField: TaskField.title,
                               task: widget.task,
                               newValue: value,
@@ -318,7 +318,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
 
                           if (_debounce?.isActive ?? false) _debounce?.cancel();
                           _debounce = Timer(const Duration(milliseconds: 100), () {
-                            BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
+                            BlocProvider.of<TaskCubit>(context).editTask(
                               taskField: TaskField.details,
                               task: widget.task,
                               newValue: value,
@@ -347,7 +347,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
 
                           if (_debounce?.isActive ?? false) _debounce?.cancel();
                           _debounce = Timer(const Duration(milliseconds: 1000), () {
-                            BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
+                            BlocProvider.of<TaskCubit>(context).editTask(
                               taskField: TaskField.dueDate,
                               task: widget.task,
                               newValue: value,
@@ -371,7 +371,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                             // print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                             //you can implement different kind of Date Format here according to your requirement
 
-                            BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
+                            BlocProvider.of<TaskCubit>(context).editTask(
                               taskField: TaskField.dueDate,
                               task: widget.task,
                               newValue: pickedDate,
@@ -394,7 +394,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                                 _dirty = true;
 
                                 if (!widget.task.taskStatus.locked) {
-                                  BlocProvider.of<TaskCubit>(context).editTaskFieldRepository(
+                                  BlocProvider.of<TaskCubit>(context).editTask(
                                     task: widget.task,
                                     newValue: value,
                                     taskField: TaskField.canBeRemote,

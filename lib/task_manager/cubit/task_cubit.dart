@@ -127,13 +127,13 @@ class TaskCubit extends Cubit<TaskState> {
   // in which case set the status to Assigned
   createTask({required CareTask task, required String profileId}) {
     if (task.assignedTo == null || task.assignedTo == '') {
-      editTaskFieldRepository(
+      editTask(
         task: task,
         taskField: TaskField.taskStatus,
         newValue: TaskStatus.created,
       );
 
-      editTaskFieldRepository(
+      editTask(
         task: task,
         taskField: TaskField.taskHistory,
         newValue: TaskHistory(
@@ -143,12 +143,12 @@ class TaskCubit extends Cubit<TaskState> {
             dateTime: DateTime.now()),
       );
     } else {
-      editTaskFieldRepository(
+      editTask(
         task: task,
         taskField: TaskField.taskStatus,
         newValue: TaskStatus.assigned,
       );
-      editTaskFieldRepository(
+      editTask(
         task: task,
         taskField: TaskField.taskHistory,
         newValue: TaskHistory(
@@ -161,12 +161,12 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   acceptTask({required CareTask task, required String profileId}) {
-    editTaskFieldRepository(
+    editTask(
       task: task,
       taskField: TaskField.taskStatus,
       newValue: TaskStatus.accepted,
     );
-    editTaskFieldRepository(
+    editTask(
       task: task,
       taskField: TaskField.taskHistory,
       newValue: TaskHistory(
@@ -178,17 +178,17 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   rejectTask({required CareTask task, required String profileId}) {
-    editTaskFieldRepository(
+    editTask(
       task: task,
       taskField: TaskField.taskStatus,
       newValue: TaskStatus.created,
     );
-    editTaskFieldRepository(
+    editTask(
       task: task,
       taskField: TaskField.assignedTo,
       newValue: '',
     );
-    editTaskFieldRepository(
+    editTask(
       task: task,
       taskField: TaskField.taskHistory,
       newValue: TaskHistory(
@@ -203,25 +203,27 @@ class TaskCubit extends Cubit<TaskState> {
     emit(const TaskLoading());
 
     editTaskFieldRepository(task: task, taskField: taskField, newValue: newValue);
+
+
   }
 
   completeTask({required CareTask task, required String profileId, required DateTime dateTime}) {
-    editTaskFieldRepository(
+    editTask(
       task: task,
       taskField: TaskField.completedBy,
       newValue: profileId,
     );
-    editTaskFieldRepository(
+    editTask(
       task: task,
       taskField: TaskField.taskCompleteDate,
       newValue: dateTime,
     );
-    editTaskFieldRepository(
+    editTask(
       task: task,
       taskField: TaskField.taskStatus,
       newValue: TaskStatus.completed,
     );
-    editTaskFieldRepository(
+    editTask(
       task: task,
       taskField: TaskField.taskHistory,
       newValue: TaskHistory(
@@ -249,7 +251,7 @@ class TaskCubit extends Cubit<TaskState> {
         task: task,
         taskField: TaskField.taskStatus,
       );
-      editTaskFieldRepository(
+      editTask(
         task: task,
         taskField: TaskField.taskHistory,
         newValue: TaskHistory(
