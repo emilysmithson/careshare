@@ -35,6 +35,8 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
       final response = reference.onValue;
 
       response.listen((event) async {
+        emit(AllProfilesLoading());
+
         if (event.snapshot.value == null) {
           if (kDebugMode) {
             print('empty profile list');

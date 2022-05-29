@@ -101,6 +101,44 @@ class Profile {
     carer_in: $carerInCaregroups,
     ''';
   }
+
+
+@override
+bool operator ==(Object other) {
+  if (identical(this, other)) return true;
+
+  return other is Profile &&
+      other.id == id &&
+      other.type == type &&
+      other.name == name &&
+      other.firstName == firstName &&
+      other.lastName == lastName &&
+      other.email == email &&
+      other.kudos == kudos &&
+      other.createdDate == createdDate &&
+      other.tandcsAccepted == tandcsAccepted &&
+      other.showInvitationsOnHomePage == showInvitationsOnHomePage &&
+      other.showOtherCaregropusOnHomePage == showOtherCaregropusOnHomePage &&
+      other.messagingToken == messagingToken &&
+      other.carerInCaregroups == carerInCaregroups;
+}
+
+@override
+int get hashCode =>
+    id.hashCode ^
+    type.hashCode ^
+    name.hashCode ^
+    firstName.hashCode ^
+    lastName.hashCode ^
+    email.hashCode ^
+    kudos.hashCode ^
+    createdDate.hashCode ^
+    tandcsAccepted.hashCode ^
+    showInvitationsOnHomePage.hashCode ^
+    showOtherCaregropusOnHomePage.hashCode ^
+    messagingToken.hashCode ^
+    carerInCaregroups.hashCode;
+
 }
 
 enum ProfileField {

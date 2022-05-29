@@ -1,5 +1,5 @@
+import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/models/task.dart';
-import 'package:careshare/task_manager/models/task_status.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 import 'package:careshare/task_manager/presenter/task_detailed_view/widgets/add_kudos_widget.dart';
 
@@ -68,8 +68,10 @@ class TaskSummary extends StatelessWidget {
                 ),
               ),
             ),
-            if (task.taskStatus == TaskStatus.completed)
+            if (task.taskStatus.complete)
               Positioned(bottom: 0, right: -5, child: KudosWidget(task: task)),
+            if (task.assignedTo!=null)
+              Positioned(top: 0, right: -5, child: ProfilePhotoWidget(id: task.assignedTo!, size: 30,)),
           ],
         ),
       ),

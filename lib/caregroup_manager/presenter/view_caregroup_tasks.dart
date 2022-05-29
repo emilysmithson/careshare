@@ -33,236 +33,240 @@ class ViewCaregroupTasks extends StatelessWidget {
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
     List<Profile> allProfiles = BlocProvider.of<AllProfilesCubit>(context).profileList;
 
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            // Create a draft task and pass it to the edit screen
-            final taskCubit = BlocProvider.of<TaskCubit>(context);
-            final CareTask? task = await taskCubit.draftTask('', caregroup.id);
-            if (task != null) {
-              Navigator.pushNamed(
-                context,
-                TaskDetailedView.routeName,
-                arguments: task,
-              );
-            }
-          },
-          child: const Icon(Icons.add)),
-      appBar: AppBar(
+    return BlocBuilder<TaskCubit,TaskState>(
+      builder: (context,state) {
+        return Scaffold(
+          floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                // Create a draft task and pass it to the edit screen
+                final taskCubit = BlocProvider.of<TaskCubit>(context);
+                final CareTask? task = await taskCubit.draftTask('', caregroup.id);
+                if (task != null) {
+                  Navigator.pushNamed(
+                    context,
+                    TaskDetailedView.routeName,
+                    arguments: task,
+                  );
+                }
+              },
+              child: const Icon(Icons.add)),
+          appBar: AppBar(
 
-        automaticallyImplyLeading: false,
-        title: Text(caregroup.name),
-        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-        elevation: 0,
-        toolbarHeight: 40,
-        actions: [
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                  List<TaskStatus> _statuses = [];
-                  List<Profile> _profiles = [];
-                  List<CareCategory> _categories = [];
-                  Navigator.pushNamed(context, TaskSearch.routeName,
-                      arguments: {
-                        "selectedStatuses": _statuses,
-                        "selectedProfiles": _profiles,
-                        "selectedCategories": _categories
-                      });
-                },
-            ),
-          BellWidget(
-            caregroup: caregroup,
+            automaticallyImplyLeading: false,
+            title: Text(caregroup.name),
+            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+            elevation: 0,
+            toolbarHeight: 40,
+            actions: [
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                      List<TaskStatus> _statuses = [];
+                      List<Profile> _profiles = [];
+                      List<CareCategory> _categories = [];
+                      Navigator.pushNamed(context, TaskSearch.routeName,
+                          arguments: {
+                            "selectedStatuses": _statuses,
+                            "selectedProfiles": _profiles,
+                            "selectedCategories": _categories
+                          });
+                    },
+                ),
+              BellWidget(
+                caregroup: caregroup,
+              ),
+              // IconButton(
+              //   icon: const Icon(Icons.more_vert),
+              //   onPressed: () {},
+              // ),
+            ],
           ),
-          // IconButton(
-          //   icon: const Icon(Icons.more_vert),
-          //   onPressed: () {},
-          // ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
 
-            KudosBoard(
-              profileList: BlocProvider.of<AllProfilesCubit>(context)
-                  .profileList
-                  .where((profile) => profile.carerInCaregroups
-                  .where((element) => element.caregroupId == caregroup.id)
-                  .isNotEmpty)
-                  .toList(),
-              caregroup: caregroup,
-            ),
-
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  TaskSearch.routeName,
-                  arguments: {
-                    'selectedStatuses': [TaskStatus.created],
-                  },
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                color: Theme.of(context).primaryColor.withOpacity(0.8),
-                padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                child: Row(
-                  children: [
-                    Text(
-                      'New Tasks',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
-                    ),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.play_circle_fill_outlined,
-                        size: 25, color: Colors.white),
-                  ],
+                KudosBoard(
+                  profileList: BlocProvider.of<AllProfilesCubit>(context)
+                      .profileList
+                      .where((profile) => profile.carerInCaregroups
+                      .where((element) => element.caregroupId == caregroup.id)
+                      .isNotEmpty)
+                      .toList(),
+                  caregroup: caregroup,
                 ),
-              ),
-            ),
-            TaskSection(
-              title: 'New Tasks',
-              caregroup: caregroup,
-              careTaskList: careTaskList
-                  .where(
-                    (element) => element.taskStatus == TaskStatus.created,
-              )
-                  .toList(),
-            ),
 
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  TaskSearch.routeName,
-                  arguments: {
-                    'selectedStatuses': [TaskStatus.assigned, TaskStatus.accepted],
-                    'selectedProfiles': [myProfile],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      TaskSearch.routeName,
+                      arguments: {
+                        'selectedStatuses': [TaskStatus.created],
+                      },
+                    );
                   },
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                color: Theme.of(context).primaryColor.withOpacity(0.8),
-                padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                child: Row(
-                  children: [
-                    Text(
-                      'My Tasks',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
+                  child: Container(
+                    width: double.infinity,
+                    color: Theme.of(context).primaryColor.withOpacity(0.8),
+                    padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                    child: Row(
+                      children: [
+                        Text(
+                          'New Tasks',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(color: Colors.white),
+                        ),
+                        const SizedBox(width: 10),
+                        const Icon(Icons.play_circle_fill_outlined,
+                            size: 25, color: Colors.white),
+                      ],
                     ),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.play_circle_fill_outlined,
-                        size: 25, color: Colors.white),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            TaskSection(
-              title: 'My Tasks',
-              caregroup: caregroup,
-              careTaskList: careTaskList
-                  .where((element) =>
-              (element.taskStatus == TaskStatus.assigned ||
-                  element.taskStatus == TaskStatus.accepted) &&
-                  element.assignedTo ==
-                      BlocProvider.of<MyProfileCubit>(context).myProfile.id)
-                  .toList(),
-            ),
+                TaskSection(
+                  title: 'New Tasks',
+                  caregroup: caregroup,
+                  careTaskList: careTaskList
+                      .where(
+                        (element) => element.taskStatus == TaskStatus.created,
+                  )
+                      .toList(),
+                ),
 
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  TaskSearch.routeName,
-                  arguments: {
-                    'selectedStatuses': [TaskStatus.completed],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      TaskSearch.routeName,
+                      arguments: {
+                        'selectedStatuses': [TaskStatus.assigned, TaskStatus.accepted],
+                        'selectedProfiles': [myProfile],
+                      },
+                    );
                   },
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                color: Theme.of(context).primaryColor.withOpacity(0.8),
-                padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                child: Row(
-                  children: [
-                    Text(
-                      'Completed Tasks',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
+                  child: Container(
+                    width: double.infinity,
+                    color: Theme.of(context).primaryColor.withOpacity(0.8),
+                    padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                    child: Row(
+                      children: [
+                        Text(
+                          'My Tasks',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(color: Colors.white),
+                        ),
+                        const SizedBox(width: 10),
+                        const Icon(Icons.play_circle_fill_outlined,
+                            size: 25, color: Colors.white),
+                      ],
                     ),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.play_circle_fill_outlined,
-                        size: 25, color: Colors.white),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            TaskSection(
-              title: 'Completed Tasks',
-              caregroup: caregroup,
-              isCompletedTasks: true,
-              careTaskList: careTaskList
-                  .where((element) => element.taskStatus == TaskStatus.completed)
-                  .toList(),
-            ),
+                TaskSection(
+                  title: 'My Tasks',
+                  caregroup: caregroup,
+                  careTaskList: careTaskList
+                      .where((element) =>
+                  (element.taskStatus == TaskStatus.assigned ||
+                      element.taskStatus == TaskStatus.accepted) &&
+                      element.assignedTo ==
+                          BlocProvider.of<MyProfileCubit>(context).myProfile.id)
+                      .toList(),
+                ),
 
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  TaskSearch.routeName,
-                  arguments: {
-                    'selectedStatuses': [TaskStatus.assigned, TaskStatus.accepted],
-                    'selectedProfiles': allProfiles,
-
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      TaskSearch.routeName,
+                      arguments: {
+                        'selectedStatuses': [TaskStatus.completed],
+                      },
+                    );
                   },
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                color: Theme.of(context).primaryColor.withOpacity(0.8),
-                padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                child: Row(
-                  children: [
-                    Text(
-                      "Other People's Tasks",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
+                  child: Container(
+                    width: double.infinity,
+                    color: Theme.of(context).primaryColor.withOpacity(0.8),
+                    padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Completed Tasks',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(color: Colors.white),
+                        ),
+                        const SizedBox(width: 10),
+                        const Icon(Icons.play_circle_fill_outlined,
+                            size: 25, color: Colors.white),
+                      ],
                     ),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.play_circle_fill_outlined,
-                        size: 25, color: Colors.white),
-                  ],
+                  ),
                 ),
-              ),
+                TaskSection(
+                  title: 'Completed Tasks',
+                  caregroup: caregroup,
+                  isCompletedTasks: true,
+                  careTaskList: careTaskList
+                      .where((element) => element.taskStatus == TaskStatus.completed)
+                      .toList(),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      TaskSearch.routeName,
+                      arguments: {
+                        'selectedStatuses': [TaskStatus.assigned, TaskStatus.accepted],
+                        'selectedProfiles': allProfiles,
+
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    color: Theme.of(context).primaryColor.withOpacity(0.8),
+                    padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Other People's Tasks",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(color: Colors.white),
+                        ),
+                        const SizedBox(width: 10),
+                        const Icon(Icons.play_circle_fill_outlined,
+                            size: 25, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ),
+                TaskSection(
+                  title: "Other People's Tasks",
+                  caregroup: caregroup,
+                  careTaskList: careTaskList
+                      .where(
+                        (element) =>
+                    (element.taskStatus == TaskStatus.assigned ||
+                        element.taskStatus == TaskStatus.accepted) &&
+                        element.assignedTo !=
+                            BlocProvider.of<MyProfileCubit>(context).myProfile.id,
+                  )
+                      .toList(),
+                ),
+              ],
             ),
-            TaskSection(
-              title: "Other People's Tasks",
-              caregroup: caregroup,
-              careTaskList: careTaskList
-                  .where(
-                    (element) =>
-                (element.taskStatus == TaskStatus.assigned ||
-                    element.taskStatus == TaskStatus.accepted) &&
-                    element.assignedTo !=
-                        BlocProvider.of<MyProfileCubit>(context).myProfile.id,
-              )
-                  .toList(),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
 
 

@@ -12,7 +12,6 @@ import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
-import 'package:careshare/task_manager/presenter/task_detailed_view/task_detailed_view.dart';
 import 'package:careshare/core/presentation/page_scaffold.dart';
 
 import 'package:flutter/material.dart';
@@ -37,7 +36,6 @@ class ViewCaregroup extends StatefulWidget {
 
 class _ViewCaregroupState extends State<ViewCaregroup> {
   int _selectedIndex = 0;
-  final String _searchType = "Tasks";
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +57,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
               task.taskStatus.complete == false &&
               !task.dueDate.isAfter(DateTime.now()))
           .toList();
-      taskList.forEach((task) {
+      for (CareTask task in taskList) {
         final String id = DateTime.now().millisecondsSinceEpoch.toString();
         final DateTime dateTime = DateTime.now();
 
@@ -96,7 +94,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
           caregroupField: CaregroupField.lastReminders,
           newValue: DateTime.now(),
         );
-      });
+      }
 
       // you have xxx tasks in caregroup XXX that are late
 

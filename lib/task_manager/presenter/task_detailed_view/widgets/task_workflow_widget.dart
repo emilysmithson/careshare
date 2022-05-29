@@ -186,9 +186,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                 if (p.id != myProfile.id &&
                     p.carerInCaregroups.indexWhere((element) => element.caregroupId == task.caregroupId) != -1) {
                   recipientIds.add(p.id);
-                  if (p.messagingToken != null) {
-                    recipientTokens.add(p.messagingToken);
-                  }
+                  recipientTokens.add(p.messagingToken);
                 }
               });
 
