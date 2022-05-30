@@ -6,16 +6,12 @@ import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/invitation_manager/models/invitation_status.dart';
-import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
-import 'package:careshare/notification_manager/models/careshare_notification.dart';
-import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/core/presentation/page_scaffold.dart';
 import 'package:careshare/profile_manager/models/profile_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
-import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/home-page";
