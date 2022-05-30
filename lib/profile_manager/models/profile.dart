@@ -7,6 +7,9 @@ class Profile {
   String firstName;
   String lastName;
   String email;
+  String phoneCountry;
+  String phoneCountryCode;
+  String phoneNumber;
   final String id;
   String photo;
   DateTime createdDate;
@@ -24,6 +27,9 @@ class Profile {
     required this.firstName,
     required this.lastName,
     required this.email,
+    required this.phoneCountry,
+    required this.phoneCountryCode,
+    required this.phoneNumber,
     required this.photo,
     required this.createdDate,
     required this.kudos,
@@ -34,7 +40,7 @@ class Profile {
     required this.carerInCaregroups,
   });
 
-  factory Profile.fromJson(dynamic json) {
+  factory Profile.fromJson(dynamic key, dynamic json) {
     final profileType = ProfileType.profileTypeList.firstWhere((element) => element.type == json['type']);
 
     final List<RoleInCaregroup> carerInCaregroups = [];
@@ -48,11 +54,14 @@ class Profile {
 
     return Profile(
       type: profileType,
-      id: json['id'],
+      id: key,
       name: json['name'] ?? "",
       firstName: json['first_name'] ?? "",
       lastName: json['last_name'] ?? "",
       email: json['email'] ?? "",
+      phoneCountry: json['phone_country'] ?? "",
+      phoneCountryCode: json['phone_country_code'] ?? "",
+      phoneNumber: json['phone_number'] ?? "",
       photo: json['photo'] ?? "",
       kudos: json['kudos'] ?? 0,
       createdDate: createdDate,
@@ -72,6 +81,9 @@ class Profile {
       'first_name': firstName,
       'last_name': lastName,
       'email': email,
+      'phone_country': phoneCountry,
+      'phone_country_code': phoneCountryCode,
+      'phone_number': phoneNumber,
       'kudos': kudos,
       'photo': photo,
       'created_date': createdDate.toString(),
@@ -92,6 +104,9 @@ class Profile {
     firstName: $firstName,
     lastName: $lastName,
     email: $email,
+    phoneCountry: $phoneCountry,
+    phoneCountryCode: $phoneCountryCode,
+    phoneNumber: $phoneNumber,
     kudos: $kudos,
     createdDate: $createdDate,
     tandcsAccepted: $tandcsAccepted,
@@ -114,6 +129,9 @@ bool operator ==(Object other) {
       other.firstName == firstName &&
       other.lastName == lastName &&
       other.email == email &&
+      other.phoneCountry == phoneCountry &&
+      other.phoneCountryCode == phoneCountryCode &&
+      other.phoneNumber == phoneNumber &&
       other.kudos == kudos &&
       other.createdDate == createdDate &&
       other.tandcsAccepted == tandcsAccepted &&
@@ -131,6 +149,9 @@ int get hashCode =>
     firstName.hashCode ^
     lastName.hashCode ^
     email.hashCode ^
+    phoneCountry.hashCode ^
+    phoneCountryCode.hashCode ^
+    phoneNumber.hashCode ^
     kudos.hashCode ^
     createdDate.hashCode ^
     tandcsAccepted.hashCode ^
@@ -147,6 +168,9 @@ enum ProfileField {
   firstName,
   lastName,
   email,
+  phoneCountry,
+  phoneCountryCode,
+  phoneNumber,
   kudos,
   photo,
   tandcsAccepted,

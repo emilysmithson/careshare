@@ -44,6 +44,21 @@ class EditProfileFieldRepository {
         field = 'email';
         value = newValue;
         break;
+      case ProfileField.phoneCountry:
+        newProfile.phoneCountry = newValue;
+        field = 'phone_country';
+        value = newValue;
+        break;
+      case ProfileField.phoneCountryCode:
+        newProfile.phoneCountryCode = newValue;
+        field = 'phone_country_code';
+        value = newValue;
+        break;
+      case ProfileField.phoneNumber:
+        newProfile.phoneNumber = newValue;
+        field = 'phone_number';
+        value = newValue;
+        break;
       case ProfileField.kudos:
         newProfile.kudos = newValue;
         field = 'kudos';

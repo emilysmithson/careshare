@@ -8,6 +8,7 @@ import 'package:careshare/widgets/upload_profile_photo.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 
 class EditProfile extends StatelessWidget {
@@ -90,6 +91,42 @@ class EditProfile extends StatelessWidget {
                       );
                     },
                   ),
+                  const SizedBox(height: spacing),
+
+
+                  IntlPhoneField(
+                    initialCountryCode: (profile.phoneCountryCode!="") ? profile.phoneCountryCode : "GB",
+                    initialValue: profile.phoneNumber,
+                    decoration: InputDecoration(
+                      labelText: 'Phone Number',
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      BlocProvider.of<MyProfileCubit>(context)
+                          .editProfileFieldRepository(
+                        profileField: ProfileField.phoneCountry,
+                        profile: profile,
+                        newValue: value.countryISOCode,
+                      );
+
+                      BlocProvider.of<MyProfileCubit>(context)
+                          .editProfileFieldRepository(
+                        profileField: ProfileField.phoneCountryCode,
+                        profile: profile,
+                        newValue: value.countryCode,
+                      );
+
+                      BlocProvider.of<MyProfileCubit>(context)
+                          .editProfileFieldRepository(
+                        profileField: ProfileField.phoneNumber,
+                        profile: profile,
+                        newValue: value.number,
+                      );
+                    },
+                  ),
+
                   const SizedBox(height: spacing),
                   ProfileInputFieldWidget(
                     label: 'Email',

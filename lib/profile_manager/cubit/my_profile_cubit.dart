@@ -47,7 +47,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
           return;
         } else {
           final data = event.snapshot.value;
-          myProfile = Profile.fromJson(data);
+          myProfile = Profile.fromJson(id, data);
           // print('-----loaded profile: ${myProfile.email}');
           emit(MyProfileLoaded(
             myProfile: myProfile,
@@ -69,6 +69,9 @@ class MyProfileCubit extends Cubit<MyProfileState> {
     String? firstName,
     String? lastName,
     String? email,
+    String? phoneCountry,
+    String? phoneCountryCode,
+    String? phoneNumber,
     required String id,
   }) async {
     if (photo == null || name == null || email == null) {
@@ -93,6 +96,9 @@ class MyProfileCubit extends Cubit<MyProfileState> {
       firstName: firstName ?? "",
       lastName: lastName ?? "",
       email: email,
+      phoneCountry: phoneCountry ?? "",
+      phoneCountryCode: phoneCountryCode ?? "",
+      phoneNumber: phoneNumber ?? "",
       kudos: 0,
       photo: url,
       createdDate: DateTime.now(),

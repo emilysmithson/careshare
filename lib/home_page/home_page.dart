@@ -89,15 +89,15 @@ class _HomePageState extends State<HomePage> {
 
           // All Caregropus
           List<Caregroup> allCaregroups = state.caregroupList;
-          // print('allCaregroups: ${allCaregroups.length}');
+          print('allCaregroups: ${allCaregroups.length}');
 
           // My Caregroups
           List<Caregroup> myCaregroups = state.myCaregroupList;
-          // print('myCaregroups: ${myCaregroups.length}');
+          print('myCaregroups: ${myCaregroups.length}');
 
           // My Invitations
           List<Invitation> myInvitationList = BlocProvider.of<MyInvitationsCubit>(context).myInvitationsList.toList();
-          // print('myInvitationList: ${myInvitationList.length}');
+          print('myInvitationList: ${myInvitationList.length}');
 
           if (myInvitationList.isEmpty) {
             _showInvitationsOnHomePage = false;

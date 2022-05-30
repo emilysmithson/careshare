@@ -48,7 +48,7 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
           profileList.clear();
           returnedList.forEach(
                 (key, value) async {
-              Profile profile = Profile.fromJson(value);
+              Profile profile = Profile.fromJson(key, value);
               if (profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroupId) != -1) {
                 profileList.add(profile);
               }
