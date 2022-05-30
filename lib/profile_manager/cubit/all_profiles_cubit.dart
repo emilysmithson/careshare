@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 
-import 'package:careshare/profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
+import 'package:careshare/profile_manager/repository/add_role_in_caregroup_to_profile.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:equatable/equatable.dart';
@@ -15,7 +15,7 @@ part 'all_profiles_state.dart';
 class AllProfilesCubit extends Cubit<AllProfilesState> {
   final EditProfileFieldRepository editProfileFieldRepository;
   final GiveKudos giveKudos;
-  final AddCarerInCaregroupToProfile addCarerInCaregroupToProfile;
+  final AddRoleInCaregroupToProfile addCarerInCaregroupToProfile;
   final CompleteTask completeTask;
   final List<Profile> profileList = [];
   late Profile myProfile;
@@ -67,6 +67,9 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
       );
     }
   }
+
+
+
 
   clearList() {
     profileList.clear();

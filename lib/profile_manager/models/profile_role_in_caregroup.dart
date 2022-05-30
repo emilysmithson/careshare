@@ -3,7 +3,6 @@ import 'package:careshare/profile_manager/models/profile_role_in_caregroup_statu
 import 'profile_role.dart';
 
 class RoleInCaregroup {
-  final String? id;
   final String caregroupId;
   ProfileRole role;
   ProfileRoleInCaregroupStatus status;
@@ -14,7 +13,6 @@ class RoleInCaregroup {
   DateTime? lastLogin;
 
   RoleInCaregroup({
-    required this.id,
     required this.caregroupId,
     required this.role,
     required this.status,
@@ -27,7 +25,6 @@ class RoleInCaregroup {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'caregroup_id': caregroupId,
       'role': role.role,
       'status': status.status,
@@ -35,18 +32,13 @@ class RoleInCaregroup {
       'completed_value': completedValue,
       'kudos_count': kudosCount,
       'kudos_value': kudosValue,
-      'last_login': lastLogin,
+      'last_login': lastLogin.toString(),
     };
   }
 
-  factory RoleInCaregroup.fromJson(dynamic json) {
-    // print(json);
-    // print("caregroupId: ${json['caregroup_id']}");
-    // print("json['status']: ${json['status']}");
-    // print('########################');
+  factory RoleInCaregroup.fromJson(dynamic key, dynamic json) {
     RoleInCaregroup newRoleInCaregroup = RoleInCaregroup(
-      id: json['id'],
-      caregroupId: json['caregroup_id'],
+      caregroupId: key,
       role: ProfileRole.profileRoleList.firstWhere((element) => element.role == json['role']),
       status: ProfileRoleInCaregroupStatus.profileRoleInCaregroupStatusList
           .firstWhere((element) => element.status == json['status']),
@@ -63,7 +55,6 @@ class RoleInCaregroup {
   @override
   String toString() {
     return '''
-      id: $id,
       caregroupId: $caregroupId
       role: $role
       status: $status

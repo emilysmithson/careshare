@@ -16,7 +16,7 @@ class CompleteTask {
     int newCompletedValue = roleInCaregroup.completedValue + effort;
 
     DatabaseReference reference = FirebaseDatabase.instance.ref(
-        "profiles/${profile.id}/carer_in/${roleInCaregroup.id}/completed_count");
+        "profiles/${profile.id}/carer_in/${roleInCaregroup.caregroupId}/completed_count");
     try {
       reference.set(newCompletedCount);
     } catch (error) {
@@ -26,7 +26,7 @@ class CompleteTask {
     }
 
     reference = FirebaseDatabase.instance.ref(
-        "profiles/${profile.id}/carer_in/${roleInCaregroup.id}/completed_value");
+        "profiles/${profile.id}/carer_in/${roleInCaregroup.caregroupId}/completed_value");
     try {
       reference.set(newCompletedValue);
     } catch (error) {

@@ -27,7 +27,7 @@ import 'core/presentation/custom_theme.dart';
 import 'firebase_options.dart';
 import 'profile_manager/cubit/all_profiles_cubit.dart';
 import 'profile_manager/cubit/my_profile_cubit.dart';
-import 'profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
+import 'profile_manager/repository/add_role_in_caregroup_to_profile.dart';
 import 'profile_manager/repository/edit_profile_field_repository.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -75,14 +75,14 @@ class _AppState extends State<App> {
                 child: BlocProvider(
                   create: (context) => MyProfileCubit(
                     editProfileFieldRepository: EditProfileFieldRepository(),
-                    addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
+                    addRoleInCaregroupToProfile: AddRoleInCaregroupToProfile(),
                     updateLastAccess: UpdateLastLogin(),
                     giveKudos: GiveKudos(),
                     completeTask: CompleteTask(),
                   ),
                   child: BlocProvider(
                     create: (context) => AllProfilesCubit(
-                      addCarerInCaregroupToProfile: AddCarerInCaregroupToProfile(),
+                      addCarerInCaregroupToProfile: AddRoleInCaregroupToProfile(),
                       editProfileFieldRepository: EditProfileFieldRepository(),
                       completeTask: CompleteTask(),
                       giveKudos: GiveKudos(),

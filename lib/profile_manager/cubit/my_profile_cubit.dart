@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/models/profile_type.dart';
 
-import 'package:careshare/profile_manager/repository/add_carer_in_caregroup_to_profile.dart';
+import 'package:careshare/profile_manager/repository/add_role_in_caregroup_to_profile.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
 import 'package:careshare/profile_manager/repository/update_last_login.dart';
@@ -22,13 +22,13 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   final EditProfileFieldRepository editProfileFieldRepository;
   final UpdateLastLogin updateLastAccess;
   final GiveKudos giveKudos;
-  final AddCarerInCaregroupToProfile addCarerInCaregroupToProfile;
+  final AddRoleInCaregroupToProfile addRoleInCaregroupToProfile;
   final CompleteTask completeTask;
   late Profile myProfile;
 
   MyProfileCubit({
     required this.editProfileFieldRepository,
-    required this.addCarerInCaregroupToProfile,
+    required this.addRoleInCaregroupToProfile,
     required this.updateLastAccess,
     required this.giveKudos,
     required this.completeTask,

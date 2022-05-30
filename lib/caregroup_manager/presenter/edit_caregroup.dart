@@ -52,7 +52,7 @@ class EditCaregroup extends StatelessWidget {
 
                   // add me as a carer in the caregroup
                   BlocProvider.of<MyProfileCubit>(context)
-                      .addCarerInCaregroupToProfile(
+                      .addRoleInCaregroupToProfile(
                           caregroupId: caregroup.id,
                           profileId: BlocProvider.of<MyProfileCubit>(context)
                               .myProfile

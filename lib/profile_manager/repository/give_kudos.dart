@@ -16,7 +16,7 @@ class GiveKudos {
     int newKudosCount = roleInCaregroup.kudosCount + 1;
 
     DatabaseReference reference = FirebaseDatabase.instance.ref(
-        "profiles/${profile.id}/carer_in/${roleInCaregroup.id}/kudos_count");
+        "profiles/${profile.id}/carer_in/${roleInCaregroup.caregroupId}/kudos_count");
     try {
       reference.set(newKudosCount);
     } catch (error) {
@@ -26,7 +26,7 @@ class GiveKudos {
     }
 
     reference = FirebaseDatabase.instance.ref(
-        "profiles/${profile.id}/carer_in/${roleInCaregroup.id}/kudos_value");
+        "profiles/${profile.id}/carer_in/${roleInCaregroup.caregroupId}/kudos_value");
     try {
       reference.set(newKudosValue);
     } catch (error) {

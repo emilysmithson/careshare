@@ -41,7 +41,7 @@ class Profile {
 
     if (json['carer_in'] != null) {
       json['carer_in'].forEach((k, v) {
-        carerInCaregroups.add(RoleInCaregroup.fromJson(v));
+        carerInCaregroups.add(RoleInCaregroup.fromJson(k,v));
       });
     }
     final createdDate = DateTime.parse(json['created_date']);

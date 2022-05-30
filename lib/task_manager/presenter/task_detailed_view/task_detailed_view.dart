@@ -156,9 +156,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                                         .indexWhere((element) => element.caregroupId == widget.task.caregroupId) !=
                                     -1) {
                               recipientIds.add(p.id);
-                              if (p.messagingToken != null) {
-                                recipientTokens.add(p.messagingToken);
-                              }
+                              recipientTokens.add(p.messagingToken);
                             }
                           });
 

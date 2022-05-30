@@ -6,13 +6,16 @@ import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/invitation_manager/models/invitation_status.dart';
+import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
+import 'package:careshare/notification_manager/models/careshare_notification.dart';
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/core/presentation/page_scaffold.dart';
 import 'package:careshare/profile_manager/models/profile_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/home-page";
@@ -173,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                                         if (myProfile.carerInCaregroups
                                                 .indexWhere((element) => element.caregroupId == caregroup.id) ==
                                             -1) {
-                                          BlocProvider.of<MyProfileCubit>(context).addCarerInCaregroupToProfile(
+                                          BlocProvider.of<MyProfileCubit>(context).addRoleInCaregroupToProfile(
                                             profileId: myProfile.id,
                                             caregroupId: caregroup.id,
                                           );
@@ -237,11 +240,10 @@ class _HomePageState extends State<HomePage> {
                                     onPressed: () {
                                       // Add the caregroup to my profile
                                       // double check that I'm not already in it
-
                                       if (myProfile.carerInCaregroups
                                               .indexWhere((element) => element.caregroupId == invitation.caregroupId) ==
                                           -1) {
-                                        BlocProvider.of<CaregroupCubit>(context).addCarerInCaregroupToCaregroup(
+                                        BlocProvider.of<MyProfileCubit>(context).addRoleInCaregroupToProfile(
                                           profileId: myProfile.id,
                                           caregroupId: invitation.caregroupId,
                                         );
@@ -249,10 +251,11 @@ class _HomePageState extends State<HomePage> {
 
                                       // Add my profile to the caregroup
                                       // double check that I'm not already in it
-                                      if (myProfile.carerInCaregroups
-                                              .indexWhere((element) => element.caregroupId == invitation.caregroupId) ==
+                                      Caregroup _caregropup =
+                                          allCaregroups.firstWhere((c) => c.id == invitation.caregroupId);
+                                      if (_caregropup.carers!.indexWhere((carer) => carer.profileId == myProfile.id) ==
                                           -1) {
-                                        BlocProvider.of<MyProfileCubit>(context).addCarerInCaregroupToProfile(
+                                        BlocProvider.of<CaregroupCubit>(context).addCarerInCaregroupToCaregroup(
                                           profileId: myProfile.id,
                                           caregroupId: invitation.caregroupId,
                                         );
@@ -264,6 +267,36 @@ class _HomePageState extends State<HomePage> {
                                         invitation: invitation,
                                         newValue: InvitationStatus.accepted,
                                       );
+
+                                      // Send a message to the inviter
+                                      // CAN'T DO THIS HERE BECAUSE WE DON'T HAVE THE INVITER'S PROFILE
+                                      // final DateTime dateTime = DateTime.now();
+                                      // final kudosNotification = CareshareNotification(
+                                      //     id: DateTime
+                                      //         .now()
+                                      //         .millisecondsSinceEpoch
+                                      //         .toString(),
+                                      //     caregroupId: invitation.caregroupId,
+                                      //     title:
+                                      //     "${myProfile.name} has accepted your invitation to join caregroup ${_caregropup.name}",
+                                      //     routeName: "/view-caregroup",
+                                      //     subtitle:
+                                      //     'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                                      //     dateTime: dateTime,
+                                      //     senderId: myProfile.id,
+                                      //     isRead: false,
+                                      //     arguments: myProfile.id);
+                                      //
+                                      // BlocProvider.of<NotificationsCubit>(context).sendNotifications(
+                                      //     notification: kudosNotification,
+                                      //     recipientIds: [invitation.invitedById],
+                                      //     recipientTokens: [BlocProvider
+                                      //         .of<AllProfilesCubit>(context)
+                                      //         .profileList
+                                      //         .firstWhere((p) => p.id == invitation.invitedById)
+                                      //         .messagingToken
+                                      //     ]
+                                      // );
 
                                       // Navigate to the caregroup
                                       Navigator.pushNamed(
