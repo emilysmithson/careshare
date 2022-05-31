@@ -95,9 +95,9 @@ class EditProfile extends StatelessWidget {
 
 
                   IntlPhoneField(
-                    initialCountryCode: (profile.phoneCountryCode!="") ? profile.phoneCountryCode : "GB",
+                    initialCountryCode: (profile.phoneCountry!="") ? profile.phoneCountry : "GB",
                     initialValue: profile.phoneNumber,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Phone Number',
                       border: OutlineInputBorder(
                         borderSide: BorderSide(),
