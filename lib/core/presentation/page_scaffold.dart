@@ -56,7 +56,7 @@ class PageScaffold extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ProfilePhotoWidget(id: myProfile.id),
+                    ProfilePhotoWidget(id: myProfile.id, photoURL: myProfile.photo),
                   ],
                 ),
               ),
