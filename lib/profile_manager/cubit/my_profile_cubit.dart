@@ -105,7 +105,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
       carerInCaregroups: [],
       tandcsAccepted: false,
       showInvitationsOnHomePage: true,
-      showOtherCaregropusOnHomePage: true,
+      showOtherCaregroupsOnHomePage: true,
       messagingToken: "",
     );
 

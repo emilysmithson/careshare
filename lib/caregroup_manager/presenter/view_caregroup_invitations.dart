@@ -27,6 +27,7 @@ class _ViewCaregroupInvitationsState extends State<ViewCaregroupInvitations> {
 
     // profiles
     final profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
+    print("profileList: ${profileList.length}");
 
     return Scaffold(
       appBar: AppBar(
@@ -73,36 +74,44 @@ class _ViewCaregroupInvitationsState extends State<ViewCaregroupInvitations> {
           return ListView(
               children: state.invitationList
                   .map(
-                    (invitation) => Card(
-                      child: ListTile(
-                        title: Text(invitation.email),
-                        subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text(
-                              'invited by: ${profileList.firstWhere((element) => element.id == invitation.invitedById).name} on ${DateFormat('d MMM yyyy').format(invitation.invitedDate)}'),
-                        ]),
-                        trailing: PopupMenuButton(
-                          child: Container(
-                            height: 36,
-                            width: 48,
-                            alignment: Alignment.centerRight,
-                            child: const Icon(
-                              Icons.more_vert,
+                    (invitation) {
+                      print("invitation.invitedById: ${invitation.invitedById}");
+                      String _inviter = "unknown";
+                      if (profileList.indexWhere((element) => element.id == invitation.invitedById) != -1){
+                        _inviter = profileList.firstWhere((element) => element.id == invitation.invitedById).name;
+                      }
+
+                      return Card(
+                        child: ListTile(
+                          title: Text(invitation.email),
+                          subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Text(
+                                'invited by: $_inviter on ${DateFormat('d MMM yyyy').format(invitation.invitedDate)}'),
+                          ]),
+                          trailing: PopupMenuButton(
+                            child: Container(
+                              height: 36,
+                              width: 48,
+                              alignment: Alignment.centerRight,
+                              child: const Icon(
+                                Icons.more_vert,
+                              ),
                             ),
+                            onSelected: (value) {},
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                child: Text("Resend Invitation"),
+                                value: "Resend Invitation",
+                              ),
+                              const PopupMenuItem(
+                                child: Text("Cancel Invitation"),
+                                value: "Cancel Invitation",
+                              ),
+                            ],
                           ),
-                          onSelected: (value) {},
-                          itemBuilder: (context) => [
-                            const PopupMenuItem(
-                              child: Text("Resend Invitation"),
-                              value: "Resend Invitation",
-                            ),
-                            const PopupMenuItem(
-                              child: Text("Cancel Invitation"),
-                              value: "Cancel Invitation",
-                            ),
-                          ],
                         ),
-                      ),
-                    ),
+                      );
+                    }
                   )
                   .toList());
         } else {

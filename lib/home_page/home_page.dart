@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         if (state is CaregroupsLoaded) {
           Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
           bool _showInvitationsOnHomePage = myProfile.showInvitationsOnHomePage;
-          bool _showOtherCaregropusOnHomePage = myProfile.showOtherCaregropusOnHomePage;
+          bool _showOtherCaregroupsOnHomePage = myProfile.showOtherCaregroupsOnHomePage;
 
           // if i haven't accepted the Terms & Conditions, navigate to the T&C page
           if (myProfile.tandcsAccepted == false) {
@@ -112,15 +112,15 @@ class _HomePageState extends State<HomePage> {
             // print('otherCaregroups: ${otherCaregroups.length}');
 
             if (otherCaregroups.isEmpty) {
-              _showOtherCaregropusOnHomePage = false;
+              _showOtherCaregroupsOnHomePage = false;
             }
           } else {
-            _showOtherCaregropusOnHomePage = false;
+            _showOtherCaregroupsOnHomePage = false;
           }
           // If I am only in one caregroup, and I have no open invitations go straight to the TaskManagerView for that caregroup
           if (_myCaregroups.length == 1 &&
               (_showInvitationsOnHomePage == false) &&
-              (_showOtherCaregropusOnHomePage == false)) {
+              (_showOtherCaregroupsOnHomePage == false)) {
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.pushNamed(
                 context,
@@ -309,11 +309,11 @@ class _HomePageState extends State<HomePage> {
                   ),
 
                   // Other Caregropus
-                  if (_showOtherCaregropusOnHomePage)
+                  if (_showOtherCaregroupsOnHomePage)
                     const SizedBox(
                       height: 5,
                     ),
-                  if (_showOtherCaregropusOnHomePage)
+                  if (_showOtherCaregroupsOnHomePage)
                     AppBar(
                       title: const Text("Other Caregroups"),
                       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
@@ -324,7 +324,7 @@ class _HomePageState extends State<HomePage> {
                       //   icon: Icon(Icons.pin_drop_outlined),
                       //   onPressed: () {
                       //     setState(() {
-                      //       _showOtherCaregropusOnHomePage == false;
+                      //       _showOtherCaregroupsOnHomePage == false;
                       //     });
                       //   },
                       // ),

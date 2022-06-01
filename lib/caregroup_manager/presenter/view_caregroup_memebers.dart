@@ -53,78 +53,81 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
           return ListView(
               children: _profileList
                   .map(
-                    (profile) => GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          ViewProfile.routeName,
-                          arguments: profile,
-                        );
-                      },
-                      child: Card(
-                        child: ListTile(
-                          title: Text("${profile.firstName} ${profile.lastName}"),
-                          subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            Text('${profile.email}'),
-                            Row(
-                              children: [
-                                Text(
-                                    "role: ${profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).role.role}"),
-                                Text(
-                                    "  status: ${profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).status.status}"),
-
+                    (profile)
+                    {
+                      print(profile.toString());
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            ViewProfile.routeName,
+                            arguments: profile,
+                          );
+                        },
+                        child: Card(
+                          child: ListTile(
+                            title: Text("${profile.firstName} ${profile.lastName}"),
+                            subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Text('${profile.email}'),
+                              Row(
+                                children: [
+                                  Text(
+                                      "role: ${profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).role.role}"),
+                                  Text(
+                                      "  status: ${profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).status.status}"),
+                                ],
+                              ),
+                              Text(
+                                  "last login: ${(profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).lastLogin == null) ? "" : DateFormat('E d MMM yyyy').add_jm().format(profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).lastLogin!)}"),
+                            ]),
+                            trailing: PopupMenuButton(
+                              child: Container(
+                                height: 36,
+                                width: 48,
+                                alignment: Alignment.centerRight,
+                                child: const Icon(
+                                  Icons.more_vert,
+                                ),
+                              ),
+                              onSelected: (value) {
+                                switch (value) {
+                                  case "View Profile":
+                                    {
+                                      Navigator.pushNamed(
+                                        context,
+                                        EditProfile.routeName,
+                                        arguments: profile,
+                                      );
+                                    }
+                                    break;
+                                }
+                              },
+                              itemBuilder: (context) => [
+                                const PopupMenuItem(
+                                  child: Text("View Profile"),
+                                  value: "View Profile",
+                                ),
+                                const PopupMenuItem(
+                                  child: Text("Block"),
+                                  value: "Block",
+                                ),
+                                const PopupMenuItem(
+                                  child: Text("Remove"),
+                                  value: "Remove",
+                                )
                               ],
                             ),
-                            Text(
-                                "last login: ${(profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).lastLogin == null) ? "" : DateFormat('E d MMM yyyy').add_jm().format(profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).lastLogin!)}"),
-                          ]),
-                          trailing: PopupMenuButton(
-                            child: Container(
-                              height: 36,
-                              width: 48,
-                              alignment: Alignment.centerRight,
-                              child: const Icon(
-                                Icons.more_vert,
+                            leading: Container(
+                              height: 45,
+                              width: 45,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(image: NetworkImage(profile.photo), fit: BoxFit.cover),
                               ),
-                            ),
-                            onSelected: (value) {
-                              switch (value) {
-                                case "View Profile":
-                                  {
-                                    Navigator.pushNamed(
-                                      context,
-                                      EditProfile.routeName,
-                                      arguments: profile,
-                                    );
-                                  }
-                                  break;
-                              }
-                            },
-                            itemBuilder: (context) => [
-                              const PopupMenuItem(
-                                child: Text("View Profile"),
-                                value: "View Profile",
-                              ),
-                              const PopupMenuItem(
-                                child: Text("Block"),
-                                value: "Block",
-                              ),
-                              const PopupMenuItem(
-                                child: Text("Remove"),
-                                value: "Remove",
-                              )
-                            ],
-                          ),
-                          leading: Container(
-                            height: 45,
-                            width: 45,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(image: NetworkImage(profile.photo), fit: BoxFit.cover),
                             ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   )
                   .toList());
         } else {

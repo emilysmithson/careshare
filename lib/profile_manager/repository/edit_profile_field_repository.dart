@@ -74,8 +74,8 @@ class EditProfileFieldRepository {
         field = 'show_invitations_on_homepage';
         value = newValue;
         break;
-      case ProfileField.showOtherCaregropusOnHomePage:
-        newProfile.showOtherCaregropusOnHomePage = newValue;
+      case ProfileField.showOtherCaregroupsOnHomePage:
+        newProfile.showOtherCaregroupsOnHomePage = newValue;
         field = 'show_other_caregroups_on_homepage';
         value = newValue;
         break;
