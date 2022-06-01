@@ -22,12 +22,10 @@ import 'package:intl/intl.dart';
 class ViewCaregroup extends StatefulWidget {
   static const routeName = '/view-caregroup';
   final Caregroup caregroup;
-  final List<CareTask> careTaskList;
 
   const ViewCaregroup({
     Key? key,
     required this.caregroup,
-    required this.careTaskList,
   }) : super(key: key);
 
   @override
@@ -39,6 +37,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
 
   @override
   Widget build(BuildContext context) {
+
     // update last access date
     BlocProvider.of<MyProfileCubit>(context).updateLastAccess(
         profile: BlocProvider.of<MyProfileCubit>(context).myProfile, caregroupId: widget.caregroup.id);
@@ -145,7 +144,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
         },
       ),
       body: (_selectedIndex == 0)
-          ? ViewCaregroupTasks(caregroup: widget.caregroup, careTaskList: widget.careTaskList)
+          ? ViewCaregroupTasks(caregroup: widget.caregroup)
           : (_selectedIndex == 1)
               ? ViewCaregroupChat(caregroup: widget.caregroup)
               : (_selectedIndex == 2)

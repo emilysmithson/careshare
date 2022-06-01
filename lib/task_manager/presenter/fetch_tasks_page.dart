@@ -16,7 +16,7 @@ class FetchTasksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print('fetching tasks');
+    print('fetching tasks for caregroup: ${caregroup.name}');
 
     BlocProvider.of<TaskCubit>(context)
         .fetchTasksForCaregroup(caregroupId: caregroup.id);
@@ -34,7 +34,6 @@ class FetchTasksPage extends StatelessWidget {
           WidgetsBinding.instance.addPostFrameCallback((_) =>
               Navigator.pushReplacementNamed(context, ViewCaregroup.routeName,
                 arguments: {
-                  'careTaskList': state.careTaskList,
                   'caregroup': caregroup,
                 },));
           return Container();

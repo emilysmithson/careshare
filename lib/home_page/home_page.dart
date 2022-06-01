@@ -88,18 +88,18 @@ class _HomePageState extends State<HomePage> {
           }
 
           // All Caregropus
-          List<Caregroup> allCaregroups = state.caregroupList;
-          print('allCaregroups: ${allCaregroups.length}');
+          List<Caregroup> _allCaregroups = state.caregroupList;
+          print('allCaregroups: ${_allCaregroups.length}');
 
           // My Caregroups
-          List<Caregroup> myCaregroups = state.myCaregroupList;
-          print('myCaregroups: ${myCaregroups.length}');
+          List<Caregroup> _myCaregroups = state.myCaregroupList;
+          print('myCaregroups: ${_myCaregroups.length}');
 
           // My Invitations
-          List<Invitation> myInvitationList = BlocProvider.of<MyInvitationsCubit>(context).myInvitationsList.toList();
-          print('myInvitationList: ${myInvitationList.length}');
+          List<Invitation> _myInvitationList = BlocProvider.of<MyInvitationsCubit>(context).myInvitationsList.toList();
+          print('myInvitationList: ${_myInvitationList.length}');
 
-          if (myInvitationList.isEmpty) {
+          if (_myInvitationList.isEmpty) {
             _showInvitationsOnHomePage = false;
           }
 
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
           List<Caregroup> otherCaregroups = [];
           if (myProfile.type == ProfileType.administrator) {
             otherCaregroups = state.otherCaregroupList
-                .where((caregroup) => myInvitationList.indexWhere((i) => i.caregroupId == caregroup.id) == -1)
+                .where((caregroup) => _myInvitationList.indexWhere((i) => i.caregroupId == caregroup.id) == -1)
                 .toList();
             // print('otherCaregroups: ${otherCaregroups.length}');
 
@@ -118,14 +118,14 @@ class _HomePageState extends State<HomePage> {
             _showOtherCaregropusOnHomePage = false;
           }
           // If I am only in one caregroup, and I have no open invitations go straight to the TaskManagerView for that caregroup
-          if (myCaregroups.length == 1 &&
+          if (_myCaregroups.length == 1 &&
               (_showInvitationsOnHomePage == false) &&
               (_showOtherCaregropusOnHomePage == false)) {
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.pushNamed(
                 context,
                 FetchCategoriesPage.routeName,
-                arguments: myCaregroups.first,
+                arguments: _myCaregroups.first,
               ),
             );
             return Container();
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                     actions: <Widget>[Container()],
                   ),
                   Wrap(
-                    children: myCaregroups
+                    children: _myCaregroups
                         .map((caregroup) => GestureDetector(
                               onTap: () {
                                 // navigate to the Task Manager
@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                       // ],
                     ),
                   Wrap(
-                    children: myInvitationList
+                    children: _myInvitationList
                         .map((invitation) => Card(
                               child: ListTile(
                                 leading: SizedBox(
@@ -224,11 +224,11 @@ class _HomePageState extends State<HomePage> {
                                   height: 50,
                                   child: CaregroupPhotoWidget(id: invitation.caregroupId, size: 50),
                                 ),
-                                title: Text(allCaregroups
+                                title: Text(_allCaregroups
                                     .firstWhere((caregroup) => caregroup.id == invitation.caregroupId)
                                     .name),
                                 subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                  Text(allCaregroups
+                                  Text(_allCaregroups
                                       .firstWhere((caregroup) => caregroup.id == invitation.caregroupId)
                                       .details),
                                 ]),
@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                                       // Add my profile to the caregroup
                                       // double check that I'm not already in it
                                       Caregroup _caregropup =
-                                          allCaregroups.firstWhere((c) => c.id == invitation.caregroupId);
+                                          _allCaregroups.firstWhere((c) => c.id == invitation.caregroupId);
                                       if (_caregropup.carers!.indexWhere((carer) => carer.profileId == myProfile.id) ==
                                           -1) {
                                         BlocProvider.of<CaregroupCubit>(context).addCarerInCaregroupToCaregroup(
@@ -298,7 +298,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.pushNamed(
                                         context,
                                         FetchCategoriesPage.routeName,
-                                        arguments: allCaregroups
+                                        arguments: _allCaregroups
                                             .firstWhere((caregroup) => caregroup.id == invitation.caregroupId),
                                       );
                                     },

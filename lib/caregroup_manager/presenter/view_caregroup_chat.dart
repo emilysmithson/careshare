@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class ViewCaregroupChat extends StatefulWidget {
   static const routeName = '/view-caregroup-overview';
@@ -87,89 +88,94 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                         padding: const EdgeInsets.all(10),
                         reverse: true,
                         itemCount: chatList.length,
-                        itemBuilder: (context, index) => Row(
-                              children: [
-                                (chatList[index].fromProfileId != myProfile.id)
-                                    ? Container(
-                                        height: 35,
-                                        width: 35,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: NetworkImage(profileList
-                                                  .firstWhere((profile) => profile.id == chatList[index].fromProfileId)
-                                                  .photo),
-                                              fit: BoxFit.cover),
-                                        ),
-                                      )
-                                    : const SizedBox(width: 35),
-                                Expanded(
-                                  child: (chatList[index].type == ChatType.image)
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(3.0),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return AlertDialog(
-                                                      contentPadding: EdgeInsets.zero,
-                                                      actionsAlignment: MainAxisAlignment.center,
-
-                                                      content: Container(
-                                                        decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: const Color(0xFFE8E8EE),
-                                                            width: 3,
-                                                          ),
-                                                          borderRadius: BorderRadius.circular(2),
-                                                          shape: BoxShape.rectangle,
-                                                          image: DecorationImage(
-                                                              image: NetworkImage(
-                                                                  (chatList[index].link != null) ? chatList[index].link! : chatList[index].content),
-                                                              fit: BoxFit.cover),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  });
-                                            },
-                                            child: Container(
-                                              height: 200,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: const Color(0xFFE8E8EE),
-                                                  width: 3,
-                                                ),
-                                                borderRadius: BorderRadius.circular(12),
-                                                shape: BoxShape.rectangle,
-                                                image: DecorationImage(
-                                                    image: NetworkImage(chatList[index].content), fit: BoxFit.scaleDown),
-                                              ),
+                        itemBuilder: (context, index) => Column(
+                          children: [
+                            if (index==0 || DateFormat('yyyy-MM-dd').format(chatList[index-1].timeStamp)  != DateFormat('yyyy-MM-dd').format(chatList[index].timeStamp)) DateChip(date: chatList[index].timeStamp),
+                            Row(
+                                  children: [
+                                    (chatList[index].fromProfileId != myProfile.id)
+                                        ? Container(
+                                            height: 35,
+                                            width: 35,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(profileList
+                                                      .firstWhere((profile) => profile.id == chatList[index].fromProfileId)
+                                                      .photo),
+                                                  fit: BoxFit.cover),
                                             ),
-                                          ),
-                                        )
-                                      : BubbleSpecialThree(
-                                          text: chatList[index].content,
-                                          color: const Color(0xFFE8E8EE),
-                                          tail: true,
-                                          isSender: (chatList[index].fromProfileId == myProfile.id)),
+                                          )
+                                        : const SizedBox(width: 35),
+                                    Expanded(
+                                      child: (chatList[index].type == ChatType.image)
+                                          ? Padding(
+                                              padding: const EdgeInsets.all(3.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          contentPadding: EdgeInsets.zero,
+                                                          actionsAlignment: MainAxisAlignment.center,
+
+                                                          content: Container(
+                                                            decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                color: const Color(0xFFE8E8EE),
+                                                                width: 3,
+                                                              ),
+                                                              borderRadius: BorderRadius.circular(2),
+                                                              shape: BoxShape.rectangle,
+                                                              image: DecorationImage(
+                                                                  image: NetworkImage(
+                                                                      (chatList[index].link != null) ? chatList[index].link! : chatList[index].content),
+                                                                  fit: BoxFit.cover),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      });
+                                                },
+                                                child: Container(
+                                                  height: 200,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: const Color(0xFFE8E8EE),
+                                                      width: 3,
+                                                    ),
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    shape: BoxShape.rectangle,
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(chatList[index].content), fit: BoxFit.scaleDown),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : BubbleSpecialThree(
+                                              text: chatList[index].content,
+                                              color: const Color(0xFFE8E8EE),
+                                              tail: true,
+                                              isSender: (chatList[index].fromProfileId == myProfile.id)),
+                                    ),
+                                    (chatList[index].fromProfileId == myProfile.id)
+                                        ? Container(
+                                            height: 35,
+                                            width: 35,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(profileList
+                                                      .firstWhere((profile) => profile.id == chatList[index].fromProfileId)
+                                                      .photo),
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          )
+                                        : const SizedBox(width: 35),
+                                  ],
                                 ),
-                                (chatList[index].fromProfileId == myProfile.id)
-                                    ? Container(
-                                        height: 35,
-                                        width: 35,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: NetworkImage(profileList
-                                                  .firstWhere((profile) => profile.id == chatList[index].fromProfileId)
-                                                  .photo),
-                                              fit: BoxFit.cover),
-                                        ),
-                                      )
-                                    : const SizedBox(width: 35),
-                              ],
-                            )),
+                          ],
+                        )),
                   ),
                   SizedBox(
                     width: double.infinity,

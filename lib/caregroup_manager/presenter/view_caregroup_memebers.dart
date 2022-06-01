@@ -64,13 +64,13 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
                         child: ListTile(
                           title: Text("${profile.firstName} ${profile.lastName}"),
                           subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            Text('email: ${profile.email}'),
+                            Text('${profile.email}'),
                             Row(
                               children: [
                                 Text(
                                     "role: ${profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).role.role}"),
                                 Text(
-                                    "   satus: ${profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).status.status}"),
+                                    "  status: ${profile.carerInCaregroups.firstWhere((element) => element.caregroupId == widget.caregroup.id).status.status}"),
 
                               ],
                             ),

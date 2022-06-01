@@ -208,7 +208,6 @@ class AppRouter {
             child: BlocProvider.value(
               value: _taskCubit,
               child: ViewCaregroup(
-                  careTaskList: (routeSettings.arguments as Map<String, dynamic>)['careTaskList'] as List<CareTask>,
                   caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup']),
             ),
           ),
@@ -262,7 +261,7 @@ class AppRouter {
             value: _taskCubit,
             child: ViewCaregroupTasks(
                 caregroup: routeSettings.arguments as Caregroup,
-                careTaskList: routeSettings.arguments as List<CareTask>),
+            ),
           ),
         );
 

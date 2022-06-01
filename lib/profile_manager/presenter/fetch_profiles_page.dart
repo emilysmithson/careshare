@@ -6,11 +6,10 @@ import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-
 class FetchProfilesPage extends StatelessWidget {
   static const routeName = '/fetch-profiles-page';
   final Caregroup caregroup;
+
   const FetchProfilesPage({
     Key? key,
     required this.caregroup,
@@ -18,24 +17,21 @@ class FetchProfilesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('fetching profiles');
-
+    print('fetching profiles for caregroup: ${caregroup.name}');
 
     BlocProvider.of<AllProfilesCubit>(context).fetchProfiles(caregroupId: caregroup.id);
 
     return BlocBuilder<AllProfilesCubit, AllProfilesState>(
       builder: (context, state) {
         if (state is AllProfilesLoading) {
-          return const LoadingPageTemplate(
-              loadingMessage: 'Loading profiles...');
+          return const LoadingPageTemplate(loadingMessage: 'Loading profiles...');
         }
         if (state is AllProfilesError) {
           return ErrorPageTemplate(errorMessage: state.message);
         }
         if (state is AllProfilesLoaded) {
-          WidgetsBinding.instance.addPostFrameCallback((_) =>
-              Navigator.pushReplacementNamed(context, FetchTasksPage.routeName,
-                  arguments: caregroup));
+          WidgetsBinding.instance.addPostFrameCallback(
+              (_) => Navigator.pushReplacementNamed(context, FetchTasksPage.routeName, arguments: caregroup));
           return Container();
         }
         return Container();

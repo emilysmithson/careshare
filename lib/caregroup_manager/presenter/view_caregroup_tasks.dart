@@ -19,19 +19,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ViewCaregroupTasks extends StatelessWidget {
   static const routeName = '/view-caregroup-tasks';
   final Caregroup caregroup;
-  final List<CareTask> careTaskList;
 
   const ViewCaregroupTasks({
     Key? key,
     required this.caregroup,
-    required this.careTaskList,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
-    List<Profile> allProfiles = BlocProvider.of<AllProfilesCubit>(context).profileList;
+    Profile _myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+    List<Profile> _allProfiles = BlocProvider.of<AllProfilesCubit>(context).profileList;
+    List<CareTask> _taskList = BlocProvider.of<TaskCubit>(context).taskList;
+
 
     return BlocBuilder<TaskCubit,TaskState>(
       builder: (context,state) {
@@ -86,8 +86,7 @@ class ViewCaregroupTasks extends StatelessWidget {
               children: [
 
                 KudosBoard(
-                  profileList: BlocProvider.of<AllProfilesCubit>(context)
-                      .profileList
+                  profileList: _allProfiles
                       .where((profile) => profile.carerInCaregroups
                       .where((element) => element.caregroupId == caregroup.id)
                       .isNotEmpty)
@@ -128,7 +127,7 @@ class ViewCaregroupTasks extends StatelessWidget {
                 TaskSection(
                   title: 'New Tasks',
                   caregroup: caregroup,
-                  careTaskList: careTaskList
+                  careTaskList: _taskList
                       .where(
                         (element) => element.taskStatus == TaskStatus.created,
                   )
@@ -142,7 +141,7 @@ class ViewCaregroupTasks extends StatelessWidget {
                       TaskSearch.routeName,
                       arguments: {
                         'selectedStatuses': [TaskStatus.assigned, TaskStatus.accepted],
-                        'selectedProfiles': [myProfile],
+                        'selectedProfiles': [_myProfile],
                       },
                     );
                   },
@@ -169,7 +168,7 @@ class ViewCaregroupTasks extends StatelessWidget {
                 TaskSection(
                   title: 'My Tasks',
                   caregroup: caregroup,
-                  careTaskList: careTaskList
+                  careTaskList: _taskList
                       .where((element) =>
                   (element.taskStatus == TaskStatus.assigned ||
                       element.taskStatus == TaskStatus.accepted) &&
@@ -212,7 +211,7 @@ class ViewCaregroupTasks extends StatelessWidget {
                   title: 'Completed Tasks',
                   caregroup: caregroup,
                   isCompletedTasks: true,
-                  careTaskList: careTaskList
+                  careTaskList: _taskList
                       .where((element) => element.taskStatus == TaskStatus.completed)
                       .toList(),
                 ),
@@ -224,7 +223,7 @@ class ViewCaregroupTasks extends StatelessWidget {
                       TaskSearch.routeName,
                       arguments: {
                         'selectedStatuses': [TaskStatus.assigned, TaskStatus.accepted],
-                        'selectedProfiles': allProfiles,
+                        'selectedProfiles': _allProfiles,
 
                       },
                     );
@@ -252,7 +251,7 @@ class ViewCaregroupTasks extends StatelessWidget {
                 TaskSection(
                   title: "Other People's Tasks",
                   caregroup: caregroup,
-                  careTaskList: careTaskList
+                  careTaskList: _taskList
                       .where(
                         (element) =>
                     (element.taskStatus == TaskStatus.assigned ||
