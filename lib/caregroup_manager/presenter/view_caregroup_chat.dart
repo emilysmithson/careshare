@@ -4,6 +4,7 @@ import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/chat_manager/cubit/chat_cubit.dart';
 import 'package:careshare/chat_manager/models/chat.dart';
 import 'package:careshare/chat_manager/models/chat_type.dart';
+import 'package:careshare/chat_manager/presenter/chat_bubble.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/notification_manager/presenter/widgets/bell_widget.dart';
@@ -152,8 +153,9 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                                 ),
                                               ),
                                             )
-                                          : BubbleSpecialThree(
+                                          : ChatBubble(
                                               text: chatList[index].content,
+                                              time: TimeOfDay(hour: chatList[index].timeStamp.hour, minute: chatList[index].timeStamp.minute),
                                               color: const Color(0xFFE8E8EE),
                                               tail: true,
                                               isSender: (chatList[index].fromProfileId == myProfile.id)),
