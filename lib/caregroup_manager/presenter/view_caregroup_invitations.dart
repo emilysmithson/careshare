@@ -75,7 +75,6 @@ class _ViewCaregroupInvitationsState extends State<ViewCaregroupInvitations> {
               children: state.invitationList
                   .map(
                     (invitation) {
-                      print("invitation.invitedById: ${invitation.invitedById}");
                       String _inviter = "unknown";
                       if (profileList.indexWhere((element) => element.id == invitation.invitedById) != -1){
                         _inviter = profileList.firstWhere((element) => element.id == invitation.invitedById).name;
