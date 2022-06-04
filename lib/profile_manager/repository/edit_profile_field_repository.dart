@@ -69,6 +69,11 @@ class EditProfileFieldRepository {
         field = 'tandcs_accepted';
         value = newValue;
         break;
+      case ProfileField.setupComplete:
+        newProfile.setupComplete = newValue;
+        field = 'setup_complete';
+        value = newValue;
+        break;
       case ProfileField.showInvitationsOnHomePage:
         newProfile.showInvitationsOnHomePage = newValue;
         field = 'show_invitations_on_homepage';

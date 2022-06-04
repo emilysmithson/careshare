@@ -34,8 +34,8 @@ class FetchMyProfilePage extends StatelessWidget {
     print('fetching my profile');
     if (createProfile) {
       BlocProvider.of<MyProfileCubit>(context).createProfile(
-        photo: photo,
-        name: name,
+        // photo: photo,
+        // name: name,
         email: email,
         id: id,
       );

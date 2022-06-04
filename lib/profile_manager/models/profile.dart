@@ -15,6 +15,7 @@ class Profile {
   DateTime createdDate;
   int kudos;
   bool tandcsAccepted;
+  bool setupComplete;
   bool showInvitationsOnHomePage;
   bool showOtherCaregroupsOnHomePage;
   String messagingToken;
@@ -34,6 +35,7 @@ class Profile {
     required this.createdDate,
     required this.kudos,
     required this.tandcsAccepted,
+    required this.setupComplete,
     required this.showInvitationsOnHomePage,
     required this.showOtherCaregroupsOnHomePage,
     required this.messagingToken,
@@ -66,6 +68,7 @@ class Profile {
       kudos: json['kudos'] ?? 0,
       createdDate: createdDate,
       tandcsAccepted: json['tandcs_accepted'] ?? false,
+      setupComplete: json['setup_complete'] ?? false,
       showInvitationsOnHomePage: json['show_invitations_on_homepage'] ?? false,
       showOtherCaregroupsOnHomePage: json['show_other_caregroups_on_homepage'] ?? false,
       messagingToken: json['messaging_token'] ?? "",
@@ -88,6 +91,7 @@ class Profile {
       'photo': photo,
       'created_date': createdDate.toString(),
       'tandcs_accepted': tandcsAccepted,
+      'setup_complete': setupComplete,
       'show_invitations_on_homepage': showInvitationsOnHomePage,
       'show_other_caregroups_on_homepage': showOtherCaregroupsOnHomePage,
       'messaging_token': messagingToken,
@@ -110,6 +114,7 @@ class Profile {
     kudos: $kudos,
     createdDate: $createdDate,
     tandcsAccepted: $tandcsAccepted,
+    setupComplete: $setupComplete,
     showInvitationsOnHomePage: $showInvitationsOnHomePage,
     showOtherCaregroupsOnHomePage: $showOtherCaregroupsOnHomePage,
     messagingToken: $messagingToken,
@@ -135,6 +140,7 @@ bool operator ==(Object other) {
       other.kudos == kudos &&
       other.createdDate == createdDate &&
       other.tandcsAccepted == tandcsAccepted &&
+      other.setupComplete == setupComplete &&
       other.showInvitationsOnHomePage == showInvitationsOnHomePage &&
       other.showOtherCaregroupsOnHomePage == showOtherCaregroupsOnHomePage &&
       other.messagingToken == messagingToken &&
@@ -155,6 +161,7 @@ int get hashCode =>
     kudos.hashCode ^
     createdDate.hashCode ^
     tandcsAccepted.hashCode ^
+    setupComplete.hashCode ^
     showInvitationsOnHomePage.hashCode ^
     showOtherCaregroupsOnHomePage.hashCode ^
     messagingToken.hashCode ^
@@ -174,6 +181,7 @@ enum ProfileField {
   kudos,
   photo,
   tandcsAccepted,
+  setupComplete,
   showInvitationsOnHomePage,
   showOtherCaregroupsOnHomePage,
   messagingToken,

@@ -2,6 +2,8 @@ import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/widgets/authentication_form.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
+import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
+import 'package:careshare/profile_manager/presenter/new_profile.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,17 +38,28 @@ class AuthenticationPage extends StatelessWidget {
           return Container();
         }
         if (state is AuthenticationRegistered) {
+
+          // Before doing anything else, create the user's profile and prompt them to enter more details
+          BlocProvider.of<MyProfileCubit>(context).createProfile(
+            // photo: photo,
+            // name: state.name,
+            email: state.emailAddress,
+            id: state.userId,
+          );
+
+// go to the New User page
+
           WidgetsBinding.instance
               .addPostFrameCallback((_) => Navigator.pushReplacementNamed(
                     context,
-                    FetchMyProfilePage.routeName,
-                    arguments: {
-                      "id": state.userId,
-                      'createProfile': true,
-                      'photo': state.photo,
-                      'name': state.name,
-                      'email': state.emailAddress
-                    },
+                    NewProfile.routeName,
+                    // arguments: {
+                    //   "id": state.userId,
+                    //   'createProfile': true,
+                    //   // 'photo': state.photo,
+                    //   // 'name': state.name,
+                    //   'email': state.emailAddress
+                    // },
                   ));
 
           return Container();

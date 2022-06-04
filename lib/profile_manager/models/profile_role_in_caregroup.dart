@@ -46,7 +46,7 @@ class RoleInCaregroup {
       completedValue: json['completed_value'] ?? 0,
       kudosCount: json['kudos_count'] ?? 0,
       kudosValue: json['kudos_value'] ?? 0,
-      lastLogin: (json['last_login']!=null) ? DateTime.parse(json['last_login']) : null,
+      lastLogin: (json['last_login'] != null) ? DateTime.parse(json['last_login']) : null,
     );
 
     return newRoleInCaregroup;
@@ -77,8 +77,9 @@ class RoleInCaregroup {
         other.completedCount == completedCount &&
         other.completedValue == completedValue &&
         other.kudosCount == kudosCount &&
-        other.kudosValue == kudosValue &&
-        other.lastLogin == lastLogin;
+        other.kudosValue == kudosValue
+        // && other.lastLogin == lastLogin // exclude this to avoid circular updates
+    ;
   }
 
   @override

@@ -76,7 +76,7 @@ class _AppState extends State<App> {
                   create: (context) => MyProfileCubit(
                     editProfileFieldRepository: EditProfileFieldRepository(),
                     addRoleInCaregroupToProfile: AddRoleInCaregroupToProfile(),
-                    updateLastAccess: UpdateLastLogin(),
+                    updateLastLogin: UpdateLastLogin(),
                     giveKudos: GiveKudos(),
                     completeTask: CompleteTask(),
                   ),

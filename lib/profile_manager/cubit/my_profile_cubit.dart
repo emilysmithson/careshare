@@ -20,7 +20,7 @@ part 'my_profile_state.dart';
 
 class MyProfileCubit extends Cubit<MyProfileState> {
   final EditProfileFieldRepository editProfileFieldRepository;
-  final UpdateLastLogin updateLastAccess;
+  final UpdateLastLogin updateLastLogin;
   final GiveKudos giveKudos;
   final AddRoleInCaregroupToProfile addRoleInCaregroupToProfile;
   final CompleteTask completeTask;
@@ -29,7 +29,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   MyProfileCubit({
     required this.editProfileFieldRepository,
     required this.addRoleInCaregroupToProfile,
-    required this.updateLastAccess,
+    required this.updateLastLogin,
     required this.giveKudos,
     required this.completeTask,
   }) : super(MyProfileInitial());
@@ -64,46 +64,49 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   }
 
   createProfile({
-    File? photo,
-    String? name,
-    String? firstName,
-    String? lastName,
+    // File? photo,
+    // String? name,
+    // String? firstName,
+    // String? lastName,
     String? email,
-    String? phoneCountry,
-    String? phoneCountryCode,
-    String? phoneNumber,
+    // String? phoneCountry,
+    // String? phoneCountryCode,
+    // String? phoneNumber,
     required String id,
   }) async {
-    if (photo == null || name == null || email == null) {
+    // if (photo == null || name == null || email == null) {
+    if (email == null) {
       emit(MyProfileError(
-          'One of the fields for the profile is null:\nphoto: $photo, \nname: $name\nlastName: $lastName\nemail: $email'));
+          // 'One of the fields for the profile is null:\nphoto: $photo, \nname: $name\nlastName: $lastName\nemail: $email'));
+      'One of the fields for the profile is null:\nemail: $email'));
       return;
     }
     emit(const MyProfileLoading());
 
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child('profile_photos')
-        .child(id + '.jpg');
+    // final ref = FirebaseStorage.instance
+    //     .ref()
+    //     .child('profile_photos')
+    //     .child(id + '.jpg');
 
-    await ref.putFile(photo);
-    final url = await ref.getDownloadURL();
+    // await ref.putFile(photo);
+    // final url = await ref.getDownloadURL();
 
     myProfile = Profile(
       type: ProfileType.user,
       id: id,
-      name: name,
-      firstName: firstName ?? "",
-      lastName: lastName ?? "",
+      name: "",
+      firstName: "",
+      lastName: "",
       email: email,
-      phoneCountry: phoneCountry ?? "",
-      phoneCountryCode: phoneCountryCode ?? "",
-      phoneNumber: phoneNumber ?? "",
+      phoneCountry: "",
+      phoneCountryCode: "",
+      phoneNumber: "",
       kudos: 0,
-      photo: url,
+      photo: "",
       createdDate: DateTime.now(),
       carerInCaregroups: [],
       tandcsAccepted: false,
+      setupComplete: false,
       showInvitationsOnHomePage: true,
       showOtherCaregroupsOnHomePage: true,
       messagingToken: "",

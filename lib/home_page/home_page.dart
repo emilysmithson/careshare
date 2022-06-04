@@ -9,6 +9,7 @@ import 'package:careshare/invitation_manager/models/invitation_status.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/core/presentation/page_scaffold.dart';
 import 'package:careshare/profile_manager/models/profile_type.dart';
+import 'package:careshare/profile_manager/presenter/new_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
@@ -35,6 +36,17 @@ class _HomePageState extends State<HomePage> {
           Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
           bool _showInvitationsOnHomePage = myProfile.showInvitationsOnHomePage;
           bool _showOtherCaregroupsOnHomePage = myProfile.showOtherCaregroupsOnHomePage;
+
+          // If I haven't completed setup of my profile, do it now
+          if (!myProfile.setupComplete) {
+            WidgetsBinding.instance.addPostFrameCallback(
+              (_) => Navigator.pushNamed(
+                context,
+                NewProfile.routeName,
+              ),
+            );
+            return Container();
+          }
 
           // if i haven't accepted the Terms & Conditions, navigate to the T&C page
           if (myProfile.tandcsAccepted == false) {
@@ -143,6 +155,14 @@ class _HomePageState extends State<HomePage> {
                     toolbarHeight: 40,
                     actions: <Widget>[Container()],
                   ),
+
+                  // if I'm not in any caregroups, and have no invitations, allow the user to search...
+                  if (_myCaregroups.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("You aren't a memeber of any caregroup yet."),
+                    ),
+
                   Wrap(
                     children: _myCaregroups
                         .map((caregroup) => GestureDetector(
@@ -196,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                   // Invitations
                   if (_showInvitationsOnHomePage)
                     const SizedBox(
-                      height: 5,
+                      height: 15,
                     ),
                   if (_showInvitationsOnHomePage)
                     AppBar(

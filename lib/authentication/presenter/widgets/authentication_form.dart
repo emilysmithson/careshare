@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
-import 'package:careshare/widgets/upload_profile_photo.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -58,24 +54,24 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
     String? errorMessage;
     String? initialNameValue;
     String? initialEmailValue;
-    File? photo;
+    // File? photo;
     late String title;
     late String buttonText;
     late String textButtonText;
     switch (widget.state.runtimeType) {
       case AuthenticationRegister:
         errorMessage = (widget.state as AuthenticationRegister).errorMessage;
-        title = 'Register';
-        buttonText = 'Register';
+        title = 'Create a new Careshare account';
+        buttonText = 'Create account';
         textButtonText = 'Already Registered?';
         initialEmailValue = (widget.state as AuthenticationRegister).initialEmailValue;
         initialNameValue = (widget.state as AuthenticationRegister).initialNameValue;
         break;
       case AuthenticationLogin:
         errorMessage = (widget.state as AuthenticationLogin).errorMessage;
-        title = 'Login';
-        buttonText = 'Login';
-        textButtonText = 'Need to Register?';
+        title = 'Careshare';
+        buttonText = 'Log in';
+        textButtonText = 'Create new account';
         initialEmailValue = (widget.state as AuthenticationLogin).initialEmailValue;
         break;
       default:
@@ -92,7 +88,13 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(
+        title: Text(title),
+        leading: IconButton(
+          icon: Image.asset('images/CareShareLogo50.jpg'),
+          onPressed: () {},
+        ),
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -101,31 +103,31 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
               key: _formKey,
               child: Column(
                 children: [
-                  if (widget.state is AuthenticationRegister)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: UploadProfilePhotoWidget(
-                        imagePickFn: (File url) {
-                          photo = url;
-                        },
-                      ),
-                    ),
+                  // if (widget.state is AuthenticationRegister)
+                  //   Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: UploadProfilePhotoWidget(
+                  //       imagePickFn: (File url) {
+                  //         photo = url;
+                  //       },
+                  //     ),
+                  //   ),
                   // Name field
-                  if (widget.state is AuthenticationRegister)
-                    TextFormField(
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                        label: Text('Name'),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.length < 3) {
-                          return 'Please enter your name';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.name,
-                    ),
-                  const SizedBox(height: 16),
+                  // if (widget.state is AuthenticationRegister)
+                  //   TextFormField(
+                  //     controller: nameController,
+                  //     decoration: const InputDecoration(
+                  //       label: Text('Name'),
+                  //     ),
+                  //     validator: (value) {
+                  //       if (value == null || value.length < 3) {
+                  //         return 'Please enter your name';
+                  //       }
+                  //       return null;
+                  //     },
+                  //     keyboardType: TextInputType.name,
+                  //   ),
+                  const SizedBox(height: 46),
                   TextFormField(
                     controller: emailController,
                     decoration: const InputDecoration(
@@ -172,53 +174,56 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     errorMessage ?? '',
                     style: const TextStyle(color: Colors.red),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (photo == null && widget.state is AuthenticationRegister) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('You must upload a profile photo'),
-                            backgroundColor: Theme.of(context).errorColor,
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                                textStyle: const TextStyle(fontSize: 20)),
+                            onPressed: () {
+                              // if (photo == null && widget.state is AuthenticationRegister) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     SnackBar(
+                              //       content: const Text('You must upload a profile photo'),
+                              //       backgroundColor: Theme.of(context).errorColor,
+                              //     ),
+                              //   );
+                              //   return;
+                              // }
+                              if (_formKey.currentState!.validate()) {
+                                final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
+                                switch (widget.state.runtimeType) {
+                                  case AuthenticationRegister:
+                                    authenticationCubit.register(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      name: nameController.text,
+                                      // photo: photo!
+                                    );
+                                    break;
+                                  case AuthenticationLogin:
+                                    authenticationCubit.login(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      name: nameController.text,
+                                    );
+                                    break;
+                                  default:
+                                    authenticationCubit.resetPassword(
+                                      email: emailController.text,
+                                    );
+                                }
+                              }
+                            },
+                            child: Text(buttonText),
                           ),
-                        );
-                        return;
-                      }
-                      if (_formKey.currentState!.validate()) {
-                        final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
-                        switch (widget.state.runtimeType) {
-                          case AuthenticationRegister:
-                            authenticationCubit.register(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                name: nameController.text,
-                                photo: photo!);
-                            break;
-                          case AuthenticationLogin:
-                            authenticationCubit.login(
-                              email: emailController.text,
-                              password: passwordController.text,
-                              name: nameController.text,
-                            );
-                            break;
-                          default:
-                            authenticationCubit.resetPassword(
-                              email: emailController.text,
-                            );
-                        }
-                      }
-                    },
-                    child: Text(buttonText),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
-                      if (widget.state is! AuthenticationLogin) {
-                        authenticationCubit.switchToLogin(emailAddress: emailController.text);
-                      } else {
-                        authenticationCubit.switchToRegister(emailAddress: emailController.text);
-                      }
-                    },
-                    child: Text(textButtonText),
+                        ),
+                      ),
+                    ],
                   ),
                   if (widget.state is! AuthenticationResetPassword)
                     TextButton(
@@ -242,6 +247,43 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       },
                       child: const Text('Forgotten Password?'),
                     ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}",
+                        style: new TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                      Text(" or "),
+                      Text(
+                        "\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}",
+                        style: new TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: Colors.lightBlueAccent,
+                        textStyle: const TextStyle(fontSize: 18)),
+
+                    onPressed: () {
+                      final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
+                      if (widget.state is! AuthenticationLogin) {
+                        authenticationCubit.switchToLogin(emailAddress: emailController.text);
+                      } else {
+                        authenticationCubit.switchToRegister(emailAddress: emailController.text);
+                      }
+                    },
+                    child: Text(textButtonText),
+                  ),
+
                   const SizedBox(height: 150),
                   Text("CareShare version: ${_packageInfo.version}+${_packageInfo.buildNumber}")
                 ],

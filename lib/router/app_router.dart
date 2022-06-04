@@ -25,6 +25,7 @@ import 'package:careshare/notification_manager/presenter/notifications_page.dart
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/fetch_my_profile_page.dart';
 import 'package:careshare/profile_manager/presenter/fetch_profiles_page.dart';
+import 'package:careshare/profile_manager/presenter/new_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_summary.dart';
 import 'package:careshare/profile_manager/presenter/view_profile_in_caregroup.dart';
@@ -207,8 +208,7 @@ class AppRouter {
             value: _caregroupCubit,
             child: BlocProvider.value(
               value: _taskCubit,
-              child: ViewCaregroup(
-                  caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup']),
+              child: ViewCaregroup(caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup']),
             ),
           ),
         );
@@ -260,7 +260,7 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _taskCubit,
             child: ViewCaregroupTasks(
-                caregroup: routeSettings.arguments as Caregroup,
+              caregroup: routeSettings.arguments as Caregroup,
             ),
           ),
         );
@@ -283,6 +283,11 @@ class AppRouter {
               caregroup: routeSettings.arguments as Caregroup,
             ),
           ),
+        );
+
+      case NewProfile.routeName:
+        return MaterialPageRoute(
+          builder: (_) => NewProfile(),
         );
 
       case FetchProfilesPage.routeName:

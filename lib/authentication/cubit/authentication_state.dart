@@ -15,13 +15,13 @@ class AuthenticationRegistered extends AuthenticationState {
   final String userId;
   final String emailAddress;
   final String name;
-  final File photo;
+  // final File photo;
 
   const AuthenticationRegistered({
     required this.userId,
     required this.emailAddress,
     required this.name,
-    required this.photo,
+    // required this.photo,
   });
 }
 

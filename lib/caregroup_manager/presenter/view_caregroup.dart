@@ -39,7 +39,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
   Widget build(BuildContext context) {
 
     // update last access date
-    BlocProvider.of<MyProfileCubit>(context).updateLastAccess(
+    BlocProvider.of<MyProfileCubit>(context).updateLastLogin(
         profile: BlocProvider.of<MyProfileCubit>(context).myProfile, caregroupId: widget.caregroup.id);
 
     // send caregroup reminders

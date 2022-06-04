@@ -89,7 +89,7 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
                   child: ListTile(
                     title: Text("${profile.firstName} ${profile.lastName}"),
                     subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('${profile.email}'),
+                      Text(profile.email),
                       Text("role: $_role  status: $_status"),
                       Text("last login: $_lastLogin"),
                     ]),

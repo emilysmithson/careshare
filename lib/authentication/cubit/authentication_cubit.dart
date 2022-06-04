@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:equatable/equatable.dart';
@@ -33,7 +33,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required String name,
     required String email,
     required String password,
-    required File photo,
+    // required File photo,
   }) async {
     try {
       emit(AuthenticationLoading());
@@ -73,7 +73,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           userId: user.uid,
           emailAddress: email,
           name: name,
-          photo: photo,
+          // photo: photo,
         ),
       );
     }
