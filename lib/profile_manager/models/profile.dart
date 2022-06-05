@@ -180,9 +180,48 @@ enum ProfileField {
   phoneNumber,
   kudos,
   photo,
+  photoUrl,
   tandcsAccepted,
   setupComplete,
   showInvitationsOnHomePage,
   showOtherCaregroupsOnHomePage,
   messagingToken,
+}
+
+
+class Avatar {
+  final String avatar;
+  final String url;
+
+  const Avatar(this.avatar, this.url);
+
+  static const Avatar avatar1 = Avatar('avatar1','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar1.jpg?alt=media&token=c32eb0ff-82d7-4a3a-912c-6c75b7dae4fa');
+  static const Avatar avatar2 = Avatar('avatar2','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar2.jpg?alt=media&token=ebdb9b47-0cde-4a02-b5b0-cf616b32a1af');
+  static const Avatar avatar3 = Avatar('avatar3','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar3.jpg?alt=media&token=a9c08b74-bbed-4867-a512-5cff58a5bb93');
+  static const Avatar avatar4 = Avatar('avatar4','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar4.jpg?alt=media&token=7847decd-74b9-49f1-9e5d-3146460ec168');
+  static const Avatar avatar5 = Avatar('avatar5','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar5.jpg?alt=media&token=38d3f7df-b40d-44ca-96a6-5027793c1bec');
+  static const Avatar avatar6 = Avatar('avatar6','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar6.jpg?alt=media&token=706ec60a-46f7-49f3-ac4d-5e9ba36bc910');
+  static const Avatar avatar7 = Avatar('avatar7','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar7.jpg?alt=media&token=27b3b2dd-1e28-43be-adf9-d6f130b2e5a8');
+  static const Avatar avatar8 = Avatar('avatar8','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar8.jpg?alt=media&token=57e5c45e-5657-4888-8f74-e9b762be6abd');
+  static const Avatar avatar9 = Avatar('avatar9','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar9.jpg?alt=media&token=9f3d2db6-2080-4084-b555-33fd364d7346');
+  static const Avatar avatar10 = Avatar('avatar10','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar10.jpg?alt=media&token=b6f409c9-c336-4834-bcd5-39a7ac64f28b');
+  static const Avatar avatar11 = Avatar('avatar11','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar11.jpg?alt=media&token=f85e9190-2bfc-4939-b81f-b0e21cc85be5');
+  static const Avatar avatar12 = Avatar('avatar12','https://firebasestorage.googleapis.com/v0/b/careshare-data.appspot.com/o/avatars%2Favatar12.jpg?alt=media&token=15377884-c583-4f52-8f29-031d52b27d35');
+
+
+
+  static List<Avatar> avatarList = [
+    avatar1,
+    avatar2,
+    avatar3,
+    avatar4,
+    avatar5,
+    avatar6,
+    avatar7,
+    avatar8,
+    avatar9,
+    avatar10,
+    avatar11,
+    avatar12,
+  ];
 }

@@ -96,6 +96,10 @@ class EditProfileFieldRepository {
         field = 'photo';
         value = url;
         break;
+      case ProfileField.photoUrl:
+        field = 'photo';
+        value = newValue;
+        break;
     }
 
     DatabaseReference reference =

@@ -27,12 +27,52 @@ class NewProfile extends StatefulWidget {
 
 class _NewProfileState extends State<NewProfile> {
   int _index = 0;
+  int _selectedAvatar = -1;
 
   @override
   Widget build(BuildContext context) {
     const double spacing = 16;
 
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
+
+    List<Widget> _avatars = [];
+    List<Avatar> _avatarList = Avatar.avatarList;
+    for (var i = 0; i < _avatarList.length; i++) {
+      _avatars.add(
+        GestureDetector(
+          onTap: () {
+            BlocProvider.of<MyProfileCubit>(context).editProfileFieldRepository(
+              profileField: ProfileField.photoUrl,
+              profile: myProfile,
+              newValue: Avatar.avatarList[i].url,
+            );
+
+            setState(() {
+              _selectedAvatar = i;
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Container(
+              height: 70,
+              width: 70,
+              decoration: BoxDecoration(
+                border: Border.all(color: (_selectedAvatar == i) ? Colors.blue : Colors.white, width: 5),
+                shape: BoxShape.circle,
+              ),
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(image: NetworkImage(Avatar.avatarList[i].url, scale: 0.60), fit: BoxFit.cover),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +108,7 @@ class _NewProfileState extends State<NewProfile> {
           onStepContinue: () {
             print("onStepContinue _index: $_index");
             //
-            if (_index==2){
+            if (_index == 2) {
               print("onStepContinue _index: $_index");
 
               //mark setup as complete and navigate to the home page
@@ -82,7 +122,6 @@ class _NewProfileState extends State<NewProfile> {
                 context,
                 HomePage.routeName,
               );
-
             } else {
               setState(() {
                 _index = _index + 1;
@@ -97,7 +136,8 @@ class _NewProfileState extends State<NewProfile> {
             // });
           },
           steps: [
-            Step( //Step 0
+            Step(
+              //Step 0
               title: const Text("Let's get started..."),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +164,7 @@ class _NewProfileState extends State<NewProfile> {
                   ProfileInputFieldWidget(
                     label: 'Last Name',
                     maxLines: 1,
-                    currentValue: myProfile.lastName,
+                    currentValue: (_selectedAvatar != -1) ? Avatar.avatarList[_selectedAvatar].url : myProfile.lastName,
                     profile: myProfile,
                     onChanged: (value) {
                       BlocProvider.of<MyProfileCubit>(context).editProfileFieldRepository(
@@ -138,7 +178,8 @@ class _NewProfileState extends State<NewProfile> {
                 ],
               ),
             ),
-            Step(//Step 1
+            Step(
+              //Step 1
               title: const Text("Show us your good side..."),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,8 +191,7 @@ class _NewProfileState extends State<NewProfile> {
                   ),
                   UploadProfilePhotoWidget(
                     imagePickFn: (File photo) {
-                      BlocProvider.of<MyProfileCubit>(context)
-                          .editProfileFieldRepository(
+                      BlocProvider.of<MyProfileCubit>(context).editProfileFieldRepository(
                         profileField: ProfileField.photo,
                         profile: myProfile,
                         newValue: photo,
@@ -159,7 +199,34 @@ class _NewProfileState extends State<NewProfile> {
                     },
                     currentPhotoUrl: myProfile.photo,
                   ),
-
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}",
+                        style: new TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                      Text(" or "),
+                      Text(
+                        "\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}",
+                        style: new TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
+                    child: const Text("If your hair isn't quite right, choose from one of our flattering avatars:",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue)),
+                  ),
+                  const SizedBox(height: 20),
+                  Wrap(
+                    children: _avatars.toList(),
+                  )
                 ],
               ),
             ),
@@ -167,7 +234,8 @@ class _NewProfileState extends State<NewProfile> {
             //   title: const Text("Tell us how you can help..."),
             //   content: Container(alignment: Alignment.centerLeft, child: const Text('What are you great at?')),
             // ),
-            Step(//Step 2
+            Step(
+              //Step 2
               title: const Text("All done!"),
               content: Container(
                 alignment: Alignment.centerLeft,
