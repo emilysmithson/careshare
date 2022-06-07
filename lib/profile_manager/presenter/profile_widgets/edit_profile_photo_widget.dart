@@ -26,12 +26,16 @@ class _EditProfilePhotoWidgetState extends State<EditProfilePhotoWidget> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            contentPadding: EdgeInsets.all(6.0) ,
             title: const Text(
               'Where would like you to fetch your photo from?',
             ),
             actionsAlignment: MainAxisAlignment.center,
             content: Column(
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -74,16 +78,14 @@ class _EditProfilePhotoWidgetState extends State<EditProfilePhotoWidget> {
                   height: 10,
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
+                  padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 12.0),
                   child: Text("If your hair isn't quite right, choose from one of our flattering avatars:",
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue)),
                 ),
-                const SizedBox(height: 20),
-                SingleChildScrollView(
-                  child: Wrap(
-                    children: _avatars.toList(),
-                  ),
-                )
+                const SizedBox(height: 10),
+                Wrap(
+                  children: _avatars.toList(),
+                ),
               ],
             ),
           );
@@ -95,12 +97,20 @@ class _EditProfilePhotoWidgetState extends State<EditProfilePhotoWidget> {
     final pickedImageFile = await imagePicker.pickImage(
       source: fromGallery ? ImageSource.gallery : ImageSource.camera,
       imageQuality: 50,
-      maxWidth: 150,
-      maxHeight: 150,
+      maxWidth: 1024,
+      maxHeight: 1024,
     );
     setState(() {
       if (pickedImageFile != null) {
         _pickedImage = File(pickedImageFile.path);
+
+          BlocProvider.of<MyProfileCubit>(context)
+              .editMyProfile(
+            profileField: ProfileField.photo,
+            profile: widget.profile,
+            newValue: _pickedImage,
+          );
+
       }
     });
 
@@ -131,20 +141,12 @@ class _EditProfilePhotoWidgetState extends State<EditProfilePhotoWidget> {
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Container(
-                height: 70,
-                width: 70,
+                height: 60,
+                width: 60,
                 decoration: BoxDecoration(
-                  border: Border.all(color: (_selectedAvatar == i) ? Colors.blue : Colors.white, width: 5),
                   shape: BoxShape.circle,
-                ),
-                child: Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image:
-                        DecorationImage(image: NetworkImage(Avatar.avatarList[i].url, scale: 0.60), fit: BoxFit.cover),
-                  ),
+                  image:
+                      DecorationImage(image: NetworkImage(Avatar.avatarList[i].url, scale: 0.60), fit: BoxFit.cover),
                 ),
               ),
             ),
