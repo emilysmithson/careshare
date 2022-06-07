@@ -1,9 +1,8 @@
 import 'package:careshare/about_page/about_page.dart';
 import 'package:careshare/authentication/cubit/authentication_cubit.dart';
 import 'package:careshare/authentication/presenter/authentication_page.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
-import 'package:careshare/profile_manager/presenter/edit_profile.dart';
+import 'package:careshare/profile_manager/presenter/edit_my_profile.dart';
 import 'package:careshare/profile_manager/presenter/profile_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,122 +35,6 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
 
           const Divider(),
 
-          //
-          // ListTile(
-          //   tileColor: Colors.lightBlueAccent,
-          //   title: Text('New Task',
-          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w500,color: Colors.white,),
-          //   ),
-          //   trailing: Icon(Icons.add_box_outlined, size: 30, color: Colors.white,),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => CreateOrEditATaskScreen(),
-          //       ),
-          //     );
-          //   },
-          // ),
-          //
-          // Divider(),
-          //
-          // ListTile(
-          //   tileColor: Colors.lightBlueAccent,
-          //   title: Text('All Profiles',
-          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w500,color: Colors.white,),
-          //   ),
-          //   trailing: Icon(Icons.person_outline, size: 30, color: Colors.white,),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => ViewAllProfilesScreen(),
-          //       ),
-          //     );
-          //   },
-          // ),
-          //
-          // Divider(),
-          //
-          // ListTile(
-          //   tileColor: Colors.lightBlueAccent,
-          //   title: Text('New Profile',
-          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w500,color: Colors.white,),
-          //   ),
-          //   trailing: Icon(Icons.add_box_outlined, size: 30, color: Colors.white,),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => CreateProfileScreen(),
-          //       ),
-          //     );
-          //   },
-          // ),
-          //
-          // Divider(),
-          //
-          // ListTile(
-          //   tileColor: Colors.lightBlueAccent,
-          //   title: Text('All Caregroups',
-          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w500,color: Colors.white,),
-          //   ),
-          //   trailing: Icon(Icons.people_alt, size: 30, color: Colors.white,),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => ViewAllCaregroupsScreen(),
-          //       ),
-          //     );
-          //   },
-          // ),
-          //
-          // Divider(),
-          //
-          // ListTile(
-          //   tileColor: Colors.lightBlueAccent,
-          //   title: Text('New Caregroup',
-          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w500,color: Colors.white,),
-          //   ),
-          //   trailing: Icon(Icons.add_box_outlined, size: 30, color: Colors.white,),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => CreateCaregroupScreen(),
-          //       ),
-          //     );
-          //   },
-          // ),
-          //
-          // const Divider(),
-
-          // ListTile(
-          //   tileColor: Colors.lightBlueAccent,
-          //   title: const Text(
-          //     'Home',
-          //     style: TextStyle(
-          //       fontSize: 16.0,
-          //       fontWeight: FontWeight.w500,
-          //       color: Colors.white,
-          //     ),
-          //   ),
-          //   trailing: const Icon(
-          //     Icons.home,
-          //     size: 30,
-          //     color: Colors.white,
-          //   ),
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //     Navigator.pushNamed(
-          //       context,
-          //         TaskManagerView.routeName,
-          //     );
-          //   },
-          // ),
-          // const Divider(),
-
           ListTile(
             tileColor: Colors.lightBlueAccent,
             title: const Text(
@@ -171,8 +54,7 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               Navigator.pop(context);
               Navigator.pushNamed(
                 context,
-                EditProfile.routeName,
-                arguments: BlocProvider.of<MyProfileCubit>(context).myProfile,
+                EditMyProfile.routeName,
               );
             },
           ),
@@ -227,30 +109,30 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
 
           const Divider(),
 
-          ListTile(
-            tileColor: Colors.lightBlueAccent,
-            title: const Text(
-              'Caregroup Manager',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.wheelchair_pickup_sharp,
-              size: 30,
-              color: Colors.white,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                CaregroupManager.routeName,
-              );
-            },
-          ),
-
-          const Divider(),
+          // ListTile(
+          //   tileColor: Colors.lightBlueAccent,
+          //   title: const Text(
+          //     'Caregroup Manager',
+          //     style: TextStyle(
+          //       fontSize: 16.0,
+          //       fontWeight: FontWeight.w500,
+          //       color: Colors.white,
+          //     ),
+          //   ),
+          //   trailing: const Icon(
+          //     Icons.wheelchair_pickup_sharp,
+          //     size: 30,
+          //     color: Colors.white,
+          //   ),
+          //   onTap: () {
+          //     Navigator.pushNamed(
+          //       context,
+          //       CaregroupManager.routeName,
+          //     );
+          //   },
+          // ),
+          //
+          // const Divider(),
 
           ListTile(
             tileColor: Colors.lightBlueAccent,
@@ -267,14 +149,19 @@ class CareshareDrawer extends StatelessWidget with PreferredSizeWidget {
               size: 30,
               color: Colors.white,
             ),
-            onTap: () {
-              BlocProvider.of<AuthenticationCubit>(context).logout(
+            onTap: () async {
+
+              await BlocProvider.of<AuthenticationCubit>(context).logout(
                 BlocProvider.of<MyProfileCubit>(context),
+                // BlocProvider.of<TaskCubit>(context),
+                // BlocProvider.of<CaregroupCubit>(context),
+                // BlocProvider.of<InvitationsCubit>(context),
+                // BlocProvider.of<MyInvitationsCubit>(context),
               );
+
+
               Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  AuthenticationPage.routeName,
-                  ModalRoute.withName(AuthenticationPage.routeName));
+                  context, AuthenticationPage.routeName, ModalRoute.withName(AuthenticationPage.routeName));
             },
           ),
 

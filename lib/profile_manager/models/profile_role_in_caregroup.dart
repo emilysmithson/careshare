@@ -37,6 +37,7 @@ class RoleInCaregroup {
   }
 
   factory RoleInCaregroup.fromJson(dynamic key, dynamic json) {
+    // print("roleInCaregroup: $json");
     RoleInCaregroup newRoleInCaregroup = RoleInCaregroup(
       caregroupId: json['caregroup_id'],
       role: ProfileRole.profileRoleList.firstWhere((element) => element.role == json['role']),
@@ -77,9 +78,8 @@ class RoleInCaregroup {
         other.completedCount == completedCount &&
         other.completedValue == completedValue &&
         other.kudosCount == kudosCount &&
-        other.kudosValue == kudosValue
-        // && other.lastLogin == lastLogin // exclude this to avoid circular updates
-    ;
+        other.kudosValue == kudosValue &&
+        other.lastLogin == lastLogin;
   }
 
   @override

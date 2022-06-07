@@ -8,7 +8,6 @@ import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart'
 import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 import 'package:careshare/notification_manager/models/careshare_notification.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
-import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
@@ -39,8 +38,8 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
   Widget build(BuildContext context) {
 
     // update last access date
-    BlocProvider.of<MyProfileCubit>(context).updateLastLogin(
-        profile: BlocProvider.of<MyProfileCubit>(context).myProfile, caregroupId: widget.caregroup.id);
+    // BlocProvider.of<MyProfileCubit>(context).updateLastLogin(
+    //     profile: BlocProvider.of<MyProfileCubit>(context).myProfile, caregroupId: widget.caregroup.id);
 
     // send caregroup reminders
     // thus needs to be moved to a scheduled task

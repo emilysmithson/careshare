@@ -27,7 +27,6 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
     required this.completeTask,
   }) : super(AllProfilesInitial());
 
-
   Future fetchProfiles({required String caregroupId}) async {
     try {
       emit(const AllProfilesLoading());
@@ -36,18 +35,17 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
 
       response.listen((event) async {
         emit(AllProfilesLoading());
-
+        Map<dynamic, dynamic> returnedList;
         if (event.snapshot.value == null) {
           if (kDebugMode) {
             print('empty profile list');
+            returnedList = {};
           }
-          return;
         } else {
-          Map<dynamic, dynamic> returnedList =
-          event.snapshot.value as Map<dynamic, dynamic>;
+          returnedList = event.snapshot.value as Map<dynamic, dynamic>;
           profileList.clear();
           returnedList.forEach(
-                (key, value) async {
+            (key, value) async {
               Profile profile = Profile.fromJson(key, value);
               if (profile.carerInCaregroups.indexWhere((element) => element.caregroupId == caregroupId) != -1) {
                 profileList.add(profile);
@@ -56,7 +54,7 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
           );
 
           profileList.sort((a, b) => a.name.compareTo(b.name));
-          emit(AllProfilesLoaded(profileList:  profileList));
+          emit(AllProfilesLoaded(profileList: profileList));
         }
       });
     } catch (error) {
@@ -67,9 +65,6 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
       );
     }
   }
-
-
-
 
   clearList() {
     profileList.clear();
@@ -95,14 +90,10 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
     return photo;
   }
 
-  editProfile(
-      {required Profile profile,
-        required ProfileField profileField,
-        required dynamic newValue}) {
+  editProfile({required Profile profile, required ProfileField profileField, required dynamic newValue}) {
     emit(const AllProfilesLoading());
 
-    editProfileFieldRepository(
-        profile: profile, profileField: profileField, newValue: newValue);
+    editProfileFieldRepository(profile: profile, profileField: profileField, newValue: newValue);
   }
 
   addKudos(String id) {
@@ -110,8 +101,7 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
 
     int newKudos = profile.kudos + 1;
 
-    editProfile(
-        newValue: newKudos, profile: profile, profileField: ProfileField.kudos);
+    editProfile(newValue: newKudos, profile: profile, profileField: ProfileField.kudos);
 
     emit(AllProfilesLoaded(profileList: profileList));
   }

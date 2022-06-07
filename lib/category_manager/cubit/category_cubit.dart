@@ -5,10 +5,12 @@ import 'package:equatable/equatable.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
+
 part 'category_state.dart';
 
 class CategoriesCubit extends Cubit<CategoriesState> {
   CategoriesCubit() : super(CategoriesInitial());
+
   addCategory({
     required String name,
     required String id,
@@ -31,6 +33,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   }
 
   final List<CareCategory> categoryList = [];
+
   Future fetchCategories() async {
     try {
       emit(CategoriesLoading());
@@ -38,21 +41,21 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       final response = reference.onValue;
       response.listen((event) {
         emit(CategoriesLoading());
+        Map<dynamic, dynamic> returnedList;
         if (event.snapshot.value == null) {
           if (kDebugMode) {
             print('empty category list');
+            returnedList = {};
           }
-          return;
         } else {
-          Map<dynamic, dynamic> returnedList =
-              event.snapshot.value as Map<dynamic, dynamic>;
+          returnedList = event.snapshot.value as Map<dynamic, dynamic>;
           categoryList.clear();
           returnedList.forEach(
             (key, value) {
               categoryList.add(CareCategory.fromJson(value));
             },
           );
-          categoryList.sort((a,b) => a.name.compareTo(b.name));
+          categoryList.sort((a, b) => a.name.compareTo(b.name));
           emit(CategoriesLoaded(categoryList));
         }
       });

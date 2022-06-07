@@ -9,10 +9,7 @@ import 'package:flutter/foundation.dart';
 import '../../category_manager/domain/models/category.dart';
 
 class EditTaskFieldRepository {
-  CareTask call(
-      {required CareTask task,
-      required TaskField taskField,
-      required dynamic newValue}) {
+  CareTask call({required CareTask task, required TaskField taskField, required dynamic newValue}) {
     CareTask newTask = task;
     late String field;
     // ignore: prefer_typing_uninitialized_variables
@@ -34,14 +31,12 @@ class EditTaskFieldRepository {
         value = newValue;
         break;
       case TaskField.taskEffort:
-        newTask.taskEffort = TaskEffort.taskSizeList
-            .firstWhere((element) => element.value == newValue.truncate());
+        newTask.taskEffort = TaskEffort.taskSizeList.firstWhere((element) => element.value == newValue.truncate());
         field = 'task_effort';
         value = newValue;
         break;
       case TaskField.taskType:
-        newTask.taskType = TaskType.taskTypeList
-            .firstWhere((element) => element.value == newValue.truncate());
+        newTask.taskType = TaskType.taskTypeList.firstWhere((element) => element.value == newValue.truncate());
         field = 'task_type';
         value = newValue;
         break;
@@ -58,8 +53,7 @@ class EditTaskFieldRepository {
         break;
 
       case TaskField.taskPriority:
-        newTask.taskPriority = TaskPriority.priorityList
-            .firstWhere((element) => element.value == newValue.truncate());
+        newTask.taskPriority = TaskPriority.priorityList.firstWhere((element) => element.value == newValue.truncate());
         field = 'priority';
         value = newValue;
         break;
@@ -145,8 +139,7 @@ class EditTaskFieldRepository {
         break;
     }
 
-    DatabaseReference reference =
-        FirebaseDatabase.instance.ref("tasks/${task.id}/$field");
+    DatabaseReference reference = FirebaseDatabase.instance.ref("tasks/${task.id}/$field");
     try {
       reference.set(value);
     } catch (error) {

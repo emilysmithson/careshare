@@ -22,6 +22,7 @@ import 'package:careshare/invitation_manager/repository/edit_invitation_field_re
 import 'package:careshare/notification_manager/presenter/fetch_my_notifications.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/notification_manager/presenter/notifications_page.dart';
+import 'package:careshare/profile_manager/presenter/edit_my_profile.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/fetch_my_profile_page.dart';
 import 'package:careshare/profile_manager/presenter/fetch_profiles_page.dart';
@@ -99,13 +100,13 @@ class AppRouter {
           builder: (_) => const AboutPage(),
         );
 
-      case CaregroupManager.routeName:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _caregroupCubit,
-            child: const CaregroupManager(),
-          ),
-        );
+      // case CaregroupManager.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider.value(
+      //       value: _caregroupCubit,
+      //       child: const CaregroupManager(),
+      //     ),
+      //   );
 
       // case TaskManagerView.routeName:
       //   return MaterialPageRoute(
@@ -187,9 +188,15 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ProfilesManager(),
         );
+
       case EditProfile.routeName:
         return MaterialPageRoute(
           builder: (_) => EditProfile(profile: routeSettings.arguments as Profile),
+        );
+
+      case EditMyProfile.routeName:
+        return MaterialPageRoute(
+          builder: (_) => EditMyProfile(),
         );
 
       case ViewProfileInCaregroup.routeName:

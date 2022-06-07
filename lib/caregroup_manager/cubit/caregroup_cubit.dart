@@ -180,7 +180,7 @@ class CaregroupCubit extends Cubit<CaregroupState> {
     // }
 
     emit(const CaregroupLoading());
-
+    Map<dynamic, dynamic> returnedList;
     try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('caregroups');
       final response = reference.onValue;
@@ -188,10 +188,10 @@ class CaregroupCubit extends Cubit<CaregroupState> {
         if (event.snapshot.value == null) {
           if (kDebugMode) {
             print('empty caregroup list');
+            returnedList = {};
           }
-          return;
         } else {
-          Map<dynamic, dynamic> returnedList = event.snapshot.value as Map<dynamic, dynamic>;
+          returnedList = event.snapshot.value as Map<dynamic, dynamic>;
 
           caregroupList.clear();
           myCaregroupList.clear();

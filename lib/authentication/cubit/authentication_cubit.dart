@@ -1,4 +1,3 @@
-// import 'dart:io';
 
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:equatable/equatable.dart';
@@ -134,12 +133,24 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress);
   }
 
-  logout(MyProfileCubit profileCubit) {
+  logout(
+      MyProfileCubit profileCubit,
+      // TaskCubit taskCubit,
+      // CaregroupCubit caregroupCubit,
+      // InvitationsCubit invitationsCubit,
+      // MyInvitationsCubit myInvitationsCubit,
+
+      ) {
     emit(AuthenticationLoading());
     FirebaseAuth.instance.signOut();
 
     // NEED TO CLEAR EVERYTHING DOWN
-    // profileCubit.clearList();
+    profileCubit.clearProfile();
+    // taskCubit.clearList();
+    // caregroupCubit.clearList();
+    // invitationsCubit.clearList();
+    // myInvitationsCubit.clearList();
+
     emit(const AuthenticationLogin());
   }
 }

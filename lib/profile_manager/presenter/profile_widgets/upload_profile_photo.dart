@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 class UploadProfilePhotoWidget extends StatefulWidget {
   final void Function(File imageUrl) imagePickFn;
   final String? currentPhotoUrl;
+
   const UploadProfilePhotoWidget({
     Key? key,
     required this.imagePickFn,
@@ -20,6 +21,7 @@ class UploadProfilePhotoWidget extends StatefulWidget {
 class _UploadProfilePhotoWidgetState extends State<UploadProfilePhotoWidget> {
   File? _pickedImage;
 
+
   void _choosePhotoUploadType() {
     showDialog(
         context: context,
@@ -29,23 +31,56 @@ class _UploadProfilePhotoWidgetState extends State<UploadProfilePhotoWidget> {
               'Where would like you to fetch your photo from?',
             ),
             actionsAlignment: MainAxisAlignment.center,
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            content: Column(
               children: [
-                _photoSourceChoiceWidget(
-                  pickImage: _pickImage,
-                  fromGallery: false,
-                  icon: Icons.photo_camera,
-                  context: context,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _photoSourceChoiceWidget(
+                      pickImage: _pickImage,
+                      fromGallery: false,
+                      icon: Icons.photo_camera,
+                      context: context,
+                    ),
+                    _photoSourceChoiceWidget(
+                      pickImage: _pickImage,
+                      fromGallery: true,
+                      icon: Icons.photo_library,
+                      context: context,
+                    ),
+                  ],
                 ),
-                _photoSourceChoiceWidget(
-                  pickImage: _pickImage,
-                  fromGallery: true,
-                  icon: Icons.photo_library,
-                  context: context,
+                SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "\u{00A0}" * 20,
+                      style: new TextStyle(
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                    Text(" or "),
+                    Text(
+                      "\u{00A0}" * 20,
+                      style: new TextStyle(
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                  ],
                 ),
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
+                  child: const Text("If your hair isn't quite right, choose from one of our flattering avatars:",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue)),
+                ),
+                const SizedBox(height: 20),
+
+
               ],
             ),
+
           );
         });
   }

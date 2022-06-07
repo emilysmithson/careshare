@@ -12,9 +12,7 @@ import 'package:equatable/equatable.dart';
 import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
 
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-
 
 part 'my_profile_state.dart';
 
@@ -37,8 +35,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   Future fetchMyProfile(String id) async {
     try {
       emit(const MyProfileLoading());
-      DatabaseReference reference =
-          FirebaseDatabase.instance.ref('profiles/$id');
+      DatabaseReference reference = FirebaseDatabase.instance.ref('profiles/$id');
       final response = reference.onValue;
 
       response.listen((event) async {
@@ -78,7 +75,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
     if (email == null) {
       emit(MyProfileError(
           // 'One of the fields for the profile is null:\nphoto: $photo, \nname: $name\nlastName: $lastName\nemail: $email'));
-      'One of the fields for the profile is null:\nemail: $email'));
+          'One of the fields for the profile is null:\nemail: $email'));
       return;
     }
     emit(const MyProfileLoading());
@@ -121,18 +118,13 @@ class MyProfileCubit extends Cubit<MyProfileState> {
     fetchMyProfile(id);
   }
 
+  editMyProfile({required Profile profile, required ProfileField profileField, required dynamic newValue}) {
+    emit(const MyProfileLoading());
 
-  //
-  // editProfile(
-  //     {required Profile profile,
-  //     required ProfileField profileField,
-  //     required dynamic newValue}) {
-  //   emit(const MyProfileLoading());
-  //
-  //   editProfileFieldRepository(
-  //       profile: profile, profileField: profileField, newValue: newValue);
-  // }
+    editProfileFieldRepository(profile: profile, profileField: profileField, newValue: newValue);
+  }
 
-
-
+  clearProfile() {
+    // myProfile = null;
+  }
 }

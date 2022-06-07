@@ -178,49 +178,47 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                                primary: Colors.white,
-                                backgroundColor: Colors.blue,
-                                textStyle: const TextStyle(fontSize: 20)),
-                            onPressed: () {
-                              // if (photo == null && widget.state is AuthenticationRegister) {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     SnackBar(
-                              //       content: const Text('You must upload a profile photo'),
-                              //       backgroundColor: Theme.of(context).errorColor,
-                              //     ),
-                              //   );
-                              //   return;
-                              // }
-                              if (_formKey.currentState!.validate()) {
-                                final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
-                                switch (widget.state.runtimeType) {
-                                  case AuthenticationRegister:
-                                    authenticationCubit.register(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      name: nameController.text,
-                                      // photo: photo!
-                                    );
-                                    break;
-                                  case AuthenticationLogin:
-                                    authenticationCubit.login(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      name: nameController.text,
-                                    );
-                                    break;
-                                  default:
-                                    authenticationCubit.resetPassword(
-                                      email: emailController.text,
-                                    );
-                                }
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                              textStyle: const TextStyle(fontSize: 20)),
+                          onPressed: () {
+                            // if (photo == null && widget.state is AuthenticationRegister) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     SnackBar(
+                            //       content: const Text('You must upload a profile photo'),
+                            //       backgroundColor: Theme.of(context).errorColor,
+                            //     ),
+                            //   );
+                            //   return;
+                            // }
+                            if (_formKey.currentState!.validate()) {
+                              final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
+                              switch (widget.state.runtimeType) {
+                                case AuthenticationRegister:
+                                  authenticationCubit.register(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    name: nameController.text,
+                                    // photo: photo!
+                                  );
+                                  break;
+                                case AuthenticationLogin:
+                                  authenticationCubit.login(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    name: nameController.text,
+                                  );
+                                  break;
+                                default:
+                                  authenticationCubit.resetPassword(
+                                    email: emailController.text,
+                                  );
                               }
-                            },
-                            child: Text(buttonText),
-                          ),
+                            }
+                          },
+                          child: Text(buttonText),
                         ),
                       ),
                     ],
@@ -252,15 +250,15 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}",
-                        style: new TextStyle(
+                        "\u{00A0}" * 20,
+                        style: const TextStyle(
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),
-                      Text(" or "),
+                      const Text(" or "),
                       Text(
-                        "\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}",
-                        style: new TextStyle(
+                        "\u{00A0}" * 20,
+                        style: const TextStyle(
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),

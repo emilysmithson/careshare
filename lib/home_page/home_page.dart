@@ -146,6 +146,8 @@ class _HomePageState extends State<HomePage> {
           return PageScaffold(
             body: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
                 children: [
                   // My Caregroups
                   AppBar(
@@ -158,16 +160,32 @@ class _HomePageState extends State<HomePage> {
 
                   // if I'm not in any caregroups, and have no invitations, allow the user to search...
                   if (_myCaregroups.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("You aren't a memeber of any caregroup yet."),
+                    const Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Text(
+                        "You aren't a memeber of any Caregroup yet.",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  if (_myCaregroups.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Text(
+                        "You can request an invitation to an existing Caregroup, or create a new Caregroup.",
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
 
                   Wrap(
                     children: _myCaregroups
                         .map((caregroup) => GestureDetector(
                               onTap: () {
-                                // navigate to the Task Manager
+                                // update last access date
+                                BlocProvider.of<MyProfileCubit>(context).updateLastLogin(
+                                    profile: BlocProvider.of<MyProfileCubit>(context).myProfile,
+                                    caregroupId: caregroup.id);
+
+                                // navigate to the caregroup page, but collect some data on the way
                                 Navigator.pushNamed(
                                   context,
                                   FetchCategoriesPage.routeName,

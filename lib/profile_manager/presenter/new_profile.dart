@@ -3,16 +3,11 @@ import 'dart:io';
 import 'package:careshare/home_page/home_page.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
-import 'package:careshare/profile_manager/presenter/edit_profile.dart';
-
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_input_field_widget.dart';
-import 'package:careshare/profile_manager/repository/edit_profile_field_repository.dart';
-import 'package:careshare/widgets/upload_profile_photo.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:careshare/profile_manager/presenter/profile_widgets/upload_profile_photo.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 class NewProfile extends StatefulWidget {
   static const routeName = '/new-profile';
@@ -204,14 +199,14 @@ class _NewProfileState extends State<NewProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}",
+                        "\u{00A0}" * 20,
                         style: new TextStyle(
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),
                       Text(" or "),
                       Text(
-                        "\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}\u{00A0}",
+                        "\u{00A0}" * 20,
                         style: new TextStyle(
                           decoration: TextDecoration.lineThrough,
                         ),

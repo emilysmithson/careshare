@@ -112,6 +112,7 @@ class Profile {
     phoneCountryCode: $phoneCountryCode,
     phoneNumber: $phoneNumber,
     kudos: $kudos,
+    photo: $photo,
     createdDate: $createdDate,
     tandcsAccepted: $tandcsAccepted,
     setupComplete: $setupComplete,
@@ -138,6 +139,7 @@ bool operator ==(Object other) {
       other.phoneCountryCode == phoneCountryCode &&
       other.phoneNumber == phoneNumber &&
       other.kudos == kudos &&
+      other.photo == photo &&
       other.createdDate == createdDate &&
       other.tandcsAccepted == tandcsAccepted &&
       other.setupComplete == setupComplete &&
@@ -159,6 +161,7 @@ int get hashCode =>
     phoneCountryCode.hashCode ^
     phoneNumber.hashCode ^
     kudos.hashCode ^
+    photo.hashCode ^
     createdDate.hashCode ^
     tandcsAccepted.hashCode ^
     setupComplete.hashCode ^

@@ -14,18 +14,15 @@ class MyInvitationsCubit extends Cubit<MyInvitationsState> {
 
   MyInvitationsCubit() : super(MyInvitationsInitial());
 
-
   Future fetchMyInvitations({
     required String email,
     required List<Caregroup> myCaregroupList,
-
   }) async {
     try {
       // print('.....fetching invitations for: $email');
       emit(const MyInvitationsLoading());
-
-      final reference = FirebaseDatabase.instance
-          .ref('invitations');
+      Map<dynamic, dynamic> returnedList;
+      final reference = FirebaseDatabase.instance.ref('invitations');
 
       final response = reference.onValue;
 
@@ -33,29 +30,25 @@ class MyInvitationsCubit extends Cubit<MyInvitationsState> {
         if (event.snapshot.value == null) {
           if (kDebugMode) {
             print('empty my invitations list');
+            returnedList = {};
           }
-          return;
         } else {
-          Map<dynamic, dynamic> returnedList =
-          event.snapshot.value as Map<dynamic, dynamic>;
+          returnedList = event.snapshot.value as Map<dynamic, dynamic>;
           myInvitationsList.clear();
           returnedList.forEach(
-                (key, value) async {
+            (key, value) async {
               Invitation invitation = Invitation.fromJson(value);
-            if (invitation.email == email && myCaregroupList.indexWhere((caregroup) => caregroup.id == invitation.caregroupId) == -1)  {
-              myInvitationsList.add(invitation);
-            }
-          },
-        );
-
-        myInvitationsList.sort((a, b) => a.email.compareTo(b.email));
-
-        // print('.....invitiations loaded: ${myInvitationsList.length}');
-        emit(
-              MyInvitationsLoaded(
-                  myInvitationsList: myInvitationsList
-              )
+              if (invitation.email == email &&
+                  myCaregroupList.indexWhere((caregroup) => caregroup.id == invitation.caregroupId) == -1) {
+                myInvitationsList.add(invitation);
+              }
+            },
           );
+
+          myInvitationsList.sort((a, b) => a.email.compareTo(b.email));
+
+          // print('.....invitiations loaded: ${myInvitationsList.length}');
+          emit(MyInvitationsLoaded(myInvitationsList: myInvitationsList));
         }
       });
     } catch (error) {
@@ -70,5 +63,4 @@ class MyInvitationsCubit extends Cubit<MyInvitationsState> {
   clearList() {
     myInvitationsList.clear();
   }
-
 }

@@ -203,8 +203,6 @@ class TaskCubit extends Cubit<TaskState> {
     emit(const TaskLoading());
 
     editTaskFieldRepository(task: task, taskField: taskField, newValue: newValue);
-
-
   }
 
   completeTask({required CareTask task, required String profileId, required DateTime dateTime}) {
@@ -306,5 +304,9 @@ class TaskCubit extends Cubit<TaskState> {
 
   CareTask? fetchTaskFromID(String id) {
     return taskList.firstWhereOrNull((element) => element.id == id);
+  }
+
+  clearList() {
+    taskList.clear();
   }
 }
