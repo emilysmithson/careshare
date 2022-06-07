@@ -75,7 +75,7 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
                           ),
                           validator: (value) {
                             if (value == null) {
-                              return 'Please enter your Email address';
+                              return 'Please enter an email address';
                             }
                             bool emailValid =
                                 RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")

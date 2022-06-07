@@ -10,6 +10,7 @@ class Profile {
   String phoneCountry;
   String phoneCountryCode;
   String phoneNumber;
+  DateTime? dateOfBirth;
   final String id;
   String photo;
   DateTime createdDate;
@@ -31,6 +32,7 @@ class Profile {
     required this.phoneCountry,
     required this.phoneCountryCode,
     required this.phoneNumber,
+    required this.dateOfBirth,
     required this.photo,
     required this.createdDate,
     required this.kudos,
@@ -52,6 +54,14 @@ class Profile {
         carerInCaregroups.add(RoleInCaregroup.fromJson(k,v));
       });
     }
+
+    DateTime dateOfBirth;
+    if (json['date_of_birth'] != null && json['date_of_birth'] != ""){
+      dateOfBirth = DateTime.parse(json['date_of_birth']);
+    }
+    else {
+      dateOfBirth = DateTime(1900,1,1);
+    }
     final createdDate = DateTime.parse(json['created_date']);
 
     return Profile(
@@ -64,6 +74,7 @@ class Profile {
       phoneCountry: json['phone_country'] ?? "",
       phoneCountryCode: json['phone_country_code'] ?? "",
       phoneNumber: json['phone_number'] ?? "",
+      dateOfBirth: dateOfBirth,
       photo: json['photo'] ?? "",
       kudos: json['kudos'] ?? 0,
       createdDate: createdDate,
@@ -87,6 +98,7 @@ class Profile {
       'phone_country': phoneCountry,
       'phone_country_code': phoneCountryCode,
       'phone_number': phoneNumber,
+      'date_of_birth': dateOfBirth.toString(),
       'kudos': kudos,
       'photo': photo,
       'created_date': createdDate.toString(),
@@ -111,6 +123,7 @@ class Profile {
     phoneCountry: $phoneCountry,
     phoneCountryCode: $phoneCountryCode,
     phoneNumber: $phoneNumber,
+    dateOfBirth: $dateOfBirth,
     kudos: $kudos,
     photo: $photo,
     createdDate: $createdDate,
@@ -138,6 +151,7 @@ bool operator ==(Object other) {
       other.phoneCountry == phoneCountry &&
       other.phoneCountryCode == phoneCountryCode &&
       other.phoneNumber == phoneNumber &&
+      other.dateOfBirth == dateOfBirth &&
       other.kudos == kudos &&
       other.photo == photo &&
       other.createdDate == createdDate &&
@@ -160,6 +174,7 @@ int get hashCode =>
     phoneCountry.hashCode ^
     phoneCountryCode.hashCode ^
     phoneNumber.hashCode ^
+    dateOfBirth.hashCode ^
     kudos.hashCode ^
     photo.hashCode ^
     createdDate.hashCode ^
@@ -181,6 +196,7 @@ enum ProfileField {
   phoneCountry,
   phoneCountryCode,
   phoneNumber,
+  dateOfBirth,
   kudos,
   photo,
   photoUrl,

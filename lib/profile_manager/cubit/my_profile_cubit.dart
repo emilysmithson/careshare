@@ -98,6 +98,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
       phoneCountry: "",
       phoneCountryCode: "",
       phoneNumber: "",
+      dateOfBirth: DateTime(1900,1,1),
       kudos: 0,
       photo: "",
       createdDate: DateTime.now(),

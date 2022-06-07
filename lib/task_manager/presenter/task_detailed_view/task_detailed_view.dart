@@ -328,6 +328,8 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           label: Text('Description'),
                         ),
                       ),
+
+
                       TextFormField(
                         enabled: !widget.task.taskStatus.locked,
                         readOnly: true,

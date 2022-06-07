@@ -3,12 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-
 class EditProfileFieldRepository {
   Future<Profile> call(
-      {required Profile profile,
-      required ProfileField profileField,
-      required dynamic newValue}) async {
+      {required Profile profile, required ProfileField profileField, required dynamic newValue}) async {
     Profile newProfile = profile;
     late String field;
     // ignore: prefer_typing_uninitialized_variables
@@ -54,11 +51,19 @@ class EditProfileFieldRepository {
         field = 'phone_country_code';
         value = newValue;
         break;
+
       case ProfileField.phoneNumber:
         newProfile.phoneNumber = newValue;
         field = 'phone_number';
         value = newValue;
         break;
+
+      case ProfileField.dateOfBirth:
+        newProfile.dateOfBirth = newValue;
+        field = 'date_of_birth';
+        value = newValue.toString();
+        break;
+
       case ProfileField.kudos:
         newProfile.kudos = newValue;
         field = 'kudos';
@@ -102,8 +107,7 @@ class EditProfileFieldRepository {
         break;
     }
 
-    DatabaseReference reference =
-        FirebaseDatabase.instance.ref("profiles/${profile.id}/$field");
+    DatabaseReference reference = FirebaseDatabase.instance.ref("profiles/${profile.id}/$field");
 
     reference.set(value);
     return newProfile;
