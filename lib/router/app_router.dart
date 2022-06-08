@@ -203,9 +203,12 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
+            child: BlocProvider.value(
+              value: _taskCubit,
             child: ViewProfileInCaregroup(
                 caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup'] as Caregroup,
                 profile: (routeSettings.arguments as Map<String, dynamic>)['profile'] as Profile),
+            ),
           ),
         );
 

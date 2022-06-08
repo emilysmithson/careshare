@@ -15,7 +15,6 @@ class ViewCaregroupOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -39,121 +38,99 @@ class ViewCaregroupOverview extends StatelessWidget {
       ),
       body: Column(
         children: [
-
           Container(
             height: 300,
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              image: DecorationImage(
-                  image: NetworkImage(caregroup.photo!),
-                  fit: BoxFit.fitWidth),
+              image: DecorationImage(image: NetworkImage(caregroup.photo!), fit: BoxFit.fitWidth),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-                    children: [
-
-                      const SizedBox(height: 16),
-                      Row(
-                            children: [
-                              const Expanded(
-                                flex: 4,
-                                child: Text('Caregroup',
-                                    style: TextStyle(fontWeight: FontWeight.normal)),
-                              ),
-                              Expanded(
-                                flex: 6,
-                                child: Text(caregroup.name,
-                                    style: const TextStyle(fontWeight: FontWeight.bold)),
-                              )
-                            ],
-                          ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          const Expanded(
-                            flex: 4,
-                            child: Text('Details:',
-                                style: TextStyle(fontWeight: FontWeight.normal)),
-                          ),
-                          Expanded(
-                            flex: 6,
-                            child: Text(caregroup.details,
-                                style: const TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          const Expanded(
-                            flex: 4,
-                            child: Text('Type:',
-                                style: TextStyle(fontWeight: FontWeight.normal)),
-                          ),
-                          Expanded(
-                            flex: 6,
-                            child: Text(caregroup.type.type,
-                                style: const TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          const Expanded(
-                            flex: 4,
-                            child: Text('Status:',
-                                style: TextStyle(fontWeight: FontWeight.normal)),
-                          ),
-                          Expanded(
-                            flex: 6,
-                            child: Text(caregroup.status.status,
-                                style: const TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          const Expanded(
-                            flex: 4,
-                            child: Text('Created',
-                                style: TextStyle(fontWeight: FontWeight.normal)),
-                          ),
-                          Expanded(
-                            flex: 6,
-                            child: Text(DateFormat('E d MMM yyyy').add_jm().format(caregroup.createdDate),
-                                style: const TextStyle(fontWeight: FontWeight.bold)),
-                          )
-                        ],
-                      ),
-
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, EditCaregroup.routeName,
-                                    arguments: caregroup);
-                              },
-                              child: const Text('Edit')),
-                        ],
-                      ),
-
-                    ],
-
-
+              children: [
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Caregroup', style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(caregroup.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Details:', style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(caregroup.details, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Type:', style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(caregroup.type.type, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Status:', style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(caregroup.status.status, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      flex: 4,
+                      child: Text('Created', style: TextStyle(fontWeight: FontWeight.normal)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(DateFormat('E d MMM yyyy').add_jm().format(caregroup.createdDate),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, EditCaregroup.routeName, arguments: caregroup);
+                        },
+                        child: const Text('Edit')),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
-
-
-
   }
 }
