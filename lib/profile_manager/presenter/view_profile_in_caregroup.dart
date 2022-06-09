@@ -78,7 +78,7 @@ class ViewProfileInCaregroup extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 6,
-                      child: Text("${profile.firstName} ${profile.lastName}",
+                      child: Text(profile.displayName,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                     )
                   ],

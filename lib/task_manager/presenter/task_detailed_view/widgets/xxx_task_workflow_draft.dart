@@ -42,7 +42,7 @@ class TaskWorkflowDraftWidget extends StatelessWidget {
               'task_id': task.id,
               'task_title': task.title,
               'creater_id': myProfile.id,
-              'creater_name': myProfile.name,
+              'creater_name': myProfile.displayName,
               'date_time': DateTime.now().toString()
             });
           },

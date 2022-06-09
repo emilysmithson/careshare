@@ -63,7 +63,7 @@ class KudosWidget extends StatelessWidget {
                 id: id,
                 caregroupId: task.caregroupId,
                 title:
-                "${myProfile.name} has given you kudos for completing ${task.title}",
+                "${myProfile.displayName} has given you kudos for completing ${task.title}",
                 routeName: "/task-detailed-view",
                 subtitle:
                 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',

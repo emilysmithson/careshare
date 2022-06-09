@@ -6,6 +6,7 @@ class Profile {
   String name;
   String firstName;
   String lastName;
+  String displayName;
   String email;
   String phoneCountry;
   String phoneCountryCode;
@@ -28,6 +29,7 @@ class Profile {
     required this.name,
     required this.firstName,
     required this.lastName,
+    this.displayName = "",
     required this.email,
     required this.phoneCountry,
     required this.phoneCountryCode,
@@ -70,6 +72,7 @@ class Profile {
       name: json['name'] ?? "",
       firstName: json['first_name'] ?? "",
       lastName: json['last_name'] ?? "",
+      displayName: json['first_name']+" "+json['last_name'],
       email: json['email'] ?? "",
       phoneCountry: json['phone_country'] ?? "",
       phoneCountryCode: json['phone_country_code'] ?? "",
@@ -119,6 +122,7 @@ class Profile {
     name: $name,
     firstName: $firstName,
     lastName: $lastName,
+    displayName: $displayName,
     email: $email,
     phoneCountry: $phoneCountry,
     phoneCountryCode: $phoneCountryCode,

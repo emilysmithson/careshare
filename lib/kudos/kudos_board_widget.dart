@@ -11,33 +11,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class KudosBoardWidget extends StatelessWidget {
   final Profile profile;
+  final int kudosValue;
   final Caregroup caregroup;
 
-  const KudosBoardWidget({Key? key, required this.profile, required this.caregroup}) : super(key: key);
+  const KudosBoardWidget({Key? key, required this.profile, required this.kudosValue, required this.caregroup}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    int kudosValue = 0;
-
-    if (false) {
-      RoleInCaregroup roleInCaregroup =
-          profile.carerInCaregroups.firstWhere((element) => element.caregroupId == caregroup.id);
-
-      // int kudosValue = roleInCaregroup.kudosValue;
-    } else {
-      List<CareTask> mytaskList = BlocProvider.of<TaskCubit>(context)
-          .taskList
-          .where((task) => task.completedBy == profile.id && task.taskStatus.complete)
-          .toList();
-      for (var task in mytaskList) {
-        for (var kudos in task.kudos!) {
-          kudosValue = kudosValue + task.taskEffort.value;
-        }
-      }
-    }
 
     return Tooltip(
-      message: profile.name,
+      message: profile.displayName,
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(
@@ -57,12 +40,7 @@ class KudosBoardWidget extends StatelessWidget {
               ProfilePhotoWidget(id: profile.id),
               const SizedBox(width: 2),
               Column(mainAxisSize: MainAxisSize.min, children: [
-                // Row(
-                //     children: [
-                //       const Icon(Icons.check_box_rounded, size: 10),
-                //       const SizedBox(width: 2),
-                //       Text(roleInCaregroup.completedCount.toString()),
-                //     ]),
+
                 Row(children: [
                   const Icon(Icons.star, size: 10),
                   const SizedBox(width: 2),

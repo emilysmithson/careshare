@@ -90,8 +90,8 @@ class _UploadProfilePhotoWidgetState extends State<UploadProfilePhotoWidget> {
     final pickedImageFile = await imagePicker.pickImage(
       source: fromGallery ? ImageSource.gallery : ImageSource.camera,
       imageQuality: 50,
-      maxWidth: 150,
-      maxHeight: 150,
+      maxWidth: 1024,
+      maxHeight: 1024,
     );
     setState(() {
       if (pickedImageFile != null) {

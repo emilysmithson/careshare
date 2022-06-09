@@ -140,7 +140,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                 'task_id': task.id,
                 'task_title': task.title,
                 'accepter_id': myProfile.id,
-                'accepter_name': myProfile.name,
+                'accepter_name': myProfile.displayName,
                 'date_time': DateTime.now().toString()
               });
             },
@@ -172,7 +172,7 @@ class TaskWorkflowWidget extends StatelessWidget {
               final completionNotification = CareshareNotification(
                   id: id,
                   caregroupId: task.caregroupId,
-                  title: "${myProfile.name} has completed task '${task.title}'",
+                  title: "${myProfile.displayName} has completed task '${task.title}'",
                   routeName: "/task-detailed-view",
                   subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
                   dateTime: dateTime,
@@ -230,7 +230,7 @@ class TaskWorkflowWidget extends StatelessWidget {
                   final kudosNotification = CareshareNotification(
                       id: id,
                       caregroupId: task.caregroupId,
-                      title: "${myProfile.name} has given you kudos for completing ${task.title}",
+                      title: "${myProfile.displayName} has given you kudos for completing ${task.title}",
                       routeName: "/task-detailed-view",
                       subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
                       dateTime: dateTime,

@@ -50,37 +50,7 @@ class ViewProfile extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 6,
-                      child: Text(profile.name,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    const Expanded(
-                      flex: 4,
-                      child: Text('First Name',
-                          style: TextStyle(fontWeight: FontWeight.normal)),
-                    ),
-                    Expanded(
-                      flex: 6,
-                      child: Text(profile.firstName,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    const Expanded(
-                      flex: 4,
-                      child: Text('Last Name',
-                          style: TextStyle(fontWeight: FontWeight.normal)),
-                    ),
-                    Expanded(
-                      flex: 6,
-                      child: Text(profile.lastName,
+                      child: Text(profile.displayName,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                     )
                   ],

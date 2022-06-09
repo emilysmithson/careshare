@@ -139,7 +139,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           final completionNotification = CareshareNotification(
                               id: id,
                               caregroupId: widget.task.caregroupId,
-                              title: "${myProfile.name} has created a new task: ${widget.task.title}",
+                              title: "${myProfile.displayName} has created a new task: ${widget.task.title}",
                               routeName: "/task-detailed-view",
                               subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
                               dateTime: dateTime,
@@ -194,7 +194,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                             'task_id': widget.task.id,
                             'task_title': widget.task.title,
                             'accepter_id': myProfile.id,
-                            'accepter_name': myProfile.name,
+                            'accepter_name': myProfile.displayName,
                             'date_time': DateTime.now().toString()
                           });
                         }

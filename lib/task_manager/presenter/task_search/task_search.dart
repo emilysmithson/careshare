@@ -98,15 +98,15 @@ class _TaskSearchState extends State<TaskSearch> {
           case "Created by":
             _filteredTaskList.sort((a, b) => _profileList
                 .firstWhere((p) => p.id == a.createdBy!)
-                .name
-                .compareTo(_profileList.firstWhere((p) => p.id == b.createdBy).name));
+                .displayName
+                .compareTo(_profileList.firstWhere((p) => p.id == b.createdBy).displayName));
             break;
 
           case "Assigned to":
             _filteredTaskList.sort((a, b) => ((a.assignedTo != null)
-                    ? _profileList.firstWhere((p) => p.id == a.assignedTo!).name
+                    ? _profileList.firstWhere((p) => p.id == a.assignedTo!).displayName
                     : "")
-                .compareTo((b.assignedTo != null) ? _profileList.firstWhere((p) => p.id == b.assignedTo!).name : ""));
+                .compareTo((b.assignedTo != null) ? _profileList.firstWhere((p) => p.id == b.assignedTo!).displayName : ""));
             break;
 
           case "Status":
@@ -176,7 +176,7 @@ class _TaskSearchState extends State<TaskSearch> {
                       setState(() {});
                       break;
                     case "user":
-                      final items = _profileList.map((c) => MultiSelectDialogItem<Profile>(c, c.name)).toList();
+                      final items = _profileList.map((c) => MultiSelectDialogItem<Profile>(c, c.displayName)).toList();
 
                       final _profiles = await showDialog<Set<Profile>>(
                         context: context,
@@ -354,7 +354,7 @@ class _TaskSearchState extends State<TaskSearch> {
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: _selectedProfiles.map((Profile p) {
-                                    return Text("${p.name}${", "}",
+                                    return Text("${p.displayName}${", "}",
                                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900));
                                   }).toList(),
                                 ),
@@ -442,13 +442,13 @@ class _TaskSearchState extends State<TaskSearch> {
                                   if (task.taskStatus == TaskStatus.draft) Text('Status: ${task.taskStatus.status}'),
                                   if (task.taskStatus == TaskStatus.assigned)
                                     Text(
-                                        'Status: assigned to ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).name}'),
+                                        'Status: assigned to ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).displayName}'),
                                   if (task.taskStatus == TaskStatus.accepted)
                                     Text(
-                                        'Status: accepted by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).name}'),
+                                        'Status: accepted by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).displayName}'),
                                   if (task.taskStatus == TaskStatus.completed)
                                     Text(
-                                        'Status: completed by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).name}'),
+                                        'Status: completed by ${BlocProvider.of<AllProfilesCubit>(context).profileList.firstWhere((profile) => profile.id == task.assignedTo).displayName}'),
                                   if (task.taskStatus == TaskStatus.archived) Text('Status: ${task.taskStatus.status}'),
                                   if (task.taskStatus == TaskStatus.created ||
                                       task.taskStatus == TaskStatus.assigned ||

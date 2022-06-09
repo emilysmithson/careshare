@@ -35,11 +35,11 @@ class ProfileSummary extends StatelessWidget {
                       ProfilePhotoWidget(id: profile.id, size: 80),
                       const SizedBox(height: 8),
                       Center(
-                        child: Text(profile.name,
+                        child: Text(profile.displayName,
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
                       ),
-                      Text('${profile.firstName} ${profile.lastName}'),
+                      Text(profile.displayName),
                       Text(profile.email),
                     ],
                   ),

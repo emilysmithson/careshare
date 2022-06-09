@@ -30,7 +30,7 @@ class AddCommentWidget extends StatelessWidget {
             id: DateTime.now().millisecondsSinceEpoch.toString(),
             comment: controller.text,
             createdBy: profile.id,
-            createdByDisplayName: profile.name,
+            createdByDisplayName: profile.displayName,
             commentCreatedDate: DateTime.now()),
         taskField: TaskField.comment,
       );

@@ -77,8 +77,7 @@ class _AssignATaskState extends State<AssignATask> {
                       ProfilePhotoWidget(
                         id: profile.id,
                       ),
-                      Text(
-                        "${profile.firstName} ${profile.lastName}",
+                      Text(profile.displayName,
                         textAlign: TextAlign.center,
                       )
                     ],

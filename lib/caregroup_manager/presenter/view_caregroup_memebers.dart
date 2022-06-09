@@ -48,7 +48,7 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
       body: BlocBuilder<AllProfilesCubit, AllProfilesState>(builder: (context, state) {
         if (state is AllProfilesLoaded) {
           List<Profile> _profileList = state.profileList;
-          _profileList.sort((a, b) => "${a.firstName} ${a.lastName}".compareTo("${b.firstName} ${b.lastName}"));
+          _profileList.sort((a, b) => a.displayName.compareTo(b.displayName));
 
           return ListView(
               children: _profileList.map(
@@ -86,7 +86,7 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
                 },
                 child: Card(
                   child: ListTile(
-                    title: Text("${profile.firstName} ${profile.lastName}"),
+                    title: Text(profile.displayName),
                     subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Text(profile.email),
                       Text("role: $_role  status: $_status"),

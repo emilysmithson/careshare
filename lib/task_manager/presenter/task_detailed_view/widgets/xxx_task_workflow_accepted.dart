@@ -89,7 +89,7 @@ class TaskWorkflowAcceptedWidget extends StatelessWidget {
                                       'task_id': task.id,
                                       'task_title': task.title,
                                       'completer_id': myProfile.id,
-                                      'completer_name': myProfile.name,
+                                      'completer_name': myProfile.displayName,
                                       'date_time': DateTime.now().toString()
                                     });
                                   },

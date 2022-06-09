@@ -12,7 +12,7 @@ class EditProfileFieldRepository {
     late var value;
     switch (profileField) {
       case ProfileField.type:
-        newProfile.name = newValue;
+        newProfile.type = newValue;
         field = 'type';
         value = newValue;
         break;
