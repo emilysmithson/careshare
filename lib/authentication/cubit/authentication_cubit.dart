@@ -1,7 +1,10 @@
 
+import 'package:careshare/authentication/presenter/authentication_page.dart';
+import 'package:careshare/main.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'authentication_state.dart';
@@ -19,6 +22,20 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     } else {
       emit(AuthenticationLoaded(user));
     }
+
+    // FirebaseAuth.instance
+    //     .authStateChanges()
+    //     .listen((User? user) {
+    //   if (user == null) {
+    //     print('FirebaseAuth.instance.authStateChanges().listen((User? user)  User is signed out');
+    //         Navigator.pushNamed(
+    //             navigatorKey.currentContext!, AuthenticationPage.routeName);
+    //         emit(const AuthenticationLogin());
+    //   } else {
+    //     print('FirebaseAuth.instance.authStateChanges().listen((User? user)  User is signed in');
+    //   }
+    // });
+
     // FirebaseAuth.instance.authStateChanges().listen((event) {
     //   if (event == null) {
     //     Navigator.pushNamed(
@@ -91,7 +108,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return emit(AuthenticationLogin(
-          errorMessage: 'User already exists for that email.',
+          errorMessage: 'No user found for that email.',
           initialEmailValue: email,
         ));
       } else if (e.code == 'wrong-password') {
@@ -141,16 +158,15 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       // MyInvitationsCubit myInvitationsCubit,
 
       ) {
-    emit(AuthenticationLoading());
     FirebaseAuth.instance.signOut();
+    emit(AuthenticationLoading());
 
     // NEED TO CLEAR EVERYTHING DOWN
-    profileCubit.clearProfile();
+    // profileCubit.clearProfile();
     // taskCubit.clearList();
     // caregroupCubit.clearList();
     // invitationsCubit.clearList();
     // myInvitationsCubit.clearList();
 
-    emit(const AuthenticationLogin());
   }
 }

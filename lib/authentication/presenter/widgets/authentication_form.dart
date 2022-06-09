@@ -170,10 +170,15 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       },
                       obscureText: true,
                     ),
-                  Text(
-                    errorMessage ?? '',
-                    style: const TextStyle(color: Colors.red),
-                  ),
+                  if (errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                      child: Text(
+                        errorMessage,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  const SizedBox(height: 16),
 
                   Row(
                     children: [
@@ -270,7 +275,6 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                         primary: Colors.white,
                         backgroundColor: Colors.lightBlueAccent,
                         textStyle: const TextStyle(fontSize: 18)),
-
                     onPressed: () {
                       final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
                       if (widget.state is! AuthenticationLogin) {

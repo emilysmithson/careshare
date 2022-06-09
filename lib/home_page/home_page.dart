@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                     const Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Text(
-                        "You aren't a memeber of any Caregroup yet.",
+                        "You aren't a member of any Caregroup yet.",
                         style: TextStyle(fontSize: 18),
                       ),
                     ),

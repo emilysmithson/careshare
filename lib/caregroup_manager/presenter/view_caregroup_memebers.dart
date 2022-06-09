@@ -5,6 +5,7 @@ import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
 import 'package:careshare/profile_manager/presenter/view_profile.dart';
+import 'package:careshare/profile_manager/presenter/view_profile_in_caregroup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -59,7 +60,8 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
               String _lastLogin = "unknown";
 
               print("profile: {$profile.toString()}");
-              print("indexWhere: ${profile.carerInCaregroups.indexWhere((element) => element.caregroupId == _caregroupId)}");
+              print(
+                  "indexWhere: ${profile.carerInCaregroups.indexWhere((element) => element.caregroupId == _caregroupId)}");
               if (profile.carerInCaregroups.indexWhere((element) => element.caregroupId == _caregroupId) != -1) {
                 RoleInCaregroup _roleInCaregroup =
                     profile.carerInCaregroups.firstWhere((element) => element.caregroupId == _caregroupId);
@@ -72,17 +74,19 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
                 if (_roleInCaregroup.lastLogin != null) {
                   _lastLogin = DateFormat('E d MMM yyyy').add_jm().format(_roleInCaregroup.lastLogin!);
                 }
-              }
-              else {
+              } else {
                 print("Profile: '${profile.id}' not found in caregroup: '${widget.caregroup.id}'");
               }
 
-
               return GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed(
-                    ViewProfile.routeName,
-                    arguments: profile,
+                  Navigator.pushNamed(
+                    context,
+                    ViewProfileInCaregroup.routeName,
+                    arguments: {
+                      'caregroup': widget.caregroup,
+                      'profile': profile,
+                    },
                   );
                 },
                 child: Card(
