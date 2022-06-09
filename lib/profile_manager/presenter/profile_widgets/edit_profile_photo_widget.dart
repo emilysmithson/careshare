@@ -26,7 +26,7 @@ class _EditProfilePhotoWidgetState extends State<EditProfilePhotoWidget> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            contentPadding: EdgeInsets.all(6.0) ,
+            contentPadding: const EdgeInsets.all(6.0) ,
             title: const Text(
               'Where would like you to fetch your photo from?',
             ),
@@ -61,14 +61,14 @@ class _EditProfilePhotoWidgetState extends State<EditProfilePhotoWidget> {
                   children: [
                     Text(
                       "\u{00A0}" * 20,
-                      style: new TextStyle(
+                      style: const TextStyle(
                         decoration: TextDecoration.lineThrough,
                       ),
                     ),
                     const Text(" or "),
                     Text(
                       "\u{00A0}" * 20,
-                      style: new TextStyle(
+                      style: const TextStyle(
                         decoration: TextDecoration.lineThrough,
                       ),
                     ),

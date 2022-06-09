@@ -137,9 +137,9 @@ class _NewProfileState extends State<NewProfile> {
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
-                    child: const Text('Please tell us a bit about yourself:',
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
+                    child: Text('Please tell us a bit about yourself:',
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue)),
                   ),
                   ProfileInputFieldWidget(
@@ -179,9 +179,9 @@ class _NewProfileState extends State<NewProfile> {
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
-                    child: const Text('Lights, camera, action...',
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
+                    child: Text('Lights, camera, action...',
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue)),
                   ),
                   UploadProfilePhotoWidget(
@@ -200,22 +200,22 @@ class _NewProfileState extends State<NewProfile> {
                     children: [
                       Text(
                         "\u{00A0}" * 20,
-                        style: new TextStyle(
+                        style: const TextStyle(
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),
-                      Text(" or "),
+                      const Text(" or "),
                       Text(
                         "\u{00A0}" * 20,
-                        style: new TextStyle(
+                        style: const TextStyle(
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
-                    child: const Text("If your hair isn't quite right, choose from one of our flattering avatars:",
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
+                    child: Text("If your hair isn't quite right, choose from one of our flattering avatars:",
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue)),
                   ),
                   const SizedBox(height: 20),

@@ -4,7 +4,6 @@ import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/presenter/edit_profile.dart';
-import 'package:careshare/profile_manager/presenter/view_profile.dart';
 import 'package:careshare/profile_manager/presenter/view_profile_in_caregroup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,12 +64,8 @@ class _ViewCaregroupMembersState extends State<ViewCaregroupMembers> {
               if (profile.carerInCaregroups.indexWhere((element) => element.caregroupId == _caregroupId) != -1) {
                 RoleInCaregroup _roleInCaregroup =
                     profile.carerInCaregroups.firstWhere((element) => element.caregroupId == _caregroupId);
-                if (_roleInCaregroup.role != null) {
-                  _role = _roleInCaregroup.role.role;
-                }
-                if (_roleInCaregroup.status != null) {
-                  _status = _roleInCaregroup.status.status;
-                }
+                _role = _roleInCaregroup.role.role;
+                _status = _roleInCaregroup.status.status;
                 if (_roleInCaregroup.lastLogin != null) {
                   _lastLogin = DateFormat('E d MMM yyyy').add_jm().format(_roleInCaregroup.lastLogin!);
                 }

@@ -1,4 +1,3 @@
-import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:flutter/material.dart';

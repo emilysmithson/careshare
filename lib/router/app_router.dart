@@ -3,7 +3,6 @@ import 'package:careshare/authentication/presenter/authentication_page.dart';
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/caregroup_manager/presenter/caregroup_manager.dart';
 import 'package:careshare/caregroup_manager/presenter/fetch_caregroup_page.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
 import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';

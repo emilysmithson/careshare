@@ -1,10 +1,7 @@
 
-import 'package:careshare/authentication/presenter/authentication_page.dart';
-import 'package:careshare/main.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'authentication_state.dart';

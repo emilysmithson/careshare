@@ -50,29 +50,29 @@ class _UploadProfilePhotoWidgetState extends State<UploadProfilePhotoWidget> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "\u{00A0}" * 20,
-                      style: new TextStyle(
+                      style: const TextStyle(
                         decoration: TextDecoration.lineThrough,
                       ),
                     ),
-                    Text(" or "),
+                    const Text(" or "),
                     Text(
                       "\u{00A0}" * 20,
-                      style: new TextStyle(
+                      style: const TextStyle(
                         decoration: TextDecoration.lineThrough,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
-                  child: const Text("If your hair isn't quite right, choose from one of our flattering avatars:",
+                const SizedBox(height: 10,),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 18.0),
+                  child: Text("If your hair isn't quite right, choose from one of our flattering avatars:",
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue)),
                 ),
                 const SizedBox(height: 20),
