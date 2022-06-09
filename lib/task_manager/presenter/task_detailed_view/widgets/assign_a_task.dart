@@ -78,7 +78,7 @@ class _AssignATaskState extends State<AssignATask> {
                         id: profile.id,
                       ),
                       Text(
-                        profile.name,
+                        "${profile.firstName} ${profile.lastName}",
                         textAlign: TextAlign.center,
                       )
                     ],
