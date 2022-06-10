@@ -188,7 +188,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
 
                           Navigator.pop(context);
 
-                          // Send a message to tell the creator the task is accepted
+                          // Send a message to tell the assigner the task is accepted
                           if (myProfile.id != widget.task.createdBy) {
                             final String id = DateTime.now().millisecondsSinceEpoch.toString();
                             final DateTime dateTime = DateTime.now();
@@ -204,15 +204,15 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                                 isRead: false,
                                 arguments: widget.task.id);
 
-                            // send to the task creator
+                            // send to the task assigner
                             String? recipientToken = BlocProvider.of<AllProfilesCubit>(context)
                                 .profileList
-                                .firstWhere((p) => p.id == widget.task.createdBy!)
+                                .firstWhere((p) => p.id == widget.task.assignedBy!)
                                 .messagingToken;
 
                             BlocProvider.of<NotificationsCubit>(context).sendNotifications(
                               notification: acceptNotification,
-                              recipientIds: [widget.task.createdBy!],
+                              recipientIds: [widget.task.assignedBy!],
                               recipientTokens: [recipientToken],
                             );
                           }
