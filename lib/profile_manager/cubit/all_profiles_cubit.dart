@@ -73,7 +73,7 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
   String? getName(String id) {
     String? name;
     try {
-      name = profileList.firstWhere((element) => element.id == id).name;
+      name = profileList.firstWhere((element) => element.id == id).displayName;
     } catch (e) {
       return 'no name found';
     }

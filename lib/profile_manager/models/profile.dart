@@ -72,7 +72,7 @@ class Profile {
       name: json['name'] ?? "",
       firstName: json['first_name'] ?? "",
       lastName: json['last_name'] ?? "",
-      displayName: json['first_name']+" "+json['last_name'],
+      displayName: (json['first_name']+" "+json['last_name']).toString().replaceAll("  ", " "),
       email: json['email'] ?? "",
       phoneCountry: json['phone_country'] ?? "",
       phoneCountryCode: json['phone_country_code'] ?? "",

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/core/presentation/photo_and_name_widget.dart';
 import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 import 'package:careshare/notification_manager/models/careshare_notification.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
+import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
@@ -66,9 +66,10 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
     CareTask originalTask = widget.task.clone();
 
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
-      Caregroup _caregroup = BlocProvider.of<CaregroupCubit>(context).myCaregroupList.firstWhere((c) => c.id==widget.task.caregroupId);
+    Caregroup _caregroup =
+        BlocProvider.of<CaregroupCubit>(context).myCaregroupList.firstWhere((c) => c.id == widget.task.caregroupId);
 
-      return GestureDetector(
+    return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
         if (!currentFocus.hasPrimaryFocus) {
@@ -165,13 +166,11 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                             recipientIds: recipientIds,
                             recipientTokens: recipientTokens,
                           );
-
                         }
                       },
                       child: const Text('Create Task'),
                     ),
                   if (widget.task.taskStatus == TaskStatus.draft) const SizedBox(width: 20),
-
 
                   // Accept Task Button
                   // Shown when the task is Assigned
@@ -213,17 +212,18 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
               appBar: AppBar(
                 title: const Text('Task Details'),
                 actions: [
-                  if (_caregroup.test) IconButton(
-                    icon: const Icon(
-                      Icons.delete,
-                    ),
-                    onPressed: () {
-                      final taskCubit = BlocProvider.of<TaskCubit>(context);
+                  if (_caregroup.test)
+                    IconButton(
+                      icon: const Icon(
+                        Icons.delete,
+                      ),
+                      onPressed: () {
+                        final taskCubit = BlocProvider.of<TaskCubit>(context);
 
-                      taskCubit.removeTask(widget.task.id);
-                      Navigator.pop(context);
-                    },
-                  ),
+                        taskCubit.removeTask(widget.task.id);
+                        Navigator.pop(context);
+                      },
+                    ),
                 ],
               ),
               body: Padding(
@@ -232,10 +232,17 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                   child: Wrap(
                     runSpacing: 24,
                     children: [
-                      PhotoAndNameWidget(
-                        id: widget.task.createdBy!,
-                        text: 'Created by:',
-                        dateTime: widget.task.taskCreatedDate,
+
+                      Row(
+                        children: [
+                          ProfilePhotoWidget(id: widget.task.createdBy!),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text("Created by: ${BlocProvider.of<AllProfilesCubit>(context).getName(widget.task.createdBy!)}"
+                                "${widget.task.taskCreatedDate != null ? ' on ' : ''}"
+                                "${widget.task.taskCreatedDate != null ? DateFormat('E d MMM yyyy').add_jm().format(widget.task.taskCreatedDate!) : ''}"),
+                          ),
+                        ],
                       ),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -328,8 +335,6 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           label: Text('Description'),
                         ),
                       ),
-
-
                       TextFormField(
                         enabled: !widget.task.taskStatus.locked,
                         readOnly: true,
