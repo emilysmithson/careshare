@@ -1,3 +1,5 @@
+import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
+import 'package:careshare/notification_manager/models/careshare_notification.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
@@ -6,12 +8,11 @@ import 'package:careshare/task_manager/cubit/task_cubit.dart';
 
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 
 class AssignATask extends StatefulWidget {
   final CareTask task;
@@ -56,7 +57,40 @@ class _AssignATaskState extends State<AssignATask> {
 
                 if (widget.task.taskStatus != TaskStatus.draft &&
                     myProfile.id != profile.id) {
-                  FirebaseFunctions.instance.httpsCallable('assignTask');
+
+
+
+                  // Send a message to tell the assignee the task is assigned
+                  if (myProfile.id != widget.task.assignedTo) {
+                    final String id = DateTime.now().millisecondsSinceEpoch.toString();
+                    final DateTime dateTime = DateTime.now();
+
+                    final assignNotification = CareshareNotification(
+                        id: id,
+                        caregroupId: widget.task.caregroupId,
+                        title: "${myProfile.displayName} has assigned task: '${widget.task.title}' to you",
+                        routeName: "/task-detailed-view",
+                        subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                        dateTime: dateTime,
+                        senderId: myProfile.id,
+                        isRead: false,
+                        arguments: widget.task.id);
+
+                    // send to the task assigner
+                    String? recipientToken = BlocProvider.of<AllProfilesCubit>(context)
+                        .profileList
+                        .firstWhere((p) => p.id == widget.task.assignedTo!)
+                        .messagingToken;
+
+                    BlocProvider.of<NotificationsCubit>(context).sendNotifications(
+                      notification: assignNotification,
+                      recipientIds: [widget.task.assignedTo!],
+                      recipientTokens: [recipientToken],
+                    );
+                  }
+
+
+
                 }
               }
             },

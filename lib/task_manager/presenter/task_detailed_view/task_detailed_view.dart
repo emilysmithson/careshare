@@ -141,7 +141,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           final completionNotification = CareshareNotification(
                               id: id,
                               caregroupId: widget.task.caregroupId,
-                              title: "${myProfile.displayName} has created a new task: ${widget.task.title}",
+                              title: "${myProfile.displayName} has created a new task: '${widget.task.title}'",
                               routeName: "/task-detailed-view",
                               subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
                               dateTime: dateTime,
@@ -189,14 +189,14 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                           Navigator.pop(context);
 
                           // Send a message to tell the assigner the task is accepted
-                          if (myProfile.id != widget.task.createdBy) {
+                          if (myProfile.id != widget.task.assignedBy) {
                             final String id = DateTime.now().millisecondsSinceEpoch.toString();
                             final DateTime dateTime = DateTime.now();
 
                             final acceptNotification = CareshareNotification(
                                 id: id,
                                 caregroupId: widget.task.caregroupId,
-                                title: "${myProfile.displayName} has accepted task: ${widget.task.title}",
+                                title: "${myProfile.displayName} has accepted task: '${widget.task.title}'",
                                 routeName: "/task-detailed-view",
                                 subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
                                 dateTime: dateTime,

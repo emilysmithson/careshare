@@ -134,15 +134,37 @@ class TaskWorkflowWidget extends StatelessWidget {
 
               Navigator.pop(context);
 
-              // Send a message to tell the world the task is accepted
-              HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('rejectTask');
-              await callable.call(<String, dynamic>{
-                'task_id': task.id,
-                'task_title': task.title,
-                'accepter_id': myProfile.id,
-                'accepter_name': myProfile.displayName,
-                'date_time': DateTime.now().toString()
-              });
+
+
+              // Send a message to tell the assigner the task is rejected
+              if (myProfile.id != task.assignedBy) {
+                final String id = DateTime.now().millisecondsSinceEpoch.toString();
+                final DateTime dateTime = DateTime.now();
+
+                final rejectNotification = CareshareNotification(
+                    id: id,
+                    caregroupId: task.caregroupId,
+                    title: "${myProfile.displayName} has rejected task: '${task.title}'",
+                    routeName: "/task-detailed-view",
+                    subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                    dateTime: dateTime,
+                    senderId: myProfile.id,
+                    isRead: false,
+                    arguments: task.id);
+
+                // send to the task assigner
+                String? recipientToken = BlocProvider.of<AllProfilesCubit>(context)
+                    .profileList
+                    .firstWhere((p) => p.id == task.assignedBy!)
+                    .messagingToken;
+
+                BlocProvider.of<NotificationsCubit>(context).sendNotifications(
+                  notification: rejectNotification,
+                  recipientIds: [task.assignedBy!],
+                  recipientTokens: [recipientToken],
+                );
+              }
+
             },
             child: const Text('Reject Task'),
           ),

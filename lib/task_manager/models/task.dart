@@ -198,7 +198,7 @@ class CareTask {
     final taskCreatedDate = DateTime.parse(value['created_date']);
 
     final assignedTo = value['assigned_to'] ?? '';
-    final assignedBy = value['assigned_By'] ?? '';
+    final assignedBy = value['assigned_by'] ?? '';
     final DateTime? assignedDate = (value['assigned_by_date'] != null)
     ? DateTime.tryParse(value['assigned_by_date'])
         : null;
