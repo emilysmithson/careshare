@@ -87,6 +87,8 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                   // Cancel button
                   // Shown when the task is in Draft
                   // When clicked, the draft task is deleted
+
+                  // Cancel Button
                   if (widget.task.taskStatus == TaskStatus.draft)
                     ElevatedButton(
                       onPressed: () {
@@ -187,15 +189,34 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
 
                           Navigator.pop(context);
 
-                          // Send a message to tell the world the task is accepted
-                          HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('acceptTask');
-                          callable.call(<String, dynamic>{
-                            'task_id': widget.task.id,
-                            'task_title': widget.task.title,
-                            'accepter_id': myProfile.id,
-                            'accepter_name': myProfile.displayName,
-                            'date_time': DateTime.now().toString()
-                          });
+                          // Send a message to tell the creator the task is accepted
+                          if (myProfile.id != widget.task.createdBy) {
+                            final String id = DateTime.now().millisecondsSinceEpoch.toString();
+                            final DateTime dateTime = DateTime.now();
+
+                            final acceptNotification = CareshareNotification(
+                                id: id,
+                                caregroupId: widget.task.caregroupId,
+                                title: "${myProfile.displayName} has accepted task: ${widget.task.title}",
+                                routeName: "/task-detailed-view",
+                                subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
+                                dateTime: dateTime,
+                                senderId: myProfile.id,
+                                isRead: false,
+                                arguments: widget.task.id);
+
+                            // send to the task creator
+                            String? recipientToken = BlocProvider.of<AllProfilesCubit>(context)
+                                .profileList
+                                .firstWhere((p) => p.id == widget.task.createdBy!)
+                                .messagingToken!;
+
+                            BlocProvider.of<NotificationsCubit>(context).sendNotifications(
+                              notification: acceptNotification,
+                              recipientIds: [widget.task.createdBy!],
+                              recipientTokens: [recipientToken],
+                            );
+                          }
                         }
                       },
                       child: const Text('Accept Task'),
@@ -232,13 +253,13 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                   child: Wrap(
                     runSpacing: 24,
                     children: [
-
                       Row(
                         children: [
                           ProfilePhotoWidget(id: widget.task.createdBy!),
                           const SizedBox(width: 16),
                           Expanded(
-                            child: Text("Created by: ${BlocProvider.of<AllProfilesCubit>(context).getName(widget.task.createdBy!)}"
+                            child: Text(
+                                "Created by: ${BlocProvider.of<AllProfilesCubit>(context).getName(widget.task.createdBy!)}"
                                 "${widget.task.taskCreatedDate != null ? ' on ' : ''}"
                                 "${widget.task.taskCreatedDate != null ? DateFormat('E d MMM yyyy').add_jm().format(widget.task.taskCreatedDate!) : ''}"),
                           ),
