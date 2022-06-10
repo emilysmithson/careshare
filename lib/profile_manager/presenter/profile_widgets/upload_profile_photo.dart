@@ -122,7 +122,7 @@ class _UploadProfilePhotoWidgetState extends State<UploadProfilePhotoWidget> {
           },
           child: CircleAvatar(
               radius: 40,
-              child: (currentImage == null || currentImage == "")
+              child: (currentImage == null)
                   ? const Icon(
                       Icons.person_add,
                       size: 40,

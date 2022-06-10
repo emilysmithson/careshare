@@ -136,7 +136,7 @@ class _EditMyProfileState extends State<EditMyProfile> {
                             _debounce = Timer(const Duration(milliseconds: 500), () {
 
                               // is email valid?
-                              if (value != null && value != "" && RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")
+                              if (value != "" && RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[-a-zA-Z0-9]+\.[a-zA-Z]+")
                                   .hasMatch(value)) {
                                 BlocProvider.of<MyProfileCubit>(context).editMyProfile(
                                   profileField: ProfileField.email,

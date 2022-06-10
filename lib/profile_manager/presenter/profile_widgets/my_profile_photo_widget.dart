@@ -20,18 +20,16 @@ class _MyProfilePhotoWidgetState extends State<MyProfilePhotoWidget> {
         Profile myProfile = state.myProfile!;
         final photoURL = myProfile.photo;
 
-        if (photoURL != null) {
-          return Center(
-            child: Container(
-              height: widget.size ?? 40,
-              width: widget.size ?? 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(image: NetworkImage(photoURL), fit: BoxFit.cover),
-              ),
+        return Center(
+          child: Container(
+            height: widget.size ?? 40,
+            width: widget.size ?? 40,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(image: NetworkImage(photoURL), fit: BoxFit.cover),
             ),
-          );
-        }
+          ),
+        );
       }
 
       return Container();

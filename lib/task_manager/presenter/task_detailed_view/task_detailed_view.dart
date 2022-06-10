@@ -11,7 +11,6 @@ import 'package:careshare/profile_manager/presenter/profile_widgets/profile_phot
 import 'package:careshare/task_manager/cubit/task_cubit.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_status.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/assign_a_task.dart';
@@ -209,7 +208,7 @@ class _TaskDetailedViewState extends State<TaskDetailedView> {
                             String? recipientToken = BlocProvider.of<AllProfilesCubit>(context)
                                 .profileList
                                 .firstWhere((p) => p.id == widget.task.createdBy!)
-                                .messagingToken!;
+                                .messagingToken;
 
                             BlocProvider.of<NotificationsCubit>(context).sendNotifications(
                               notification: acceptNotification,

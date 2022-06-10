@@ -1,13 +1,9 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/profile_manager/models/profile_role_in_caregroup.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/profile_manager/presenter/view_profile_in_caregroup.dart';
-import 'package:careshare/task_manager/cubit/task_cubit.dart';
-import 'package:careshare/task_manager/models/task.dart';
 import 'package:flutter/material.dart';
 
 import 'package:careshare/profile_manager/models/profile.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class KudosBoardWidget extends StatelessWidget {
   final Profile profile;

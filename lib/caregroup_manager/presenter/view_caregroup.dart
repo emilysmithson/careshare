@@ -36,7 +36,6 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
 
   @override
   Widget build(BuildContext context) {
-
     // update last access date
     // BlocProvider.of<MyProfileCubit>(context).updateLastLogin(
     //     profile: BlocProvider.of<MyProfileCubit>(context).myProfile, caregroupId: widget.caregroup.id);
@@ -76,9 +75,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
         BlocProvider.of<AllProfilesCubit>(context).profileList.forEach((p) {
           if (p.carerInCaregroups.indexWhere((element) => element.caregroupId == task.caregroupId) != -1) {
             recipientIds.add(p.id);
-            if (p.messagingToken != null) {
-              recipientTokens.add(p.messagingToken);
-            }
+            recipientTokens.add(p.messagingToken);
           }
         });
 
