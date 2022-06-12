@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 class ChatBubble extends StatelessWidget {
   final bool isSender;
   final String text;
-  final TimeOfDay time;
+  final DateTime time;
   final bool tail;
   final Color color;
   final bool sent;

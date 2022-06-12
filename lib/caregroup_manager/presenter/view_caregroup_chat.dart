@@ -91,7 +91,12 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                         itemCount: chatList.length,
                         itemBuilder: (context, index) => Column(
                           children: [
-                            if (index==0 || DateFormat('yyyy-MM-dd').format(chatList[index-1].timeStamp)  != DateFormat('yyyy-MM-dd').format(chatList[index].timeStamp)) DateChip(date: chatList[index].timeStamp),
+                            if (index==chatList.length-1
+                        || chatList[index+1].timeStamp.year != chatList[index].timeStamp.year
+                        || chatList[index+1].timeStamp.month != chatList[index].timeStamp.month
+                        || chatList[index+1].timeStamp.day != chatList[index].timeStamp.day)
+                                // DateFormat('yyyy-MM-dd').format(chatList[index-1].timeStamp)  != DateFormat('yyyy-MM-dd').format(chatList[index].timeStamp))
+                              DateChip(date: chatList[index].timeStamp),
                             Row(
                                   children: [
                                     (chatList[index].fromProfileId != myProfile.id)
@@ -155,7 +160,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
                                             )
                                           : ChatBubble(
                                               text: chatList[index].content,
-                                              time: TimeOfDay(hour: chatList[index].timeStamp.hour, minute: chatList[index].timeStamp.minute),
+                                              time: chatList[index].timeStamp, //TimeOfDay(hour: chatList[index].timeStamp.hour, minute: chatList[index].timeStamp.minute),
                                               color: const Color(0xFFE8E8EE),
                                               tail: true,
                                               isSender: (chatList[index].fromProfileId == myProfile.id)),
