@@ -42,9 +42,9 @@ class ViewProfileInCaregroup extends StatelessWidget {
       tasksCount = tasksCount + 1;
       tasksValue = tasksValue + task.taskEffort.value;
 
-      for (var kudos in task.kudos!) {
-        kudosCount = kudosCount + 1;
-        kudosValue = kudosValue + task.taskEffort.value;
+      if (task.kudos != null) {
+        kudosCount = kudosCount + task.kudos!.length;
+        kudosValue = kudosValue + task.kudos!.length * task.taskEffort.value;
       }
     }
 

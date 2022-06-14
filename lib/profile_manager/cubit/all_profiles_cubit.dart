@@ -34,7 +34,7 @@ class AllProfilesCubit extends Cubit<AllProfilesState> {
       final response = reference.onValue;
 
       response.listen((event) async {
-        emit(AllProfilesLoading());
+        emit(const AllProfilesLoading());
         Map<dynamic, dynamic> returnedList;
         if (event.snapshot.value == null) {
           if (kDebugMode) {

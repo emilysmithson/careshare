@@ -42,12 +42,12 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
     });
   }
 
-  Widget _infoTile(String title, String subtitle) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(subtitle.isEmpty ? 'Not set' : subtitle),
-    );
-  }
+  // Widget _infoTile(String title, String subtitle) {
+  //   return ListTile(
+  //     title: Text(title),
+  //     subtitle: Text(subtitle.isEmpty ? 'Not set' : subtitle),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import '../../../cubit/task_cubit.dart';
 import '../../../models/task.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:careshare/notification_manager/models/careshare_notification.dart';
 import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';

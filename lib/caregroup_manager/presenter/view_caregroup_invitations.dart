@@ -81,7 +81,7 @@ class _ViewCaregroupInvitationsState extends State<ViewCaregroupInvitations> {
                       }
 
                       return Card(
-                        child: ListTile(
+                          child: ListTile(
                           title: Text(invitation.email),
                           subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                             Text(
@@ -96,7 +96,46 @@ class _ViewCaregroupInvitationsState extends State<ViewCaregroupInvitations> {
                                 Icons.more_vert,
                               ),
                             ),
-                            onSelected: (value) {},
+                            onSelected: (value) {
+                              switch (value) {
+                                case "Cancel Invitation":
+                                  BlocProvider.of<InvitationsCubit>(context).cancelInvitation(
+                                    id: invitation.id
+                                  );
+
+
+                                  final snackBar = SnackBar(
+                                    backgroundColor: Colors.blue,
+                                    content: Text('Invitation to ${invitation.email} cancelled'),
+                                  );
+
+                                  // Find the ScaffoldMessenger in the widget tree
+                                  // and use it to show a SnackBar.
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                                  break;
+
+
+                                case "Resend Invitation":
+                                  BlocProvider.of<InvitationsCubit>(context).resendInvitation(
+                                      invitation: invitation
+                                  );
+
+
+                                  final snackBar = SnackBar(
+                                    backgroundColor: Colors.blue,
+                                    content: Text('Invitation to ${invitation.email} resent'),
+                                  );
+
+                                  // Find the ScaffoldMessenger in the widget tree
+                                  // and use it to show a SnackBar.
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                                  break;
+                              }
+
+
+                            },
                             itemBuilder: (context) => [
                               const PopupMenuItem(
                                 child: Text("Resend Invitation"),

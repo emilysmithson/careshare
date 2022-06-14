@@ -25,19 +25,20 @@ class KudosBoard extends StatelessWidget {
     List<Profile> _profileList = profileList.toList();
 
     List<KudosValue> _kudosValues = [];
-    _profileList.forEach((profile) {
+    for (var profile in _profileList) {
       int _kudosValue = 0;
       List<CareTask> mytaskList = BlocProvider.of<TaskCubit>(context)
           .taskList
           .where((task) => task.completedBy == profile.id && task.taskStatus.complete)
           .toList();
       for (var task in mytaskList) {
-        for (var kudos in task.kudos!) {
-          _kudosValue = _kudosValue + task.taskEffort.value;
+
+        if (task.kudos != null) {
+          _kudosValue = _kudosValue + task.taskEffort.value * task.kudos!.length;
         }
       }
       _kudosValues.add(KudosValue(profile: profile, kudosValue: _kudosValue));
-    });
+    }
     _kudosValues.sort((a, b) => b.kudosValue.compareTo(a.kudosValue));
 
     return BlocBuilder<MyProfileCubit, MyProfileState>(

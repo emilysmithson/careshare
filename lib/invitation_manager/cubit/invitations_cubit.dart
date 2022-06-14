@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:careshare/email/models/email.dart';
 
 import 'package:careshare/invitation_manager/models/invitation.dart';
 import 'package:careshare/invitation_manager/models/invitation_status.dart';
@@ -24,8 +25,6 @@ class InvitationsCubit extends Cubit<InvitationsState> {
     required String caregroupId,
     required String email,
     String? message,
-    // required List<String> careeInCaregroups,
-    // required List<String> carerInCaregroups,
   }) async {
     emit(const InvitationLoading());
 
@@ -40,14 +39,41 @@ class InvitationsCubit extends Cubit<InvitationsState> {
     );
     try {
       DatabaseReference reference = FirebaseDatabase.instance.ref('invitations');
-
       reference.child(invitation.id).set(invitation.toJson());
+
+      // send email
+      Email invitationEmail = Email(
+          address: email,
+          message: "You have been invited to join Careshare",
+          name: "The Careshare Team",
+          subject: "You have been invited to join Careshare");
+
+      sendEmail(email: invitationEmail);
     } catch (error) {
       if (kDebugMode) {
         print(error);
       }
     }
     emit(InvitationsLoaded.AllInvitationsLoaded(invitationList: invitationList));
+  }
+
+  resendInvitation({
+    required Invitation invitation,
+  }) async {
+    try {
+      // send email
+      Email invitationEmail = Email(
+          address: invitation.email,
+          message: "This is a reminder that you have been invited to join Careshare",
+          name: "The Careshare Team",
+          subject: "You have been invited to join Careshare");
+
+      sendEmail(email: invitationEmail);
+    } catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+    }
   }
 
   Future fetchInvitations({required String caregroupId}) async {
@@ -86,7 +112,7 @@ class InvitationsCubit extends Cubit<InvitationsState> {
     }
   }
 
-  cancelInvitation(String id) {
+  cancelInvitation({required String id}) {
     emit(const InvitationLoading());
 
     DatabaseReference reference = FirebaseDatabase.instance.ref("invitations/$id");

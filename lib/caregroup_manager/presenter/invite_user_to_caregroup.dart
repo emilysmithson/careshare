@@ -114,6 +114,7 @@ class InviteUserToCaregroupState extends State<InviteUserToCaregroup> {
                               onPressed: () {
                                 // Validate returns true if the form is valid, or false otherwise.
                                 if (_formKey.currentState!.validate()) {
+
                                   BlocProvider.of<InvitationsCubit>(context).sendInvitation(
                                     id: DateTime.now().millisecondsSinceEpoch.toString(),
                                     email: widget.emailController.text,
