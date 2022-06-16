@@ -3,7 +3,7 @@ import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_chat.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_invitations.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
-import 'package:careshare/caregroup_manager/presenter/view_caregroup_overview.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_notes.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
 import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 import 'package:careshare/notification_manager/models/careshare_notification.dart';
@@ -115,9 +115,13 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
           //   label: 'Docs',
           // ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.summarize_outlined),
-            label: 'Overview',
+            icon: Icon(Icons.note_add_outlined),
+            label: 'Notes',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.summarize_outlined),
+          //   label: 'Overview',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
             label: 'Members',
@@ -144,7 +148,7 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
           : (_selectedIndex == 1)
               ? ViewCaregroupChat(caregroup: widget.caregroup)
               : (_selectedIndex == 2)
-                  ? ViewCaregroupOverview(caregroup: widget.caregroup)
+                  ? ViewCaregroupNotes(caregroup: widget.caregroup)
                   : (_selectedIndex == 3)
                       ? ViewCaregroupMembers(caregroup: widget.caregroup)
                       : (_selectedIndex == 4)

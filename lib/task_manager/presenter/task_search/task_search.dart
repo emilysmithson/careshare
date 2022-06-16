@@ -106,7 +106,8 @@ class _TaskSearchState extends State<TaskSearch> {
             _filteredTaskList.sort((a, b) => ((a.assignedTo != null)
                     ? _profileList.firstWhere((p) => p.id == a.assignedTo!).displayName
                     : "")
-                .compareTo((b.assignedTo != null) ? _profileList.firstWhere((p) => p.id == b.assignedTo!).displayName : ""));
+                .compareTo(
+                    (b.assignedTo != null) ? _profileList.firstWhere((p) => p.id == b.assignedTo!).displayName : ""));
             break;
 
           case "Status":

@@ -12,6 +12,11 @@ import 'package:careshare/chat_manager/repository/remove_chat.dart';
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
+import 'package:careshare/note_manager/cubit/note_cubit.dart';
+import 'package:careshare/note_manager/repository/create_note.dart';
+import 'package:careshare/note_manager/repository/edit_note_field_repository.dart';
+import 'package:careshare/note_manager/repository/remove_note.dart';
+import 'package:careshare/note_manager/repository/update_a_note.dart';
 import 'package:careshare/notification_manager/cubit/notifications_cubit.dart';
 import 'package:careshare/profile_manager/repository/complete_task.dart';
 import 'package:careshare/profile_manager/repository/give_kudos.dart';
@@ -92,18 +97,26 @@ class _AppState extends State<App> {
                         createChatRepository: CreateChat(),
                         removeChatRepository: RemoveChat(),
                       ),
-                      child: MaterialApp(
-                        scrollBehavior: const MaterialScrollBehavior().copyWith(
-                          dragDevices: {
-                            PointerDeviceKind.mouse,
-                            PointerDeviceKind.touch,
-                            PointerDeviceKind.stylus,
-                            PointerDeviceKind.unknown
-                          },
+                      child: BlocProvider(
+                        create: (context) => NoteCubit(
+                          createNoteRepository: CreateNote(),
+                          removeNoteRepository: RemoveNote(),
+                          editNoteFieldRepository: EditNoteFieldRepository(),
+                          updateANoteRepository: UpdateANote(),
                         ),
-                        navigatorKey: navigatorKey,
-                        theme: CustomTheme.themeData,
-                        onGenerateRoute: _appRouter.onGenerateRoute,
+                        child: MaterialApp(
+                          scrollBehavior: const MaterialScrollBehavior().copyWith(
+                            dragDevices: {
+                              PointerDeviceKind.mouse,
+                              PointerDeviceKind.touch,
+                              PointerDeviceKind.stylus,
+                              PointerDeviceKind.unknown
+                            },
+                          ),
+                          navigatorKey: navigatorKey,
+                          theme: CustomTheme.themeData,
+                          onGenerateRoute: _appRouter.onGenerateRoute,
+                        ),
                       ),
                     ),
                   ),

@@ -18,6 +18,14 @@ import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/presenter/fetch_my_invitations_page.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
+import 'package:careshare/note_manager/cubit/note_cubit.dart';
+import 'package:careshare/note_manager/models/note.dart';
+import 'package:careshare/note_manager/presenter/note_detailed_view.dart';
+import 'package:careshare/note_manager/repository/create_note.dart';
+import 'package:careshare/note_manager/repository/edit_note_field_repository.dart';
+import 'package:careshare/note_manager/repository/fetch_notes_page.dart';
+import 'package:careshare/note_manager/repository/remove_note.dart';
+import 'package:careshare/note_manager/repository/update_a_note.dart';
 import 'package:careshare/notification_manager/presenter/fetch_my_notifications.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:careshare/notification_manager/presenter/notifications_page.dart';
@@ -58,6 +66,13 @@ class AppRouter {
     editTaskFieldRepository: EditTaskFieldRepository(),
     removeATaskRepository: RemoveATask(),
     updateATaskRepository: UpdateATask(),
+  );
+
+  final _noteCubit = NoteCubit(
+    editNoteFieldRepository: EditNoteFieldRepository(),
+    updateANoteRepository: UpdateANote(),
+    createNoteRepository: CreateNote(),
+    removeNoteRepository: RemoveNote(),
   );
 
   // final _chatCubit = ChatCubit(
@@ -155,6 +170,24 @@ class AppRouter {
           ),
         );
 
+      case NoteDetailedView.routeName:
+        Note? note;
+        if (routeSettings.arguments.runtimeType == String) {
+          note = _noteCubit.fetchNoteFromID(routeSettings.arguments as String);
+        }
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _noteCubit,
+            child: BlocProvider.value(
+              value: _caregroupCubit,
+              child: BlocProvider.value(
+                value: _categoriesCubit,
+                child: NoteDetailedView(note: note ?? routeSettings.arguments as Note),
+              ),
+            ),
+          ),
+        );
+
       case InviteUserToCaregroup.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
@@ -204,9 +237,9 @@ class AppRouter {
             value: _caregroupCubit,
             child: BlocProvider.value(
               value: _taskCubit,
-            child: ViewProfileInCaregroup(
-                caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup'] as Caregroup,
-                profile: (routeSettings.arguments as Map<String, dynamic>)['profile'] as Profile),
+              child: ViewProfileInCaregroup(
+                  caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup'] as Caregroup,
+                  profile: (routeSettings.arguments as Map<String, dynamic>)['profile'] as Profile),
             ),
           ),
         );
@@ -216,8 +249,11 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _caregroupCubit,
             child: BlocProvider.value(
-              value: _taskCubit,
-              child: ViewCaregroup(caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup']),
+              value: _categoriesCubit,
+              child: BlocProvider.value(
+                value: _taskCubit,
+                child: ViewCaregroup(caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup']),
+              ),
             ),
           ),
         );
@@ -283,6 +319,16 @@ class AppRouter {
             ),
           ),
         );
+
+      // case FetchNotesPage.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider.value(
+      //       value: _noteCubit,
+      //       child: FetchNotesPage(
+      //         caregroup: routeSettings.arguments as Caregroup,
+      //       ),
+      //     ),
+      //   );
 
       case FetchCategoriesPage.routeName:
         return MaterialPageRoute(

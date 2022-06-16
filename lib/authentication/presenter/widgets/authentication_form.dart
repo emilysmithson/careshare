@@ -187,7 +187,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                           style: TextButton.styleFrom(
                               primary: Colors.white,
                               backgroundColor: Colors.blue,
-                              textStyle: const TextStyle(fontSize: 20)),
+                              textStyle: const TextStyle(fontSize: 16)),
                           onPressed: () {
                             // if (photo == null && widget.state is AuthenticationRegister) {
                             //   ScaffoldMessenger.of(context).showSnackBar(
@@ -274,7 +274,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     style: TextButton.styleFrom(
                         primary: Colors.white,
                         backgroundColor: Colors.lightBlueAccent,
-                        textStyle: const TextStyle(fontSize: 18)),
+                        textStyle: const TextStyle(fontSize: 16)),
                     onPressed: () {
                       final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
                       if (widget.state is! AuthenticationLogin) {
