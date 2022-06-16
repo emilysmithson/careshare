@@ -1,3 +1,4 @@
+import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import '../models/note.dart';
@@ -8,6 +9,7 @@ class CreateNote {
   Future<Note> call(
       String caregroupId,
       String title,
+      CareCategory category,
       String details,
       String content,
       String link,
@@ -16,6 +18,7 @@ class CreateNote {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       caregroupId: caregroupId,
       title: title,
+      category: category,
       details: details,
       createdById: FirebaseAuth.instance.currentUser!.uid,
       createdDate: DateTime.now(),

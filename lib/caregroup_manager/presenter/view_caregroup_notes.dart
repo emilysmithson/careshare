@@ -29,7 +29,7 @@ class ViewCaregroupNotes extends StatefulWidget {
 
 class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
   TextEditingController noteController = TextEditingController();
-  String? _selectedItem = "";
+  String? _selectedCategory = "";
 
   @override
   void dispose() {
@@ -41,15 +41,16 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
   Widget build(BuildContext context) {
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
     List<Profile> profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
-    List<Note> noteList = BlocProvider.of<NoteCubit>(context).noteList;
 
     BlocProvider.of<NoteCubit>(context).fetchNotes(caregroupId: widget.caregroup.id);
 
     List<CareCategory> _categoryList = BlocProvider.of<CategoriesCubit>(context).categoryList;
     print("${_categoryList.length} categoriies loaded");
-    if (_selectedItem == "") {
-      _selectedItem = _categoryList[0].id;
+    if (_selectedCategory == "") {
+      _selectedCategory = _categoryList[0].id;
     }
+    List<Note> noteList = BlocProvider.of<NoteCubit>(context).noteList.where((n) => n.category.id==_selectedCategory).toList();
+
 
     return BlocBuilder<NoteCubit, NoteState>(
       builder: (context, state) {
@@ -66,7 +67,7 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                 onPressed: () async {
                   // Create a draft task and pass it to the edit screen
                   final noteCubit = BlocProvider.of<NoteCubit>(context);
-                  final Note? note = await noteCubit.draftNote(widget.caregroup.id, '', '', '', '');
+                  final Note? note = await noteCubit.draftNote(widget.caregroup.id, '', _categoryList.firstWhere((c) => c.id==_selectedCategory), '', '', '');
                   if (note != null) {
                     Navigator.pushNamed(
                       context,
@@ -129,7 +130,7 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                             focusColor: Colors.white,
                             iconDisabledColor: Colors.white,
 
-                            value: _selectedItem,
+                            value: _selectedCategory,
                             items: _categoryList
                                 .map((c) => DropdownMenuItem<String>(
                                       value: c.id,
@@ -147,7 +148,7 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                             onChanged: (item) {
                               setState(() {
                                 // print(item);
-                                _selectedItem = item.toString();
+                                _selectedCategory = item.toString();
                               });
                             }),
                       ),
@@ -165,15 +166,24 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                         reverse: false,
                         itemCount: noteList.length,
                         itemBuilder: (context, index) => Card(
-                          child: ListTile(
-                            title: Text(noteList[index].title),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(noteList[index].details!),
-                                Text(
-                                    'created: ${DateFormat('E d MMM yyyy').add_jm().format(noteList[index].createdDate)}')
-                              ],
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                NoteDetailedView.routeName,
+                                arguments: noteList[index],
+                              );
+                            },
+
+                            child: ListTile(
+                              title: Text(noteList[index].title),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(noteList[index].details!),
+                                  Text(
+                                      'created: ${DateFormat('E d MMM yyyy').add_jm().format(noteList[index].createdDate)}')
+                                ],
+                              ),
                             ),
                           ),
                         ),

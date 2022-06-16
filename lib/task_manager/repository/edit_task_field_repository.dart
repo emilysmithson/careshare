@@ -1,3 +1,4 @@
+import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/task_manager/models/task.dart';
 import 'package:careshare/task_manager/models/task_priority.dart';
 import 'package:careshare/task_manager/models/task_effort.dart';
@@ -6,7 +7,6 @@ import 'package:careshare/task_manager/models/task_type.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../category_manager/domain/models/category.dart';
 
 class EditTaskFieldRepository {
   CareTask call({required CareTask task, required TaskField taskField, required dynamic newValue}) {

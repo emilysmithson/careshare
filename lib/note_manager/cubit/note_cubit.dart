@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/note_manager/models/note.dart';
 import 'package:careshare/note_manager/repository/create_note.dart';
 import 'package:careshare/note_manager/repository/edit_note_field_repository.dart';
@@ -48,12 +49,12 @@ class NoteCubit extends Cubit<NoteState> {
 
           noteList.clear();
           returnedList.forEach(
-            (key, value) {
+                (key, value) {
               noteList.add(Note.fromJson(key, value));
             },
           );
           noteList.sort(
-            (a, b) => b.createdDate.compareTo(a.createdDate),
+                (a, b) => b.createdDate.compareTo(a.createdDate),
           );
 
           emit(
@@ -68,10 +69,18 @@ class NoteCubit extends Cubit<NoteState> {
     }
   }
 
-  Future<Note?> draftNote(String caregroupId, String title, String details, String content, String link) async {
+  Future<Note?> draftNote(String caregroupId, String title, CareCategory category, String details, String content,
+      String link) async {
     Note? note;
     try {
-      note = await createNoteRepository(caregroupId, title, details, content, link);
+      note = await createNoteRepository(
+          caregroupId,
+          title,
+          category,
+          details,
+          content,
+          link
+      );
 
       return note;
     } catch (e) {
@@ -85,10 +94,10 @@ class NoteCubit extends Cubit<NoteState> {
     return null;
   }
 
-  Future<Note?> createNote(String caregroupId, String title, String details, String content, String link) async {
+  Future<Note?> createNote(String caregroupId, String title, CareCategory category, String details, String content, String link) async {
     Note? note;
     try {
-      note = await createNoteRepository(caregroupId, title, details, content, link);
+      note = await createNoteRepository(caregroupId, title, category,  details, content, link);
 
       return note;
     } catch (e) {

@@ -1,3 +1,4 @@
+import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:careshare/note_manager/models/note.dart';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -16,6 +17,12 @@ class EditNoteFieldRepository {
         field = 'title';
         value = newValue;
         break;
+      case NoteField.category:
+        newNote.category = newValue;
+        field = 'category';
+        value = (newValue as CareCategory).toJson();
+        break;
+
       case NoteField.content:
         newNote.content = newValue;
         field = 'content';
