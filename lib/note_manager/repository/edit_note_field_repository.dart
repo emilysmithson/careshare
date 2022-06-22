@@ -26,7 +26,7 @@ class EditNoteFieldRepository {
       case NoteField.content:
         newNote.content = newValue;
         field = 'content';
-        value = newValue;
+        value = newValue.toDelta().toJson();
         break;
       case NoteField.link:
         newNote.link = newValue;

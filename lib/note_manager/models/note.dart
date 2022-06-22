@@ -1,5 +1,9 @@
 import 'package:careshare/category_manager/domain/models/category.dart';
 
+import 'dart:convert';
+
+import 'package:flutter_quill/flutter_quill.dart';
+
 class Note {
   final String id;
   String caregroupId;
@@ -9,7 +13,7 @@ class Note {
 
   String createdById;
   DateTime createdDate;
-  String? content;
+  Document? content;
   String? link;
 
   Note({
@@ -49,7 +53,7 @@ class Note {
       'details': details,
       'from': createdById,
       'date_created': createdDate.toString(),
-      'content': content,
+      'content': content!.toDelta().toJson(),
       'link': link,
     };
   }
@@ -59,6 +63,13 @@ class Note {
 
     final details = value['details'] ?? '';
 
+    Document contentMap;
+    if (value['content'] != "") {
+      contentMap = Document.fromJson(value['content']);
+    } else {
+      contentMap = Document()..insert(0, 'Empty asset');
+    }
+
     return Note(
       id: key,
       caregroupId: value['caregroup'],
@@ -67,7 +78,7 @@ class Note {
       details: details,
       createdById: value['from'],
       createdDate: DateTime.parse(value['date_created']),
-      content: value['content'],
+      content: contentMap,
       link: value['link'] ?? "",
     );
   }
@@ -80,11 +91,11 @@ class Note {
         other.id == id &&
         other.caregroupId == caregroupId &&
         other.title == title &&
+        other.content!.toDelta().toJson() == content!.toDelta().toJson() &&
         other.category == category &&
         other.details == details &&
         other.createdById == createdById &&
         other.createdDate == createdDate &&
-        other.content == content &&
         other.link == link;
   }
 

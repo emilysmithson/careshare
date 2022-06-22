@@ -1,5 +1,6 @@
 import 'package:careshare/category_manager/domain/models/category.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
 import '../models/note.dart';
 
@@ -11,7 +12,7 @@ class CreateNote {
       String title,
       CareCategory category,
       String details,
-      String content,
+      Document? content,
       String link,
       ) async {
     final note = Note(

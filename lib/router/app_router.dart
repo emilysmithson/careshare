@@ -23,7 +23,6 @@ import 'package:careshare/note_manager/models/note.dart';
 import 'package:careshare/note_manager/presenter/note_detailed_view.dart';
 import 'package:careshare/note_manager/repository/create_note.dart';
 import 'package:careshare/note_manager/repository/edit_note_field_repository.dart';
-import 'package:careshare/note_manager/repository/fetch_notes_page.dart';
 import 'package:careshare/note_manager/repository/remove_note.dart';
 import 'package:careshare/note_manager/repository/update_a_note.dart';
 import 'package:careshare/notification_manager/presenter/fetch_my_notifications.dart';

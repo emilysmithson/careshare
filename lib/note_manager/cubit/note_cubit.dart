@@ -10,6 +10,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
 part 'note_state.dart';
 
@@ -49,12 +50,12 @@ class NoteCubit extends Cubit<NoteState> {
 
           noteList.clear();
           returnedList.forEach(
-                (key, value) {
+            (key, value) {
               noteList.add(Note.fromJson(key, value));
             },
           );
           noteList.sort(
-                (a, b) => b.createdDate.compareTo(a.createdDate),
+            (a, b) => b.createdDate.compareTo(a.createdDate),
           );
 
           emit(
@@ -69,18 +70,11 @@ class NoteCubit extends Cubit<NoteState> {
     }
   }
 
-  Future<Note?> draftNote(String caregroupId, String title, CareCategory category, String details, String content,
-      String link) async {
+  Future<Note?> draftNote(
+      String caregroupId, String title, CareCategory category, String details, Document? content, String link) async {
     Note? note;
     try {
-      note = await createNoteRepository(
-          caregroupId,
-          title,
-          category,
-          details,
-          content,
-          link
-      );
+      note = await createNoteRepository(caregroupId, title, category, details, content, link);
 
       return note;
     } catch (e) {
@@ -94,10 +88,11 @@ class NoteCubit extends Cubit<NoteState> {
     return null;
   }
 
-  Future<Note?> createNote(String caregroupId, String title, CareCategory category, String details, String content, String link) async {
+  Future<Note?> createNote(String caregroupId, String title, CareCategory category, String details,
+      Document content, String link) async {
     Note? note;
     try {
-      note = await createNoteRepository(caregroupId, title, category,  details, content, link);
+      note = await createNoteRepository(caregroupId, title, category, details, content, link);
 
       return note;
     } catch (e) {

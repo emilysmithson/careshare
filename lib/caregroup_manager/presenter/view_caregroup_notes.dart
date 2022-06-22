@@ -12,6 +12,7 @@ import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
 import 'package:careshare/profile_manager/models/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:intl/intl.dart';
 
 class ViewCaregroupNotes extends StatefulWidget {
@@ -49,8 +50,8 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
     if (_selectedCategory == "") {
       _selectedCategory = _categoryList[0].id;
     }
-    List<Note> noteList = BlocProvider.of<NoteCubit>(context).noteList.where((n) => n.category.id==_selectedCategory).toList();
-
+    List<Note> noteList =
+        BlocProvider.of<NoteCubit>(context).noteList.where((n) => n.category.id == _selectedCategory).toList();
 
     return BlocBuilder<NoteCubit, NoteState>(
       builder: (context, state) {
@@ -67,7 +68,8 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                 onPressed: () async {
                   // Create a draft task and pass it to the edit screen
                   final noteCubit = BlocProvider.of<NoteCubit>(context);
-                  final Note? note = await noteCubit.draftNote(widget.caregroup.id, '', _categoryList.firstWhere((c) => c.id==_selectedCategory), '', '', '');
+                  final Note? note = await noteCubit.draftNote(
+                      widget.caregroup.id, '', _categoryList.firstWhere((c) => c.id == _selectedCategory), '', quill.Document()..insert(0, 'Empty asset'), '');
                   if (note != null) {
                     Navigator.pushNamed(
                       context,
@@ -110,34 +112,28 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                       style: TextStyle(fontSize: 16, color: Colors.blue[700], fontWeight: FontWeight.normal),
                     ),
                     SizedBox(width: 10),
-
-
-
                     Container(
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.blueAccent,
                           ),
                           color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(6))
-                      ),
-
+                          borderRadius: BorderRadius.all(Radius.circular(6))),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(6.0, 2.0, 6.0, 2.0),
                         child: DropdownButton(
-                          isDense: true,
-                          dropdownColor: Colors.white,
+                            isDense: true,
+                            dropdownColor: Colors.white,
                             focusColor: Colors.white,
                             iconDisabledColor: Colors.white,
-
                             value: _selectedCategory,
                             items: _categoryList
                                 .map((c) => DropdownMenuItem<String>(
                                       value: c.id,
                                       child: Text(
                                         c.name,
-                                        style:
-                                            TextStyle(fontSize: 16, color: Colors.blue[700], fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.blue[700], fontWeight: FontWeight.bold),
                                       ),
                                     ))
                                 .toList(),
@@ -173,7 +169,6 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                                 arguments: noteList[index],
                               );
                             },
-
                             child: ListTile(
                               title: Text(noteList[index].title),
                               subtitle: Column(
