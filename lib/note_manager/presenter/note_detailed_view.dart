@@ -88,6 +88,12 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
       },
       child: BlocBuilder<NoteCubit, NoteState>(
         builder: (context, state) {
+
+          titleController.text = widget.note.title;
+          _controller =
+              quill.QuillController(document: widget.note.content!, selection: const TextSelection.collapsed(offset: 0));
+
+          print("rebuilding note_detailed_view");
           return Form(
             key: _formKey,
             child: Scaffold(

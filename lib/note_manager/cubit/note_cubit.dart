@@ -29,7 +29,10 @@ class NoteCubit extends Cubit<NoteState> {
 
   final List<Note> noteList = [];
 
-  Future fetchNotes({required String caregroupId}) async {
+  Future fetchNotes({
+    required String caregroupId,
+    required String categoryId,
+  }) async {
     try {
       // print('.....fetching notes for: $aregroupId');
 
@@ -51,13 +54,17 @@ class NoteCubit extends Cubit<NoteState> {
           noteList.clear();
           returnedList.forEach(
             (key, value) {
-              noteList.add(Note.fromJson(key, value));
+              Note _note = Note.fromJson(key, value);
+              if (_note.category.id == categoryId) {
+                noteList.add(_note);
+              }
             },
           );
           noteList.sort(
             (a, b) => b.createdDate.compareTo(a.createdDate),
           );
 
+          print("emitting updated note list");
           emit(
             NotesLoaded(
               noteList: noteList,
@@ -88,8 +95,8 @@ class NoteCubit extends Cubit<NoteState> {
     return null;
   }
 
-  Future<Note?> createNote(String caregroupId, String title, CareCategory category, String details,
-      Document content, String link) async {
+  Future<Note?> createNote(
+      String caregroupId, String title, CareCategory category, String details, Document content, String link) async {
     Note? note;
     try {
       note = await createNoteRepository(caregroupId, title, category, details, content, link);

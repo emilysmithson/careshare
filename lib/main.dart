@@ -72,51 +72,49 @@ class _AppState extends State<App> {
           child: BlocProvider(
             create: (context) => MyInvitationsCubit(),
             child: BlocProvider(
-              create: (context) => NotificationsCubit(),
+              create: (context) => InvitationsCubit(
+                editInvitationFieldRepository: EditInvitationFieldRepository(),
+              ),
               child: BlocProvider(
-                create: (context) => InvitationsCubit(
-                  editInvitationFieldRepository: EditInvitationFieldRepository(),
+                create: (context) => MyProfileCubit(
+                  editProfileFieldRepository: EditProfileFieldRepository(),
+                  addRoleInCaregroupToProfile: AddRoleInCaregroupToProfile(),
+                  updateLastLogin: UpdateLastLogin(),
+                  giveKudos: GiveKudos(),
+                  completeTask: CompleteTask(),
                 ),
                 child: BlocProvider(
-                  create: (context) => MyProfileCubit(
+                  create: (context) => AllProfilesCubit(
+                    addCarerInCaregroupToProfile: AddRoleInCaregroupToProfile(),
                     editProfileFieldRepository: EditProfileFieldRepository(),
-                    addRoleInCaregroupToProfile: AddRoleInCaregroupToProfile(),
-                    updateLastLogin: UpdateLastLogin(),
-                    giveKudos: GiveKudos(),
                     completeTask: CompleteTask(),
+                    giveKudos: GiveKudos(),
                   ),
                   child: BlocProvider(
-                    create: (context) => AllProfilesCubit(
-                      addCarerInCaregroupToProfile: AddRoleInCaregroupToProfile(),
-                      editProfileFieldRepository: EditProfileFieldRepository(),
-                      completeTask: CompleteTask(),
-                      giveKudos: GiveKudos(),
+                    create: (context) => ChatCubit(
+                      createChatRepository: CreateChat(),
+                      removeChatRepository: RemoveChat(),
                     ),
                     child: BlocProvider(
-                      create: (context) => ChatCubit(
-                        createChatRepository: CreateChat(),
-                        removeChatRepository: RemoveChat(),
+                      create: (context) => NoteCubit(
+                        createNoteRepository: CreateNote(),
+                        removeNoteRepository: RemoveNote(),
+                        editNoteFieldRepository: EditNoteFieldRepository(),
+                        updateANoteRepository: UpdateANote(),
                       ),
-                      child: BlocProvider(
-                        create: (context) => NoteCubit(
-                          createNoteRepository: CreateNote(),
-                          removeNoteRepository: RemoveNote(),
-                          editNoteFieldRepository: EditNoteFieldRepository(),
-                          updateANoteRepository: UpdateANote(),
+
+                      child: MaterialApp(
+                        scrollBehavior: const MaterialScrollBehavior().copyWith(
+                          dragDevices: {
+                            PointerDeviceKind.mouse,
+                            PointerDeviceKind.touch,
+                            PointerDeviceKind.stylus,
+                            PointerDeviceKind.unknown
+                          },
                         ),
-                        child: MaterialApp(
-                          scrollBehavior: const MaterialScrollBehavior().copyWith(
-                            dragDevices: {
-                              PointerDeviceKind.mouse,
-                              PointerDeviceKind.touch,
-                              PointerDeviceKind.stylus,
-                              PointerDeviceKind.unknown
-                            },
-                          ),
-                          navigatorKey: navigatorKey,
-                          theme: CustomTheme.themeData,
-                          onGenerateRoute: _appRouter.onGenerateRoute,
-                        ),
+                        navigatorKey: navigatorKey,
+                        theme: CustomTheme.themeData,
+                        onGenerateRoute: _appRouter.onGenerateRoute,
                       ),
                     ),
                   ),

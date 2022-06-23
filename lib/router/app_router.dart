@@ -4,6 +4,7 @@ import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/fetch_caregroup_page.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_notes.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_tasks.dart';
 import 'package:careshare/caregroup_manager/repository/add_carer_in_caregroup_to_caregroup.dart';
 import 'package:careshare/caregroup_manager/repository/remove_a_caregroup.dart';
@@ -67,12 +68,12 @@ class AppRouter {
     updateATaskRepository: UpdateATask(),
   );
 
-  final _noteCubit = NoteCubit(
-    editNoteFieldRepository: EditNoteFieldRepository(),
-    updateANoteRepository: UpdateANote(),
-    createNoteRepository: CreateNote(),
-    removeNoteRepository: RemoveNote(),
-  );
+  // final _noteCubit = NoteCubit(
+  //   editNoteFieldRepository: EditNoteFieldRepository(),
+  //   updateANoteRepository: UpdateANote(),
+  //   createNoteRepository: CreateNote(),
+  //   removeNoteRepository: RemoveNote(),
+  // );
 
   // final _chatCubit = ChatCubit(
   //   createChatRepository: CreateChat(),
@@ -171,18 +172,15 @@ class AppRouter {
 
       case NoteDetailedView.routeName:
         Note? note;
-        if (routeSettings.arguments.runtimeType == String) {
-          note = _noteCubit.fetchNoteFromID(routeSettings.arguments as String);
-        }
+        // if (routeSettings.arguments.runtimeType == String) {
+        //   note = _noteCubit.fetchNoteFromID(routeSettings.arguments as String);
+        // }
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _noteCubit,
+            value: _caregroupCubit,
             child: BlocProvider.value(
-              value: _caregroupCubit,
-              child: BlocProvider.value(
-                value: _categoriesCubit,
-                child: NoteDetailedView(note: note ?? routeSettings.arguments as Note),
-              ),
+              value: _categoriesCubit,
+              child: NoteDetailedView(note: note ?? routeSettings.arguments as Note),
             ),
           ),
         );
@@ -306,6 +304,13 @@ class AppRouter {
             child: ViewCaregroupTasks(
               caregroup: routeSettings.arguments as Caregroup,
             ),
+          ),
+        );
+
+      case ViewCaregroupNotes.routeName:
+        return MaterialPageRoute(
+          builder: (_) => ViewCaregroupNotes(
+            caregroup: routeSettings.arguments as Caregroup,
           ),
         );
 
