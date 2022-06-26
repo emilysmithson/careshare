@@ -53,7 +53,7 @@ class NoteCubit extends Cubit<NoteState> {
 
           noteList.clear();
           returnedList.forEach(
-            (key, value) {
+                (key, value) {
               Note _note = Note.fromJson(key, value);
               if (_note.category.id == categoryId) {
                 noteList.add(_note);
@@ -61,7 +61,52 @@ class NoteCubit extends Cubit<NoteState> {
             },
           );
           noteList.sort(
-            (a, b) => b.createdDate.compareTo(a.createdDate),
+                (a, b) => b.createdDate.compareTo(a.createdDate),
+          );
+
+          print("emitting updated note list");
+          emit(
+            NotesLoaded(
+              noteList: noteList,
+            ),
+          );
+        }
+      });
+    } catch (error) {
+      emit(NoteError(error.toString()));
+    }
+  }
+
+
+  Future fetchNotesForCaregroup({
+    required String caregroupId,
+  }) async {
+    try {
+      // print('.....fetching notes for: $aregroupId');
+
+      emit(const NotesLoading());
+
+      final reference = FirebaseDatabase.instance.ref('notes').orderByChild('caregroup').equalTo(caregroupId);
+      final response = reference.onValue;
+      response.listen((event) {
+        emit(const NotesLoading());
+        if (event.snapshot.value == null) {
+          emit(
+            NotesLoaded(
+              noteList: noteList,
+            ),
+          );
+        } else {
+          Map<dynamic, dynamic> returnedList = event.snapshot.value as Map<dynamic, dynamic>;
+
+          noteList.clear();
+          returnedList.forEach(
+                (key, value) {
+                noteList.add(Note.fromJson(key, value));
+            },
+          );
+          noteList.sort(
+                (a, b) => b.createdDate.compareTo(a.createdDate),
           );
 
           print("emitting updated note list");

@@ -1,25 +1,25 @@
 import 'dart:async';
-
-import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
-import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
-import 'package:careshare/profile_manager/cubit/my_profile_cubit.dart';
-import 'package:careshare/profile_manager/models/profile.dart';
-import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:careshare/note_manager/cubit/note_cubit.dart';
 import 'package:careshare/note_manager/models/note.dart';
+import 'package:careshare/core/presentation/error_page_template.dart';
+import 'package:careshare/core/presentation/loading_page_template.dart';
+import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
+import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:intl/intl.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 class NoteDetailedView extends StatefulWidget {
-  static const String routeName = "/note-detailed-view";
+  static const routeName = '/note-detailed-view';
+  final Caregroup caregroup;
   final Note note;
 
   const NoteDetailedView({
-    Key? key,
+    required this.caregroup,
     required this.note,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -29,27 +29,13 @@ class NoteDetailedView extends StatefulWidget {
 class _NoteDetailedViewState extends State<NoteDetailedView> {
   final _formKey = GlobalKey<FormState>();
   Timer? _debounce;
-  TextEditingController titleController = TextEditingController();
-
-  quill.QuillController? _controller;
-
-
-  final FocusNode _focusNode = FocusNode();
-
   bool _dirty = false;
 
-  @override
-  void initState() {
-    titleController.text = widget.note.title;
-    _controller =
-        quill.QuillController(document: widget.note.content!, selection: const TextSelection.collapsed(offset: 0));
-
-    super.initState();
-  }
+  TextEditingController titleController = TextEditingController();
+  quill.QuillController? _controller;
 
   @override
   void dispose() {
-    _debounce?.cancel();
     titleController.dispose();
     _controller!.dispose();
     super.dispose();
@@ -57,139 +43,53 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
 
   @override
   Widget build(BuildContext context) {
-    Note originalNote = widget.note.clone();
-
-    // Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
-    Caregroup _caregroup =
-        BlocProvider.of<CaregroupCubit>(context).myCaregroupList.firstWhere((c) => c.id == widget.note.caregroupId);
-
-
-    _controller!.document.changes.listen((event) async {
-      _dirty = true;
-      if (_debounce?.isActive ?? false) _debounce?.cancel();
-      _debounce = Timer(const Duration(milliseconds: 100), () {
-
-        print(_controller!.document.toDelta().toJson());
-
-        BlocProvider.of<NoteCubit>(context).editNote(
-          noteField: NoteField.content,
-          note: widget.note,
-          newValue: quill.Document.fromDelta(_controller!.document.toDelta()),
-        );
-      });
-    });
-
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
+    return BlocBuilder<NoteCubit, NoteState>(
+      builder: (context, state) {
+        print(state);
+        if (state is NotesLoading) {
+          return const //Text("loading note");
+              LoadingPageTemplate(loadingMessage: 'Loading note...');
         }
-      },
-      child: BlocBuilder<NoteCubit, NoteState>(
-        builder: (context, state) {
+        if (state is NoteError) {
+          return ErrorPageTemplate(errorMessage: state.message);
+        }
+        if (state is NotesLoaded) {
+          List<Note> _noteList = BlocProvider.of<NoteCubit>(context).noteList;
+          Note _note = _noteList.firstWhere((n) => n.id == widget.note.id);
+          print(_note.toString());
 
-          titleController.text = widget.note.title;
+          titleController.text = _note.title;
           _controller =
               quill.QuillController(document: widget.note.content!, selection: const TextSelection.collapsed(offset: 0));
 
-          print("rebuilding note_detailed_view");
+          _controller!.document.changes.listen((event) async {
+
+
+            _dirty = true;
+            if (_debounce?.isActive ?? false) _debounce?.cancel();
+            _debounce = Timer(const Duration(milliseconds: 1000), () {
+
+              print("item1: ${event.item1}");
+              print("delta: ${event.item2}");
+              print("source: ${event.item3}");
+
+              BlocProvider.of<NoteCubit>(context).editNote(
+                noteField: NoteField.content,
+                note: widget.note,
+                newValue: _controller!.document,
+                // newValue: quill.Document.fromDelta(_controller!.document.toDelta()),
+              );
+            });
+          });
+
+
           return Form(
             key: _formKey,
             child: Scaffold(
-              floatingActionButton: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // Cancel button
-                  // Shown when the note is in Draft
-                  // When clicked, the draft note is deleted
-
-                  // Cancel Button
-                  ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<NoteCubit>(context).removeNote(widget.note.id);
-
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancel'),
-                  ),
-
-                  // Undo button
-                  // Shown when _dirty is true
-                  // When clicked, the note is reverted
-                  if (_dirty)
-                    ElevatedButton(
-                      onPressed: () {
-                        BlocProvider.of<NoteCubit>(context).updateNote(originalNote);
-
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Undo Changes'),
-                    ),
-
-                  // Create Note button
-                  // Shown when the note is in Draft
-                  // When clicked, the status is set to:
-                  //    Created if note isn't assigned
-                  //    Assigned if the note is assigned to someone else
-                  //    Accepted if the note is assigned to me
-                  // A message is sent to everyone in the caregroup except me if the note is unassigned
-                  // A message is sent to the assignee if the note is assigned
-                  ElevatedButton(
-                    onPressed: () {
-                      if (!_formKey.currentState!.validate()) {
-                        print('validation failed');
-                      } else {
-                        // BlocProvider.of<NoteCubit>(context).createNote(
-                        //   note: widget.note,
-                        //   profileId: myProfile.id,
-                        // );
-                        //
-                        Navigator.pop(context);
-                        //
-                        // // Send a message to tell the world the note is created
-                        // final String id = DateTime.now().millisecondsSinceEpoch.toString();
-                        // final DateTime dateTime = DateTime.now();
-                        //
-                        // final completionNotification = CareshareNotification(
-                        //     id: id,
-                        //     caregroupId: widget.note.caregroupId,
-                        //     title: "${myProfile.displayName} has created a new note: '${widget.note.title}'",
-                        //     routeName: "/note-detailed-view",
-                        //     subtitle: 'on ${DateFormat('E d MMM yyyy').add_jm().format(dateTime)}',
-                        //     dateTime: dateTime,
-                        //     senderId: myProfile.id,
-                        //     isRead: false,
-                        //     arguments: widget.note.id);
-                        //
-                        // // send to everyone in the caregroup except me
-                        // List<String> recipientIds = [];
-                        // List<String> recipientTokens = [];
-                        // BlocProvider.of<AllProfilesCubit>(context).profileList.forEach((p) {
-                        //   if (p.id != myProfile.id &&
-                        //       p.carerInCaregroups
-                        //               .indexWhere((element) => element.caregroupId == widget.note.caregroupId) !=
-                        //           -1) {
-                        //     recipientIds.add(p.id);
-                        //     recipientTokens.add(p.messagingToken);
-                        //   }
-                        // });
-                        //
-                        // BlocProvider.of<NotificationsCubit>(context).sendNotifications(
-                        //   notification: completionNotification,
-                        //   recipientIds: recipientIds,
-                        //   recipientTokens: recipientTokens,
-                        // );
-                      }
-                    },
-                    child: const Text('Create Note'),
-                  ),
-                ],
-              ),
               appBar: AppBar(
                 title: const Text('Note Details'),
                 actions: [
-                  if (_caregroup.test)
+                  if (widget.caregroup.test)
                     IconButton(
                       icon: const Icon(
                         Icons.delete,
@@ -250,19 +150,27 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
                           label: Text('Title'),
                         ),
                       ),
-                      quill.QuillToolbar.basic(controller: _controller!),
+
+
                       quill.QuillEditor.basic(
                         controller: _controller!,
-                        readOnly: false, // true for view only mode
+                        readOnly: false,
+
                       ),
+                      quill.QuillToolbar.basic(
+                          controller: _controller!,
+                      toolbarIconAlignment: WrapAlignment.start,
+                      ),
+
                     ],
                   ),
                 ),
               ),
             ),
           );
-        },
-      ),
+        }
+        return Container();
+      },
     );
   }
 }

@@ -149,7 +149,7 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                                 onTap: () {
                                   Navigator.of(context).pushNamed(
                                     NoteDetailedView.routeName,
-                                    arguments: _note,
+                                    arguments: {"caregroup": widget.caregroup, "note": _note},
                                   );
                                 },
                                 child: ListTile(

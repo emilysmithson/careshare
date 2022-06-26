@@ -41,6 +41,7 @@ class _ViewCaregroupChatState extends State<ViewCaregroupChat> {
 
   @override
   Widget build(BuildContext context) {
+
     Profile myProfile = BlocProvider.of<MyProfileCubit>(context).myProfile;
     List<Profile> profileList = BlocProvider.of<AllProfilesCubit>(context).profileList;
     List<Chat> chatList = BlocProvider.of<ChatCubit>(context).chatList;
