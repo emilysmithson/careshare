@@ -20,6 +20,7 @@ import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/presenter/fetch_my_invitations_page.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
 import 'package:careshare/note_manager/cubit/note_cubit.dart';
+import 'package:careshare/note_manager/cubit/notes_cubit.dart';
 import 'package:careshare/note_manager/models/note.dart';
 import 'package:careshare/note_manager/presenter/fetch_notes_page.dart';
 import 'package:careshare/note_manager/presenter/note_detailed_view.dart';
@@ -69,12 +70,14 @@ class AppRouter {
     updateATaskRepository: UpdateATask(),
   );
 
-  final _noteCubit = NoteCubit(
+  final _notesCubit = NotesCubit(
     editNoteFieldRepository: EditNoteFieldRepository(),
     updateANoteRepository: UpdateANote(),
     createNoteRepository: CreateNote(),
     removeNoteRepository: RemoveNote(),
   );
+
+  final _noteCubit = NoteCubit();
 
   // final _chatCubit = ChatCubit(
   //   createChatRepository: CreateChat(),
@@ -172,19 +175,12 @@ class AppRouter {
         );
 
       case NoteDetailedView.routeName:
-        Note? note;
-        if (routeSettings.arguments.runtimeType == String) {
-          note = _noteCubit.fetchNoteFromID(routeSettings.arguments as String);
-        }
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _noteCubit,
-            child: BlocProvider.value(
-              value: _categoriesCubit,
-              child: NoteDetailedView(
-                caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup'] as Caregroup,
-                note: (routeSettings.arguments as Map<String, dynamic>)['note'] as Note,
-              ),
+            value: _noteCubit..fetchNote(noteId: (routeSettings.arguments as Map<String, dynamic>)['noteId'] as String),
+            child: NoteDetailedView(
+              caregroup: (routeSettings.arguments as Map<String, dynamic>)['caregroup'] as Caregroup,
+              noteId: (routeSettings.arguments as Map<String, dynamic>)['noteId'] as String,
             ),
           ),
         );
@@ -314,7 +310,7 @@ class AppRouter {
       case ViewCaregroupNotes.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _noteCubit,
+            value: _notesCubit,
             child: ViewCaregroupNotes(
               caregroup: routeSettings.arguments as Caregroup,
             ),
@@ -334,7 +330,7 @@ class AppRouter {
       case FetchNotesPage.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _noteCubit,
+            value: _notesCubit,
             child: FetchNotesPage(
               caregroup: routeSettings.arguments as Caregroup,
             ),

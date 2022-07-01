@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/note_manager/cubit/note_cubit.dart';
+import 'package:careshare/note_manager/cubit/notes_cubit.dart';
 import 'package:careshare/note_manager/models/note.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -14,11 +16,11 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 class NoteDetailedView extends StatefulWidget {
   static const routeName = '/note-detailed-view';
   final Caregroup caregroup;
-  final Note note;
+  final String noteId;
 
   const NoteDetailedView({
     required this.caregroup,
-    required this.note,
+    required this.noteId,
     Key? key,
   }) : super(key: key);
 
@@ -32,12 +34,14 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
   bool _dirty = false;
 
   TextEditingController titleController = TextEditingController();
-  quill.QuillController? _controller;
+  quill.QuillController? quillController;
+  FocusNode _focusNode = FocusNode();
+  ScrollController _scrollController = ScrollController(initialScrollOffset: 0.0);
 
   @override
   void dispose() {
     titleController.dispose();
-    _controller!.dispose();
+    quillController!.dispose();
     super.dispose();
   }
 
@@ -45,40 +49,47 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
   Widget build(BuildContext context) {
     return BlocBuilder<NoteCubit, NoteState>(
       builder: (context, state) {
-        print(state);
-        if (state is NotesLoading) {
+        // print(state);
+        if (state is NoteLoading) {
           return const //Text("loading note");
               LoadingPageTemplate(loadingMessage: 'Loading note...');
         }
         if (state is NoteError) {
           return ErrorPageTemplate(errorMessage: state.message);
         }
-        if (state is NotesLoaded) {
-          List<Note> _noteList = BlocProvider.of<NoteCubit>(context).noteList;
-          Note _note = _noteList.firstWhere((n) => n.id == widget.note.id);
-          print(_note.toString());
+        if (state is NoteLoaded) {
+          Note _note = state.note;
+          // print(_note.toString());
 
-          titleController.text = _note.title;
-          _controller =
-              quill.QuillController(document: widget.note.content!, selection: const TextSelection.collapsed(offset: 0));
+          if (titleController.text.isEmpty) {
+            titleController.text = _note.title;
+          }
 
-          _controller!.document.changes.listen((event) async {
+          quillController =
+              quill.QuillController(
+                  document: _note.content!,
+                  selection: const TextSelection.collapsed(offset: 0)
+              );
 
-
+          quillController!.document.changes.listen((event) async {
             _dirty = true;
             if (_debounce?.isActive ?? false) _debounce?.cancel();
             _debounce = Timer(const Duration(milliseconds: 1000), () {
+              final quill.Delta delta = event.item2;
+              final quill.ChangeSource changeSource = event.item3;
 
-              print("item1: ${event.item1}");
-              print("delta: ${event.item2}");
-              print("source: ${event.item3}");
+              // only save my changes
+              if (changeSource == quill.ChangeSource.LOCAL) {
+                print("delta: ${event.item2}");
+                print("source: ${event.item3}");
 
-              BlocProvider.of<NoteCubit>(context).editNote(
-                noteField: NoteField.content,
-                note: widget.note,
-                newValue: _controller!.document,
-                // newValue: quill.Document.fromDelta(_controller!.document.toDelta()),
-              );
+                BlocProvider.of<NotesCubit>(context).editNote(
+                  noteField: NoteField.content,
+                  note: _note,
+                  newValue: quillController!.document,
+                  // newValue: quill.Document.fromDelta(quillController!.document.toDelta()),
+                );
+              }
             });
           });
 
@@ -95,9 +106,9 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
                         Icons.delete,
                       ),
                       onPressed: () {
-                        final noteCubit = BlocProvider.of<NoteCubit>(context);
+                        final noteCubit = BlocProvider.of<NotesCubit>(context);
 
-                        noteCubit.removeNote(widget.note.id);
+                        noteCubit.removeNote(_note.id);
                         Navigator.pop(context);
                       },
                     ),
@@ -105,65 +116,73 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
               ),
               body: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  child: Wrap(
-                    runSpacing: 24,
-                    children: [
-                      Row(
-                        children: [
-                          ProfilePhotoWidget(id: widget.note.createdById),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Text(
-                                "Created by: ${BlocProvider.of<AllProfilesCubit>(context).getName(widget.note.createdById)}"
-                                "${widget.note.createdDate != null ? ' on ' : ''}"
-                                "${widget.note.createdDate != null ? DateFormat('E d MMM yyyy').add_jm().format(widget.note.createdDate) : ''}"),
-                          ),
-                        ],
+                child: Column(
+                  children: [
+                    TextFormField(
+                      // enabled: !widget.note.noteStatus.locked,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a title';
+                        } else if (value.length < 10) {
+                          return 'Too short! please make it at least 10 characters.';
+                        }
+                        return null;
+                      },
+                      // style: widget.textStyle,
+                      maxLines: 1,
+                      controller: titleController,
+                      onChanged: (value) async {
+                        _dirty = true;
+                        if (_debounce?.isActive ?? false) _debounce?.cancel();
+                        _debounce = Timer(const Duration(milliseconds: 100), () {
+                          BlocProvider.of<NotesCubit>(context).editNote(
+                            noteField: NoteField.title,
+                            note: _note,
+                            newValue: value,
+                          );
+                        });
+                      },
+                      decoration: const InputDecoration(
+                        disabledBorder: (OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))),
+                        label: Text('Title'),
                       ),
-                      TextFormField(
-                        // enabled: !widget.note.noteStatus.locked,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a title';
-                          } else if (value.length < 10) {
-                            return 'Too short! please make it at least 10 characters.';
-                          }
-                          return null;
-                        },
-                        // style: widget.textStyle,
-                        maxLines: 1,
-                        controller: titleController,
-                        onChanged: (value) async {
-                          _dirty = true;
-                          if (_debounce?.isActive ?? false) _debounce?.cancel();
-                          _debounce = Timer(const Duration(milliseconds: 100), () {
-                            BlocProvider.of<NoteCubit>(context).editNote(
-                              noteField: NoteField.title,
-                              note: widget.note,
-                              newValue: value,
-                            );
-                          });
-                        },
-                        decoration: const InputDecoration(
-                          disabledBorder: (OutlineInputBorder(borderSide: BorderSide(color: Colors.black38))),
-                          label: Text('Title'),
+                    ),
+                    SizedBox(height: 4),
+                    Row(
+                      children: [
+                        ProfilePhotoWidget(id: _note.createdById, size: 30),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                              "Created by: ${BlocProvider.of<AllProfilesCubit>(context).getName(_note.createdById)}"
+                              "${_note.createdDate != null ? ' on ' : ''}"
+                              "${_note.createdDate != null ? DateFormat('d MMM yyyy').add_jm().format(_note.createdDate) : ''}"),
                         ),
+                      ],
+                    ),
+                    Expanded(
+                      child: quill.QuillEditor(
+                          controller: quillController!,
+                          focusNode: _focusNode,
+                          scrollController: _scrollController,
+                          scrollable: true,
+                          padding: EdgeInsets.all(0),
+                          autoFocus: true,
+                          readOnly: false,
+                          expands: true),
+                    ),
+                    // quill.QuillEditor.basic(
+                    //   controller: quillController!,
+                    //   readOnly: false,
+                    // ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: quill.QuillToolbar.basic(
+                        controller: quillController!,
+                        toolbarIconAlignment: WrapAlignment.start,
                       ),
-
-
-                      quill.QuillEditor.basic(
-                        controller: _controller!,
-                        readOnly: false,
-
-                      ),
-                      quill.QuillToolbar.basic(
-                          controller: _controller!,
-                      toolbarIconAlignment: WrapAlignment.start,
-                      ),
-
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

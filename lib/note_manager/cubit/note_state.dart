@@ -11,30 +11,30 @@ class NoteInitial extends NoteState {
   const NoteInitial();
 }
 
-class NotesLoading extends NoteState {
-  const NotesLoading();
+class NoteLoading extends NoteState {
+  const NoteLoading();
 }
 
 class NoteUpdating extends NoteState {
   const NoteUpdating();
 }
 
-class NotesLoaded extends NoteState {
-  final List<Note> noteList;
+class NoteLoaded extends NoteState {
+  final Note note;
 
-  const NotesLoaded({
-    required this.noteList,
+  const NoteLoaded({
+    required this.note,
   });
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is NotesLoaded && listEquals(other.noteList, noteList);
+    return other is NoteLoaded && (identical(other.note, note));
   }
 
   @override
-  int get hashCode => noteList.hashCode;
+  int get hashCode => note.hashCode;
 }
 
 class NoteError extends NoteState {

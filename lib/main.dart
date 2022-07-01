@@ -12,7 +12,7 @@ import 'package:careshare/chat_manager/repository/remove_chat.dart';
 import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
-import 'package:careshare/note_manager/cubit/note_cubit.dart';
+import 'package:careshare/note_manager/cubit/notes_cubit.dart';
 import 'package:careshare/note_manager/repository/create_note.dart';
 import 'package:careshare/note_manager/repository/edit_note_field_repository.dart';
 import 'package:careshare/note_manager/repository/remove_note.dart';
@@ -96,7 +96,7 @@ class _AppState extends State<App> {
                       removeChatRepository: RemoveChat(),
                     ),
                     child: BlocProvider(
-                      create: (context) => NoteCubit(
+                      create: (context) => NotesCubit(
                         createNoteRepository: CreateNote(),
                         removeNoteRepository: RemoveNote(),
                         editNoteFieldRepository: EditNoteFieldRepository(),

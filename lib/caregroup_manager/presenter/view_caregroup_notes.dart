@@ -1,7 +1,7 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/category_manager/cubit/category_cubit.dart';
 import 'package:careshare/category_manager/domain/models/category.dart';
-import 'package:careshare/note_manager/cubit/note_cubit.dart';
+import 'package:careshare/note_manager/cubit/notes_cubit.dart';
 import 'package:careshare/note_manager/models/note.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
@@ -10,6 +10,8 @@ import 'package:careshare/notification_manager/presenter/widgets/bell_widget.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+
 
 class ViewCaregroupNotes extends StatefulWidget {
   static const routeName = '/view-caregroup-overview';
@@ -42,21 +44,45 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
       _selectedCategory = _categoryList[0].id;
     }
 
-    BlocProvider.of<NoteCubit>(context).fetchNotes(caregroupId: widget.caregroup.id, categoryId: _selectedCategory!);
+    BlocProvider.of<NotesCubit>(context).fetchNotes(caregroupId: widget.caregroup.id, categoryId: _selectedCategory!);
 
-    return BlocBuilder<NoteCubit, NoteState>(
+    return BlocBuilder<NotesCubit, NotesState>(
       builder: (context, state) {
         if (state is NotesLoading) {
           return const //Text("loading note");
               LoadingPageTemplate(loadingMessage: 'Loading note...');
         }
-        if (state is NoteError) {
+        if (state is NotesError) {
           return ErrorPageTemplate(errorMessage: state.message);
         }
         if (state is NotesLoaded) {
-          List<Note> _noteList = BlocProvider.of<NoteCubit>(context).noteList.toList();
+          List<Note> _noteList = BlocProvider.of<NotesCubit>(context).noteList.toList();
 
           return Scaffold(
+            floatingActionButton: FloatingActionButton(
+                onPressed: () async {
+                  // Create a draft task and pass it to the edit screen
+                  final noteCubit = BlocProvider.of<NotesCubit>(context);
+                  final Note? note = await noteCubit.draftNote(
+                      widget.caregroup.id,
+                      '',
+                      _categoryList.firstWhere((c) => c.id == _selectedCategory),
+                      '',
+                      quill.Document()..insert(0, 'New document...'),
+                      ''
+                  );
+                  if (note != null) {
+                    Navigator.pushNamed(
+                      context,
+                      NoteDetailedView.routeName,
+                      arguments: {
+                        'caregroup': widget.caregroup,
+                        'noteId': note.id,
+                      },
+                    );
+                  }
+                },
+                child: const Icon(Icons.add)),
             appBar: AppBar(
               automaticallyImplyLeading: false,
               title: Text(widget.caregroup.name),
@@ -149,7 +175,7 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                                 onTap: () {
                                   Navigator.of(context).pushNamed(
                                     NoteDetailedView.routeName,
-                                    arguments: {"caregroup": widget.caregroup, "note": _note},
+                                    arguments: {"caregroup": widget.caregroup, "noteId": _note.id},
                                   );
                                 },
                                 child: ListTile(

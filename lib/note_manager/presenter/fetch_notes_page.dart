@@ -1,7 +1,7 @@
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
-import 'package:careshare/note_manager/cubit/note_cubit.dart';
+import 'package:careshare/note_manager/cubit/notes_cubit.dart';
 import 'package:careshare/task_manager/presenter/fetch_tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,14 +19,14 @@ class FetchNotesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('fetching notes for caregroup: ${caregroup.name}');
 
-    BlocProvider.of<NoteCubit>(context).fetchNotesForCaregroup(caregroupId: caregroup.id);
+    BlocProvider.of<NotesCubit>(context).fetchNotesForCaregroup(caregroupId: caregroup.id);
 
-    return BlocBuilder<NoteCubit, NoteState>(
+    return BlocBuilder<NotesCubit, NotesState>(
       builder: (context, state) {
         if (state is NotesLoading) {
           return const LoadingPageTemplate(loadingMessage: 'Loading notes...');
         }
-        if (state is NoteError) {
+        if (state is NotesError) {
           return ErrorPageTemplate(errorMessage: state.message);
         }
         if (state is NotesLoaded) {
