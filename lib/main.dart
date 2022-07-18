@@ -13,6 +13,7 @@ import 'package:careshare/invitation_manager/cubit/invitations_cubit.dart';
 import 'package:careshare/invitation_manager/cubit/my_invitations_cubit.dart';
 import 'package:careshare/invitation_manager/repository/edit_invitation_field_repository.dart';
 import 'package:careshare/note_manager/cubit/notes_cubit.dart';
+import 'package:careshare/note_manager/repository/add_delta.dart';
 import 'package:careshare/note_manager/repository/create_note.dart';
 import 'package:careshare/note_manager/repository/edit_note_field_repository.dart';
 import 'package:careshare/note_manager/repository/remove_note.dart';

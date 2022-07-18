@@ -50,7 +50,6 @@ class Profile {
     final profileType = ProfileType.profileTypeList.firstWhere((element) => element.type == json['type']);
 
     final List<RoleInCaregroup> carerInCaregroups = [];
-
     if (json['carer_in'] != null) {
       json['carer_in'].forEach((k, v) {
         carerInCaregroups.add(RoleInCaregroup.fromJson(k,v));

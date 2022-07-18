@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:careshare/category_manager/domain/models/category.dart';
+import 'package:careshare/note_manager/models/delta_data.dart';
 import 'package:careshare/note_manager/models/note.dart';
+import 'package:careshare/note_manager/repository/add_delta.dart';
 import 'package:careshare/note_manager/repository/create_note.dart';
 import 'package:careshare/note_manager/repository/edit_note_field_repository.dart';
 import 'package:careshare/note_manager/repository/remove_note.dart';
@@ -53,7 +55,7 @@ class NotesCubit extends Cubit<NotesState> {
 
           noteList.clear();
           returnedList.forEach(
-                (key, value) {
+            (key, value) {
               Note _note = Note.fromJson(key, value);
               if (_note.category.id == categoryId) {
                 noteList.add(_note);
@@ -61,7 +63,7 @@ class NotesCubit extends Cubit<NotesState> {
             },
           );
           noteList.sort(
-                (a, b) => b.createdDate.compareTo(a.createdDate),
+            (a, b) => b.createdDate.compareTo(a.createdDate),
           );
 
           print("emitting updated note list");
@@ -76,7 +78,6 @@ class NotesCubit extends Cubit<NotesState> {
       emit(NotesError(error.toString()));
     }
   }
-
 
   Future fetchNotesForCaregroup({
     required String caregroupId,
@@ -101,12 +102,12 @@ class NotesCubit extends Cubit<NotesState> {
 
           noteList.clear();
           returnedList.forEach(
-                (key, value) {
-                noteList.add(Note.fromJson(key, value));
+            (key, value) {
+              noteList.add(Note.fromJson(key, value));
             },
           );
           noteList.sort(
-                (a, b) => b.createdDate.compareTo(a.createdDate),
+            (a, b) => b.createdDate.compareTo(a.createdDate),
           );
 
           print("emitting updated note list");
@@ -122,12 +123,11 @@ class NotesCubit extends Cubit<NotesState> {
     }
   }
 
-
-  Future<Note?> draftNote(
-      String caregroupId, String title, CareCategory category, String details, Document? content, String link) async {
+  Future<Note?> draftNote(String caregroupId, String title, CareCategory category, String details,
+      List<DeltaData> deltas, Document? content, String link) async {
     Note? note;
     try {
-      note = await createNoteRepository(caregroupId, title, category, details, content, link);
+      note = await createNoteRepository(caregroupId, title, category, details, deltas, content, link);
 
       return note;
     } catch (e) {
@@ -142,10 +142,10 @@ class NotesCubit extends Cubit<NotesState> {
   }
 
   Future<Note?> createNote(
-      String caregroupId, String title, CareCategory category, String details, Document content, String link) async {
+      String caregroupId, String title, CareCategory category, String details, List<DeltaData> deltas, Document content, String link) async {
     Note? note;
     try {
-      note = await createNoteRepository(caregroupId, title, category, details, content, link);
+      note = await createNoteRepository(caregroupId, title, category, details, deltas, content, link);
 
       return note;
     } catch (e) {

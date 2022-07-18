@@ -1,4 +1,5 @@
 import 'package:careshare/category_manager/domain/models/category.dart';
+import 'package:careshare/note_manager/models/delta_data.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
@@ -12,6 +13,7 @@ class CreateNote {
       String title,
       CareCategory category,
       String details,
+      List<DeltaData> deltas,
       Document? content,
       String link,
       ) async {
@@ -21,6 +23,7 @@ class CreateNote {
       title: title,
       category: category,
       details: details,
+      deltas: deltas,
       createdById: FirebaseAuth.instance.currentUser!.uid,
       createdDate: DateTime.now(),
       content: content,
@@ -28,6 +31,7 @@ class CreateNote {
     );
     DatabaseReference reference = FirebaseDatabase.instance.ref('notes');
 
+    print(note.toJson().toString());
     reference.child(note.id).set(note.toJson());
 
     return note;

@@ -2,16 +2,19 @@ import 'dart:async';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/note_manager/cubit/note_cubit.dart';
 import 'package:careshare/note_manager/cubit/notes_cubit.dart';
+import 'package:careshare/note_manager/models/delta_data.dart';
 import 'package:careshare/note_manager/models/note.dart';
 import 'package:careshare/core/presentation/error_page_template.dart';
 import 'package:careshare/core/presentation/loading_page_template.dart';
 import 'package:careshare/profile_manager/cubit/all_profiles_cubit.dart';
 import 'package:careshare/profile_manager/presenter/profile_widgets/profile_photo_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:uuid/uuid.dart';
 
 class NoteDetailedView extends StatefulWidget {
   static const routeName = '/note-detailed-view';
@@ -32,6 +35,9 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
   final _formKey = GlobalKey<FormState>();
   Timer? _debounce;
   bool _dirty = false;
+  bool _firstTimeThrough = true;
+  int _lastDeltaProcessed = 0;
+  final String _deviceId = Uuid().v4();
 
   TextEditingController titleController = TextEditingController();
   quill.QuillController? quillController;
@@ -61,20 +67,16 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
           Note _note = state.note;
           // print(_note.toString());
 
-          if (titleController.text.isEmpty) {
-            titleController.text = _note.title;
-          }
+          titleController.text = _note.title;
 
-          quillController =
-              quill.QuillController(
-                  document: _note.content!,
-                  selection: const TextSelection.collapsed(offset: 0)
-              );
+          if (_firstTimeThrough) {
+            quillController =
+                quill.QuillController(document: _note.content!, selection: const TextSelection.collapsed(offset: 0));
 
-          quillController!.document.changes.listen((event) async {
-            _dirty = true;
-            if (_debounce?.isActive ?? false) _debounce?.cancel();
-            _debounce = Timer(const Duration(milliseconds: 1000), () {
+            quillController!.document.changes.listen((event) async {
+              // _dirty = true;
+              // if (_debounce?.isActive ?? false) _debounce?.cancel();
+              // _debounce = Timer(const Duration(milliseconds: 1000), () {
               final quill.Delta delta = event.item2;
               final quill.ChangeSource changeSource = event.item3;
 
@@ -83,15 +85,40 @@ class _NoteDetailedViewState extends State<NoteDetailedView> {
                 print("delta: ${event.item2}");
                 print("source: ${event.item3}");
 
-                BlocProvider.of<NotesCubit>(context).editNote(
-                  noteField: NoteField.content,
-                  note: _note,
-                  newValue: quillController!.document,
-                  // newValue: quill.Document.fromDelta(quillController!.document.toDelta()),
-                );
+                DeltaData _deltaData =
+                    DeltaData(delta: delta, deviceId: _deviceId, user: FirebaseAuth.instance.currentUser!.uid);
+                BlocProvider.of<NoteCubit>(context).addDelta(_note.id, _deltaData);
+
+                // BlocProvider.of<NotesCubit>(context).editNote(
+                //   noteField: NoteField.content,
+                //   note: _note,
+                //   newValue: quillController!.document,
+                //   // newValue: quill.Document.fromDelta(quillController!.document.toDelta()),
+                // );
               }
+              // });
             });
-          });
+
+            _firstTimeThrough = false;
+          } else {
+
+            // process any new deltas
+            _note.deltas.forEach((deltaData) {
+
+              if (deltaData.deviceId != _deviceId && int.parse(deltaData.id) > _lastDeltaProcessed) {
+                print("===========================================");
+                print("deltaData.deviceId: ${deltaData.deviceId}");
+                print("_deviceId: $_deviceId");
+                print("int.parse(deltaData.id): ${int.parse(deltaData.id)}");
+                print("_lastDeltaProcessed: $_lastDeltaProcessed");
+
+                quillController!
+                    .compose(deltaData.delta, const TextSelection.collapsed(offset: 0), quill.ChangeSource.REMOTE);
+              }
+              _lastDeltaProcessed = int.parse(deltaData.id);
+            });
+
+          }
 
 
           return Form(

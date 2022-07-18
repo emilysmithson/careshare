@@ -4,19 +4,22 @@ import 'dart:convert';
 
 import 'package:flutter_quill/flutter_quill.dart';
 
-class Delta {
+class DeltaData {
+  final String id;
   final String user;
   final Delta delta;
   final String deviceId;
 
-  Delta({
+  DeltaData({
+    this.id = "0",
     required this.user,
     required this.delta,
     required this.deviceId,
   });
 
-  Delta clone() {
-    Delta cloned = Delta(
+  DeltaData clone() {
+    DeltaData cloned = DeltaData(
+      id: id,
       user: user,
       delta: delta,
       deviceId: deviceId,
@@ -33,12 +36,13 @@ class Delta {
     };
   }
 
-  factory Delta.fromJson(dynamic key, dynamic value) {
-    Delta contentMap = Delta.fromJson(key, value['delta']);
+  factory DeltaData.fromJson(dynamic key, dynamic value) {
+    Delta delta = Delta.fromJson(json.decode(value['delta']));
 
-    return Delta(
+    return DeltaData(
+      id: key,
       user: value['user'],
-      delta: contentMap,
+      delta: delta,
       deviceId: value['deviceId'],
     );
   }
@@ -47,7 +51,8 @@ class Delta {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Delta &&
+    return other is DeltaData &&
+        other.id == id &&
         other.user == user &&
         other.delta == delta &&
         other.deviceId == deviceId;
@@ -55,9 +60,7 @@ class Delta {
 
   @override
   int get hashCode {
-    return user.hashCode ^
-    delta.hashCode ^
-    deviceId.hashCode;
+    return id.hashCode ^ user.hashCode ^ delta.hashCode ^ deviceId.hashCode;
   }
 }
 

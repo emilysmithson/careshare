@@ -10,11 +10,11 @@ class KudosBoardWidget extends StatelessWidget {
   final int kudosValue;
   final Caregroup caregroup;
 
-  const KudosBoardWidget({Key? key, required this.profile, required this.kudosValue, required this.caregroup}) : super(key: key);
+  const KudosBoardWidget({Key? key, required this.profile, required this.kudosValue, required this.caregroup})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Tooltip(
       message: profile.displayName,
       child: GestureDetector(
@@ -29,20 +29,32 @@ class KudosBoardWidget extends StatelessWidget {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(2.0, 6.0, 24.0, 6.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ProfilePhotoWidget(id: profile.id),
-              const SizedBox(width: 2),
-              Column(mainAxisSize: MainAxisSize.min, children: [
-
-                Row(children: [
-                  const Icon(Icons.star, size: 10),
-                  const SizedBox(width: 2),
-                  Text(kudosValue.toString()),
-                ]),
-              ]),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  ProfilePhotoWidget(id: profile.id),
+                  Positioned(
+                    bottom: -4,
+                    right: -22,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.blue[50], shape: BoxShape.circle, border: Border.all(color: Colors.blue[100]!)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text('*${kudosValue.toString()}',style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

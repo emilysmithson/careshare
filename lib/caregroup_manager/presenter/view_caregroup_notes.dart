@@ -68,7 +68,9 @@ class _ViewCaregroupNotesState extends State<ViewCaregroupNotes> {
                       '',
                       _categoryList.firstWhere((c) => c.id == _selectedCategory),
                       '',
+                      [],
                       quill.Document()..insert(0, 'New document...'),
+
                       ''
                   );
                   if (note != null) {

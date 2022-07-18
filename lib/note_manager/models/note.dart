@@ -1,4 +1,5 @@
 import 'package:careshare/category_manager/domain/models/category.dart';
+import 'package:careshare/note_manager/models/delta_data.dart';
 
 import 'dart:convert';
 
@@ -10,6 +11,7 @@ class Note {
   String title;
   CareCategory category;
   String? details;
+  List<DeltaData> deltas = [];
 
   String createdById;
   DateTime createdDate;
@@ -22,6 +24,7 @@ class Note {
     required this.title,
     required this.category,
     this.details,
+    required this.deltas,
     required this.createdById,
     required this.createdDate,
     this.content,
@@ -35,6 +38,7 @@ class Note {
       title: title,
       category: category,
       details: details,
+      deltas: deltas,
       createdById: createdById,
       createdDate: createdDate,
       content: content,
@@ -51,6 +55,7 @@ class Note {
       'title': title,
       'category': category.toJson(),
       'details': details,
+      'deltas': deltas.map((delta) => delta.toJson()).toList(),
       'from': createdById,
       'date_created': createdDate.toString(),
       'content': content!.toDelta().toJson(),
@@ -70,12 +75,20 @@ class Note {
       contentMap = Document()..insert(0, 'Empty asset');
     }
 
+    final List<DeltaData> deltas = [];
+    if (value['deltas'] != null) {
+      value['deltas'].forEach((k, v) {
+        deltas.add(DeltaData.fromJson(k, v));
+      });
+    }
+
     return Note(
       id: key,
       caregroupId: value['caregroup'],
       title: title,
       category: CareCategory.fromJson(value['category']),
       details: details,
+      deltas: deltas,
       createdById: value['from'],
       createdDate: DateTime.parse(value['date_created']),
       content: contentMap,
@@ -94,6 +107,7 @@ class Note {
         other.content!.toDelta().toJson() == content!.toDelta().toJson() &&
         other.category == category &&
         other.details == details &&
+        other.deltas == deltas &&
         other.createdById == createdById &&
         other.createdDate == createdDate &&
         other.link == link;
@@ -106,6 +120,7 @@ class Note {
         title.hashCode ^
         category.hashCode ^
         details.hashCode ^
+        deltas.hashCode ^
         createdById.hashCode ^
         createdDate.hashCode ^
         content.hashCode ^

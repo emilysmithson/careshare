@@ -1,6 +1,7 @@
 import 'package:careshare/caregroup_manager/cubit/caregroup_cubit.dart';
 import 'package:careshare/caregroup_manager/models/caregroup.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_chat.dart';
+import 'package:careshare/caregroup_manager/presenter/view_caregroup_dashboard.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_invitations.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_memebers.dart';
 import 'package:careshare/caregroup_manager/presenter/view_caregroup_notes.dart';
@@ -103,6 +104,10 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            icon: Icon(Icons.group_outlined),
+            label: 'Group',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.summarize_outlined),
             label: 'Tasks',
           ),
@@ -144,17 +149,19 @@ class _ViewCaregroupState extends State<ViewCaregroup> {
         },
       ),
       body: (_selectedIndex == 0)
-          ? ViewCaregroupTasks(caregroup: widget.caregroup)
+          ? ViewCaregroupDashboard(caregroup: widget.caregroup)
           : (_selectedIndex == 1)
-              ? ViewCaregroupChat(caregroup: widget.caregroup)
+              ? ViewCaregroupTasks(caregroup: widget.caregroup)
               : (_selectedIndex == 2)
-                  ? ViewCaregroupNotes(caregroup: widget.caregroup)
+                  ? ViewCaregroupChat(caregroup: widget.caregroup)
                   : (_selectedIndex == 3)
-                      ? ViewCaregroupMembers(caregroup: widget.caregroup)
+                      ? ViewCaregroupNotes(caregroup: widget.caregroup)
                       : (_selectedIndex == 4)
-                          ? ViewCaregroupInvitations(caregroup: widget.caregroup)
-                          // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
-                          : Container(),
+                          ? ViewCaregroupMembers(caregroup: widget.caregroup)
+                          : (_selectedIndex == 5)
+                              ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                              // : (_selectedIndex == 5) ? ViewCaregroupInvitations(caregroup: widget.caregroup)
+                              : Container(),
     );
   }
 }

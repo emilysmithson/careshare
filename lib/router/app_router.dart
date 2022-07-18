@@ -24,6 +24,7 @@ import 'package:careshare/note_manager/cubit/notes_cubit.dart';
 import 'package:careshare/note_manager/models/note.dart';
 import 'package:careshare/note_manager/presenter/fetch_notes_page.dart';
 import 'package:careshare/note_manager/presenter/note_detailed_view.dart';
+import 'package:careshare/note_manager/repository/add_delta.dart';
 import 'package:careshare/note_manager/repository/create_note.dart';
 import 'package:careshare/note_manager/repository/edit_note_field_repository.dart';
 import 'package:careshare/note_manager/repository/remove_note.dart';
@@ -77,7 +78,10 @@ class AppRouter {
     removeNoteRepository: RemoveNote(),
   );
 
-  final _noteCubit = NoteCubit();
+  final _noteCubit = NoteCubit(
+    addDeltaRepository: AddDelta(),
+
+  );
 
   // final _chatCubit = ChatCubit(
   //   createChatRepository: CreateChat(),
